@@ -139,12 +139,17 @@
                     </div>
                 </div>
                 <div id="footer">
-                    <?php include($this->getPathRoot() . 'footer.php'); ?>
+
+                    {% set tag = asset('.revision') %}
+
+                    <p>Copyright &copy; 2007-2017 GUC Plongée - {{ tag }}</p>
+
                 </div>
                 <div class="site-cache" id="site-cache"></div>
             </div>
         </div>
     {% endblock %}
+    {% block body_end %}{% endblock %}
     </body>
     {% block javascripts_end %}{% endblock %}
     {% block footer_end %}{% endblock %}

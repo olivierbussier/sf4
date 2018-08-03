@@ -1,20 +1,182 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %}Whos Who{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    {% set bureau = [
+        [ 'Patrick DELONG <i>Le papet</i>'    , 'DELONG-Patrick.jpg'          ,'Président'                  ],
+        [ 'René FEUILLET'                     , 'FEUILLET-Rene.jpg'           ,'Vice-président'             ],
+        [ 'Maude ANDRE'                       , 'ANDRE-Maude.jpg'             ,'Trésorière - Assurances'    ],
+        [ 'Guy VERE'                          , 'VERE-Guy.jpg'                ,'Secrétaire - Communication' ],
+        [ 'Sylvie PRADINES'                   , 'PRADINES-Sylvie.jpg'         ,'Commission Médicale'        ],
+        [ 'Jean-François PAILLOTIN'           , 'PAILLOTIN-Jean-Francois.jpg' ,'Gonflage'                   ],
+        [ 'Philippe PEAN'                     , 'PEAN-Philippe.jpg'           ,'Responsable apnée'          ],
+        [ 'Olivier BUSSIER'                   , 'BUSSIER-Olivier.jpg'         ,'Responsable Site Web'       ],
+        [ 'Delphine GUILLIGAY'                , 'GUILLIGAY-Delphine.jpg'      ,'Responsable Animation'     ]
+    ] %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {%  set activites = [
+        [ 'Jérôme DEQUIER'                    , 'DEQUIER-Jerome.jpg'          , 'BAPTEMES'                    ],
+        [ 'Pierre FROUIN'                     , 'FROUIN-Pierre.jpg'           , 'ENFANTS'                     ],
+        [ 'Xavier DUPUIS'                     , 'DUPUIS-Xavier.jpg'           , 'N1'                          ],
+        [ 'Florence TOURNEUR'                 , 'TOURNEUR-Florence.jpg'       , 'N1'                          ],
+        [ 'Serge MORAND'                      , 'MORAND-Serge.jpg'            , 'N2'                          ],
+        [ 'Jean-Marc OLLES'                   , 'OLLES-JeanMarc.jpg'          , 'N3'                          ],
+        [ 'Serge DE PAOLI'                    , 'DEPAOLI-Serge.jpg'           , 'N4'                          ],
+        [ 'Bruno GONINET'                     , 'GONINET-Bruno.jpg'           , 'INITIATEURS'                 ],
+        [ 'Sylvie PRADINES'                   , 'PRADINES-Sylvie.jpg'         , 'RIFAP'                       ],
+        [ 'Philippe PEAN'                     , 'PEAN-Philippe.jpg'           , 'APNEE'                       ],
+        [ 'Sigolène JOMAIN'                   , 'JOMAIN-Sigolene.jpg'         , 'PERFECTIONNEMENT NAGE PMT'   ],
+        [ 'Olivier BUSSIER'                   , 'BUSSIER-Olivier.jpg'         , 'SITE WEB'                    ],
+        [ 'Philippe COLOMBET'                 , 'COLOMBET-Philippe.jpg'       , 'MATERIELS'                   ],
+        [ 'Jean-François PAILLOTIN'           , 'PAILLOTIN-Jean-Francois.jpg' , 'COMPRESSEUR'                 ],
+        [ 'Sigolene JOMAIN'                   , 'JOMAIN-Sigolene.jpg'         , 'SORTIES TECHNIQUES NIOLON'   ],
+        [ 'Serge DE PAOLI'                    , 'DEPAOLI-Serge.jpg'           , 'MEDIATHEQUE'                 ],
+        [ 'Patrick DELONG'                    , 'DELONG-Patrick.jpg'          , 'AUDIOVISUELLE'               ],
+        [ 'Bruno GONINET'                     , 'GONINET-Bruno.jpg'           , 'COMMISSION BIO'              ],
+        [ 'Delphine Guilligay'                , 'GUILLIGAY-Delphine.jpg'      , 'ANIMATION'                   ],
+        [ 'Sandrine PAPPINI'                  , 'PAPPINI-Sandrine.jpg'        , 'TEXTILES'                   ]
+    ]
+    %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'src/Controller/IndexWhowWhoController.php'|file_link(0) }}">src/Controller/IndexWhowWhoController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'templates/index_whow_who/index.html.twig'|file_link(0) }}">templates/index_whow_who/index.html.twig</a></code></li>
-    </ul>
-</div>
+    {%  set encadrants = [
+        [ 'Maude ANDRE'                       , 'ANDRE-Maude.jpg'             , 'MF1, Moniteur Nitrox, TIV, Enseignante HandiSub EH2, Tuteur Initiateur'],
+        [ 'Alexis BUDILLON-RABATEL'           , 'BUDILLON-RABATEL-Alexis.jpg' , 'MF1, TIV, Formateur RIFAP' ],
+        [ 'Pierre CAPIOMONT'                  , 'CAPIOMONT-Pierre.jpg'        , 'MF1'                       ],
+        [ 'Patrick DELONG'                    , 'DELONG-Patrick.jpg'          , 'MF1, Moniteur Nitrox'      ],
+        [ 'Serge DE PAOLI'                    , 'DEPAOLI-Serge.jpg'           , 'MF1, Moniteur Nitrox'      ],
+        [ 'Jérôme DEQUIER'                    , 'DEQUIER-Jerome.jpg'          , 'MF1, TIV'                  ],
+        [ 'Xavier DUPUIS'                     , 'DUPUIS-Xavier.jpg'           , 'MF1'                       ],
+        [ 'René FEUILLET'                     , 'FEUILLET-Rene.jpg'           , 'MF1, TIV, Moniteur Nitrox, Formateur RIFAP'],
+        [ 'Emmanuel GARDETTE'                 , 'GARDETTE-Emmanuel.jpg'       , 'MF1, Moniteur Nitrox, TIV'],
+        [ 'Bruno GONINET'                     , 'GONINET-Bruno.jpg'           , 'MF1, BEES1, Moniteur Nitrox, TIV, Formateur RIFAP, Tuteur Initiateur'],
+        [ 'Thierry LAMBOLEY'                  , 'LAMBOLEY-Thierry.jpg'        , 'MF1'],
+        [ 'Serge MORAND'                      , 'MORAND-Serge.jpg'            , 'MF1, Moniteur Nitrox, TIV, Formateur TIV, Formateur RIFAP, Tuteur Initiateur'],
+        [ 'Jean-Marc OLLES'                   , 'OLLES-JeanMarc.jpg'          , 'MF1'],
+        [ 'Florence TOURNEUR'                 , 'TOURNEUR-Florence.jpg'       , 'MF1, Formateur RIFAP, Médecin Fédéral'],
+        [ 'Guy VERE'                          , 'VERE-Guy.jpg'                , 'MF1, Moniteur Nitrox, TIV, Formateur RIFAP, Enseignant HandiSub EH1'],
+        [ 'Didier ALBRAND'                    , 'ALBRAND-Didier.jpg'          , 'N5 Initiateur'         ],
+        [ 'Xavier ENGELMANN'                  , 'ENGELMANN-Xavier.jpg'        , 'N5 Initiateur'         ],
+        [ 'Jean-Francois PAILLOTIN'           , 'PAILLOTIN-Jean-Francois.jpg' , 'N5 Initiateur, TIV'    ],
+        [ 'Nadège BELLE-PERAT'                , 'BELLE-PERAT-Nadege.jpg'      , 'N4 Initiateur'         ],
+        [ 'Olivier BUSSIER'                   , 'BUSSIER-Olivier.jpg'         , 'N4 Initiateur'         ],
+        [ 'Christophe FITAMANT'               , 'FITAMANT-Christophe.jpg'     , 'N4 Initiateur'         ],
+        [ 'Didier GAUDINAT'                   , 'GAUDINAT-Didier.jpg'         , 'N4 Initiateur'         ],
+        [ 'Jérôme GOY'                        , 'GOY-Jerome.jpg'              , 'N4 Initiateur'         ],
+        [ 'Frédéric HALLE'                    , 'HALLE-Frederic.jpg'          , 'N4 Initiateur'         ],
+        [ 'Sigolene JOMAIN'                   , 'JOMAIN-Sigolene.jpg'         , 'N4 Initiateur'         ],
+        [ 'Daniel MASEGOSA'                   , 'MASEGOSA-Daniel.jpg'         , 'N4 Initiateur'         ],
+        [ 'Jean-Luc PAROUTY'                  , 'PAROUTY-Jean-Luc.jpg'        , 'N4 Initiateur'         ],
+        [ 'Mathieu VIDAL'                     , 'VIDAL-Mathieu.jpg'           , 'N4 Initiateur'         ],
+        [ 'Gilles VITTER'                     , 'VITTER-Gilles'               , 'N4 Initiateur'         ],
+        [ 'Yves CAPIOMONT'                    , 'CAPIOMONT-Yves.jpg'          , 'N4'                    ],
+        [ 'Marc-Olivier PETITEAU'             , 'PETITEAU-Marc-Olivier.jpg'   , 'N4, TIV'               ],
+        [ 'Olivier BRUN'                      , 'BRUN-Olivier.jpg'            , 'N3 Initiateur'         ],
+        [ 'Bruno DILLENSEGER'                 , 'DILLENSEGER-Bruno.jpg'       , 'N3 Initiateur'         ],
+        [ 'Pierre FROUIN'                     , 'FROUIN-Pierre.jpg'           , 'N3 Initiateur'         ],
+        [ 'Jérôme MARS'                       , 'MARS-Jerome.jpg'             , 'N3 Initiateur'         ],
+        [ 'Sandrine PAPPINI'                  , 'PAPPINI-Sandrine.jpg'        , 'N3 Initiateur'         ],
+        [ 'Frédéric ROCHETEAU'                , 'ROCHETEAU-Frederic.jpg'      , 'N3 Initiateur'         ],
+        [ 'Sylvie PRADINES'                   , 'PRADINES-Sylvie.jpg'         , 'N3 Initiateur, Formateur RIFAP, Médecin Fédéral']
+    ]
+    %}
+    {% set apnee = [
+        [ 'Philippe PEAN'                     , 'PEAN-Philippe.jpg'           , 'MEF2'                          ],
+        [ 'Vincent PLANAT'                    , 'PLANAT-Vincent.jpg'          , 'MEF2'                          ],
+        [ 'Philippe PRIEUR'                   , ''                            , 'Instructeur National, MEF2'    ],
+        [ 'Thierry LAMBOLEY'                  , 'LAMBOLEY-Thierry.jpg'        , 'MEF1'                          ],
+        [ 'Jésus AMBROS'                      , ''                            , 'IE2'                           ],
+        [ 'Julien BARROUX'                    , ''                            , 'IE1'                           ]
+    ]
+    %}
+
+
+{% block main_page %}
+
+    {% import "macros/aff_member.html.twig" as affi %}
+
+    <div class="container">
+        <div class="col-xs-12">
+            <h3>Le who's who du GUC plongée</h3>
+            <a href="{{ asset('im/organigramme.gif') }}" target=_blank>
+                <img src="{{ asset('im/organigramme.gif') }}"  class="w100">
+            </a>
+        </div>
+
+        <div class="col-xs-12">
+            <h3>Composition du bureau (cliquez sur les noms pour voir les photos)</h3>
+            {{ affi.aff_members(bureau) }}
+        </div>
+
+        <div class="col-xs-12">
+            <h3>Responsables des sections et activités</h3>
+            {{ affi.aff_members(activites) }}
+        </div>
+
+        <div class="col-xs-12">
+            <h3>Les encadrants "scaphandre"</h3>
+            {{ affi.aff_members(encadrants) }}
+        </div>
+
+        <div class="col-xs-12">
+            <h3>Les encadrants "apnée"</h3>
+            {{ affi.aff_members(apnee) }}
+        </div>
+    </div>
+{% endblock %}
+
+{#
+// La boite modal qui permet d'afficher les vignettes des encadrants est placée en dehors
+// de la DIV 'content' parce que les transformations effectuées par le menu latéral font
+// dysfonctionner les positions static que la boite modal utilise.
+// En effet, les freres et fils de div contenant des transfos prennent un système de
+// coordonnées dans lequels les positions static se réfèrent a la page affichée
+// plutot qu'au top de l'écran : allez comprendre ??? Ca fait 10ans que tous les dev's
+// râlent mais ... on leur dit que c'est conforme a la spec ;-)
+#}
+
+{% block body_end %}
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span class="text-center">
+                    <h4 class="modal-title" id="exampleModalLabel">Qui est-ce ?</h4>
+                </span>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div id="img_g">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var imagename  = button.data('imagename');
+            var PersonName = button.data('personnam');
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data
+            // binding library or other methods instead.
+            var modal = $(this);
+            modal.find('.modal-title').text(PersonName);
+            mytxt = '<img src="' + imagename + '" class="img-ident w100" />';
+            document.getElementById('img_g').innerHTML = mytxt;
+        });
+    </script>
+
 {% endblock %}
