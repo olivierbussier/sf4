@@ -1,0 +1,74 @@
+/* line 8, ../sass/guc.scss */
+html, body {
+  height: 100%;
+}
+
+/* line 12, ../sass/guc.scss */
+body {
+  margin: 0px auto !important;
+  background: #eaeff3 url(images/bg.jpg) repeat-x left top !important;
+  max-width: 1100px;
+}
+
+/* line 23, ../sass/guc.scss */
+header {
+  padding: 0;
+  position: absolute;
+}
+
+/* line 28, ../sass/guc.scss */
+.round {
+  border-radius: 4px;
+}
+
+/* Page */
+/* line 33, ../sass/guc.scss */
+.page {
+  margin: 0 auto;
+  padding: 0;
+  background: #FFF;
+}
+
+/* Zone du bandeau GUC */
+/* line 41, ../sass/guc.scss */
+#bandeau {
+  margin: 0;
+  width: 100%;
+}
+/* line 44, ../sass/guc.scss */
+#bandeau img {
+  width: 100%;
+  display: block;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Zone de pied de page */
+/* line 54, ../sass/guc.scss */
+#footer {
+  margin: 0 auto 20px auto;
+  padding: 20px;
+  text-align: center;
+  background-color: #345678;
+}
+/* line 59, ../sass/guc.scss */
+#footer p {
+  color: white;
+}
+
+@media only screen and (max-width: 1100px) {
+  /* line 66, ../sass/guc.scss */
+  #siteWrapper {
+    min-height: 920px;
+  }
+
+  /* line 74, ../sass/guc.scss */
+  #content {
+    margin: 0px;
+    padding: 0px;
+    background: #F0F0F0;
+    text-align: justify;
+  }
+}
+
+/*# sourceMappingURL=guc.css.map */

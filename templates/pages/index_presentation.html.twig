@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Présentation{% endblock %}
+
+{% block main_page %}
+    <div class="container">
+        <div class="col-xs-12">
+            <h3>Le GUC plongée ? Mais c'est très simple ! :-)</h3>
+        </div>
+        <div class="col-xs-12 col-sm-12">
+            <p>Le GUC Plongée est un club associatif de plongée sous-marine, à but non lucratif, affiliée à la
+                FFESSM (No 14.38.024), et agréée Jeunesse et Sport (No 3806016).</p>
+            <p>C'est un des plus vieux clubs de plongée de l'Isère, sa création date de 1964. Le club est l'une
+                des sections du Grenoble Université Club (GUC)</p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <p>Chaque année, le club forme entre 30 et 40 plongeurs, du Niveau 1 au MF1, sans oublier les enfants
+                (Plongeurs de Bronze, d'Argent et d'Or).</p>
+            <p>Nous avons plusieurs commissions : Technique, Matériel, Photo, Animation, Biologie, Médicale, Enfants,
+                Nage avec palmes, Apnée.</p>
+            <p>Pour connaître les bénévoles du club, consultez
+                <a target="ifr" href="{{ url("index_whoswho") }}">le who's who du GUC</a>.</p>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <a href="http://www.ffessm.fr" target="_blank">
+                <p><img src="{{ asset("im/ffessm.jpg") }}" class="w100"></p>
+            </a>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <p>
+                <a href="http://www.guc.asso.fr" target="_blank">
+                    <img src="{{ asset("im/logo_guc_asso400.jpg") }}" class="w100"></p>
+            </a>
+        </div>
+        <div class="col-xs-12 col-sm-12">
+        </div>
+        <div class="col-xs-12">
+            <h3>Lieu et Horaires</h3>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <p>Les séances de formation et d'entrainement ont lieu <u>tous les mardis de 19h45 à 22h</u> à la
+                <a href="{{ asset("im/PlanCampus2011.jpg") }}" target=_blank>piscine du campus de St Martin d'Hères</a>,
+                le bassin est accessible de 20h à 21h45. </p>
+            <p>Il n'y a habituellement pas de séances pendant les vacances universitaires.</p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <img src="{{ asset("im/piscine_ext.jpg") }}" class="w60">
+        </div>
+        <div class="col-xs-12 col-sm-12">&nbsp;</div>
+        <div class="col-xs-12 col-sm-6">
+            <p>L'accès se fait par les tourniquets à badge puis par les vestiaires individuels. Des casiers sont
+                disponibles après les vestiaires, prévoir une pièce de 1 Euro ou un jeton. <u>Prévoir aussi un
+                    bonnet de bain, son usage est obligatoire dans la piscine.</u> </p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <img src="{{ asset("im/piscine_int1.jpg") }}" class="w60">
+        </div>
+        <div class="col-xs-12 col-sm-12">&nbsp;</div>
+
+        <div class="col-xs-12 col-sm-6">
+            <p>Plus d'information sur la piscine universitaire sur le site du
+                <a href="https://siuaps.univ-grenoble-alpes.fr/piscine-universitaire"
+                   target="_blank">SIUAPS Grenoble</a></p>
+            <p>Des sorties de week-end sont organisées régulièrement, y compris les mois d'hiver.</p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <img src="{{ asset("im/piscine_int2.jpg") }}" class="w60">
+        </div>
+        <div class="col-xs-12">
+            <h3>Constitution des groupes</h3>
+        </div>
+        <div class="col-xs-12 col-sm-12">
+            <p>Les entraînements et les cours sont organisés par groupe de niveau homogène. Les groupes se
+                constituent par affinité et par niveau. Il y a un encadrant par groupe de 4 à 6 élèves. Les
+                différents encadrants d'un même niveau dépendent du responsable de niveau.</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>Occupation du bassin</h3>
+        </div>
+        <div class="col-xs-12 col-sm-3">
+            <p>Le bassin a une longueur de 50m, une profondeur de 2 m et 6 couloirs. Il est séparé en deux
+                par un mur escamotable. Les demi-bassins de 25 m sont équipés de lignes d'eau flottantes.
+                Le schéma ci-dessous montre la répartition des lignes d'eau en fonction des niveaux et des
+                activités.</p>
+        </div>
+        <div class="col-xs-12 col-sm-9">
+            <img src="{{ asset("im/bassin.jpg") }}" class="w100">
+        </div>
+        <div class="col-xs-12">
+            <h3>Matériel</h3>
+            <p>Le club fournit les blocs, les gilets et les détendeurs. Les PMT (Palmes Masque Tuba) ne sont pas
+                fournis, et doivent donc être achetés en début de saison (demandez conseil à votre encadrant).</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>Comment s'inscrire au Guc Plongée</h3>
+            <ul>
+                <li>Remplir le formulaire d'inscription sur Internet (voir rubrique INSCRIPTION),</li>
+                <li>Imprimer la fiche d'inscription pré-remplie</li>
+                <li>Fournir :<ul>
+                        <li>Une photo d'identité collée sur la fiche d'inscription,</li>
+                        <li>Un chèque du montant de l'inscription,</li>
+                        <li>Les chèques de caution si nécessaire,</li>
+                        <li>La PHOTOCOPIE du <a href="{{ asset("docs/CertMed.pdf") }}" target=_blank>Certificat Médical de non-contre
+                                indication à la pratique de la plongée</a> établi par un Médecin du Sport (voir les
+                            <a href="http://www.pagesjaunes.fr/ " target=_blank>Pages Jaunes</a> rubrique "Mécedin du
+                            sport"), ou un Médecin Fédéral (<a href="{{ asset("docs/Liste_medecins_AURA_2016.pdf") }}"
+                                                               target=_blank>liste ici</a>) ou un Médecin Hyperbare
+                            (pas d'un médecin généraliste),</li>
+                        <li>Les PHOTOCOPIES des documents attestant de vos niveaux de plongée.</li>
+                    </ul></li>
+            </ul>
+            <p>L'ensemble de ce dossier est à remettre lors de la seconde séance. Tout dossier incomplet sera
+                refusé tout comme l'accès à la piscine. Ce dossier d'inscription sert à établir la LICENCE.
+                Celle-ci vous sera adressée par courrier directement par la FFESSM. Cette licence est obligatoire
+                pour pratiquer la plongée sous-marine. Elle assure la responsabilité civile de chacun lors des
+                plongées et entraînements. Des assurances complémentaires sont proposées, nous les recommandons
+                surtout pour les plongées à l'étranger.</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>Comment s'inscrire à la liste de distribution du Guc Plongée : gucplongee@guc-plongee.net ?</h3>
+            <p>Tout adhérent peut demander son inscription à cette liste afin de rester informé de la vie du
+                club. </p>
+            <p>Il suffit d'envoyer un email à <strong>gucplongee-subscribe@guc-plongee.net</strong>
+                <u> en indiquant son nom et son prénom</u>. En effet, chaque demande d'inscription est validée
+                à partir de la liste des adhérents. Les adhérents ayant un problème pour s'inscrire peuvent
+                envoyer un email à gucplongee-owner<strong></strong>@<strong></strong>guc-plongee.net ou
+                contacter le secrétaire du club.</p>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tarifs{% endblock %}
+
+{% block main_page %}
+    <div class="container">
+        <form>
+            <button type="button" onClick="window.print()" class="btn btn-default" name="Print" value="Imprimer">
+                <span class="glyphicon glyphicon-ok"></span> Imprimer</button>
+        </form>
+
+        <div class="col-xs-12">
+            <h3>Tarifs GUC-PLONGEE SAISON {{ Config.p_annee }}-{{ Config.p_annee+1 }}</h3>
+            <p>Le tarif est composé du prix :<ul>
+                <li>de la licence FFESSM, qui dépend de l'age du licencié</li>
+                <li>De la cotisation club qui dépend de l'age et de l'activité pratiquée</li>
+                <li>Une réduction est appliquée pour les plongeurs débutants, les bénévoles et encadrants</li>
+            </ul></p>
+        </div>
+        <div class="col-xs-2 col-sm-1">
+            <img class="tarif" src="{{ asset("im/ffessm.jpg") }}">
+        </div>
+        <div class="col-xs-10 col-sm-11">
+            <h4>Licence FFESSM</h4>
+        </div>
+        <div class="col-xs-12">
+            <table class="table table-striped tarif">
+                <tr><td>Adulte / + de 16 ans</td><td>{{ Config.LICENCE_ADUL }}€</td></tr>
+                <tr><td>Entre 12 et 16 ans</td><td>{{ Config.LICENCE12_16 }}€</td></tr>
+                <tr><td>Moins de 12 ans</td><td>{{ Config.LICENCE_12 }}€</td></tr>
+            </table>
+        </div>
+
+        {% set suppl = Config.CARTE_GUC + Config.SIUAPS %}
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2"><img class="tarif" src="{{ asset("im/LogoGUC_300.gif") }}"></div>
+                <div class="col-xs-10 col-sm-10 col-md-10"><h4>Cotisation plongeur</h4></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped tarif">
+                        <tr><td>Adulte débutant préparant le N1</td>
+                            <td>{{ Config.CLUB_DEBU + suppl }}€</td></tr>
+                        <tr><td>Adulte progression préparant le N2, N3 ou N4<br> initiateur ou maintien N1</td>
+                            <td>{{ Config.CLUB_AUTR + suppl }}€</td></tr>
+                        <tr><td>Adulte maintien N2 et plus (Pas de préparation de niveau)</td>
+                            <td>{{ Config.CLUB_MAIN + suppl }}€</td></tr>
+                        <tr><td>Jeune -18 ans ou Etudiant moins de 25 ans</td>
+                            <td>{{ Config.CLUB_JEUN + suppl }}€</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2"><img class="tarif" src="{{ asset("im/LogoGUC_300.gif") }}"></div>
+                <div class="col-xs-10 col-sm-10 col-md-10"><h4>Cotisation apnée</h4></div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped tarif">
+                        <tr><td>Apnée ou Nage avec palmes et plongeur GUC</td>
+                            <td>{{ Config.CLUB_APN1 + suppl }}€</td></tr>
+                        <tr><td>Apnée ou Nage avec palmes et non plongeur GUC</td>
+                            <td>{{ Config.CLUB_APN2 + suppl }}€</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2"><img class="tarif" src="{{ asset("im/LogoGUC_300.gif") }}"></div>
+                <div class="col-xs-10 col-sm-10 col-md-10"><h4>Tarifs spéciaux</h4></div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped tarif">
+                        <tr><td>Réduction famille à partir du second inscrit</td>
+                            <td>{{ Config.REDUC_FAMILLE }}€</td></tr>
+                        <tr><td>Bénévoles et encadrants</td>
+                            <td>{{ Config.CLUB_BENE + suppl }}€</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% set ad_deb_maintien = Config.LICENCE_ADUL + Config.CLUB_DEBU + Config.CARTE_GUC + Config.SIUAPS %}
+
+{%  set ad_progr    = Config.LICENCE_ADUL + Config.CLUB_AUTR + Config.CARTE_GUC + Config.SIUAPS %}
+{%  set ad_bene     = Config.LICENCE_ADUL + Config.CLUB_BENE + Config.CARTE_GUC + Config.SIUAPS %}
+{%  set ad_etu      = Config.LICENCE_ADUL + Config.CLUB_JEUN + Config.CARTE_GUC + Config.SIUAPS %}
+{%  set ad_jeun1    = Config.LICENCE12_16 + Config.CLUB_JEUN + Config.CARTE_GUC + Config.SIUAPS %}
+{%  set ad_enf      = Config.LICENCE_12   + Config.CLUB_JEUN + Config.CARTE_GUC + Config.SIUAPS %}
+{%  set ad_deb_fam  = (2*(Config.LICENCE_ADUL + Config.CLUB_DEBU + Config.CARTE_GUC + Config.SIUAPS))
+                      - Config.REDUC_FAMILLE %}
+{%  set ad_deb_fam2 = (Config.LICENCE_ADUL + Config.CLUB_DEBU + Config.CARTE_GUC + Config.SIUAPS) +
+                      (Config.LICENCE_12 + Config.CLUB_JEUN + Config.CARTE_GUC + Config.SIUAPS) -
+                       Config.REDUC_FAMILLE %}
+{% set ad_apn1      = Config.LICENCE_ADUL + Config.CLUB_APN2 + Config.CARTE_GUC + Config.SIUAPS %}
+{% set ad_apn2      = Config.LICENCE12_16 + Config.CLUB_APN2 + Config.CARTE_GUC + Config.SIUAPS %}
+
+    <div class="container">
+        <h3>Exemples de tarifs</h3>
+        <div class="col-xs-12">
+            <h4>Plongée</h4>
+            <table class="table table-striped tarif">
+                <tr><td>Adulte débutant et maintien</td><td>{{ ad_deb_maintien }}€</td></tr>
+                <tr><td>Adulte progression</td><td>{{ ad_progr }}€</td></tr>
+                <tr><td>Bénévole</td><td>{{ ad_bene }}€</td></tr>
+                <tr><td>Etudiant -25 ans et Jeune de 16 à 18 ans</td><td>{{ ad_etu }}€</td></tr>
+                <tr><td>Jeune de 12 à 16 ans</td><td>{{ ad_jeun1 }}€</td></tr>
+                <tr><td>Enfant de - 12 ans</td><td>{{ ad_enf }}€</td></tr>
+                <tr><td>2 Adultes débutants</td><td>{{ ad_deb_fam }}€</td></tr>
+                <tr><td>1 Adultes débutant + 1 enfant -12 ans</td><td>{{ ad_deb_fam2 }}€</td></tr>
+            </table>
+            <h4>Apnée et Nage avec Palmes</h4>
+            <table class="table table-striped tarif">
+                <tr><td>Adulte, Jeune + 16 ans et Bénévole</td><td>{{ ad_apn1 }}€</td></tr>
+                <tr><td>Jeune de 12 à 16 ans</td><td>{{ ad_apn2 }}€</td></tr>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

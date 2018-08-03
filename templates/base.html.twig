@@ -1,12 +1,151 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+<html><head>
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-50183564-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments)
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-50183564-2');
+    </script>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="content-language" content="fr">
+    <meta name="language" content="fr">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="La plongée à Grenoble avec le GUC : nous sommes affiliés à la Fédération
+            Française d'Etudes et de Sports Sous-Marins (FFESSM) et nous
+            vous proposons des formations du Niveau 1 au MF1. Club associatif entiérement bénévole, nous organisons
+            également des plongées exploration en mer et en lac."/>
+    <meta name="keywords" content="plongee, grenoble, plonger, plongée, isère, cmas, nitrox, trimix, ffessm,
+            club, Rhone alpes, exploration, formation, mer, lac, débutant, moniteur"/>
+    <link rel="icon" type="image/x-icon" href="{{ asset("guc.ico") }}"/>
+    <script type="text/javascript" id="cookiebanner"
+            src="{{ asset("js/cookiebanner.min.js") }}"
+            data-position="top"
+            data-fg="#ffffff"
+            data-bg="#3b5269"
+            data-link="#dddddd"
+            data-moreinfo="http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/que-dit-la-loi/"
+            data-message="Les cookies assurent le bon fonctionnement de notre site Internet.
+                              En utilisant ce dernier, vous acceptez leur utilisation."
+            data-linkmsg="En savoir plus"
+            data-effect="fade"
+            data-expires="{{ "now"|date_modify('+30days')|date('r') }}"
+            data-zindex="1000"
+            data-height="64px"
+            data-font-size="22px">
+    </script>
+
+    {% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/guc.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/menu_top.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/guc_frame.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/fonts/raleway.css") }}">
+    {% endblock %}
+
+    {% block javascripts_head %}
+    <script type="text/javascript" src="{{ asset("js/jquery-3.1.1.min.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("js/menu_top.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("js/bootstrap.min.js") }}"></script>
+    {% endblock %}
+
+    <title>{% block title %}Welcome!{% endblock %}</title>
+
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block body %}
+        {% import 'macros/menuItem.html.twig' as Menu %}
+        <div class="site-container">
+            <div class="iconic">
+                <button class="hamburger hamburger--arrow" type="button" href="#" id="menu-icon">
+                    <span class="hamburger-box">
+                        <span class="hamburger-inner"></span>
+                    </span>
+                </button>
+                <script>
+                    var $hamburger = $("#menu-icon");
+                    $hamburger.on("click", function (e) {
+                        $hamburger.toggleClass("is-active");
+                    });
+                </script>
+            </div>
+
+            <div class="site-pusher">
+                <div id="page" class="round">
+                    <div id="bandeau">
+                        <picture>
+                            <source media="(min-width: 450px)" srcset="{{ asset("im/bandeau.jpg") }}">
+                            <source media="(max-width: 450px)" srcset="{{ asset("im/bandeau360.jpg") }}">
+                            <img src="{{ asset("im/bandeau_def.jpg") }}">
+                        </picture>
+                    </div>
+
+                    <div id="siteWrapper">
+                        <header>
+                            <nav>
+                                <div id="headerTop"></div>
+                                <ul id="menu">
+                                    {{ Menu.item('root', 'Accueil') }}
+                                    <li><a href="#">Le club</a>
+                                        <ul>
+                                            {{ Menu.item('index_presentation', 'Présentation') }}
+                                            {{ Menu.item('index_tarifs', 'Tarifs') }}
+                                            {{ Menu.item('index_whoswho', 'Who\'s who') }}
+                                            {{ Menu.item('index_exploration', 'Sorties Exploration') }}{#
+                                            {{ Menu.item('Galerie/index.php', 'Photos') }}
+                                            {{ Menu.item('index_materiel.php', 'Matériel') }}
+                                            {{ Menu.item('index_gonflage.php', 'Compresseur et Gonflage') }}
+                                            {{ Menu.item('index_coordonnees.php', 'Coordonnées') }}#}
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Les sections</a>
+                                        <ul>{#
+                                            {{ Menu.item('index_formation_enfants', 'Section Enfants') }}
+                                            {{ Menu.item('index_formation_n1', 'Formation Niveau 1') }}
+                                            {{ Menu.item('index_formation_n2', 'Formation Niveau 2') }}
+                                            {{ Menu.item('index_formation_n3n4', 'Formation Niveau 3 et 4') }}
+                                            {{ Menu.item('index_formation_initiateur', 'Formation Initiateur club') }}
+                                            {{ Menu.item('http://www.apnealp.fr', 'Section Apnée', '_blank') }}
+                                            {{ Menu.item('index_formation_secourisme.php', 'Secourisme') }}
+                                            #}
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">GUC Pratique</a>
+                                        <ul>{#
+                                            {{ Menu.item('intranet/index_intranet', 'Accès Intranet') }}
+                                            {{ Menu.item('index_documents', 'Documents') }}
+                                            {{ Menu.item('index_liens', 'Liens Utiles') }}#}
+                                        </ul>
+                                    </li> {#
+                                    {{ Menu.item('index_bapteme', 'Faire un Baptême', '', 'menubapteme') }}
+                                    {{ Menu.item('index_inscription', 'Inscription') }}
+                                    {{ Menu.item('index_calendrier', 'Calendrier') }}
+                                    {{ Menu.item('index_contact', 'Contact') }}#}
+                                </ul>
+                            </nav>
+                        </header>
+                        <div id="content" class="round pad-menu">
+
+                        {% block main_page %}{% endblock %}
+
+                        </div> <!-- div id="content" class="round" name="ifr" -->
+                        <div style="clear: both"></div>
+                    </div>
+                </div>
+                <div id="footer">
+                    <?php include($this->getPathRoot() . 'footer.php'); ?>
+                </div>
+                <div class="site-cache" id="site-cache"></div>
+            </div>
+        </div>
+    {% endblock %}
     </body>
+    {% block javascripts_end %}{% endblock %}
+    {% block footer_end %}{% endblock %}
 </html>
