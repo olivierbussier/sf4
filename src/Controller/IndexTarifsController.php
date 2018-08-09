@@ -18,7 +18,8 @@ class IndexTarifsController extends Controller
 
         return $this->render('pages/index_tarifs.html.twig', [
             'controller_name' => 'IndexTarifsController',
-            'Config' => $tt
+            'Config' => $tt,
+            'xxannee' => $this->getParameter('app.p_annee')
         ]);
     }
 }

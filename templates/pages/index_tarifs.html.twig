@@ -10,7 +10,9 @@
         </form>
 
         <div class="col-xs-12">
+            <h1>{{ xxannee }}</h1>
             <h3>Tarifs GUC-PLONGEE SAISON {{ Config.p_annee }}-{{ Config.p_annee+1 }}</h3>
+            <p>la valeur de p_annee est : {{ constant('App\\Classes\\Config::p_annee') }}</p>
             <p>Le tarif est composé du prix :<ul>
                 <li>de la licence FFESSM, qui dépend de l'age du licencié</li>
                 <li>De la cotisation club qui dépend de l'age et de l'activité pratiquée</li>
