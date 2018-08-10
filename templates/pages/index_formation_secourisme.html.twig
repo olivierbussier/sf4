@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formation des secouristes{% endblock %}
+
+{% block main_page %}
+
+    <div class="container">
+        <div class="col-xs-12">
+            <h3>LE SECOURISME</h3>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <img src="{{ asset('team/PRADINES-Sylvie.jpg') }}" class="img-ident w100">
+            <div class="nomblu">Sylvie Pradines<br>(Médecin Fédéral)</div>
+        </div>
+        <div class="col-xs-6 col-sm-9">
+            <p>Le GUC Plongée dispose d'une commission médicale, de deux médecins fédéraux et de plusieurs
+                formateurs ANTEOR. Ceci nous permet de former nos plongeurs au secourisme et de pouvoir délivrer
+                le diplôme de Réactions et Interventions Face à un Accident de Plongée (RIFA Plongée) qui est
+                nécessaire pour les niveaux 3, 4 et le diplôme d'initiateur.</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>Formation RIFAP</h3>
+            <p>La formation au RIFAP (Réactions et Interventions Face à un Accident de Plongée) est assurée
+                entièrement par le club. Pour cela, nous disposons de :</p>
+            <ul>
+                <li>1 mannequin d'entrainement piscine</li>
+                <li>1 mannequin pour formation secourisme</li>
+                <li>1 matériel d'oxygénothérapie</li>
+            </ul>
+            <p>Pensez à vous inscrire auprès de <Strong>Sylvie PRADINES</Strong>, responsable de la formation
+                secourisme du club. Email : <Strong>sylvie.pradines@bbox.fr</Strong></p>
+            <p>Cette formation est délivrée par nos Médecins Fédéraux, et nos formateurs, titulaires du PSE1
+                (Premiers Secours en Equipe) et ANTEOR (animer l'apprentissage des techniques
+                d'oxygénothérapie - ranimation).</p>
+        </div>
+
+        <div class="col-xs-12">
+            <h3>Le tableau des diplômes de secourisme</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <!-- <caption>Liste des diplômes de formateurs et de secourisme du club</caption> -->
+                    <tr><th>Nom</th><th>Diplôme</th>
+                        <th>Niveau Plongée</th><th>Niveau Apnée</th>
+                        <th>N° diplôme</th><th>Date de recyclage</th>
+                    </tr>
+
+                    {% for Diplome in Diplomes %}
+
+                        <tr><td>{{ Diplome.User.Nom ~ ' ' ~ Diplome.User.Prenom}}</td>
+                            <td>{{ Diplome.Type }}</td>
+                            <td>{{ Diplome.User.NiveauSca }}</td>
+                            <td>{{ Diplome.User.NiveauApn }}</td>
+                            <td>{{ Diplome.Numero }}</td>
+                        {% if Diplome.Type == 'PA' %}
+                            <td>{{ Diplome.DateRecyclage | date('d/m/Y') }}</td>
+                        {% else %}
+                            <td>Permanent</td>
+                        {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

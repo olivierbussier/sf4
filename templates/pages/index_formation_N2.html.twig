@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formation des niveaux 2{% endblock %}
+
+{% block main_page %}
+
+    <div class="container">
+        <div class="col-xs-12">
+            <h3>LA FORMATION NIVEAU 2</h3>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <img src="{{ asset('team/MORAND-Serge.jpg') }}" class="img-ident w100">
+            <div class="nomblu">Serge MORAND<br>(MF1 - Responsable N2)</div>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <img src="{{ asset('team/JOMAIN-Sigolene.jpg') }}"  class="img-ident w100">
+            <div class="nomblu">Sigolène Jomain<br>Responsable des sorties techniques</div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <h4>Pourquoi passer un niveau 2 ?</h4>
+            <p>Le niveau 2 donne à la fois la possibilité de plonger encadré jusqu'à 40 mètres mais aussi de
+                plonger avec un ou deux autres plongeurs niveau 2 en autonomie jusqu'à 20 mètres.</p>
+            <p>De plus, au GUC Plongée, tous les élèves Niveau 2 recoivent aussi une formation Nitrox.</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>La formation Niveau 2 en piscine</h3>
+            <p>Il ne faut pas négliger le travail en piscine qui permet d'améliorer toutes les techniques
+                abordées au niveau 1 (immersion, ventilation...). Il permet de maîtriser l'interprétation des
+                signes et de se familiariser avec l'usage du gilet.</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>Sorties techniques Niveau 2</h3>
+            <p>La formation pratique du niveau 2 se prolonge en milieu naturel. C'est d'ailleurs en milieu
+                naturel que se fera l'évaluation.</p>
+            <p>Compte tenu des prérogatives d'autonomie et dans l'intérêt du futur plongeur niveau 2, il est
+                demandé <Strong>au moins 10 plongées en milieu naturel après le N1, validées sur son carnet de
+                    plongées, avant de faire les premières sorties techniques en mer</Strong>. De plus, une
+                quinzaine de plongées techniques sont un minimum pour acquérir la technique nécessaire à
+                l'obtention du niveau 2.</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>Le GUC Plongée organise des plongées techniques en mer de mars à juin à Niolon</h3>
+            <p>Où l'UCPA propose toute la logistique (hébergement, nourriture, blocs et plombs de plongée
+                et transport en bateau) pour une somme raisonnable (210 euros par W-E de 2 jours). Le couchage
+                est fourni. Prévoir un ou deux cadenas, et votre bonne humeur. Il est obligatoire de faire le
+                ménage dans les bungalows avant de partir !</p>
+            <p>Le transport se fait en voitures personnelles. Il est de coutume que les plongeurs s'arrangent
+                entre eux 1 ou 2 semaines précédant la sortie pour covoiturer. Pour les aider, un lien vers une
+                feuille google est envoyé aux participants par la responsable des sorties techniques environ 2
+                semaines avant chaque sortie.</p>
+            <p>Les dates de ces week-end sont fixées dès octobre (voir la rubrique
+                <a href="{{ url('index_calendrier') }}">Calendrier</a>). Le nombre de place est limité. Il est donc
+                conseillé de planifier et de réserver vos week-end dès décembre.</p>
+            <p>Les désistements ne sont possibles au plus tard que 8 jours à l'avance. Passé ce délai,
+                les arrhes seront encaissées, sauf dans le cas de force majeure imprévisible.</p>
+            <p>Des sorties techniques en fosse à Meyzieu (20 mètres), à côté de Lyon, sont aussi organisées.</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>La Commission Technique Départementale (CTD Isère) organise aussi régulièrement des
+                plongées techniques</h3>
+            <p>A L'Estaque (port de Marseille), La Londe les Maures, St Cyr sur Mer pour un montant
+                d'environ 210 euros. La logistique comprend le transport en mini-bus, l'hébergement
+                en hôtel, la nourriture, les bloc et plombs de plongée et le transport en bateau.</p>
+            <p>Renseignements et inscriptions auprès de</p><ul>
+                <li><Strong>Gérard Lambert</Strong></li>
+                <li>Les Guimets, 38420 REVEL.</li>
+                <li>TEL : 06.14.88.68.25</li>
+                <li>Email : gerard.lambert.diving<Strong></Strong>@<Strong></Strong>gmail.com</li>
+            </ul>
+            <p>Dans les 2 cas, le matériel peut être emprunté au club le mardi soir précédant la sortie.</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>Détails pratiques pour les sorties techniques</h3>
+            <p>Les dates des sorties techniques du Guc Plongée et de la CTD Isère sont disponibles sous la
+                rubrique <a href="{{ url('index_calendrier') }}">Calendrier</a> du site web du club.</p>
+            <p>La réservation aux sorties techniques du Guc Plongée se fait à l'aide d'un chèque du montant
+                de la sortie auprès de votre responsable de groupe qui le transmettra à
+                <Strong>Sigolène Jomain</Strong>, responsable de l'organisation des sorties techniques.</p>
+            <p>Sur place, seuls les blocs et plombs de plongée sont fournis. Chaque plongeur doit venir avec
+                palmes, masque, tuba, ceinture, combinaison et profondimètre. A Niolon, il est possible de
+                louer sa combinaison sur place.</p>
+            <p>Les détendeurs et stabs sont à emprunter au club le mardi soir précédent le week-end, en fin
+                de séance, mais il faut les réserver avant dans la rubrique <Strong>Emprunt matériel</Strong>
+                de l'<a href="{{ url('index_intranet') }}">Intranet</a>.</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>A emmener obligatoirement</h3>
+            <p><u><strong>Votre certificat médical et votre licence</strong></u>.</p>
+            <p>En cas d'oubli, vous ne pourriez pas plonger. Les centres de plongées respectent en effet
+                rigoureusement la réglementation en vigueur, et c'est bien normal.</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>Théorie du niveau 2</h3>
+            <p>La formation pour l'obtention du niveau 2 comprend une partie théorique. </p>
+            <p>Le Guc organise cette formation à partir d'octobre, sous forme de cours qui ont lieu un soir
+                par semaine. </p>
+            <p>Chaque cours dure environ 2 heures, et un examen final vérifie que le contenu a bien été
+                assimilé. La présence aux cours est vivement recommandée, mais pas obligatoire.</p>
+            <p>Des livres reprenant le contenu de cette formation sont disponibles à la bibliothèque
+                du GUC, cependant, certaines parties ne sont pas traitées de façon aussi complète qu'en cours.</p>
+        </div>
+    </div>
+
+{% endblock %}
