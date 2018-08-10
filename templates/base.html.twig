@@ -97,11 +97,11 @@
                                             {{ Menu.item('index_presentation', 'Présentation') }}
                                             {{ Menu.item('index_tarifs', 'Tarifs') }}
                                             {{ Menu.item('index_whoswho', 'Who\'s who') }}
-                                            {{ Menu.item('index_exploration', 'Sorties Exploration') }}{#
-                                            {{ Menu.item('Galerie/index.php', 'Photos') }}
-                                            {{ Menu.item('index_materiel.php', 'Matériel') }}
-                                            {{ Menu.item('index_gonflage.php', 'Compresseur et Gonflage') }}
-                                            {{ Menu.item('index_coordonnees.php', 'Coordonnées') }}#}
+                                            {{ Menu.item('index_exploration', 'Sorties Exploration') }}
+                                            {{ Menu.item('index_galerie', 'Galerie') }}
+                                            {{ Menu.item('index_materiel', 'Matériel') }}
+                                            {{ Menu.item('index_gonflage', 'Compresseur et Gonflage') }}
+                                            {{ Menu.item('index_coordonnees', 'Coordonnées') }}
                                         </ul>
                                     </li>
                                     <li><a href="#">Les sections</a>
@@ -140,7 +140,7 @@
                 </div>
                 <div id="footer">
 
-                    {% set tag = asset('.revision') %}
+                    {% set tag = readfile(asset('.revision')) %}
 
                     <p>Copyright &copy; 2007-2017 GUC Plongée - {{ tag }}</p>
 

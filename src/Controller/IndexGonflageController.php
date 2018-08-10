@@ -5,13 +5,13 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class IndexExplorationController extends Controller
+class IndexGonflageController extends Controller
 {
     /**
-     * @Route("/index_exploration", name="index_exploration")
+     * @Route("/index_gonflage", name="index_gonflage")
      */
     public function index()
     {
-        return $this->render('pages/index_exploration.html.twig');
+        return $this->render('pages/index_gonflage.html.twig');
     }
 }

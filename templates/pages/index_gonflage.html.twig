@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les activités de gonflage{% endblock %}
+
+{% block main_page %}
+
+    <div class="container">
+        <div class="col-xs-12">
+            <h3>Le Gonflage</h3>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <img src="{{ asset('team/PAILLOTIN-Jean-Francois.jpg') }}" class="img-ident w100">
+            <div class="nomblu">Jean-François Paillotin<br>(E2 - Responsable Gonflage)</div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <p>Le club est doté d'un compresseur Bauer KAP 5 offrant un débit de 40 m3/h.</p>
+            <p>Il est installé au sous sol de la piscine avec une rampe de gonflage située directement
+                dans le local de stockage des blocs, au bord du bassin.</p>
+            <p>Ceci nous permet un gonflage sans déplacement des blocs et dans le silence !!!</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>En quoi consiste l'activité gonflage ?</h3>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <img src="{{ asset('im/compresseur.jpg') }}">
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <p>L'activité gonflage, composante indispensable au fonctionnement d'un club, surtout lorsqu'il
+                s'agit d'un club de plongée, fonctionne grâce à quelques bénévoles.</p>
+            <p>A tour de rôle, les membres de cette équipe viennent assurer le gonflage des blocs, ce qui
+                prend environ 1h30 avant la séance de plongée du mardi soir.</p>
+            <p>Pour des raisons évidentes de sécurité le club impose la présence de 2 personnes au minimum pour
+                effectuer le gonflage.</p>
+        </div>
+        <div class="col-xs-12">
+            <p>Mais ils ne sont pas seuls !!! Au GUC Plongée, la participation au gonflage a été rendue
+                obligatoire pour l'obtention des niveaux 2, 3 et 4.</p>
+            <p>C'est l'occasion de percevoir concrètement certains éléments de la formation théorique.
+                C'est aussi l'occasion de parler du fonctionnement du club, de vous montrer des kits
+                pédagogiques mettant en évidence le fonctionnement du matériel, et d'aborder toutes
+                les questions que vous vous posez.</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>Pour participer au gonflage</h3>
+            <ul>
+                <li>Allez sur l'<a href="{{ url('index_intranet') }}">Intranet</a> du club</li>
+                <li>Authentifiez-vous en suivant bien les consignes</li>
+                <li>Dans la rubrique <Strong>Séances de gonflage</Strong>, cliquez sur "Modifier le
+                    planning du gonflage"</li>
+                <li>Inscrivez-vous aux dates qui vous conviennent (3 personnes maximum par date)</li>
+                <li>Cliquez sur "Sauvegarde" en bas à gauche de la date</li>
+            </ul>
+            <p>Il est possible de venir en 4ème personne en contactant le responsable du gonflage au
+                moins une semaine avant la date.</p>
+            <p>Le responsable du gonflage, <Strong>Jean-Françcois Paillotin</Strong> est contactable :</p>
+            <ul>
+                <li>par mail <Strong>Jean-Francois.Paillotin@imag.fr</Strong></li>
+                <li>par téléphone 04.76.49.49.82 (Personnel)</li>
+                <li>par téléphone 04 76 57 47 97 (Professionel)</li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

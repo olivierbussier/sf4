@@ -12,8 +12,6 @@ class IndexPresentationController extends Controller
      */
     public function index()
     {
-        return $this->render('pages/index_presentation.html.twig', [
-            'controller_name' => 'IndexPresentationController',
-        ]);
+        return $this->render('pages/index_presentation.html.twig');
     }
 }

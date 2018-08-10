@@ -27,7 +27,7 @@ class BlogRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->orderBy('b.Ordre', 'desc')
-            ->setMaxResults(10)
+            //->setMaxResults(10)
             ->leftJoin('b.RefImage','a')
             ->addSelect('a')
             ->getQuery()

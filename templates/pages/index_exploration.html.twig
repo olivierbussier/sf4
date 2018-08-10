@@ -1,20 +1,92 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %}Sorties Exploration{% endblock %}
 
 {% block main_page %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="container">
+        <div class="col-xs-12">
+            <h3>Les Sorties Exploration</h3>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <img src="{{ asset('im/frejus2011.jpg') }}" class="w100">
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <p> Le club organise régulièrement des sorties "explorations". </p>
+            <p>Elles se font la plupart du temps entre septembre et début décembre et d'avril à juillet,
+                le week end.</p>
+            <p>Il y a les sorties ouvertes à tous et celles ouvertes à certains niveaux seulement, en fonction de
+                la profondeur des sites (ce sont les moins nombreuses).</p>
+            <p>Ce sont les moments les plus sympas de notre loisir, où on évolue en milieu naturel et où on
+                rencontre les Gentils Plongeurs. </p>
+            <p>Voir la galerie des <a href="{{ url('index_galerie') }}">photos</a>.</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>Les plongées du dimanche matin</h3>
+            <p>Presque tous les dimanches, le club organise une plongée dans les lacs de la région (Lac de
+                Laffrey, Lac du Bourget, Lac d'Annecy)</p>
+            <p>Le départ est matinal afin de pouvoir être de retour entre 12 et 13 heures sur Grenoble. Il est
+                recommandé d'avoir une combinaison étanche ou alors plusieurs épaisseurs de combinaison humide.</p>
+            <p>Pour vous inscrire, il suffit de vous ajouter à la
+                <a href="https://docs.google.com/spreadsheets/d/1EcUl-vy3WWCMlUOZ021YRbVv6J-kGqvF55ZIYKsiZJk/edit#gid=1"
+                   target=_blank>liste des participants</a>.</p>
+            <p>En été, ces plongées sont souvent suivies d'un pique-nique au bord du lac.</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>Au GUC Plongée, tout le monde peut organiser des sorties explorations !!!</h3>
+            <p>Le club est résoluement ancré dans une démarche de <u>club associatif</u>.</p>
+            <p>Aussi, afin de faire sans arrêt de nouvelles découvertes, <u>il n'y a pas d'organisateur nommé</u>
+                de sorties explorations pour le club, mais <Strong>chaque membre du club</Strong> peut être
+                l'organisateur d'une ou plusieurs sorties. </p>
+            <p>Une fiche d'aide à l'organisation de ces sorties, ainsi qu'une fiche de suivi des dépenses ont été
+                crées pour que cela soit facile. Et puis comme il y a de multiples organisateurs, il est plus
+                facile de trouver des conseils !!!</p>
+            <p>Ces sorties sont vitales pour le club, aussi le bureau a décidé de <Strong>subventionner de
+                    45 euros</Strong> l'organisateur d'une sortie exploration de 8 plongeurs au moins si sa sortie
+                se fait en suivant les règles du club (voir le règlement intérieur).</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>Il existe bien sûr des sorties dites "institutionnelles".</h3>
+            <p>Ce sont celles que nous retrouvons pratiquement toutes les années :</p>
+            <ul>
+                <li>Tombants de Marseille en Septembre (pour les N3 et +)</li>
+                <li>Niolon en octobre</li>
+                <li>Week-end épave en décembre (pour les N3 et +)</li>
+                <li>Bormes les Mimosas en juin</li>
+            </ul>
+        </div>
+        <div class="col-xs-12">
+            <h3>Mais en dehors de celles-ci, et grâce à l'esprit imaginatif de certains membres,<br>nous avons
+                pu aussi découvrir les plongées de :</h3>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <img src="{{ asset('im/ajaccio2010.jpg') }}" class="w100">
+            <img src="{{ asset('im/golfejuan2010.jpg') }}" class="w100">
+            <img src="{{ asset('im/MarseilleTombant.png') }}" class="w100">
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <ul>
+                <li>Argelès et la réserve marine de Banyuls</li>
+                <li>La Seyne sur Mer et les 2 frères</li>
+                <li>La Corse à Ajaccio</li>
+                <li>Marseille avec ses tombants et ses épaves</li>
+                <li>L'Egypte (Hurghada et les multiples croisières et une eau à 32°)</li>
+                <li>La Londe et la réserve marine de Port-Cros et la Gabinière</li>
+                <li>Estartit en Espagne et la réseve des Iles Medes</li>
+                <li>La Ciotat et son ile verte</li>
+                <li>Golfe Juan et la baie de Cannes</li>
+                <li>L'Ile Sainte Marguerite, elle aussi en baie de Cannes</li>
+                <li>Cavalaire et ses épaves</li>
+                <li>Fréjus</li>
+            </ul>
+            <p>mais aussi</p>
+            <ul>
+                <li>Chamrouse et ses plongées sous glace (non, non, même pas froid !!!)</li>
+            </ul>
+            <p>Et bien d'autres...allez jeter un coup d'oeil à la galerie
+                <a href="{{ url('index_galerie') }}">photos</a>.</p>
+            <p>Et puis la liste s'allonge d'année en année :-) </p>
+        </div>
+    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'src/Controller/IndexExplorationController.php'|file_link(0) }}">src/Controller/IndexExplorationController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'templates/index_exploration/index.html.twig'|file_link(0) }}">templates/index_exploration/index.html.twig</a></code></li>
-    </ul>
-</div>
 {% endblock %}

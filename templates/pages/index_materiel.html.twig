@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le Matériel{% endblock %}
+
+{% block main_page %}
+
+    <div class="container">
+        <div class="col-xs-12">
+            <h3>LE MATERIEL DU GUC PLONGEE</h3>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <img src="{{ asset('team/COLOMBET-Philippe.jpg') }}" class="img-ident w100">
+            <div class="nomblu">COLOMBET Philippe<br>(Responsable Matériels)</div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <p>Le matériel est une composante importante dans un club de plongée.</p>
+            <p>Il y a 2 grandes catégories de matériels:</p>
+            <ul>
+                <li><Strong>les matériels individuels</Strong> comme les blocs, les détendeurs et les gilets stabilisateurs
+                </li>
+                <li><Strong>les matériels collectifs</Strong> comme le compresseur et les outils pédagogiques.</li>
+            </ul>
+        </div>
+        <div class="col-xs-12">
+            <h3>Les matériels individuels</h3>
+            <p>Grace à une bonne gestion et un entretien régulier de ses matériels, le GUC Plongée dispose aujourd'hui un
+                large éventail d'équipements :</p>
+            <ul>
+                <li>33 blocs adultes (12 et 15 litres)</li>
+                <li>9 blocs enfants (6 et 10 litres)</li>
+                <li>54 gilets stabilisateurs du XXS au XL</li>
+                <li>10 détendeurs mers</li>
+                <li>34 détendeurs piscines</li>
+                <li>10 détendeurs enfants</li>
+                <li>2 timers, 3 boussoles et 5 lampes à LED</li>
+            </ul>
+        </div>
+        <div class="col-xs-12">
+            <h3>Emprunt des matériels individuels</h3>
+            <p>Les membres du club (cotisation plongée) ayant déposé un chèque de caution matériel lors de l'inscription
+                peuvent emprunter un équipement
+                club pour les sorties. Seul le membre emprunteur est autorisé à utiliser ce matériel.</p>
+            <p>Pour emprunter l'équipement, suivre la procédure suivante :
+            <ul>
+                <li>Le lundi soir au plus tard, allez sur l' <a href="{{ url('index_intranet') }}">Intranet</a>
+                    du club
+                </li>
+                <li>Authentifiez-vous en suivant bien les consignes</li>
+                <li>Dans la rubrique <Strong>Emprunt matériel</Strong>, cliquez sur "Faire une demande d'emprunt"</li>
+                <li>Complétez la demande d'emprunt pour chaque matériel (type ou taille)</li>
+                <li>Indiquez le type de sortie</li>
+                <li>Indiquez les dates d'emprunt et de retour souhaitées</li>
+                <li>Cliquez sur "Valider" en bas</li>
+            </ul>
+            </p>
+            <p>Les équipements sont distribués le mardi précédent la sortie entre 21h30 et 21h45.</p>
+            <p>Ils doivent être rendu le mardi suivant la sortie entre 19h30 et 20h00.</p>
+            <p>Pour toute demande spécifique, contacter le responsable du matériel, <Strong>Philippe Colombet</Strong> par mail via la liste materiel@...</p>
+        </div>
+        <div class="col-xs-12">
+            <h3>Les matériels collectifs</h3>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <p><img src="{{ asset('im/sac_oxygene.jpg') }}" width=200></p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <p>
+            <ul>
+                <li>1 compresseur (voir rubrique <a href="{{ url('index_gonflage') }}">Gonflage</a>)</li>
+                <li>1 sac à dos d'oxygénothérapie</li>
+                <li>1 malettes pédagogiques</li>
+                <li>1 mannequin d'entrainement piscine</li>
+                <li>1 mannequin pour formation secourisme</li>
+                <li>des outils pour l'inspection annuelle des blocs</li>
+                <li>des outils pour l'entretien courant des matériels</li>
+            </ul>
+            </p>
+        </div>
+    </div>
+
+{% endblock %}

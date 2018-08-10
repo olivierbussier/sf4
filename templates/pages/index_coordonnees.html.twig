@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contacter le club / Coordonnées{% endblock %}
+
+{% block main_page %}
+
+    <div class="container">
+        <div class="col-xs-12">
+            <h3>Renseignements généraux</h3>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <h4>Où nous trouver ?</h4>
+            <p>Les entrainements ont lieu du mois de septembre au mois de juin à la piscine du Campus :</p>
+            <blockquote>
+                <i>
+                    Piscine Universitaire<br>
+                    Avenue de la Piscine<br>
+                    Domaine Universitaire<br>
+                    38402 Saint Martin d'Hères</i><br>
+            </blockquote>
+            <p>(voir plan ci-dessous)</p>
+            <p>Pendant les mois de juillet et août à la piscine municipale d'Eybens.</p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <h4>Horaires</h4>
+            <ul>
+                <li>Tous les mardis soir de 20 h 00 à 22 h 00 durant l'année scolaire,</li>
+                <li>Tous les lundis soir de 19 h 30 à 21 h 30 l'été à Eybens.</li>
+            </ul>
+        </div>
+        <div class="col-xs-12">
+            <h3>Plan d'accès</h3>
+            <p><center><img src="{{ asset('im/PlanCampus2011.jpg') }}" class="w100"></center></p>
+        </div>
+        <div class="col-xs-12">
+            <script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>
+            <script type="text/javascript">
+                function initialize() {
+                    var mapOptions = {
+                        center: new google.maps.LatLng(45.1, 2.0),
+                        zoom: 18,
+                        mapTypeId: google.maps.MapTypeId.HYBRID
+                    };
+
+                    var map = new google.maps.Map(document.getElementById("map_guc"),mapOptions);
+                    var ctaLayer = new google.maps.KmlLayer('http://www.guc-plongee.net/maps/map_guc.kml');
+                    ctaLayer.setMap(map);
+                }
+            </script>
+            <div id="map_guc" style="border: 1px solid black;
+                        width: 900px; height: 600px;
+                        margin:0px;">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

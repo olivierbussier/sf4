@@ -15,9 +15,6 @@ class IndexWhosWhoController extends Controller
         $cl = new \ReflectionClass('App\Classes\Config');
         $tt = $cl->getConstants();
 
-        return $this->render('pages/index_whoswho.html.twig', [
-            'controller_name' => 'IndexWhosWhoController',
-            'Conf' => $tt
-        ]);
+        return $this->render('pages/index_whoswho.html.twig');
     }
 }
