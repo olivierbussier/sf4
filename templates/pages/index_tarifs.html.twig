@@ -10,9 +10,9 @@
         </form>
 
         <div class="col-xs-12">
-            <h1>{{ xxannee }}</h1>
-            <h3>Tarifs GUC-PLONGEE SAISON {{ Config.p_annee }}-{{ Config.p_annee+1 }}</h3>
-            <p>la valeur de p_annee est : {{ constant('App\\Classes\\Config::p_annee') }}</p>
+
+            <h3>Tarifs GUC-PLONGEE SAISON {{ conf.p_annee }}-{{ conf.p_annee+1 }}</h3>
+
             <p>Le tarif est composé du prix :<ul>
                 <li>de la licence FFESSM, qui dépend de l'age du licencié</li>
                 <li>De la cotisation club qui dépend de l'age et de l'activité pratiquée</li>
@@ -27,13 +27,13 @@
         </div>
         <div class="col-xs-12">
             <table class="table table-striped tarif">
-                <tr><td>Adulte / + de 16 ans</td><td>{{ Config.LICENCE_ADUL }}€</td></tr>
-                <tr><td>Entre 12 et 16 ans</td><td>{{ Config.LICENCE12_16 }}€</td></tr>
-                <tr><td>Moins de 12 ans</td><td>{{ Config.LICENCE_12 }}€</td></tr>
+                <tr><td>Adulte / + de 16 ans</td><td>{{ conf.LICENCE_ADUL }}€</td></tr>
+                <tr><td>Entre 12 et 16 ans</td><td>{{ conf.LICENCE12_16 }}€</td></tr>
+                <tr><td>Moins de 12 ans</td><td>{{ conf.LICENCE_12 }}€</td></tr>
             </table>
         </div>
 
-        {% set suppl = Config.CARTE_GUC + Config.SIUAPS %}
+        {% set suppl = conf.CARTE_GUC + conf.SIUAPS %}
 
         <div class="col-xs-12 col-sm-6">
             <div class="row">
@@ -44,13 +44,13 @@
                 <div class="col-xs-12">
                     <table class="table table-striped tarif">
                         <tr><td>Adulte débutant préparant le N1</td>
-                            <td>{{ Config.CLUB_DEBU + suppl }}€</td></tr>
+                            <td>{{ conf.CLUB_DEBU + suppl }}€</td></tr>
                         <tr><td>Adulte progression préparant le N2, N3 ou N4<br> initiateur ou maintien N1</td>
-                            <td>{{ Config.CLUB_AUTR + suppl }}€</td></tr>
+                            <td>{{ conf.CLUB_AUTR + suppl }}€</td></tr>
                         <tr><td>Adulte maintien N2 et plus (Pas de préparation de niveau)</td>
-                            <td>{{ Config.CLUB_MAIN + suppl }}€</td></tr>
+                            <td>{{ conf.CLUB_MAIN + suppl }}€</td></tr>
                         <tr><td>Jeune -18 ans ou Etudiant moins de 25 ans</td>
-                            <td>{{ Config.CLUB_JEUN + suppl }}€</td></tr>
+                            <td>{{ conf.CLUB_JEUN + suppl }}€</td></tr>
                     </table>
                 </div>
             </div>
@@ -66,9 +66,9 @@
                 <div class="col-xs-12">
                     <table class="table table-striped tarif">
                         <tr><td>Apnée ou Nage avec palmes et plongeur GUC</td>
-                            <td>{{ Config.CLUB_APN1 + suppl }}€</td></tr>
+                            <td>{{ conf.CLUB_APN1 + suppl }}€</td></tr>
                         <tr><td>Apnée ou Nage avec palmes et non plongeur GUC</td>
-                            <td>{{ Config.CLUB_APN2 + suppl }}€</td></tr>
+                            <td>{{ conf.CLUB_APN2 + suppl }}€</td></tr>
                     </table>
                 </div>
             </div>
@@ -84,9 +84,9 @@
                 <div class="col-xs-12">
                     <table class="table table-striped tarif">
                         <tr><td>Réduction famille à partir du second inscrit</td>
-                            <td>{{ Config.REDUC_FAMILLE }}€</td></tr>
+                            <td>{{ conf.REDUC_FAMILLE }}€</td></tr>
                         <tr><td>Bénévoles et encadrants</td>
-                            <td>{{ Config.CLUB_BENE + suppl }}€</td></tr>
+                            <td>{{ conf.CLUB_BENE + suppl }}€</td></tr>
                     </table>
                 </div>
             </div>
@@ -95,20 +95,20 @@
 
 
 
-{% set ad_deb_maintien = Config.LICENCE_ADUL + Config.CLUB_DEBU + Config.CARTE_GUC + Config.SIUAPS %}
+{% set ad_deb_maintien = conf.LICENCE_ADUL + conf.CLUB_DEBU + conf.CARTE_GUC + conf.SIUAPS %}
 
-{%  set ad_progr    = Config.LICENCE_ADUL + Config.CLUB_AUTR + Config.CARTE_GUC + Config.SIUAPS %}
-{%  set ad_bene     = Config.LICENCE_ADUL + Config.CLUB_BENE + Config.CARTE_GUC + Config.SIUAPS %}
-{%  set ad_etu      = Config.LICENCE_ADUL + Config.CLUB_JEUN + Config.CARTE_GUC + Config.SIUAPS %}
-{%  set ad_jeun1    = Config.LICENCE12_16 + Config.CLUB_JEUN + Config.CARTE_GUC + Config.SIUAPS %}
-{%  set ad_enf      = Config.LICENCE_12   + Config.CLUB_JEUN + Config.CARTE_GUC + Config.SIUAPS %}
-{%  set ad_deb_fam  = (2*(Config.LICENCE_ADUL + Config.CLUB_DEBU + Config.CARTE_GUC + Config.SIUAPS))
-                      - Config.REDUC_FAMILLE %}
-{%  set ad_deb_fam2 = (Config.LICENCE_ADUL + Config.CLUB_DEBU + Config.CARTE_GUC + Config.SIUAPS) +
-                      (Config.LICENCE_12 + Config.CLUB_JEUN + Config.CARTE_GUC + Config.SIUAPS) -
-                       Config.REDUC_FAMILLE %}
-{% set ad_apn1      = Config.LICENCE_ADUL + Config.CLUB_APN2 + Config.CARTE_GUC + Config.SIUAPS %}
-{% set ad_apn2      = Config.LICENCE12_16 + Config.CLUB_APN2 + Config.CARTE_GUC + Config.SIUAPS %}
+{%  set ad_progr    = conf.LICENCE_ADUL + conf.CLUB_AUTR + conf.CARTE_GUC + conf.SIUAPS %}
+{%  set ad_bene     = conf.LICENCE_ADUL + conf.CLUB_BENE + conf.CARTE_GUC + conf.SIUAPS %}
+{%  set ad_etu      = conf.LICENCE_ADUL + conf.CLUB_JEUN + conf.CARTE_GUC + conf.SIUAPS %}
+{%  set ad_jeun1    = conf.LICENCE12_16 + conf.CLUB_JEUN + conf.CARTE_GUC + conf.SIUAPS %}
+{%  set ad_enf      = conf.LICENCE_12   + conf.CLUB_JEUN + conf.CARTE_GUC + conf.SIUAPS %}
+{%  set ad_deb_fam  = (2*(conf.LICENCE_ADUL + conf.CLUB_DEBU + conf.CARTE_GUC + conf.SIUAPS))
+                      - conf.REDUC_FAMILLE %}
+{%  set ad_deb_fam2 = (conf.LICENCE_ADUL + conf.CLUB_DEBU + conf.CARTE_GUC + conf.SIUAPS) +
+                      (conf.LICENCE_12 + conf.CLUB_JEUN + conf.CARTE_GUC + conf.SIUAPS) -
+                       conf.REDUC_FAMILLE %}
+{% set ad_apn1      = conf.LICENCE_ADUL + conf.CLUB_APN2 + conf.CARTE_GUC + conf.SIUAPS %}
+{% set ad_apn2      = conf.LICENCE12_16 + conf.CLUB_APN2 + conf.CARTE_GUC + conf.SIUAPS %}
 
     <div class="container">
         <h3>Exemples de tarifs</h3>
