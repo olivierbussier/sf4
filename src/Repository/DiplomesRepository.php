@@ -25,11 +25,28 @@ class DiplomesRepository extends ServiceEntityRepository
 
     public function getAllDiplomes()
     {
-        return $this->createQueryBuilder('b')
+        return $this->createQueryBuilder('d')
+            ->leftJoin('d.User','a')
+            ->addSelect('a')
             ->orderBy('a.Nom', 'desc')
             //->setMaxResults(10)
-            ->leftJoin('b.User','a')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @return Diplomes[] Returns an array of Diplomes objects
+     */
+
+    public function getDiplomesSecourisme()
+    {
+        return $this->createQueryBuilder('d')
+            ->leftJoin('d.User','a')
             ->addSelect('a')
+            ->where("d.Type = 'MF' or d.Type = 'MA' or d.Type = 'PA'")
+            ->orderBy('a.Nom', 'desc')
+            //->setMaxResults(10)
             ->getQuery()
             ->getResult()
             ;

@@ -47,7 +47,7 @@
                     {% for Diplome in Diplomes %}
 
                         <tr><td>{{ Diplome.User.Nom ~ ' ' ~ Diplome.User.Prenom}}</td>
-                            <td>{{ Diplome.Type }}</td>
+                            <td>{{ listes.diplomes[Diplome.Type] }}</td>
                             <td>{{ Diplome.User.NiveauSca }}</td>
                             <td>{{ Diplome.User.NiveauApn }}</td>
                             <td>{{ Diplome.Numero }}</td>

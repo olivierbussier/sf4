@@ -84,6 +84,19 @@ parameters:
         MAJO_COTISATION : 15  # Si dossier en retard
         TAXE            : 0   # Taux de taxe applicable pour les factures
 
+    listes:
+        diplomes:
+            ""   : "[N.A]"
+            "T"  : "TIV"
+            "FT" : "Formateur TIV"
+            "M1" : "MF-1"
+            "M2" : "MF-2"
+            "B1" : "BEES-1"
+            "B2" : "BEES-2"
+            "MF" : "Médecin Fédéral"
+            "MA" : "Médecin"
+            "PA" : "PSE1/ANTEOR"
+
 services:
     # default configuration for services in *this* file
     _defaults:

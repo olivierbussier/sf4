@@ -1,0 +1,54 @@
+{% import 'macros/bouton.html.twig' as control %}
+
+    <div class="col-xs-12">
+        <h3>Séances de gonflage</h3>
+    </div>
+
+    <div class="col-xs-12">
+        <h4>Informations</h4>
+        <p>2 personnes sont nécessaires pour l'aide au gonflage et à la désinfection des détendeurs. La participation
+            aux séances de gonflage fait partie de la formation.</p>
+        <p><b style="color:#FF0000">Sans cette aide, la désinfection et le gonflage étant impossible seul ou a deux,
+                les détendeurs et les blocs ne seront pas disponibles pour la séance.</b></p>
+        <p>Donc, en cas de retard ou d'impossibilité de venir, faites le maximum pour vous trouver un remplaçant
+            et téléphonez pour prévenir (voir numéros/mails des responsables ci-desous).</p>
+        <p>Aux niveaux 2, 3 et 4. Deux séances sont obligatoires pour valider ces niveaux.</p>
+        <p>Les personnes qui ne suivent pas ces formations et qui sont intéressées par le déroulement des séances
+            de gonflage sont les bienvenues et peuvent s'inscrire.</p>
+
+        {{ control.bouton(
+            ' Modifier le planning du gonflage',
+            url('index_modif_gonf_eleves'),
+            '',
+            'btn-block btn-default',
+            'log-in'
+        ) }}
+    </div>
+
+    <div class="col-xs-12">
+        <h4>Consignes :</h4>
+        <p>Rendez-vous à 18h30 au 1er étage devant la porte d'accès aux gradins, à droite de l'entrée du bar de la
+            piscine. Nous ouvrirons la porte si elle est fermée.</p>
+        <p>rejoindre le local en passant par les gradins, n'oubliez pas de vous déchausser.</p>
+        <p>Si par malheur la porte a été fermée, demander l'accès au local via les vestiaires collectifs à la caisse
+            et se faire expliquer le chemin si c'est nécessaire</p>
+        <p>Pour contacter les responsables :</p>
+
+        <div class="table-responsive">
+            <table class="table">
+                <tr><th>Nom</th><th>Email</th><th>Téléphone</th></tr>
+                <tr><td>Olivier Bussier</td>
+                    <td><a href="mailto:olivier@bussier.fr">olivier@bussier.fr</a></td>
+                    <td>06 03 25 50 50</td></tr>
+                <tr><td>Yves Capiomont</td>
+                    <td><a href="mailto:ycapiomont@free.fr">ycapiomont@free.fr</a></td>
+                    <td>06 78 05 34 06</td></tr>
+                <tr><td>Jean-François Paillotin</td>
+                    <td><a href="mailto:Jean-Francois.Paillotin@mycmp.fr">Jean-Francois.Paillotin@mycmp.fr</a></td>
+                    <td>04 76 49 49 82<br>04 76 57 47 97</td></tr>
+            </table>
+        </div>
+    </div>
+
+
+

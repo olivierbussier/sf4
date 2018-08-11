@@ -1,6 +1,312 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bienvenue sur l'Intranet{% endblock %}
+{% block title %}Bienvenue sur l'Intranetdu GUC{% endblock %}
 
 {% block main_page %}
+
+    {% import 'macros/bouton.html.twig' as control %}
+
+    <div class="container">
+        <div class="col-xs-12">
+            <h3>{{ app.user.username }} , Bienvenue sur l'Intranet Plongeur</h3>
+        </div>
+
+
+        <div class="col-xs-12">
+            <h3>Informations personelles</h3>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            <h4>Base de données</h4>
+            {{ control.bouton(
+                ' Mes informations personnelles',
+                url('index_admin_affiche_perso'),
+                '',
+                'btn-block btn-default',
+                'folder-open'
+            ) }}
+
+            <p>Vous pouvez visualiser les données vous concernant.</p>
+            <p>Vous pouvez également modifier certaines données comme votre adresse ou votre code d'accès.</p>
+        </div>
+{#
+// ***********************************************************************************
+// Trombinoscope
+// ***********************************************************************************
+#}
+
+        {% if check_droits('ROLE_USER') %}
+
+            <div class="col-xs-12 col-sm-6">
+
+                <h4>Trombinoscope</h4>
+
+                {{ control.bouton(
+                    ' Trombinoscope du club',
+                    url('index_admin_trombi'),
+                    '',
+                    'btn-block btn-default',
+                    'camera'
+                ) }}
+
+                <p>Ce lien vous permet de voir l'ensemble des personnes inscrites au club cette année.</p>
+            </div>
+
+        {% endif %}
+
+{#
+// ***********************************************************************************
+// Accès au planning de gonflage et aux rubriques formation uniquement possible
+// Si l'utilisateur a au minimum son inscription en cours et certif valide
+// ***********************************************************************************
+#}
+
+        {% if check_droits('ROLE_ADMIN') or (inscription_status('STARTED')) %}
+        {# if (Session::isMgr() || Session::getAdminok('CERTIF') == true) { #}
+            {% include '/intranet/menu/inc_info_gonflage.html.twig' %}
+        {% endif %}
+{#
+        // ***********************************************************************************
+        // Accès à la réservation matériel possible si:
+        //  - L'utilisateur est inscrit ou pré-inscrit et son chèque de caution
+        //    Est en possession du club
+        //  - L'utilisateur était inscrit l'année passé, mais son chèque de caution
+        //    est encore en possession du club
+        // ***********************************************************************************
+#}
+        {% if app.user.Roles[0] == 'ROLE_ADMIN' %}
+{#      if (Session::isMgr() || Session::materielOk()) {#}
+
+            <div class="col-xs-12">
+                <h3>Emprunt matériel</h3>
+            </div>
+
+            <div class="col-xs-12">
+
+                {{ control.bouton(
+                    ' Faire une demande d\'emprunt',
+                    url('index_demande_emprunt'),
+                    '',
+                    'btn-block btn-default',
+                    'shopping-cart'
+                ) }}
+
+            </div>
+        {% else %}
+
+            <div class="col-xs-12">
+                <h3>Emprunt matériel</h3>
+            </div>
+
+            <div class="col-xs-12">
+                <p>Si, dans votre dossier d'inscription, vous avez spécifié vouloir emprunter du matériel ,
+                    vous pourrez emprunter du matériel lorque votre chèque de caution sera enregistré par le
+                    secrétariat du club</p>
+                <p>En cas de problème, vous pouvez contacter <a href="mailto:olivier@bussier.fr">olivier Bussier</a></p>
+            </div>
+
+        {% endif %}
+
+        {% if app.user.Roles[0] != 'ROLE_ADMIN' %}
+
+        {# if (!Session::isMgr() && Session::userValid() == Session::NOTSTARTED) {#}
+
+            {# Si l'adhérent n'a pas initialisé sa pré-inscription, alors message d'avertissement #}
+
+            <div class="col-xs-12">
+                <h3>Pas de pré-inscription enregistrée
+                    pour l'année {{ conf.p_annee }}-{{ conf.p_annee + 1 }}</h3>
+            </div>
+
+            <div class="col-xs-12">
+                <p>Voous ne vous êtes pas encore inscrit pour <?= Config::$p_annee."-".(Config::$p_annee+1); ?>.
+                    Les autres rubriques de l'intranet seront disponibles en totalité lorsque cette étape sera
+                    terminée.</p>
+                <p>Vous pourrez emprunter du matériel lorque votre chèque de caution sera enregistré par le
+                    secrétariat du club</p>
+                <p>En cas de problème, vous pouvez contacter <a href="mailto:olivier@bussier.fr">olivier Bussier</a></p>
+            </div>
+
+        {% elseif app.user.Roles[0] != 'ROLE_ADMIN' %}
+            {# if (!Session::isMgr() && (Session::userValid() != Session::VALIDATED)) { #}
+            {# Si l'adhérent n'a pas initialisé sa pré-inscription, alors message d'avertissement #}
+
+            <div class="col-xs-12">
+                <h3>Dossier d'inscription non validé</h3>
+            </div>
+
+            <div class="col-xs-12">
+                <p>Votre inscription <?= Config::$p_annee."-".(Config::$p_annee+1); ?>
+                    n'a pas encore été validée par le secrétariat.</p>
+                <p>Les autres rubriques de l'intranet seront disponibles en totalité lorsque
+                    cette étape sera terminée.</p>
+            </div>
+
+        {% elseif app.user.Roles[0] == 'ROLE_ADMIN' %}
+
+            {# if (Session::isMgr() || Session::userValid() != Session::NOTSTARTED) {#}
+
+            <div class="col-xs-12">
+                <h3>Documents partagés</h3>
+            </div>
+
+            <div class="col-xs-12">
+                <h4>Supports présentés aux assemblée Générales</h4>
+            </div>
+
+            <div class="col-xs-6 col-sm-2">
+                {{ control.bouton(' 2013', asset('/docs/AG_20131021.pdf'), 'AG', 'btn-block btn-default','stats') }}
+            </div>
+
+            <div class="col-xs-6 col-sm-2">
+                {{ control.bouton(' 2014', asset('/docs/AG_20141026.pdf'), 'AG', 'btn-block btn-default','stats') }}
+            </div>
+
+            <div class="col-xs-6 col-sm-2">
+                {{ control.bouton(' 2015', asset('/docs/AG_20151013.pdf'), 'AG', 'btn-block btn-default','stats') }}
+            </div>
+
+            <div class="col-xs-6 col-sm-2">
+                {{ control.bouton(' 2016', asset('/docs/AG_20161105.pdf'), 'AG', 'btn-block btn-default','stats') }}
+            </div>
+
+            <div class="col-xs-6 col-sm-2">
+                {{ control.bouton(' 2017', asset('/docs/AG_20171017.pdf'), 'AG', 'btn-block btn-default','stats') }}
+            </div>
+{#
+// ***********************************************************************************
+// Rubriques d'admin communes aux encadrants, gonfleurs, matériel et autres
+// ***********************************************************************************
+#}
+
+            {# if (Session::checkDroits(Session::ENC_MGR) ||
+                Session::checkDroits(Session::MAT_MGR) ||
+                Session::checkDroits(Session::PUB_MGR) ||
+                Session::checkDroits(Session::GON_MGR)) {
+            #}
+
+            <div class="col-xs-12">
+                <h3>Administration des activités</h3>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                {{  control.bouton(
+                    ' Calendrier des activités bassin, matériel et gonflage',
+                    url('index_admin_calendrier'),
+                    '_blank',
+                    'btn-block btn-default',
+                    'calendar'
+                ) }}
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                {{  control.bouton(
+                    ' Lien vers la google sheet du planning de formation global',
+                    'https://docs.google.com/spreadsheets/d/1NzMaUvZJjVeT2kKiLO0yViGxruBQ8IGaBQ9IdLQrtvE/edit#gid=0',
+                    '_blank',
+                    'btn-block btn-default',
+                    'calendar'
+                ) }}
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                {{  control.bouton(
+                    ' Excel de la liste des emprunts',
+                    url('index_admin_genmat'),
+                    '_blank',
+                    'btn-block btn-default',
+                    'list-alt'
+                ) }}
+            </div>
+
+{#
+// ***********************************************************************************
+// Rubriques d'admin encadrants et gonfleurs
+// ***********************************************************************************
+#}
+
+            {# if (Session::checkDroits(Session::ENC_MGR) ||
+                Session::checkDroits(Session::GON_MGR)) { ?>
+            #}
+            <div class="col-xs-12 col-sm-6">
+                {{  control.bouton(
+                    ' Participation aux séances de gonflage',
+                    url('index_status_gonflage_eleves'),
+                    '',
+                    'btn-block btn-default',
+                    'play'
+                ) }}
+            </div>
+{#
+// ***********************************************************************************
+// Rubriques d'admin encadrants et matériel
+// ***********************************************************************************
+#}
+            {#
+            if (Session::checkDroits(Session::ENC_MGR) ||
+                Session::checkDroits(Session::MAT_MGR)) { ?>
+            #}
+
+            <div class="col-xs-12 col-sm-6">
+                {{  control.bouton(
+                    ' Voir l\'état des inscriptions',
+                    url('index_admin_status_inscriptions'),
+                    '',
+                    'btn-block btn-default',
+                    'play'
+                ) }}
+            </div>
+{#
+// ***********************************************************************************
+// Fin de rubriques d'admin encadrants, matériel et gonfleurs
+// ***********************************************************************************
+#}
+            {#
+            if (Session::checkDroits(Session::ENC_MGR) ||
+                Session::checkDroits(Session::MAT_MGR) ||
+                Session::checkDroits(Session::PUB_MGR) ||
+                Session::checkDroits(Session::GON_MGR)) {
+            #}
+{#
+// ***********************************************************************************
+// Affichage des intranet propres aux différentes sections
+// ***********************************************************************************
+#}
+
+if (Session::checkDroits(Session::PUB_MGR)) {
+    include __DIR__ . '/index_intranet_menu_pub_admin_publication.php';
+}
+if (Session::checkDroits(Session::ENC_MGR)) {
+    include __DIR__ . '/index_intranet_menu_enc_admin_encadrants.php';
+}
+if (Session::checkDroits(Session::MAT_MGR)) {
+    include __DIR__ . '/index_intranet_menu_mat_admin_materiel.php';
+}
+if (Session::checkDroits(Session::ADM_MGR)) {
+    include __DIR__ . '/index_intranet_menu_adm_admin_site.php';
+}
+if (Session::checkDroits(Session::GON_MGR)) {
+    include __DIR__ . '/index_intranet_menu_gon_admin_gonflage.php';
+}
+
+?>
+
+        <div class="container">
+            <div class="col-xs-12">
+                <h3>Pour vous déconnecter :</h3>
+            </div>
+            <div class="col-xs-12">
+                <?php	      Controls::inlink(
+    ' Déconnexion',
+    'index_logout.php',
+    'default',
+    'class:btn-block,glyph:off'
+); ?>
+            </div>
+        </div>
+        <?php $html->end();
+
+    </div>
+        {% endif %}
+
 {% endblock %}

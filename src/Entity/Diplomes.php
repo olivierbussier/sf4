@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,7 +18,8 @@ class Diplomes
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Adherents", inversedBy="Diplomes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Adherent")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $User;
 
@@ -51,12 +53,12 @@ class Diplomes
         return $this->id;
     }
 
-    public function getUser(): ?Adherents
+    public function getUser(): ?Adherent
     {
         return $this->User;
     }
 
-    public function setUser(?Adherents $User): self
+    public function setUser(?Adherent $User): self
     {
         $this->User = $User;
 
@@ -75,24 +77,24 @@ class Diplomes
         return $this;
     }
 
-    public function getDateObtention(): ?\DateTimeInterface
+    public function getDateObtention(): ?DateTimeInterface
     {
         return $this->DateObtention;
     }
 
-    public function setDateObtention(\DateTimeInterface $DateObtention): self
+    public function setDateObtention(DateTimeInterface $DateObtention): self
     {
         $this->DateObtention = $DateObtention;
 
         return $this;
     }
 
-    public function getDateRecyclage(): ?\DateTimeInterface
+    public function getDateRecyclage(): ?DateTimeInterface
     {
         return $this->DateRecyclage;
     }
 
-    public function setDateRecyclage(\DateTimeInterface $DateRecyclage): self
+    public function setDateRecyclage(DateTimeInterface $DateRecyclage): self
     {
         $this->DateRecyclage = $DateRecyclage;
 
@@ -122,4 +124,5 @@ class Diplomes
 
         return $this;
     }
+
 }
