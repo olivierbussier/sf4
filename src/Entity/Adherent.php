@@ -53,6 +53,16 @@ class Adherent implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     */
+    private $ListeDroits;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $CodeSecret;
+
+    /**
+     * @ORM\Column(type="string", length=255)
      * @Assert\Length(min="8", minMessage="Votre mot de passe doit faire minimum 8 caractères")
      */
     private $Password;
@@ -131,6 +141,11 @@ class Adherent implements UserInterface
      * @ORM\Column(type="string", length=64)
      */
     private $NiveauApn;
+
+    /**
+     * @ORM\Column(type="string", length=64)
+     */
+    private $Diplomes;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -296,11 +311,6 @@ class Adherent implements UserInterface
      * @ORM\Column(type="string", length=32, nullable=true)
      */
     private $ReducFam;
-
-    public function __construct()
-    {
-        $this->Diplomes = new ArrayCollection();
-    }
 
     public function getId()
     {
@@ -954,5 +964,53 @@ class Adherent implements UserInterface
         $this->ReducFam = $ReducFam;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodeSecret()
+    {
+        return $this->CodeSecret;
+    }
+
+    /**
+     * @param mixed $CodeSecret
+     */
+    public function setCodeSecret($CodeSecret): void
+    {
+        $this->CodeSecret = $CodeSecret;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getListeDroits()
+    {
+        return $this->ListeDroits;
+    }
+
+    /**
+     * @param mixed $ListeDroits
+     */
+    public function setListeDroits($ListeDroits): void
+    {
+        $this->ListeDroits = $ListeDroits;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDiplomes()
+    {
+        return $this->Diplomes;
+    }
+
+    /**
+     * @param mixed $Diplomes
+     */
+    public function setDiplomes($Diplomes): void
+    {
+        $this->Diplomes = $Diplomes;
     }
 }
