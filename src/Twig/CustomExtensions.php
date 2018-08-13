@@ -11,15 +11,22 @@ class CustomExtensions extends AbstractExtension
     public function getFunctions()
     {
         return array(
-            new Twig_Function('check_droits', array($this, 'checkDroits')),
-            new Twig_Function('readfile', array($this, 'readFile')),
-            new Twig_Function('inscription_status', array($this, 'statusInscription'))
+            new Twig_Function('check_droits'      , array($this, 'checkDroits')),
+            new Twig_Function('readfile'          , array($this, 'readFile')),
+            new Twig_Function('fileExists'        , array($this, 'fileExists')),
+            new Twig_Function('inscription_status', array($this, 'statusInscription')),
+            new Twig_Function('rationalizeFilename', array($this, 'rationalizeFilename')),
         );
     }
 
     public function readFile(string $filename)
     {
         return file_get_contents('./' . $filename);
+    }
+
+    public function fileExists(string $filename)
+    {
+        return file_exists($filename);
     }
 
     public function checkDroits(string $droit)
@@ -43,5 +50,15 @@ class CustomExtensions extends AbstractExtension
     {
         dump($adh->findAll());
         return true;
+    }
+
+    public function rationalizeFilename($file)
+    {
+        // Convert spaces, caracteres accentués  to '_'
+
+        $retfile = str_replace(' ','_',$file);
+        //$retfile = str_replace('-','_',$retfile);
+
+        return $retfile;
     }
 }

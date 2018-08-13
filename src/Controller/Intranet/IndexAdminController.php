@@ -24,7 +24,7 @@ class IndexAdminController extends Controller
     public function trombi(RegistryInterface $doctrine)
     {
         $photos = $doctrine->getRepository(Adherent::class)->getAllPhotos();
-        dump($photos);
+
         return $this->render('intranet/index_trombi.html.twig',[
             'photos' => $photos
         ]);

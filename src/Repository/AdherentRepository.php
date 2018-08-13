@@ -25,36 +25,12 @@ class AdherentRepository extends ServiceEntityRepository
 
     public function getAllPhotos()
     {
-       /* $tr =  $this->createQueryBuilder('d')
-            ->leftJoin('d.User','a')
-            ->addSelect('a')
-            ->leftJoin('d.UserParams','u')
-            ->addSelect('u')
-            ->where("d.Type = 'MF' or d.Type = 'MA' or d.Type = 'PA'")
-            ->orderBy('a.Nom', 'desc')
-            //->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-            ;
-*/
         return $this->createQueryBuilder('a')
-            ->leftJoin('a.UserParams','d')
-            ->addSelect('d')
-            ->andWhere("d.AdminOK = 'OK'")
+            ->select(['a.Nom','a.Prenom','a.fTrombi','a.NiveauSca','a.id'])
+            ->orderBy('a.Nom','asc')
+            ->andWhere("a.AdminOK = 'OK'")
             ->getQuery()
             ->getResult()
         ;
     }
-
-    /*
-    public function findOneBySomeField($value): ?Adherents
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

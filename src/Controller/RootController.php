@@ -20,4 +20,28 @@ class RootController extends Controller
             'pages/index.html.twig',
             ['posts' => $posts]);
     }
+
+    /**
+     * @Route("Bapteme", name="index_bapteme")
+     */
+    public function bapteme()
+    {
+        return $this->render('pages/bapteme.html.twig');
+    }
+
+    /**
+     * @Route("calendrier", name="index_calendrier")
+     */
+    public function calendrier()
+    {
+        return $this->render('pages/calendrier.html.twig');
+    }
+
+    /**
+     * @Route("contact", name="index_contact")
+     */
+    public function contact()
+    {
+        return $this->render('pages/contact.html.twig');
+    }
 }

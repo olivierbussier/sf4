@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -474,12 +475,12 @@ class Adherent implements UserInterface
         return $this;
     }
 
-    public function getDateNaissance(): ?\DateTimeInterface
+    public function getDateNaissance(): ?DateTimeInterface
     {
         return $this->DateNaissance;
     }
 
-    public function setDateNaissance(\DateTimeInterface $DateNaissance): self
+    public function setDateNaissance(DateTimeInterface $DateNaissance): self
     {
         $this->DateNaissance = $DateNaissance;
 
@@ -666,12 +667,12 @@ class Adherent implements UserInterface
         return $this;
     }
 
-    public function getDateCertif(): ?\DateTimeInterface
+    public function getDateCertif(): ?DateTimeInterface
     {
         return $this->DateCertif;
     }
 
-    public function setDateCertif(?\DateTimeInterface $DateCertif): self
+    public function setDateCertif(?DateTimeInterface $DateCertif): self
     {
         $this->DateCertif = $DateCertif;
 
@@ -894,24 +895,24 @@ class Adherent implements UserInterface
         return $this;
     }
 
-    public function getDateModifUser(): ?\DateTimeInterface
+    public function getDateModifUser(): ?DateTimeInterface
     {
         return $this->DateModifUser;
     }
 
-    public function setDateModifUser(?\DateTimeInterface $DateModifUser): self
+    public function setDateModifUser(?DateTimeInterface $DateModifUser): self
     {
         $this->DateModifUser = $DateModifUser;
 
         return $this;
     }
 
-    public function getDatePremInscr(): ?\DateTimeInterface
+    public function getDatePremInscr(): ?DateTimeInterface
     {
         return $this->DatePremInscr;
     }
 
-    public function setDatePremInscr(?\DateTimeInterface $DatePremInscr): self
+    public function setDatePremInscr(?DateTimeInterface $DatePremInscr): self
     {
         $this->DatePremInscr = $DatePremInscr;
 

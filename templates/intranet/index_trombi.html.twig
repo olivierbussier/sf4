@@ -14,38 +14,35 @@
 
         <div class="col-xs-12">
 
-        {% for photo in photos %}
-            {{ dump(photos) }}
-        {% endfor %}
+            {% for photo in photos %}
+                {% if not photo.fTrombi %}
+                    {% set fname = "im/photo-blank.jpg" %}
+                {% else %}
+                    {% set nom    = rationalizeFilename(photo.Nom) %}
+                    {% set prenom = rationalizeFilename(photo.Prenom) %}
 
-            if ($data['FTROMBI'] == "NON") {
-            $fname = "../images/notrombi.jpg";
-            } else {
-            $fname = PhotoHelpers::corrigerPath(
-            "../identites/".$data['NOM']."-".$data['PRENOM']."-".$data['Ref']."-th.jpg"
-            );
-            }
-            ?>              <div class="case-trombi">
-                <?php
-if (file_exists($fname)) { ?>
-                <img src="<?= $fname; ?>" class="img-trombi">
-                <?php
-} else { ?>
-                <img src="../images/default.jpg" class="img-trombi">
-                <?php
-} ?>
-                <div class ="nomblu">
-                    <center><?= $data['NOM'].'<br>'.$data['PRENOM'].'<br>'.$data['NIVEAU']; ?></center>
+                    {% set fname = "identites/" ~ nom ~ '-' ~ prenom ~ '-' ~ photo.id ~ "-th.jpg" %}
+                    {% if not fileExists('../public/' ~ fname) %}
+                        {% set fname = '/im/photo-blank.jpg' %}
+                    {% endif %}
+                {% endif %}
+
+                <div class="case-trombi">
+                    <img src="{{ asset(fname) }}" class="img-trombi">
+                    <div class ="nomblu">
+                        <center>{{ photo.Nom }}<br>{{ photo.Prenom }}<br>{{ photo.NiveauSca }}</center>
+                    </div>
                 </div>
-            </div>
-            <?php
-}
+            {% endfor %}
 
-?>          </div>
-        <div class="col-xs-12">
-            <a  class="btn btn-default" href="index_intranet.php">
-                <span class="glyphicon glyphicon-chevron-left"></span> Revenir à l'accueil de l'intranet.</a>
         </div>
+
+        <div class="col-xs-12">
+            <a  class="btn btn-default" href="{{ url('root') }}">
+                <span class="glyphicon glyphicon-chevron-left"></span> Revenir à l'accueil de l'intranet.
+            </a>
+        </div>
+
     </div>
-    <?php $html->end();
+
 {% endblock %}
