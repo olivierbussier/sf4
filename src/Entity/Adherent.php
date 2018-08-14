@@ -53,9 +53,9 @@ class Adherent implements UserInterface
     private $Roles = [];
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="json", nullable=true)
      */
-    private $ListeDroits;
+    private $ListeDroits = [];
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -144,9 +144,9 @@ class Adherent implements UserInterface
     private $NiveauApn;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="json", nullable=true)
      */
-    private $Diplomes;
+    private $Diplomes = [];
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -294,9 +294,9 @@ class Adherent implements UserInterface
     private $DatePremInscr;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="json", length=512, nullable=true)
      */
-    private $AdminOK;
+    private $AdminOK = [];
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -390,6 +390,22 @@ class Adherent implements UserInterface
     public function setRoles($Roles): void
     {
         $this->Roles = $Roles;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getListeDroits()
+    {
+        return $this->ListeDroits;
+    }
+
+    /**
+     * @param mixed $ListeDroits
+     */
+    public function setListeDroits($ListeDroits): void
+    {
+        $this->ListeDroits = $ListeDroits;
     }
 
     /**
@@ -983,22 +999,6 @@ class Adherent implements UserInterface
     public function setCodeSecret($CodeSecret): void
     {
         $this->CodeSecret = $CodeSecret;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getListeDroits()
-    {
-        return $this->ListeDroits;
-    }
-
-    /**
-     * @param mixed $ListeDroits
-     */
-    public function setListeDroits($ListeDroits): void
-    {
-        $this->ListeDroits = $ListeDroits;
     }
 
     /**
