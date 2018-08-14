@@ -48,9 +48,9 @@ class Adherent implements UserInterface
     private $Mail;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="json", nullable=true)
      */
-    private $Roles;
+    private $Roles = [];
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -376,10 +376,12 @@ class Adherent implements UserInterface
         // TODO: Implement getSalt() method.
     }
 
+    /**
+     * @return array (Role|string)[] The user roles
+     */
     public function getRoles()
     {
-        $roles = explode('|',$this->Roles);
-        return $roles;
+        return $this->Roles;
     }
 
     /**

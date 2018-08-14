@@ -22,4 +22,36 @@ class IndexMaterielController extends Controller
     {
         return $this->render('');
     }
+
+    /**
+     * @Route("/materiel/admin_demandes", name="admin_demandes")
+     */
+    public function adminDemandes()
+    {
+        return $this->render('');
+    }
+
+    /**
+     * @Route("/materiel/admin_demandes_excel", name="admin_demandes_excel")
+     */
+    public function adminDemandesExcel()
+    {
+        return $this->render('');
+    }
+
+    /**
+     * @Route("/materiel/admin_calendrier_materiel", name="admin_calendrier_materiel")
+     */
+    public function adminCalendrierMateriel()
+    {
+        return $this->render('');
+    }
+
+    /**
+     * @Route("/materiel/admin_calendrier_adherent", name="admin_calendrier_adherent")
+     */
+    public function adminCalendrierAdherent()
+    {
+        return $this->render('');
+    }
 }

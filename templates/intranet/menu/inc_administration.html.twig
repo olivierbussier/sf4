@@ -1,0 +1,150 @@
+{% import 'macros/bouton.html.twig' as control %}
+
+    <div class="col-xs-12">
+        <h3>Administration du site</h3>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <h4>Inscriptions</h4>
+
+        {{  control.bouton(
+            ' Administrer les inscriptions',
+            url('admin_inscription_administration'),
+            '',
+            'btn-block btn-default',
+            'edit')
+        }}
+
+        {{  control.bouton(
+            ' RAZ base (préparation année suivante)',
+            url('admin_reset_base_inscription'),
+            '',
+            'btn-block btn-danger',
+            'repeat')
+        }}
+
+        {{  control.bouton(
+            ' cautions matériel année N-1',
+            url('admin_reset_cheque_caution'),
+            '',
+            'btn-block btn-warning',
+            'euro')
+        }}
+
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <h4>Base adhérents</h4>
+
+        {{  control.bouton(
+            ' Admin droits utilisateurs',
+            url('admin_droits'),
+            '',
+            'btn-block btn-default',
+            'tags')
+        }}
+
+        {{  control.bouton(
+            ' Exporter la base historique vers Excel',
+            url('admin_gen_excel_full'),
+            '',
+            'btn-block btn-default',
+            'share')
+        }}
+
+        {{  control.bouton(
+            ' Exporter la base inscrits vers Excel',
+            url('admin_gen_excel_inscrits'),
+            '',
+            'btn-block btn-default',
+            'check')
+        }}
+
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <h4>Listes et photos</h4>
+
+        {{  control.bouton(
+            ' Administrer les listes de diffusion',
+            url('admin_listes_diffusion'),
+            '',
+            'btn-block btn-default',
+            'envelope')
+        }}
+
+        {{  control.bouton(
+            ' PDF des photos d\'identité',
+            url('admin_export_trombi'),
+            'PDFim',
+            'btn-block btn-default',
+            'user')
+        }}
+
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <h4>Informations système</h4>
+
+        {{  control.bouton(
+            ' Informations serveur',
+            url('admin_info_server_php'),
+            '',
+            'btn-block btn-default',
+            'zoom-in')
+        }}
+
+        {{  control.bouton(
+            ' Informations MySQL',
+            url('admin_info_server_mysql'),
+            '',
+            'btn-block btn-default',
+            'search')
+        }}
+
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <h4>Logs Database</h4>
+
+        {{  control.bouton(
+            ' Voir les logs MySQL',
+            url('admin_log_mysql'),
+            '',
+            'btn-block btn-default',
+            'edit')
+        }}
+
+        {{  control.bouton(
+            ' Réinitialiser le fichier de log MySQL',
+            url('admin_reset_log_mysql'),
+            '',
+            'btn-block btn-default',
+            'repeat')
+        }}
+
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <h4>Logs Utilisateur</h4>
+
+        {{  control.bouton(
+            ' Voir les logs mail',
+            url('admin_log_mail'),
+            '',
+            'btn-block btn-default',
+            'envelope')
+        }}
+
+        {{  control.bouton(
+            ' Voir les logs des login intranet',
+            url('admin_log_intranet'),
+            '',
+            'btn-block btn-default',
+            'user')
+        }}
+
+    </div>
+

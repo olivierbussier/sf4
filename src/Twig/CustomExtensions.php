@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Entity\Adherent;
 use App\Repository\AdherentRepository;
 use Twig\Extension\AbstractExtension;
 use Twig_Function;

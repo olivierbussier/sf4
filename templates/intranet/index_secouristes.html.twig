@@ -1,0 +1,80 @@
+<?php
+namespace App\Intranet;
+
+use App\Incl\Classes\Globals;
+use App\Incl\Html\Header;
+use App\Incl\Listes\ListesForm;
+use App\Incl\Log\LogAppli;
+use App\Incl\Classes\Session;
+
+@session_start();
+
+include_once __DIR__ . '/../bootstrap.php';
+
+if (!Session::checkDroits(Session::ENC_MGR) &&
+    !Session::checkDroits(Session::PUB_MGR)) {
+    include __DIR__."/index_intranet.php";
+    exit;
+}
+
+LogAppli::logAppli(LogAppli::LOGOK, "Diplômes secourisme");
+
+$html = new Header('..');
+$html->start('Secourisme');
+
+/**
+* @param $liste
+* @param $target
+* @return string
+*/
+function affkey($liste, $target): string
+{
+foreach ($liste as $key => $value) {
+if ($value==$target) {
+return $key;
+}
+}
+return '';
+}?>
+
+<div class="container">
+    <h3>Le tableau des diplômes de secourisme</h3>
+
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th>Nom</th><th>Diplôme</th><th>Niveau Plongée</th><th>Niveau Apnée</th><th>N° diplôme</th><th>Date de recyclage</th>
+            </tr>
+            <?php
+
+$db = Globals::getDb();
+
+$res = $db->query("select * from @#@diplomes where TYPE='MF' or TYPE='MA' or TYPE='PA' order by TYPE,NOM");
+
+            while ($data = $db->nextrow($res)) {
+            $res2 = $db->query("select NIVEAU,APNEE from @#@liste where CONCAT(NOM,' ',PRENOM) ='".$data['NOM']."'");
+            $d = $db->nextrow($res2); ?>
+
+            <tr>
+                <td><?= $data['NOM']; ?></td>
+                <td><?= affkey(ListesForm::$diplomesDB, $data['TYPE']); ?></td>
+                <td><?= $d['NIVEAU']; ?></td>
+                <td><?= $d['APNEE']; ?></td>
+                <td><?= $data['NUMERO']; ?></td><?php
+                        if ($data['TYPE'] == 'PA') { ?>
+                <td><?= $data['DATERECYCL']; ?></td></tr>
+            <?php
+                        } else { ?>
+            <td>Permanent</td>
+            </tr>
+            <?php
+                        }
+}?>
+        </table>
+    </div>
+    <div class="col-12 col-m-6">
+        <a  class="btn btn-default btn-block" href="index_intranet.php">
+            <span class="glyphicon glyphicon-chevron-left"></span> Revenir à l'accueil de l'intranet.</a>
+    </div>
+</div>
+<?php $html->end();

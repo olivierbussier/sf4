@@ -3,6 +3,9 @@
 var_dump($argc);
 var_dump($argv);
 
+echo json_encode(['ROLE_ADMIN','ROLE_USER']);
+exit();
+
 if ($argc > 1) {
     $toto = password_hash($argv[1], PASSWORD_BCRYPT);
 }

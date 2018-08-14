@@ -1,0 +1,31 @@
+{% import 'macros/bouton.html.twig' as control %}
+
+    <div class="col-xs-12">
+        <h3>Intranet publication des contenus</h3>
+    </div>
+
+    <div class="col-xs-12 col-sm-4">
+
+        {{  control.bouton(
+            ' Publications page d\'accueil',
+            url('admin_blog'),
+            '',
+            'btn-block btn-default',
+            'book')
+        }}
+
+    </div>
+    <div class="col-xs-12 col-sm-4">
+
+        {{  control.bouton(
+            ' Diplomes des membres',
+            url('admin_diplomes'),
+            '_admindroits',
+            'btn-block btn-default',
+            'education')
+        }}
+
+    </div>
+
+
+

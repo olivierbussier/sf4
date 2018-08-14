@@ -31,7 +31,7 @@ class SecurityController extends Controller
 
             // Doits par défaut
 
-            $user->setRoles('ROLE_USER');
+            //$user->setRoles('ROLE_USER');
 
             $manager->persist($user);
             $manager->flush();
@@ -51,6 +51,7 @@ class SecurityController extends Controller
 
         return $this->render('intranet/login.html.twig');
     }
+
     /**
      * @Route("/deconnexion", name="deconnexion")
      */

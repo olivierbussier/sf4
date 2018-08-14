@@ -1,0 +1,20 @@
+{% import 'macros/bouton.html.twig' as control %}
+
+    <div class="col-xs-12">
+        <h3>Intranet gonflage</h3>
+    </div>
+
+    <div class="col-xs-12">
+        <h4>Compresseur Bauer</h4>
+
+        {{  control.bouton(
+            ' Manuel d\'utilisation PDF',
+            asset('docs/Bauer.pdf'),
+            'compress',
+            'btn-block btn-default',
+            'text-background')
+        }}
+
+    </div>
+
+

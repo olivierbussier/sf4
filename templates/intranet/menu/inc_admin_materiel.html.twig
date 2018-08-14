@@ -1,0 +1,64 @@
+{% import 'macros/bouton.html.twig' as control %}
+
+    <div class="col-xs-12">
+        <h3>Intranet matériel</h3>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <h4>Emprunt</h4>
+
+        {{  control.bouton(
+            ' Gestion des emprunts',
+            url('admin_demandes'),
+            '',
+            'btn-block btn-default',
+            'shopping-cart')
+        }}
+
+        {{  control.bouton(
+            ' Excel de la liste des emprunts',
+            url('admin_demandes_excel'),
+            '',
+            'btn-block btn-default',
+            'list-alt')
+        }}
+
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <h4>Test New Emprunt</h4>
+
+        {{  control.bouton(
+            ' Calendrier de réservation matériel',
+            url('admin_calendrier_materiel'),
+            '',
+            'btn-block btn-default',
+            'calendar')
+        }}
+
+        {{  control.bouton(
+            ' Calendrier de réservation adhérent',
+            url('admin_calendrier_adherent'),
+            '',
+            'btn-block btn-default',
+            'user')
+        }}
+
+    </div>
+{#
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <h4>Base Matériel</h4>
+        <?php
+                Controls::inlink(
+                    ' Accès à la page Google Doc Matériel',
+                    'https://docs.google.com/a/bussier.fr/spreadsheets/d/1TpkdsbmFA4Ez1SCyT7DjThAxrPzYlaConrwd_CbjxWQ/edit#gid=0',
+                    'default',
+                    'target:googlemat,class:btn-block,glyph:folder-open'
+                );
+                Controls::inlink(
+                    ' Gestion du matériel en location',
+                    'mat_index_admin_materiel.php',
+                    'default',
+                    'target:adminmat,class:btn-block,glyph:wrench'
+                );
+#}

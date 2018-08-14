@@ -1,0 +1,390 @@
+<?php
+namespace App\Intranet;
+
+use App\Incl\Html\AjaxCtrl;
+use App\Incl\Html\Controls;
+use App\Incl\Classes\Globals;
+use App\Incl\Html\Header;
+use App\Incl\Html\HtmlHlp;
+use App\Incl\Listes\ListesForm;
+use App\Incl\Log\LogAppli;
+use App\Incl\Classes\Session;
+
+session_start();
+
+include_once __DIR__ . '/../bootstrap.php';
+
+if (!Session::checkDroits(Session::ADM_MGR)) {
+    include "index_intranet.php";
+    exit;
+}
+
+$html = new Header('..');
+$html->startAdmin(
+[
+"jquery-ui.css" => Header::CSS,
+"jquery-ui.js" => Header::JS
+]
+);
+
+LogAppli::logAppli(LogAppli::LOGOK, "Admin diplomes");
+
+$msgerreur="";
+?>
+<script>
+    // TODO améliorer ce traitement qui n'est pas adapté (la script PHP renvoie la requete SQL, donc on ne fait rien ici
+
+    function js_callback(data, mId)
+    {
+        if (data === 'OK') {
+            // Background = green
+            $(mId).parents('td').removeClass('gucred');
+            $(mId).parents('td').addClass('gucgreen');
+        } else if (data === 'KO') {
+            // Background = green
+            $(mId).parents('td').removeClass('gucred');
+            $(mId).parents('td').removeClass('gucgreen');
+        } else if (data === 'ERR') {
+            // Background = red
+            $(mId).parents('td').removeClass('gucgreen');
+            $(mId).parents('td').addClass('gucred');
+        } else if (data === 'NOERR') {
+            // Rien
+        }
+    }
+</script>
+<?php
+AjaxCtrl::setScript('ajax_diplomes_field.php', 'js_callback');
+
+// -------------------------------------------------------------------------------------------------------------------
+// Traitement eventuel d'un update formulaire avant l'affichage des données
+// -------------------------------------------------------------------------------------------------------------------
+
+$db = Globals::getDb();
+
+if (isset($_POST['Action'])) {
+    switch ($_POST['Action']) {
+        case "Suppression":
+            $db->query("delete from @#@diplomes where Ref='".$_POST['REFDB']."'");
+break;
+
+case "Ajouter":
+// Ajour dans la base de nouvelles lignes
+// Et purge des lignes plus vielles que 1 an
+// -----------------------------------------
+if ($_POST['NEWNOM']!="" && $_POST['NEWDIP']!="" &&
+//$_POST['NEWDPA']!="" && $_POST['NEWDRE']!="" &&
+$_POST['NEWNUM']!="" ) {
+// Les champs sont positionnés, on peut faire l'update dans la table
+// Verif si numéro de bloc ou numéro de série existent déjà dans la base
+// ---------------------------------------------------------------------
+$num = $_POST['NEWNUM'];
+$msgerreur = "";
+$RefErreur = "Submit";
+$ok = true;
+$res=$db->query("select count(*) from @#@diplomes where NUMERO='".$num."'");
+$nb = $db->nextrow($res);
+if ($nb['count(*)'] != 0) {
+$msgerreur .= "Le Numéro de diplome existe déjà dans la base\n";
+$ok = false;
+}
+if ($ok) {
+$sql = "insert into @#@diplomes (NOM,TYPE,DATEOBT,DATERECYCL,NUMERO,COMMENTAIRE) VALUES (".
+"'".$_POST['NEWNOM']."','".$_POST['NEWDIP']."','".$_POST['NEWDPA']."','".
+$_POST['NEWDRE']."','".$_POST['NEWNUM']."','".$_POST['NEWCOM']."')";
+$db->query($sql);
+unset($_POST['NEWNOM']);
+unset($_POST['NEWDIP']);
+unset($_POST['NEWDPA']);
+unset($_POST['NEWDRE']);
+unset($_POST['NEWNUM']);
+unset($_POST['NEWCOM']);
+}
+} else {
+// Il manque des champs
+// -----------------------------------------------------------------
+$msgerreur = "Il faut remplir tous les champs";
+$RefErreur = "Submit";
+}
+break;
+}
+}
+
+if (isset($_SESSION['SubmitRef'])) {
+$SubmitRef = $_SESSION['SubmitRef'];
+} else {
+$SubmitRef = "";
+}
+
+// -------------------------------------------------------------------------------------------------------------------
+// Traitement eventuel d'une recherche sur un adhérent particulier
+// -------------------------------------------------------------------------------------------------------------------
+if (isset($_POST['Action']) && $_POST['Action']=="Recherche") {
+$SubmitRef = $_POST['RefValue'];
+$_SESSION['SubmitRef'] = $SubmitRef;
+}
+
+// -------------------------------------------------------------------------------------------------------------------
+// Affichage de la zone de recherche
+// -------------------------------------------------------------------------------------------------------------------
+
+$nb_par_page = 30;
+// -------------------------------------------------------------------------------------------------------------------
+
+// -------------------------------------------------------------------------------------------------------------------
+// Affichage de la zone de recherche
+// -------------------------------------------------------------------------------------------------------------------
+?>
+<div class="searchandnavbar">
+    <div class="searchbar">
+        <form method="post">
+            <input type="hidden" name="Action" value="Recherche">
+            <input type="text" name="RefValue">
+            <input type="submit" name="Sb" value="Rechercher">
+        </form>
+    </div>
+    <?php
+
+if ($SubmitRef == "") {
+    $where_clause = "";
+    $order_clause = "order by TYPE,NOM";
+} else {
+    $where_clause = "where (COMMENTAIRE like '%$SubmitRef%') or (NOM like '%$SubmitRef%')";
+    $order_clause = "order by TYPE,NOM";
+}
+
+$sql = "SELECT count(*) FROM @#@diplomes ".$where_clause." ".$order_clause;
+$resultat = $db->query($sql);
+    $nb = $db->nextrow($resultat);
+    $nb_enregistrements = $nb['count(*)'];
+
+    // Calcul du nombre de pages
+    // -----------------------------------------
+    $nb_pages = (int)($nb_enregistrements / $nb_par_page);
+    if ($nb_enregistrements % $nb_par_page != 0) {
+    $nb_pages++;
+    }
+
+    // Récup de la page courante
+    // -----------------------------------------
+    if (isset($_GET['page'])) {
+    $page_start = (int)$_GET['page'];
+    } else {
+    $page_start = 0;
+    }
+
+    // Affichage des liens vers les pages
+    // -----------------------------------------
+    if ($nb_pages > 1) {
+    // S'il y a plus d'une page alors on affiche une barre avec les numéros de page
+    ?>
+    <div class="navbar">
+        <?php
+for ($i=0; $i<$nb_pages; $i++) {
+    if ($i != $page_start) { ?>
+        <span class="buttonnav">
+            <a href="pub_index_admin_diplomes.php?page=<?= $i;?>"> <?= ($i+1);?></a>
+        </span>
+        <?php	} else { ?>
+        <span class="buttonnav btnselected">
+            <?= ($i+1);?>
+        </span>
+        <?php	}
+}
+?>
+    </div>
+    <div class="accelbar">
+        <?php
+if ($page_start > 0) { ?>
+        <span class="buttonbar">
+            <a href="pub_index_admin_diplomes.php?page=0"><img src="../images/rewind-left.jpg"></a>
+        </span>
+        <span class="buttonbar">
+            <a href="pub_index_admin_diplomes.php?page=<?= ($page_start-1);?>">
+                <img src="../images/navigate-left.jpg">
+            </a>
+        </span>
+        <?php
+} else { ?>
+        <span class="buttonbar"><img src="../images/rewind-left-i.jpg"></span>
+        <span class="buttonbar"><img src="../images/navigate-left-i.jpg"></span>
+        <?php
+}
+if ($page_start < $nb_pages-1) { ?>
+        <span class="buttonbar">
+            <a href="pub_index_admin_diplomes.php?page=<?= ($page_start+1);?>">
+                <img src="../images/navigate-right.jpg">
+            </a>
+        </span>
+        <span class="buttonbar">
+            <a href="pub_index_admin_diplomes.php?page=<?= ($nb_pages-1);?>">
+                <img src="../images/rewind-right.jpg">
+            </a>
+        </span>
+        <?php
+} else { ?>
+        <span class="buttonbar"><img src="../images/navigate-right-i.jpg"></span>
+        <span class="buttonbar"><img src="../images/rewind-right-i.jpg"></span>
+        <?php
+} ?>
+    </div>
+    <?php
+} ?>
+</div>
+<?php
+
+// -------------------------------------------------------------------------------------------------------------------
+// Affichage des données
+// -------------------------------------------------------------------------------------------------------------------
+// Affichage des entêtes de la table
+// -------------------------------------------------------------------------------------------------------------------
+?>
+<div class="datainscription">
+    <table class="table-inscr"><tr>
+            <th>Ref</th><th>Nom</th><th>Niveau</th><th>Inscrit</th><th>Type de Diplôme</th>
+            <th>Date d'obtention</th><th>Date de recyclage</th><th>Numéro</th><th>Commentaire</th><th>Action</th>
+        </tr>
+        <?php
+// -------------------------------------------------------------------------------------------------------------------
+// Affichage de la 1ere ligne utilisée pour ajouter un bloc
+// -------------------------------------------------------------------------------------------------------------------
+?>
+        <tr>
+            <form method="post" action="pub_index_admin_diplomes.php?Page=<?= $page_start;?>">
+                <?php
+
+        HtmlHlp::td();
+        HtmlHlp::tde();
+        HtmlHlp::td();
+            AjaxCtrl::autoComplete('NEWNOM', 'get', '', "NOM", '', 0, 'ajax_diplomes_autocomp.php');
+        HtmlHlp::tde();
+?>
+                <td>Plongée:?<br>Apnée :?</td>
+                <td>?</td>
+                <?php
+        HtmlHlp::td();
+            ajaxCtrl::liste('NEWDIP', ListesForm::$diplomesDB, @$_POST['NEWDIP'], 0);
+        HtmlHlp::tde();
+
+        HtmlHlp::td();
+            ajaxCtrl::date('NEWDPA', @$_POST['NEWDPA'], 0);
+        HtmlHlp::tde();
+        HtmlHlp::td();
+            ajaxCtrl::date('NEWDRE', @$_POST['NEWDRE'], 0);
+        HtmlHlp::td();
+            ajaxCtrl::text('', 'NEWNUM', @$_POST['NEWNUM'], 0);
+        HtmlHlp::tde();
+        HtmlHlp::td();
+            ajaxCtrl::text('', 'NEWCOM', @$_POST['NEWCOM'], 0);
+        HtmlHlp::tde();
+        HtmlHlp::td();
+            Controls::inButton('Ajouter', 'Action', 'Ajouter', 'submit');
+        HtmlHlp::tde();
+?>
+            </form>
+        </tr>
+        <?php
+if ($msgerreur != "" && $RefErreur == "Submit") { ?>
+        <tr>
+            <td colspan="18" style="color:red;"><center><?= $msgerreur;?></center></td>
+        </tr>
+        <?php
+    $msgerreur="";
+}
+
+$sql = "SELECT * FROM @#@diplomes ".$where_clause." ".$order_clause.
+         " limit ".($page_start*$nb_par_page).",".$nb_par_page;
+$resultat = $db->query($sql);
+
+        while ($data = $db->nextrow($resultat)) {
+        $Ref         = $data['Ref'        ]; // champ texte libre
+        $NOM         = $data['NOM'        ];
+        $TYPE        = $data['TYPE'       ];
+        $DATEOBT     = $data['DATEOBT'    ];
+        $DATERECYCL  = $data['DATERECYCL' ];
+        $NUMERO      = $data['NUMERO'     ];
+        $COMMENTAIRE = $data['COMMENTAIRE'];
+
+        $res2 = $db->query("select NIVEAU,APNEE,ADMINOK from @#@liste where CONCAT(NOM,' ',PRENOM) ='".$NOM."'");
+        $d = $db->nextrow($res2);
+        $n_apnee = $d['APNEE'];
+        $n_plong = $d['NIVEAU'];
+        $s_inscr = $d['ADMINOK'] == 'OK' ? 'OUI' : 'NON';
+
+        // Affichage de la Ref
+        // ------------------------------------------------------
+        ?>
+        <tr>
+            <td><?= $Ref;?></td>
+
+            <form method="post" action="pub_index_admin_diplomes.php?page="<?= $page_start;?>">
+            <input type="hidden" name="Action" value="Update">
+            <input type="hidden" name="REFDB" value="<?= $data['Ref'];?>">
+            <?php
+    // Affichage du nom
+    // -----------------------------------
+?>
+            <td><?= $NOM;?>
+                <input type="hidden" name="NOM" value="<?= $NOM;?>">
+            </td>
+            <?php
+    // Affichage du niveau
+    // -----------------------------------
+?>
+            <td><center>Plongée:"<?= $n_plong;?><br>Apnée :"<?= $n_apnee;?></center></td>
+            <?php
+    // Affichage du status inscription
+    // -----------------------------------
+?>
+            <td><center><?= $s_inscr;?></center></td>
+            <?php
+    // Affichage du type de diplome
+    // -----------------------------------
+    //aff_select('TYPE',$diplomes,$TYPE);
+    HtmlHlp::td();
+        ajaxCtrl::liste('TYPE', ListesForm::$diplomesDB, $TYPE, $Ref);
+    HtmlHlp::tde();
+
+    // Affichage de la date passage
+    // -----------------------------------
+    HtmlHlp::td();
+        ajaxCtrl::date('DATEOBT', $DATEOBT, $Ref);
+
+    // Affichage de la date recyclage
+    // -----------------------------------
+    HtmlHlp::td();
+        ajaxCtrl::date('DATERECYCL', $DATERECYCL, $Ref);
+    HtmlHlp::tde();
+    // Affichage du NUMERO
+    // ----------------------------
+    HtmlHlp::td();
+        ajaxCtrl::text('', "NUMERO", $NUMERO, $Ref);
+    HtmlHlp::tde();
+
+    // Affichage du commentaire
+    // ----------------------------
+    HtmlHlp::td();
+        ajaxCtrl::text('', 'COMMENTAIRE', $COMMENTAIRE, $Ref);
+    HtmlHlp::tde();
+
+    HtmlHlp::td();
+        Controls::inButton('Suppression', 'Action', 'Suppression', 'submit');
+    HtmlHlp::tde();
+
+?>
+            </form>
+        </tr>
+        <?php
+if ($msgerreur != "" && $RefErreur == $Ref) { ?>
+        <tr>
+            <td colspan="18" style="color:red;"><center><?= $msgerreur;?></center></td>
+        </tr>
+        <?php
+    $msgerreur="";
+}
+}
+?>
+    </table>
+</div>
+<?php $html->endAdmin();
+

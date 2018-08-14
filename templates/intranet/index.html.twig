@@ -35,7 +35,7 @@
 // ***********************************************************************************
 #}
 
-        {% if check_droits('ROLE_USER') %}
+        {% if 'ROLE_USER' in adh.Roles %}
 
             <div class="col-xs-12 col-sm-6">
 
@@ -61,7 +61,7 @@
 // ***********************************************************************************
 #}
 
-        {% if check_droits('ROLE_ADMIN') or (inscription_status('STARTED')) %}
+        {% if ('ROLE_ADMIN' in adh.Roles) or (adh.AdminOK != '') %}
         {# if (Session::isMgr() || Session::getAdminok('CERTIF') == true) { #}
             {% include '/intranet/menu/inc_info_gonflage.html.twig' %}
         {% endif %}
@@ -74,7 +74,10 @@
         //    est encore en possession du club
         // ***********************************************************************************
 #}
-        {% if app.user.Roles[0] == 'ROLE_ADMIN' %}
+        {% if ('ROLE_ADMIN' in adh.Roles) or
+              (adh.PretMateriel and (adh.AdminOK == 'OK')) or
+               adh.PretMaterielOld or
+               adh.adminOK['MAT'] %}
 {#      if (Session::isMgr() || Session::materielOk()) {#}
 
             <div class="col-xs-12">
@@ -107,7 +110,8 @@
 
         {% endif %}
 
-        {% if app.user.Roles[0] != 'ROLE_ADMIN' %}
+        {% if ('ROLE_ADMIN' not in adh.Roles) and
+              (adh.AdminOK == '') %}
 
         {# if (!Session::isMgr() && Session::userValid() == Session::NOTSTARTED) {#}
 
@@ -127,7 +131,8 @@
                 <p>En cas de problème, vous pouvez contacter <a href="mailto:olivier@bussier.fr">olivier Bussier</a></p>
             </div>
 
-        {% elseif app.user.Roles[0] != 'ROLE_ADMIN' %}
+        {% elseif ('ROLE_ADMIN' not in adh.Roles) and
+                  ((adh.AdminOK != '') and adh.AdminOK != 'OK') %}
             {# if (!Session::isMgr() && (Session::userValid() != Session::VALIDATED)) { #}
             {# Si l'adhérent n'a pas initialisé sa pré-inscription, alors message d'avertissement #}
 
@@ -142,7 +147,8 @@
                     cette étape sera terminée.</p>
             </div>
 
-        {% elseif app.user.Roles[0] == 'ROLE_ADMIN' %}
+        {% elseif ('ROLE_ADMIN' in adh.Roles) or
+                  (adh.AdminOK != '') %}
 
             {# if (Session::isMgr() || Session::userValid() != Session::NOTSTARTED) {#}
 
@@ -173,17 +179,18 @@
             <div class="col-xs-6 col-sm-2">
                 {{ control.bouton(' 2017', asset('/docs/AG_20171017.pdf'), 'AG', 'btn-block btn-default','stats') }}
             </div>
+        {% endif %}
 {#
 // ***********************************************************************************
 // Rubriques d'admin communes aux encadrants, gonfleurs, matériel et autres
 // ***********************************************************************************
 #}
 
-            {# if (Session::checkDroits(Session::ENC_MGR) ||
-                Session::checkDroits(Session::MAT_MGR) ||
-                Session::checkDroits(Session::PUB_MGR) ||
-                Session::checkDroits(Session::GON_MGR)) {
-            #}
+        {% if ('ROLE_ADMIN' in adh.Roles) or
+              ('ROLE_ENC' in adh.Roles) or
+              ('ROLE_MAT' in adh.Roles) or
+              ('ROLE_PUB' in adh.Roles) or
+              ('ROLE_GON' in adh.Roles) %}
 
             <div class="col-xs-12">
                 <h3>Administration des activités</h3>
@@ -195,8 +202,8 @@
                     url('index_admin_calendrier'),
                     '_blank',
                     'btn-block btn-default',
-                    'calendar'
-                ) }}
+                    'calendar')
+                }}
             </div>
 
             <div class="col-xs-12 col-sm-6">
@@ -219,33 +226,36 @@
                 ) }}
             </div>
 
+        {% endif %}
 {#
 // ***********************************************************************************
 // Rubriques d'admin encadrants et gonfleurs
 // ***********************************************************************************
 #}
 
-            {# if (Session::checkDroits(Session::ENC_MGR) ||
-                Session::checkDroits(Session::GON_MGR)) { ?>
-            #}
+        {% if ('ROLE_ADMIN' in adh.Roles) or
+              ('ROLE_ENC' in adh.Roles) or
+              ('ROLE_GON' in adh.Roles) %}
+
             <div class="col-xs-12 col-sm-6">
                 {{  control.bouton(
                     ' Participation aux séances de gonflage',
                     url('index_status_gonflage_eleves'),
                     '',
                     'btn-block btn-default',
-                    'play'
-                ) }}
+                    'play')
+                }}
             </div>
+
+        {% endif %}
 {#
 // ***********************************************************************************
 // Rubriques d'admin encadrants et matériel
 // ***********************************************************************************
 #}
-            {#
-            if (Session::checkDroits(Session::ENC_MGR) ||
-                Session::checkDroits(Session::MAT_MGR)) { ?>
-            #}
+        {% if ('ROLE_ADMIN' in adh.Roles) or
+              ('ROLE_ENC' in adh.Roles) or
+              ('ROLE_MAT' in adh.Roles) %}
 
             <div class="col-xs-12 col-sm-6">
                 {{  control.bouton(
@@ -253,60 +263,65 @@
                     url('index_admin_status_inscriptions'),
                     '',
                     'btn-block btn-default',
-                    'play'
-                ) }}
+                    'play')
+                }}
             </div>
+
+        {% endif %}
 {#
 // ***********************************************************************************
 // Fin de rubriques d'admin encadrants, matériel et gonfleurs
 // ***********************************************************************************
 #}
-            {#
-            if (Session::checkDroits(Session::ENC_MGR) ||
-                Session::checkDroits(Session::MAT_MGR) ||
-                Session::checkDroits(Session::PUB_MGR) ||
-                Session::checkDroits(Session::GON_MGR)) {
-            #}
+        {% if ('ROLE_ADMIN' in adh.Roles) or
+              ('ROLE_ENC' in adh.Roles) or
+              ('ROLE_MAT' in adh.Roles) or
+              ('ROLE_PUB' in adh.Roles) or
+              ('ROLE_GON' in adh.Roles) %}
+
 {#
 // ***********************************************************************************
 // Affichage des intranet propres aux différentes sections
 // ***********************************************************************************
 #}
 
-if (Session::checkDroits(Session::PUB_MGR)) {
-    include __DIR__ . '/index_intranet_menu_pub_admin_publication.php';
-}
-if (Session::checkDroits(Session::ENC_MGR)) {
-    include __DIR__ . '/index_intranet_menu_enc_admin_encadrants.php';
-}
-if (Session::checkDroits(Session::MAT_MGR)) {
-    include __DIR__ . '/index_intranet_menu_mat_admin_materiel.php';
-}
-if (Session::checkDroits(Session::ADM_MGR)) {
-    include __DIR__ . '/index_intranet_menu_adm_admin_site.php';
-}
-if (Session::checkDroits(Session::GON_MGR)) {
-    include __DIR__ . '/index_intranet_menu_gon_admin_gonflage.php';
-}
+            {% if ('ROLE_ADMIN' in adh.Roles) or ('ROLE_PUB' in adh.Roles) %}
+                {% include 'intranet/menu/inc_admin_publication.html.twig' %}
+            {% endif %}
 
-?>
+            {% if ('ROLE_ADMIN' in adh.Roles) or ('ROLE_ENC' in adh.Roles) %}
+                {% include 'intranet/menu/inc_admin_encadrants.html.twig' %}
+            {% endif %}
+
+            {% if ('ROLE_ADMIN' in adh.Roles) or ('ROLE_MAT' in adh.Roles) %}
+                {% include 'intranet/menu/inc_admin_materiel.html.twig' %}
+            {% endif %}
+
+            {% if ('ROLE_ADMIN' in adh.Roles) or ('ROLE_ADMIN' in adh.Roles) %}
+                {% include 'intranet/menu/inc_administration.html.twig' %}
+            {% endif %}
+
+            {% if ('ROLE_ADMIN' in adh.Roles) or ('ROLE_GON' in adh.Roles) %}
+                {% include 'intranet/menu/inc_admin_gonflage.html.twig' %}
+            {% endif %}
+
+        {% endif %}
 
         <div class="container">
             <div class="col-xs-12">
                 <h3>Pour vous déconnecter :</h3>
             </div>
             <div class="col-xs-12">
-                <?php	      Controls::inlink(
-    ' Déconnexion',
-    'index_logout.php',
-    'default',
-    'class:btn-block,glyph:off'
-); ?>
+                {{  control.bouton(
+                    ' Déconnexion',
+                    url('deconnexion'),
+                    '',
+                    'btn-block btn-default',
+                    'quit')
+                }}
             </div>
         </div>
-        <?php $html->end();
 
     </div>
-        {% endif %}
 
 {% endblock %}
