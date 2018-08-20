@@ -27,3 +27,7 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+        dql:
+            string_functions:
+                JSON_EXTRACT: App\DQL\Mysql\JsonExtract
+                JSON_CONTAINS: App\DQL\Mysql\JsonContains

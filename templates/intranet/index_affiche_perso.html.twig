@@ -1,0 +1,33 @@
+{% form_theme formInfoPerso 'bootstrap_3_layout.html.twig' %}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Informations personelles{% endblock %}
+
+{% block main_page %}
+
+    <div class="container">
+        <h3>Trombinoscope</h3>
+        {{ dump (adh) }}
+        <div class="col-xs-12">
+            <a class="btn btn-default" href="{{ url('index_intranet') }}">
+                <span class="glyphicon glyphicon-chevron-left"></span> Revenir à l'accueil de l'intranet.
+            </a>
+        </div>
+
+        <div class="col-xs-12">
+            {{ form_start(formInfoPerso) }}
+            {{ form_widget(formInfoPerso) }}
+            <button type="submit" class="btn btn-success">Go!</button>
+            {{ form_end(formInfoPerso, {'render_rest': false}) }}
+        </div>
+
+        <div class="col-xs-12">
+            <a  class="btn btn-default" href="{{ url('root') }}">
+                <span class="glyphicon glyphicon-chevron-left"></span> Revenir à l'accueil de l'intranet.
+            </a>
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -1,6 +1,6 @@
 <?php
 
-$correspondances = [
+$correspAdherents = [
     "id"                     => ["Ref"           ,"integer"],
     "username"               => [""              ,"create_username"],
     "nom"                    => ["NOM"           ,""],
@@ -60,6 +60,22 @@ $correspondances = [
     "reduc_fam"              => ["REDUCFAM"      ,""]
 ];
 
+$correspBlogTextes = [
+    "id"                     => ["Ref"           ,"integer"],
+    "ref_image_id"           => ["RefImage"      ,"nullable"],
+    "date"                   => ["Date"          ,"guc_date"],
+    "title"                  => ["Title"         ,""],
+    "texte"                  => ["Texte"         ,""],
+    "ordre"                  => ["Ordre"         ,"integer"],
+    "link"                   => ["Link"          ,""],
+    "position_image"         => ["PositionImage" ,""]
+];
+
+$correspBlogImages = [
+    "id"                     => ["Ref"           ,"integer"],
+    "image_src"              => ["ImageSrc"      ,""],
+];
+
 $sql = [];
 $data = [];
 
@@ -71,6 +87,14 @@ function putSQL($field, $value)
 {   global $sql;
 
     $sql[$field] = $value;
+}
+
+function nullable($field, $value)
+{
+    if ($value == 0) {
+        $value ='null';
+    }
+    putSQL($field, $value);
 }
 
 /**
@@ -102,8 +126,10 @@ function json(string $field, string $value)
     foreach($res_tab as $k) {
         $b = explode(':',$k);
         $key = $b[0];
-        $value = $b[1] == "OUI" ? true : false;
-        $tabres[$key] = $value;
+        if ($b[1] == "OUI" || $b[1] == 'OK')
+			$tabres[$key] = true;
+		else
+			$tabres[$key] = false;
     }
     putSQL($field, "'".json_encode($tabres)."'");
 }
@@ -195,6 +221,55 @@ function set_roles(string $field, string $val)
     putSQL($field, "'".json_encode($dest_roles)."'");
 }
 
+function transfertDatabase(mysqli $baseSrc, mysqli $baseDst, string $tableSrc, string $tableDst, array $tabCorresp)
+{ global $sql;
+
+    $sql = [];
+
+    $res = $baseSrc->query("select * from $tableSrc");
+
+    while($data = $res->fetch_assoc()) {
+
+        $id = $data['Ref'];
+        echo $id."\n";
+
+        foreach ($tabCorresp as $key => $val) {
+            $dest_field   = $key;
+            $source_field = $tabCorresp[$key][0];
+            $action       = $tabCorresp[$key][1];
+            if ($action != "") {
+                // Apple de la fonction
+                if ($source_field != "")
+                    $field = $data[$source_field];
+                else
+                    $field = '';
+                $action($dest_field,$field);
+            } else {
+                putSQL($dest_field, "'".$baseDst->escape_string($data[$source_field])."'");
+            }
+        }
+        $assigns = "";
+        $sep = ' ';
+        foreach ($sql as $k => $v) {
+            $assigns .= "\n    $sep$k=$v";
+            $sep = ', ';
+        }
+        $sqlfinal = "insert into $tableDst set$assigns";
+        echo $sqlfinal."\n\n";
+        if (!$baseDst->query($sqlfinal)) {
+            echo $baseDst->error;
+            exit;
+        }
+    }
+}
+
+function myQuery(mysqli $m, $query)
+{
+    if (!$m->query($query)) {
+        echo $m->error;
+    }
+}
+
 /**
  * @param string $field
  * @param string $val
@@ -216,40 +291,32 @@ function create_username(string $field, string $val)
 $source = new mysqli('localhost', 'root', '', 'adherents');
 $dest   = new mysqli('localhost', 'root', '', 'sf4');
 
-$res = $source->query("select * from preprod_liste");
 
 echo "<pre>";
-while($data = $res->fetch_assoc()) {
 
-    $id = $data['Ref'];
-    echo $id."\n";
+myQuery($dest,'delete from blog');
+myQuery($dest, 'delete from blog_images');
 
-    foreach ($correspondances as $key => $val) {
-        $dest_field   = $key;
-        $source_field = $correspondances[$key][0];
-        $action       = $correspondances[$key][1];
-        if ($action != "") {
-            // Apple de la fonction
-            if ($source_field != "")
-                $field = $data[$source_field];
-            else
-                $field = '';
-            $action($dest_field,$field);
-        } else {
-            putSQL($dest_field, "'".$dest->escape_string($data[$source_field])."'");
-        }
-    }
-    $assigns = "";
-    $sep = ' ';
-    foreach ($sql as $k => $v) {
-        $assigns .= "\n    $sep$k=$v";
-        $sep = ', ';
-    }
-    $sqlfinal = "insert into adherent set$assigns";
-    echo $sqlfinal."\n\n";
-    if (!$dest->query($sqlfinal)) {
-        echo $dest->error;
-        exit;
-    }
-}
+//transfertDatabase($source, $dest, 'preprod_liste', 'adherent', $correspAdherents);
+transfertDatabase($source, $dest, 'preprod_blog_images', 'blog_images', $correspBlogImages);
+transfertDatabase($source, $dest, 'preprod_blog_text', 'blog', $correspBlogTextes);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

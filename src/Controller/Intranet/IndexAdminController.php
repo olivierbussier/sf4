@@ -2,6 +2,9 @@
 
 namespace App\Controller\Intranet;
 
+use App\Entity\Essai;
+use App\Form\InfoPersoType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Adherent;
@@ -12,10 +15,25 @@ class IndexAdminController extends Controller
 {
     /**
      * @Route("/intranet/index_admin_affiche_perso", name="index_admin_affiche_perso")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function affiche_perso()
+    public function affiche_perso(Request $request)
     {
-        return $this->render('intranet/index_affiche_perso.html.twig');
+        $user = $this->getUser();
+        $form = $this->createForm(InfoPersoType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute('');
+        }
+
+        return $this->render('intranet/index_affiche_perso.html.twig', [
+            'formInfoPerso' => $form->createView(),
+            'adh' => $user
+        ]);
     }
 
     /**
@@ -24,6 +42,7 @@ class IndexAdminController extends Controller
     public function trombi(RegistryInterface $doctrine)
     {
         $photos = $doctrine->getRepository(Adherent::class)->getAllPhotos();
+        $doctrine->getRepository(Essai::class)->addRecord();
 
         return $this->render('intranet/index_trombi.html.twig',[
             'photos' => $photos
@@ -35,7 +54,7 @@ class IndexAdminController extends Controller
      */
     public function adminCalendrier()
     {
-        return $this->render('');
+        return $this->render('intranet/index_admin_calendrier.html.twig');
     }
 
     /**

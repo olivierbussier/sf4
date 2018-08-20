@@ -937,12 +937,12 @@ class Adherent implements UserInterface
         return $this;
     }
 
-    public function getAdminOK(): ?string
+    public function getAdminOK()
     {
         return $this->AdminOK;
     }
 
-    public function setAdminOK(?string $AdminOK): self
+    public function setAdminOK($AdminOK)
     {
         $this->AdminOK = $AdminOK;
 

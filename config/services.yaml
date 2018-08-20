@@ -96,6 +96,25 @@ parameters:
             "MF" : "Médecin Fédéral"
             "MA" : "Médecin"
             "PA" : "PSE1/ANTEOR"
+        roles:
+            "Admin"               : "ROLE_ADMIN"
+            "Section Ado"         : "ROLE_ADO"
+            "Section Apnée"       : "ROLE_APNEE"
+            "Section baptemes"    : "ROLE_BAPTEME"
+            "Bureau"              : "ROLE_BUREAU"
+            "Certif"              : "ROLE_CRT"
+            "Encadrant"           : "ROLE_ENCADRANT"
+            "Section enfants"     : "ROLE_ENFANT"
+            "Section Gonflage"    : "ROLE_GON"
+            "Section matériel"    : "ROLE_MAT"
+            "Section PMT"         : "ROLE_PMT"
+            "Section PN1"         : "ROLE_PN1"
+            "Section PN2"         : "ROLE_PN2"
+            "Section PN3"         : "ROLE_PN3"
+            "Section PN4"         : "ROLE_PN4"
+            "Section Pub"         : "ROLE_PUB"
+            "Section Initiateur"  : "ROLE_PINI"
+            "Section MF1"         : "ROLE_PMF1"
 
 services:
     # default configuration for services in *this* file
