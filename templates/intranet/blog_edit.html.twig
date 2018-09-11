@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration du Blog{% endblock %}
+
+{% block main_page %}
+
+    {% import 'macros/bouton.html.twig' as control %}
+
+    <div class="container">
+        <div class="blog">
+            <div class="col-xs-12">
+                <h3>Admin de la page d'accueil </h3>
+            </div>
+
+            <div class="col-xs-12">
+
+                {#
+                // Affichage de la page de saisie/modif d'un blog
+                // ---------------------------------------------------
+                #}
+
+                {{ form_start(formBlogEdit) }}
+                {{ form_row(formBlogEdit.title) }}
+                {{ form_row(formBlogEdit.content) }}
+                {{ form_row(formBlogEdit.link) }}
+
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+            </div>
+
+            <div class="col-xs-8">
+                {% if image %}
+                    {% if orient == 'paysage' %}
+                        <h3>paysage</h3>
+                        <img class="imgleft wlim" src="{{ asset(imblog ~ '/' ~ image) }}" />
+                    {% else %}
+                        <h3>portrait</h3>
+                        <img class="imgleft hlim" src="{{ asset(imblog ~ '/' ~ image) }}" />
+                    {% endif %}
+                {% else %}
+                    <img class="imgleft hlim" src="{{ asset('im/default.jpg') }}" />
+                {% endif %}
+            </div>
+
+            <div class="col-xs-4">
+                {{ form_row(formBlogEdit.file) }}
+                {{ form_row(formBlogEdit.positionImage) }}
+
+                {{ control.bouton(
+                    'Supprimer l\'image',
+                    url('blog_admin_delete_image', {'blogId': id}),
+                    '',
+                    'btn btn-default btn-danger btn-block',
+                    'triangle-cross')
+                }}
+
+                {{ form_row(formBlogEdit.Enregister) }}
+
+                {{ control.bouton(
+                    'Annuler',
+                    url('blog_admin_index'),
+                    '',
+                    'btn btn-default btn-block',
+                    'triangle-home')
+                }}
+
+                {{ form_end(formBlogEdit) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts_end %}
+
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset("js/previewbox.js") }}"></script>
+
+{% endblock %}

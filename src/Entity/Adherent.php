@@ -50,11 +50,6 @@ class Adherent implements UserInterface
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    private $Roles = [];
-
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     */
     private $ListeDroits = [];
 
     /**
@@ -129,6 +124,11 @@ class Adherent implements UserInterface
     private $TelPort;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Diplome", mappedBy="diplome")
+     */
+    private $diplomes;
+
+    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $fEtudiant;
@@ -142,11 +142,6 @@ class Adherent implements UserInterface
      * @ORM\Column(type="string", length=64)
      */
     private $NiveauApn;
-
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     */
-    private $Diplomes = [];
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -313,6 +308,52 @@ class Adherent implements UserInterface
      */
     private $ReducFam;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Role", mappedBy="adherent")
+     */
+    private $Roles;
+
+    public function __construct()
+    {
+        $this->Roles = new ArrayCollection();
+    }
+
+    public function getRoles()
+    {
+        return $this->Roles->toArray();
+        /*
+        $toto = [];
+
+        $rl = $this->Roles->getValues();
+        foreach ($rl as $v) {
+            $toto[] = $v->getRole();
+        }
+        return $toto;
+*/
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->Roles->contains($role)) {
+            $this->Roles[] = $role;
+            $role->setRole($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        if ($this->Roles->contains($role)) {
+            $this->Roles->removeElement($role);
+            // set the owning side to null (unless already changed)
+            if ($role->getRole() === $this) {
+                $role->setRole(null);
+            }
+        }
+
+        return $this;
+    }
     public function getId()
     {
         return $this->id;
@@ -374,22 +415,6 @@ class Adherent implements UserInterface
     public function getSalt()
     {
         // TODO: Implement getSalt() method.
-    }
-
-    /**
-     * @return array (Role|string)[] The user roles
-     */
-    public function getRoles()
-    {
-        return $this->Roles;
-    }
-
-    /**
-     * @param mixed $Roles
-     */
-    public function setRoles($Roles): void
-    {
-        $this->Roles = $Roles;
     }
 
     /**
@@ -1006,7 +1031,7 @@ class Adherent implements UserInterface
      */
     public function getDiplomes()
     {
-        return $this->Diplomes;
+        return $this->diplomes;
     }
 
     /**
@@ -1014,6 +1039,6 @@ class Adherent implements UserInterface
      */
     public function setDiplomes($Diplomes): void
     {
-        $this->Diplomes = $Diplomes;
+        $this->diplomes = $Diplomes;
     }
 }

@@ -5,7 +5,26 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'fr'
-    config:
+
+    # paramètres spécifiques a l'application
+    conf.galerie:
+        # Galerie
+        galerie.path_images: 'galerie'
+        galerie.path_thumb:  'galerie/thumb'
+        galerie.path_sized:  'galerie/sized'
+        galerie.path_img:    'galerie/img'
+        galerie.nb_par_page:   60
+        galerie.thumbHeight:  320
+        galerie.thumbWidth:   320
+        galerie.thumbQuality:  80
+        galerie.sizedHeight: 1080
+        galerie.sizedWidth:  1920
+        galerie.sizedQuality:  80
+    
+    conf.blog:
+        blog.images: 'imblog'
+    
+    conf:
         # Paramétrages de base
         p_annee: 2017       # Pour l'année scolaire 2017-2018
         nb_sess_req : 2     # Nombre de sessions de gonflage obligatoires
@@ -85,17 +104,6 @@ parameters:
         TAXE            : 0   # Taux de taxe applicable pour les factures
 
     listes:
-        diplomes:
-            ""   : "[N.A]"
-            "T"  : "TIV"
-            "FT" : "Formateur TIV"
-            "M1" : "MF-1"
-            "M2" : "MF-2"
-            "B1" : "BEES-1"
-            "B2" : "BEES-2"
-            "MF" : "Médecin Fédéral"
-            "MA" : "Médecin"
-            "PA" : "PSE1/ANTEOR"
         roles:
             "Admin"               : "ROLE_ADMIN"
             "Section Ado"         : "ROLE_ADO"

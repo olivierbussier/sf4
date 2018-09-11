@@ -5,19 +5,23 @@
 {% block main_page %}
 
     <div class="container">
+
         <div class="col-xs-12">
             <h3>LE SECOURISME</h3>
         </div>
+
         <div class="col-xs-6 col-sm-3">
             <img src="{{ asset('team/PRADINES-Sylvie.jpg') }}" class="img-ident w100">
             <div class="nomblu">Sylvie Pradines<br>(Médecin Fédéral)</div>
         </div>
+
         <div class="col-xs-6 col-sm-9">
             <p>Le GUC Plongée dispose d'une commission médicale, de deux médecins fédéraux et de plusieurs
                 formateurs ANTEOR. Ceci nous permet de former nos plongeurs au secourisme et de pouvoir délivrer
                 le diplôme de Réactions et Interventions Face à un Accident de Plongée (RIFA Plongée) qui est
                 nécessaire pour les niveaux 3, 4 et le diplôme d'initiateur.</p>
         </div>
+
         <div class="col-xs-12">
             <h3>Formation RIFAP</h3>
             <p>La formation au RIFAP (Réactions et Interventions Face à un Accident de Plongée) est assurée
@@ -47,7 +51,7 @@
                     {% for Diplome in Diplomes %}
 
                         <tr><td>{{ Diplome.User.Nom ~ ' ' ~ Diplome.User.Prenom}}</td>
-                            <td>{{ listes.diplomes[Diplome.Type] }}</td>
+                            <td>{{ Diplome.Type }}</td>
                             <td>{{ Diplome.User.NiveauSca }}</td>
                             <td>{{ Diplome.User.NiveauApn }}</td>
                             <td>{{ Diplome.Numero }}</td>

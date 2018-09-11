@@ -6,9 +6,9 @@ use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\DiplomesRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\DiplomeRepository")
  */
-class Diplomes
+class Diplome
 {
     /**
      * @ORM\Id()
@@ -18,35 +18,35 @@ class Diplomes
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Adherent")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Adherent", inversedBy="diplomes")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $User;
+    private $user;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Type;
+    private $type;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $DateObtention;
+    private $dateObtention;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $DateRecyclage;
+    private $dateRecyclage;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Numero;
+    private $numero;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $Commentaire;
+    private $commentaire;
 
     public function getId()
     {

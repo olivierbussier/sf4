@@ -20,6 +20,7 @@ class IntranetController extends Controller
 
         $user = $this->getUser();
         $adh = $doctrine->getRepository(Adherent::class)->find($user->getId());
+
         return $this->render('intranet/index.html.twig', [
             'adh' => $adh,
             'sheetBapteme' => $sheet

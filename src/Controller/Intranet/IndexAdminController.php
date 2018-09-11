@@ -38,11 +38,12 @@ class IndexAdminController extends Controller
 
     /**
      * @Route("/intranet/index_admin_trombi", name="index_admin_trombi")
+     * @param RegistryInterface $doctrine
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function trombi(RegistryInterface $doctrine)
     {
         $photos = $doctrine->getRepository(Adherent::class)->getAllPhotos();
-        $doctrine->getRepository(Essai::class)->addRecord();
 
         return $this->render('intranet/index_trombi.html.twig',[
             'photos' => $photos

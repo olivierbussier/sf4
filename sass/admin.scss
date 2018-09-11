@@ -1,0 +1,160 @@
+body {
+	font-family: "Raleway", sans-serif;
+	font-size: 14px;
+	line-height: 1;
+	color: #333333;
+	background-color: #fff;
+}
+table,th,tr,td {
+	font-size: 14px;
+	border:1px solid black;
+	border-collapse: collapse;
+	text-align: center;
+	vertical-align: top;
+}
+
+tr {
+	border-top: 10px solid #e0e0e0;
+	&:hover {
+		background-color: #eee;
+	}
+}
+
+
+.btnlfix {
+	width: 100%;
+	margin-top: 1px;
+}
+
+.badge {
+	border:1px solid grey;
+	padding: 2px;
+	background-color: grey;
+	width: 100%;
+	border-radius: 6px;
+	color: white;
+	margin: 1px 0;
+	box-sizing: border-box;
+
+	a {
+		color:white!important;
+		background-color: grey!important;
+	}
+}
+
+.enhance {
+	color:white!important;
+	background-color: #3f6192;
+	font-size: 20px;
+}
+
+.piece {
+	background-color: #238a5b;
+	color:white;
+}
+
+.piecemanqu {
+	background-color: #da6e6e;
+	color:white;
+}
+
+.break {
+	display: block;
+	float:left;
+}
+
+.datainscription {
+	float:left;
+	width: 100%;
+}
+.admin-inscriptions {
+}
+.searchbar{
+	display: block;
+	float: left;
+}
+.navbar {
+	display: block;
+	float:left;
+}
+.accelbar {
+	display: block;
+	float:left;
+}
+
+.buttonbar {
+	height: 25px;
+
+	img {
+		height: 20px;
+	}
+}
+
+.buttonnav {
+	display: block;
+	float: left;
+	border:1px solid black ;
+	border-radius: 4px;
+	padding: 0 2px;
+	margin: 0 2px;
+	width:20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	background-color: #999;
+
+	a {
+		text-decoration: none;
+		color:white;
+	}
+}
+
+.btnselected {
+	background-color: #e2e2e2;
+}
+
+.img-table {
+	height:80px;
+}
+.green {
+	background-color: #97d897;
+}
+
+.gucgreen {
+	background-color: #97d897;
+	color: white;
+
+	a {
+		background-color: #97d897;
+		color: white;
+	}
+}
+.gucred {
+	background-color: #ffa1a1;
+	color: white;
+
+	a {
+		background-color: #ffa1a1;
+		color: white;
+	}
+}
+
+.slim {
+	width: 75px;
+}
+
+.slim-btn {
+	width: 20px!important;
+	height: 20px !important;
+}
+
+.slim-btn-remove {
+    display: none;
+}
+
+.slim-btn-edit {
+    position: absolute!important;
+    margin-right:0px!important;
+    right: 2px;
+    bottom:2px
+}

@@ -1,0 +1,190 @@
+/* line 1, ../../sass/admin.scss */
+body {
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  color: #333333;
+  background-color: #fff;
+}
+
+/* line 8, ../../sass/admin.scss */
+table, th, tr, td {
+  font-size: 14px;
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+  vertical-align: top;
+}
+
+/* line 16, ../../sass/admin.scss */
+tr {
+  border-top: 10px solid #e0e0e0;
+}
+/* line 18, ../../sass/admin.scss */
+tr:hover {
+  background-color: #eee;
+}
+
+/* line 24, ../../sass/admin.scss */
+.btnlfix {
+  width: 100%;
+  margin-top: 1px;
+}
+
+/* line 29, ../../sass/admin.scss */
+.badge {
+  border: 1px solid grey;
+  padding: 2px;
+  background-color: grey;
+  width: 100%;
+  border-radius: 6px;
+  color: white;
+  margin: 1px 0;
+  box-sizing: border-box;
+}
+/* line 39, ../../sass/admin.scss */
+.badge a {
+  color: white !important;
+  background-color: grey !important;
+}
+
+/* line 45, ../../sass/admin.scss */
+.enhance {
+  color: white !important;
+  background-color: #3f6192;
+  font-size: 20px;
+}
+
+/* line 51, ../../sass/admin.scss */
+.piece {
+  background-color: #238a5b;
+  color: white;
+}
+
+/* line 56, ../../sass/admin.scss */
+.piecemanqu {
+  background-color: #da6e6e;
+  color: white;
+}
+
+/* line 61, ../../sass/admin.scss */
+.break {
+  display: block;
+  float: left;
+}
+
+/* line 66, ../../sass/admin.scss */
+.datainscription {
+  float: left;
+  width: 100%;
+}
+
+/* line 72, ../../sass/admin.scss */
+.searchbar {
+  display: block;
+  float: left;
+}
+
+/* line 76, ../../sass/admin.scss */
+.navbar {
+  display: block;
+  float: left;
+}
+
+/* line 80, ../../sass/admin.scss */
+.accelbar {
+  display: block;
+  float: left;
+}
+
+/* line 85, ../../sass/admin.scss */
+.buttonbar {
+  height: 25px;
+}
+/* line 88, ../../sass/admin.scss */
+.buttonbar img {
+  height: 20px;
+}
+
+/* line 93, ../../sass/admin.scss */
+.buttonnav {
+  display: block;
+  float: left;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 0 2px;
+  margin: 0 2px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  background-color: #999;
+}
+/* line 106, ../../sass/admin.scss */
+.buttonnav a {
+  text-decoration: none;
+  color: white;
+}
+
+/* line 112, ../../sass/admin.scss */
+.btnselected {
+  background-color: #e2e2e2;
+}
+
+/* line 116, ../../sass/admin.scss */
+.img-table {
+  height: 80px;
+}
+
+/* line 119, ../../sass/admin.scss */
+.green {
+  background-color: #97d897;
+}
+
+/* line 123, ../../sass/admin.scss */
+.gucgreen {
+  background-color: #97d897;
+  color: white;
+}
+/* line 127, ../../sass/admin.scss */
+.gucgreen a {
+  background-color: #97d897;
+  color: white;
+}
+
+/* line 132, ../../sass/admin.scss */
+.gucred {
+  background-color: #ffa1a1;
+  color: white;
+}
+/* line 136, ../../sass/admin.scss */
+.gucred a {
+  background-color: #ffa1a1;
+  color: white;
+}
+
+/* line 142, ../../sass/admin.scss */
+.slim {
+  width: 75px;
+}
+
+/* line 146, ../../sass/admin.scss */
+.slim-btn {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* line 151, ../../sass/admin.scss */
+.slim-btn-remove {
+  display: none;
+}
+
+/* line 155, ../../sass/admin.scss */
+.slim-btn-edit {
+  position: absolute !important;
+  margin-right: 0px !important;
+  right: 2px;
+  bottom: 2px;
+}
+
+/*# sourceMappingURL=admin.css.map */

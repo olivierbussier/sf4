@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Diplomes;
+use App\Entity\Diplome;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -56,7 +56,7 @@ class IndexSectionsController extends Controller
     {
         // Recherche des diplomes
 
-        $Diplomes = $doctrine->getRepository(Diplomes::class)->getDiplomesSecourisme();
+        $Diplomes = $doctrine->getRepository(Diplome::class)->getDiplomesSecourisme();
 
         return $this->render(
             'pages/index_formation_secourisme.html.twig',

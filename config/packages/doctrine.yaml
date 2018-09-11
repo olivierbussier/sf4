@@ -29,5 +29,6 @@ doctrine:
                 alias: App
         dql:
             string_functions:
-                JSON_EXTRACT: App\DQL\Mysql\JsonExtract
+                JSON_EXTRACT:  App\DQL\Mysql\JsonExtract
                 JSON_CONTAINS: App\DQL\Mysql\JsonContains
+                JSON_SEARCH:   App\DQL\Mysql\JsonSearch

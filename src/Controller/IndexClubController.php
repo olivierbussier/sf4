@@ -40,14 +40,6 @@ class IndexClubController extends Controller
     }
 
     /**
-     * @Route("/index_galerie", name="index_galerie")
-     */
-    public function galerie()
-    {
-        return $this->render('pages/index_galerie.html.twig');
-    }
-
-    /**
      * @Route("/index_materiel", name="index_materiel")
      */
     public function materiel()

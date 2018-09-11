@@ -4,6 +4,8 @@
 
 {% block main_page %}
 
+    {% import 'macros/bouton.html.twig' as control %}
+
     <div class="container">
         {% set mois = {
             '01' : "Janvier", '02' : "Février",  '03' : "Mars",
@@ -13,22 +15,20 @@
         {% set htmlimg   = "$beginlink<img src=\"upload/$urlimg\">$endlink" %}
 
         {% for post in posts %}
-            {% set tabdate = post.date|date('d-m-Y') | split('-') %}
-            {% set htmltext = post.texte  %}
+            {% set tabdate = post.postedAt|date('d-m-Y') | split('-') %}
+            {% set htmltext = post.content  %}
             {% set posimg = post.PositionImage %}
 
-            {% if post.RefImage %}
-
+            {% if post.image != '' %}
                 {% if post.Link != "" %}
 
-                    {% set htmlimg = "<a href=\"" ~ post.Link ~ "\"><img src=\"" ~ asset("imblog/" ~ post.RefImage.ImageSrc) ~ "\"></a>" %}
+                    {% set htmlimg = '<a href="' ~ post.link ~ '"><img src="' ~ asset(imblog ~ "/" ~ post.image) ~ '"></a>' %}
 
                 {% else %}
 
-                    {% set htmlimg = "<img src=\"" ~ asset("imblog/" ~ post.RefImage.ImageSrc) ~ "\">" %}
+                    {% set htmlimg = '<img src="' ~ asset(imblog ~ "/" ~ post.image) ~ '">' %}
 
                 {% endif %}
-
             {% else %}
 
                 {% set posimg = 'none' %}
@@ -39,20 +39,32 @@
 
                 <div class="row blog-header">
                     <div class="col-xs-12 col-sm-2 blog-date">{{ tabdate[0] }} {{ mois[tabdate[1]] }} {{ tabdate[2] }} -</div>
-                    <div class="col-xs-12 col-sm-10 blog-title">{{ post.title }}</div>
+                    <div class="col-xs-12 col-sm-10 blog-title">{{ post.title }}
+                        <div class="blog-actions">
+                            {% if app.user %}
+                                {{ control.bouton(
+                                    '',
+                                    url('blog_admin_edit',{blogId: post.id}),
+                                    '',
+                                    'btn btn-default btn-xs',
+                                    'edit')
+                                }}
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row blog-body">
 
                     {% if posimg == 'gauche' %}
 
-                        <div class="col-xs-12 col-sm-4 col-md-5 col-lg-4 blog-img">{{ htmlimg| raw }}</div>
-                        <div class="col-xs-12 col-sm-8 col-md-7 col-lg-8 blog-text">{{ htmltext| raw }}</div>
+                        <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 blog-img">{{ htmlimg| raw }}</div>
+                        <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9 blog-text">{{ htmltext| raw }}</div>
 
                     {% elseif post.PositionImage == 'droite' %}
 
-                        <div class="col-xs-12 col-sm-8 col-md-7 col-lg-8 blog-text">{{ htmltext| raw }}</div>
-                        <div class="col-xs-12 col-sm-4 col-md-5 col-lg-4 blog-img">{{ htmlimg| raw }}</div>
+                        <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9 blog-text">{{ htmltext| raw }}</div>
+                        <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 blog-img">{{ htmlimg| raw }}</div>
 
                     {% elseif post.PositionImage == 'dessous' %}
 

@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BlogRepository")
@@ -19,125 +22,137 @@ class Blog
     /**
      * @ORM\Column(type="datetime")
      */
-    private $Date;
+    private $postedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $Title;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $Texte;
+    private $content;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $Ordre;
+    private $position;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $Link;
+    private $link;
 
     /**
-     * Une entrée blog a au plus 1 image
-     * @ORM\OneToOne(targetEntity="App\Entity\BlogImages", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="ref_image_id", referencedColumnName="id")
+     * @ORM\Column(type="string", length=16)
      */
-    private $RefImage;
+    private $positionImage;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $PositionImage;
+    private $image;
 
-    public function getId()
+    private $file;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getPostedAt(): ?\DateTimeInterface
     {
-        return $this->Date;
+        return $this->postedAt;
     }
 
-    public function setDate(\DateTimeInterface $Date): self
+    public function setPostedAt(\DateTimeInterface $postedAt): self
     {
-        $this->Date = $Date;
+        $this->postedAt = $postedAt;
 
         return $this;
     }
 
     public function getTitle(): ?string
     {
-        return $this->Title;
+        return $this->title;
     }
 
-    public function setTitle(?string $Title): self
+    public function setTitle(string $title): self
     {
-        $this->Title = $Title;
+        $this->title = $title;
 
         return $this;
     }
 
-    public function getTexte(): ?string
+    public function getContent(): ?string
     {
-        return $this->Texte;
+        return $this->content;
     }
 
-    public function setTexte(?string $Texte): self
+    public function setContent(?string $Content): self
     {
-        $this->Texte = $Texte;
+        $this->content = $Content;
 
         return $this;
     }
 
-    public function getOrdre(): ?int
+    public function getPosition(): ?int
     {
-        return $this->Ordre;
+        return $this->position;
     }
 
-    public function setOrdre(int $Ordre): self
+    public function setPosition(int $position): self
     {
-        $this->Ordre = $Ordre;
+        $this->position = $position;
 
         return $this;
     }
 
     public function getLink(): ?string
     {
-        return $this->Link;
+        return $this->link;
     }
 
-    public function setLink(?string $Link): self
+    public function setLink(?string $link): self
     {
-        $this->Link = $Link;
-
-        return $this;
-    }
-
-    public function getRefImage(): ?BlogImages
-    {
-        return $this->RefImage;
-    }
-
-    public function setRefImage(?BlogImages $RefImage): self
-    {
-        $this->RefImage = $RefImage;
+        $this->link = $link;
 
         return $this;
     }
 
     public function getPositionImage(): ?string
     {
-        return $this->PositionImage;
+        return $this->positionImage;
     }
 
-    public function setPositionImage(string $PositionImage): self
+    public function setPositionImage(?string $positionImage): self
     {
-        $this->PositionImage = $PositionImage;
+        $this->positionImage = $positionImage;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFile(?File $file): self
+    {
+        $this->file = $file;
 
         return $this;
     }

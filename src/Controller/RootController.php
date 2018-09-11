@@ -18,9 +18,14 @@ class RootController extends Controller
     public function index(RegistryInterface $doctrine)
     {
         $posts = $doctrine->getRepository(Blog::class)->getallPosts();
-        return $this->render(
-            'pages/index.html.twig',
-            ['posts' => $posts]);
+
+        $conf = $this->getParameter('conf.blog');
+        $dirImages = $conf['blog.images'];
+
+        return $this->render('pages/index.html.twig',[
+			'imblog' => $dirImages,
+            'posts' => $posts
+		]);
     }
 
     /**

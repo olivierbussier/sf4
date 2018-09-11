@@ -6,7 +6,7 @@
  * @site https://jonsuh.com/hamburgers
  * @link https://github.com/jonsuh/hamburgers
  */
-/* line 3, ../sass/hamburgers/_base.scss */
+/* line 3, ../../sass/hamburgers/_base.scss */
 .hamburger {
   padding: 0px 0px;
   display: inline-block;
@@ -24,12 +24,12 @@
   margin: 0;
   overflow: visible;
 }
-/* line 21, ../sass/hamburgers/_base.scss */
+/* line 21, ../../sass/hamburgers/_base.scss */
 .hamburger:hover {
   opacity: 0.7;
 }
 
-/* line 31, ../sass/hamburgers/_base.scss */
+/* line 31, ../../sass/hamburgers/_base.scss */
 .hamburger-box {
   width: 40px;
   height: 24px;
@@ -37,13 +37,13 @@
   position: relative;
 }
 
-/* line 38, ../sass/hamburgers/_base.scss */
+/* line 38, ../../sass/hamburgers/_base.scss */
 .hamburger-inner {
   display: block;
   top: 50%;
   margin-top: -2px;
 }
-/* line 43, ../sass/hamburgers/_base.scss */
+/* line 43, ../../sass/hamburgers/_base.scss */
 .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
   width: 40px;
   height: 4px;
@@ -56,16 +56,16 @@
   transition-duration: 0.15s;
   transition-timing-function: ease;
 }
-/* line 56, ../sass/hamburgers/_base.scss */
+/* line 56, ../../sass/hamburgers/_base.scss */
 .hamburger-inner::before, .hamburger-inner::after {
   content: "";
   display: block;
 }
-/* line 62, ../sass/hamburgers/_base.scss */
+/* line 62, ../../sass/hamburgers/_base.scss */
 .hamburger-inner::before {
   top: -10px;
 }
-/* line 66, ../sass/hamburgers/_base.scss */
+/* line 66, ../../sass/hamburgers/_base.scss */
 .hamburger-inner::after {
   bottom: -10px;
 }
@@ -77,12 +77,12 @@
 /*
  * Arrow
  */
-/* line 7, ../sass/hamburgers/types/_arrow.scss */
+/* line 7, ../../sass/hamburgers/types/_arrow.scss */
 .hamburger--arrow.is-active .hamburger-inner::before {
   -webkit-transform: translate3d(-8px, 0, 0) rotate(-45deg) scale(0.7, 1);
           transform: translate3d(-8px, 0, 0) rotate(-45deg) scale(0.7, 1);
 }
-/* line 11, ../sass/hamburgers/types/_arrow.scss */
+/* line 11, ../../sass/hamburgers/types/_arrow.scss */
 .hamburger--arrow.is-active .hamburger-inner::after {
   -webkit-transform: translate3d(-8px, 0, 0) rotate(45deg) scale(0.7, 1);
           transform: translate3d(-8px, 0, 0) rotate(45deg) scale(0.7, 1);
@@ -478,8 +478,8 @@ th {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url(fonts/bootstrap/glyphicons-halflings-regular.eot?1498804923);
-  src: url(fonts/bootstrap/glyphicons-halflings-regular.eot?&1498804923#iefix) format("embedded-opentype"), url(fonts/bootstrap/glyphicons-halflings-regular.woff2?1498804923) format("woff2"), url(fonts/bootstrap/glyphicons-halflings-regular.woff?1498804923) format("woff"), url(fonts/bootstrap/glyphicons-halflings-regular.ttf?1498804923) format("truetype"), url(fonts/bootstrap/glyphicons-halflings-regular.svg?1498804923#glyphicons_halflingsregular) format("svg");
+  src: url(fonts/bootstrap/glyphicons-halflings-regular.eot?1533314529);
+  src: url(fonts/bootstrap/glyphicons-halflings-regular.eot?&1533314529#iefix) format("embedded-opentype"), url(fonts/bootstrap/glyphicons-halflings-regular.woff2?1533314529) format("woff2"), url(fonts/bootstrap/glyphicons-halflings-regular.woff?1533314529) format("woff"), url(fonts/bootstrap/glyphicons-halflings-regular.ttf?1533314529) format("truetype"), url(fonts/bootstrap/glyphicons-halflings-regular.svg?1533314529#glyphicons_halflingsregular) format("svg");
 }
 /* line 24, C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/bootstrap-sass-3.3.7/assets/stylesheets/bootstrap/_glyphicons.scss */
 .glyphicon {
@@ -6339,7 +6339,7 @@ tbody.collapse.in {
 }
 /* line 16, C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/bootstrap-sass-3.3.7/assets/stylesheets/bootstrap/_breadcrumbs.scss */
 .breadcrumb > li + li:before {
-  content: "/┬á";
+  content: "/ ";
   padding: 0 5px;
   color: #ccc;
 }
@@ -8832,113 +8832,120 @@ button.close {
     display: none !important;
   }
 }
-/* line 5, ../sass/_blog.scss */
+/* line 5, ../../sass/_blog.scss */
 .blog {
   border: 1px solid #dedede;
   margin: 10px 5px 10px 5px;
   background-color: #fbfbfb;
   box-shadow: 5px 5px 5px grey;
 }
-/* line 11, ../sass/_blog.scss */
+/* line 11, ../../sass/_blog.scss */
 .blog .blog-header {
   margin: 0;
   background-color: #394c87;
   color: white;
 }
-/* line 16, ../sass/_blog.scss */
+/* line 16, ../../sass/_blog.scss */
 .blog .blog-header .blog-date {
   font-size: 10px;
 }
-/* line 20, ../sass/_blog.scss */
+/* line 20, ../../sass/_blog.scss */
 .blog .blog-header .blog-title {
   font-size: 24px;
   text-align: center;
 }
-/* line 26, ../sass/_blog.scss */
+/* line 24, ../../sass/_blog.scss */
+.blog .blog-header .blog-actions {
+  text-align: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+/* line 32, ../../sass/_blog.scss */
 .blog .blog-body {
   margin: 0;
   padding: 0;
 }
-/* line 31, ../sass/_blog.scss */
+/* line 37, ../../sass/_blog.scss */
 .blog .blog-text {
   color: #5A5C63;
   float: left;
   padding: 5px;
 }
-/* line 37, ../sass/_blog.scss */
+/* line 43, ../../sass/_blog.scss */
 .blog .blog-img {
   float: left;
   padding: 5px;
 }
-/* line 40, ../sass/_blog.scss */
+/* line 46, ../../sass/_blog.scss */
 .blog .blog-img img {
   width: 100%;
   margin: 0 auto;
   display: block;
 }
-/* line 47, ../sass/_blog.scss */
+/* line 53, ../../sass/_blog.scss */
 .blog .imgleft {
   float: left;
 }
-/* line 51, ../sass/_blog.scss */
+/* line 57, ../../sass/_blog.scss */
 .blog .imgright {
   float: right;
 }
-/* line 55, ../sass/_blog.scss */
+/* line 61, ../../sass/_blog.scss */
 .blog .imgbelow {
   float: none;
 }
-/* line 65, ../sass/_blog.scss */
+/* line 71, ../../sass/_blog.scss */
 .blog .wlim {
   width: 200px;
   height: auto;
 }
-/* line 66, ../sass/_blog.scss */
+/* line 72, ../../sass/_blog.scss */
 .blog .hlim {
   height: 200px;
   width: auto;
 }
-/* line 67, ../sass/_blog.scss */
+/* line 73, ../../sass/_blog.scss */
 .blog .w100 {
   width: 100%;
 }
 
 /* Tables */
-/* line 5, ../sass/_calendrier.scss */
+/* line 5, ../../sass/_calendrier.scss */
 .calendrier th, .calendrier td {
   padding: 0 1px !important;
 }
-/* line 8, ../sass/_calendrier.scss */
+/* line 8, ../../sass/_calendrier.scss */
 .calendrier th {
   text-align: center !important;
 }
-/* line 12, ../sass/_calendrier.scss */
+/* line 12, ../../sass/_calendrier.scss */
 .calendrier td.reserve {
   background-color: rgba(255, 197, 0, 0.34);
 }
-/* line 13, ../sass/_calendrier.scss */
+/* line 13, ../../sass/_calendrier.scss */
 .calendrier td.encours {
   background-color: rgba(255, 0, 0, 0.56);
 }
-/* line 14, ../sass/_calendrier.scss */
+/* line 14, ../../sass/_calendrier.scss */
 .calendrier td.restitue {
   background-color: rgba(12, 155, 15, 0.34);
 }
-/* line 15, ../sass/_calendrier.scss */
+/* line 15, ../../sass/_calendrier.scss */
 .calendrier td.maintenance {
   background-color: rgba(170, 170, 170, 0.75);
 }
-/* line 16, ../sass/_calendrier.scss */
+/* line 16, ../../sass/_calendrier.scss */
 .calendrier td.wlegend {
   width: 200px;
 }
 
-/* line 13, ../sass/guc_frame.scss */
+/* line 13, ../../sass/guc_frame.scss */
 .btn-default {
   text-align: left !important;
 }
 
-/* line 17, ../sass/guc_frame.scss */
+/* line 17, ../../sass/guc_frame.scss */
 .container {
   width: 100%;
   margin: 0;
@@ -8946,13 +8953,13 @@ button.close {
   background-color: #fff;
 }
 
-/* line 29, ../sass/guc_frame.scss */
+/* line 29, ../../sass/guc_frame.scss */
 .zonsearch {
   margin: 0;
   padding-top: 5px;
   padding-bottom: 5px;
 }
-/* line 33, ../sass/guc_frame.scss */
+/* line 33, ../../sass/guc_frame.scss */
 .zonsearch .pagination {
   margin: 0;
   padding-top: 5px;
@@ -8962,28 +8969,28 @@ button.close {
 /***********************************************************************/
 /* Styles tarifs
 /***********************************************************************/
-/* line 45, ../sass/guc_frame.scss */
+/* line 45, ../../sass/guc_frame.scss */
 table.tarif td:nth-child(odd) {
   text-align: right;
 }
-/* line 48, ../sass/guc_frame.scss */
+/* line 48, ../../sass/guc_frame.scss */
 table.tarif td:nth-child(even) {
   text-align: left;
   width: 4em;
 }
 
-/* line 54, ../sass/guc_frame.scss */
+/* line 54, ../../sass/guc_frame.scss */
 img.tarif {
   width: 50px;
 }
 
-/* line 62, ../sass/guc_frame.scss */
+/* line 62, ../../sass/guc_frame.scss */
 ul {
   padding: 5px;
   margin: 5px 10px 5px 20px;
 }
 
-/* line 77, ../sass/guc_frame.scss */
+/* line 77, ../../sass/guc_frame.scss */
 h1, h2, h3 {
   font-size: 20px;
   background-color: #394c87;
@@ -8993,20 +9000,20 @@ h1, h2, h3 {
   text-align: center;
 }
 
-/* line 87, ../sass/guc_frame.scss */
+/* line 87, ../../sass/guc_frame.scss */
 h4 {
   font-size: 20px;
   color: #0a8dbd;
 }
 
-/* line 97, ../sass/guc_frame.scss */
+/* line 97, ../../sass/guc_frame.scss */
 textarea {
   width: 100%;
   padding: 0 10px;
 }
 
 /* Images */
-/* line 101, ../sass/guc_frame.scss */
+/* line 101, ../../sass/guc_frame.scss */
 .cimg {
   display: block;
   border-radius: 4px;
@@ -9015,49 +9022,49 @@ textarea {
   padding: 5px 5px 0 5px;
 }
 
-/* line 109, ../sass/guc_frame.scss */
+/* line 109, ../../sass/guc_frame.scss */
 .w60 {
   width: 60%;
   display: block;
   margin: 0 auto;
 }
 
-/* line 115, ../sass/guc_frame.scss */
+/* line 115, ../../sass/guc_frame.scss */
 .w100 {
   width: 100%;
   display: block;
   margin: 0 auto;
 }
 
-/* line 124, ../sass/guc_frame.scss */
+/* line 124, ../../sass/guc_frame.scss */
 .fixed-w {
   width: 250px !important;
 }
 
-/* line 125, ../sass/guc_frame.scss */
+/* line 125, ../../sass/guc_frame.scss */
 .remain-w {
   width: 100% !important;
 }
 
-/* line 127, ../sass/guc_frame.scss */
+/* line 127, ../../sass/guc_frame.scss */
 .round {
   border-radius: 4px;
   padding-bottom: 20px;
   background-color: #fff;
 }
 
-/* line 133, ../sass/guc_frame.scss */
+/* line 133, ../../sass/guc_frame.scss */
 .case-tabform {
   float: left;
   padding: 5px;
 }
 
-/* line 134, ../sass/guc_frame.scss */
+/* line 134, ../../sass/guc_frame.scss */
 .td-center {
   text-align: center !important;
 }
 
-/* line 136, ../sass/guc_frame.scss */
+/* line 136, ../../sass/guc_frame.scss */
 .nomblu {
   padding: 0 1px;
   margin: 0 auto;
@@ -9070,103 +9077,103 @@ textarea {
   max-width: 400px;
 }
 
-/* line 148, ../sass/guc_frame.scss */
+/* line 148, ../../sass/guc_frame.scss */
 .accentue {
   color: #0C9B29;
   font-weight: bold;
 }
 
 /* Tables */
-/* line 155, ../sass/guc_frame.scss */
+/* line 155, ../../sass/guc_frame.scss */
 .bord {
   border: #394c87 1px solid;
   width: 100%;
 }
 
-/* line 163, ../sass/guc_frame.scss */
+/* line 163, ../../sass/guc_frame.scss */
 .yellow {
   text-align: center;
   background-color: rgba(255, 197, 0, 0.34);
 }
 
-/* line 164, ../sass/guc_frame.scss */
+/* line 164, ../../sass/guc_frame.scss */
 .red {
   text-align: center;
   background-color: rgba(255, 0, 0, 0.56);
 }
 
-/* line 165, ../sass/guc_frame.scss */
+/* line 165, ../../sass/guc_frame.scss */
 .redc {
   text-align: center;
   color: rgba(255, 0, 0, 0.56);
 }
 
-/* line 166, ../sass/guc_frame.scss */
+/* line 166, ../../sass/guc_frame.scss */
 .green {
   text-align: center;
   background-color: rgba(12, 155, 15, 0.34);
 }
 
-/* line 167, ../sass/guc_frame.scss */
+/* line 167, ../../sass/guc_frame.scss */
 .black {
   text-align: center;
   background-color: rgba(0, 0, 0, 0.75);
 }
 
-/* line 168, ../sass/guc_frame.scss */
+/* line 168, ../../sass/guc_frame.scss */
 .white {
   text-align: center;
   background-color: rgba(255, 255, 255, 0.75);
 }
 
-/* line 169, ../sass/guc_frame.scss */
+/* line 169, ../../sass/guc_frame.scss */
 .grey {
   text-align: center;
   background-color: rgba(170, 170, 170, 0.75);
 }
 
-/* line 170, ../sass/guc_frame.scss */
+/* line 170, ../../sass/guc_frame.scss */
 .greyc {
   background-color: rgba(221, 221, 221, 0.75);
 }
 
-/* line 171, ../sass/guc_frame.scss */
+/* line 171, ../../sass/guc_frame.scss */
 .center {
   text-align: center;
 }
 
-/* line 174, ../sass/guc_frame.scss */
+/* line 174, ../../sass/guc_frame.scss */
 .redw {
   text-align: center;
   background-color: rgba(255, 0, 0, 0.56);
   color: white;
 }
 
-/* line 180, ../sass/guc_frame.scss */
+/* line 180, ../../sass/guc_frame.scss */
 .searchtxt {
   width: 270px;
 }
 
-/* line 181, ../sass/guc_frame.scss */
+/* line 181, ../../sass/guc_frame.scss */
 .searchpge {
   padding: 10px;
 }
-/* line 183, ../sass/guc_frame.scss */
+/* line 183, ../../sass/guc_frame.scss */
 .searchpge a {
   padding: 0;
   margin: 0;
 }
 
-/* line 185, ../sass/guc_frame.scss */
+/* line 185, ../../sass/guc_frame.scss */
 .searchbtn {
   width: 150px;
 }
-/* line 187, ../sass/guc_frame.scss */
+/* line 187, ../../sass/guc_frame.scss */
 .searchbtn a {
   padding: 0;
   margin: 0;
 }
-/* line 191, ../sass/guc_frame.scss */
+/* line 191, ../../sass/guc_frame.scss */
 .searchbtn img {
   margin: 0;
   padding: 0;
@@ -9174,7 +9181,7 @@ textarea {
   display: inline;
 }
 
-/* line 202, ../sass/guc_frame.scss */
+/* line 202, ../../sass/guc_frame.scss */
 .elemmatos {
   background-color: #ddd;
   border: 1px black solid;
@@ -9182,29 +9189,29 @@ textarea {
   padding: 0;
 }
 
-/* line 209, ../sass/guc_frame.scss */
+/* line 209, ../../sass/guc_frame.scss */
 .tabnotfull {
   width: auto !important;
 }
 
-/* line 210, ../sass/guc_frame.scss */
+/* line 210, ../../sass/guc_frame.scss */
 .tableft {
   width: auto !important;
   margin: auto auto auto 0 !important;
 }
 
-/* line 211, ../sass/guc_frame.scss */
+/* line 211, ../../sass/guc_frame.scss */
 .tabright {
   width: auto !important;
   margin: auto 0 auto auto !important;
 }
 
-/* line 212, ../sass/guc_frame.scss */
+/* line 212, ../../sass/guc_frame.scss */
 .legendcol {
   width: 30px;
 }
 
-/* line 217, ../sass/guc_frame.scss */
+/* line 217, ../../sass/guc_frame.scss */
 .case-trombi {
   float: left;
   background: #fff;
@@ -9213,7 +9220,7 @@ textarea {
   margin: 5px;
 }
 
-/* line 225, ../sass/guc_frame.scss */
+/* line 225, ../../sass/guc_frame.scss */
 .img-trombi {
   float: left;
   height: auto;
@@ -9222,20 +9229,20 @@ textarea {
   padding: 0;
 }
 
-/* line 233, ../sass/guc_frame.scss */
+/* line 233, ../../sass/guc_frame.scss */
 .img-table {
   width: 90px;
   border-radius: 4px;
   padding: 0;
 }
 
-/* line 239, ../sass/guc_frame.scss */
+/* line 239, ../../sass/guc_frame.scss */
 .full-width {
   padding-left: 0;
   padding-right: 0;
 }
 
-/* line 244, ../sass/guc_frame.scss */
+/* line 244, ../../sass/guc_frame.scss */
 .img-ident {
   margin: 10px auto 0 auto;
   padding: 0;
@@ -9244,13 +9251,13 @@ textarea {
   border-radius: 4px 4px 0 0;
 }
 
-/* line 252, ../sass/guc_frame.scss */
+/* line 252, ../../sass/guc_frame.scss */
 .img-w {
   width: 400px;
   height: auto;
 }
 
-/* line 257, ../sass/guc_frame.scss */
+/* line 257, ../../sass/guc_frame.scss */
 .img-h {
   height: 400px;
   width: auto;
