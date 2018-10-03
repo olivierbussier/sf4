@@ -2,6 +2,9 @@
 
 namespace App\Controller\Inscription;
 
+use App\Classes\Form\FormConst;
+use App\Entity\Adherent;
+use App\Form\InscriptionType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -13,7 +16,34 @@ class IndexInscriptionController extends Controller
      */
     public function index()
     {
-        return $this->render('inscription/index_inscription.html.twig');
+        $user = new Adherent();
+
+        $form = $this->createForm(InscriptionType::class, $user);
+
+        /*if (($valReducFam = Form::get('REDUCFAMID')) == '') {
+            // Génération d'un ID et sauvegarde
+            $valReducFam = AdhCoding::getRandomValID();
+            Form::set('REDUCFAMID', $valReducFam);
+        }*/
+
+        return $this->render('inscription/index_inscription_page.html.twig',[
+            'fPassager' => false,
+            'licenceMode' => FormConst::INSCR_NORMAL,
+            'formInscr' => $form->createView(),
+            'fGood'     => true,
+            'fileName'  => 'xx/a.jpg',
+            'refPhoto'  => 411,
+            'fileDiplomes' => [
+                ['name' => 'a.jpg', 'type' => 'image'],
+                ['name' => 'b.jpg', 'type' => 'image'],
+                ['name' => 'c.jpg', 'type' => 'image'],
+                ['name' => 'd.jpg', 'type' => 'image']
+            ],
+            'fileCertif' => [
+                ['name' => 'c.jpg', 'type' => 'image']
+            ],
+            'ReducFamId' => '123456ff'
+        ]);
     }
 
     /**

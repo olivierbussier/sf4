@@ -4,7 +4,7 @@ class ConvertDatabase
 {
     /**
      * @var array
-     * @uses set_roles,json,create_password,nullable,integer,boolean,guc_date,create_username
+     * @uses set_roles,adminok,create_password,nullable,integer,boolean,guc_date,create_username
      */
     private $correspAdherents = [
         "id"                    => ["Ref"           , "integer"],
@@ -13,7 +13,7 @@ class ConvertDatabase
         "prenom"                => ["PRENOM"        , ""],
         "mail"                  => ["MAIL"          , ""],
         "roles"                 => [""              , "set_roles"],
-        "liste_droits"          => ["DROITS"        , "json"],
+        //"liste_droits"          => ["DROITS"        , "json"],
         "code_secret"           => ["PASSWD"        , ""],
         "password"              => ["PASSWD"        , "create_password"],
         "genre"                 => ["GENRE"         , ""],
@@ -30,7 +30,7 @@ class ConvertDatabase
         "f_etudiant"            => ["ETUDIANT"      , "boolean"],
         "niveau_sca"            => ["NIVEAU"        , ""],
         "niveau_apn"            => ["APNEE"         , ""],
-        "diplomes"              => ["DIPLOMES"      , "json"],
+        //"diplomes"              => ["DIPLOMES"      , "json"],
         "f_apnee_sca"           => ["APNEESCA"      , "boolean"],
         "activite"              => ["ACTIVITE"      , ""],
         "f_benevole"            => ["BENEVOLE"      , "boolean"],
@@ -60,7 +60,7 @@ class ConvertDatabase
         "modif_user"            => ["MODIFUSER"     , ""],
         "date_modif_user"       => ["DATEMODIFUSER" , "myDate"],
         "date_prem_inscr"       => ["DATEPREMINSCR" , "myDate"],
-        "admin_ok"              => ["ADMINOK"       , "json"],
+        "admin_ok"              => ["ADMINOK"       , "adminok"],
         "comments"              => ["COMMENTS"      , ""],
         "reduc_famille_id"      => ["REDUCFAMID"    , ""],
         "reduc_fam"             => ["REDUCFAM"      , ""]
@@ -115,7 +115,7 @@ class ConvertDatabase
 
     private function myQuery(mysqli $m, $query)
     {
-        echo $query . "\n\n";
+        //echo $query . "\n\n";
         if (!$m->query($query)) {
             echo "Erreur SQL : " . $m->error . "\n";
         }
@@ -184,8 +184,27 @@ class ConvertDatabase
      * @param string $value
      * @return bool
      */
-    private function json(string $field, string $value)
+    private function adminok(string $field, string $value)
     {
+        $tabaok = [
+            "PRE"       => [ 0 , "PREINSCR"],
+            "DOSS"      => [ 1 , "DOSSIER"],
+            "CERTIF"    => [ 2 , "CERTIF"],
+            "NIVP"      => [ 3 , "NIVEAUSCA"],
+            "NIVA"      => [ 4 , "NIVEAUAPN"],
+            "SIUAPS"    => [ 5 , "SIUAPS"],
+            "ESIUAPS"   => [ 6 , "ESIUAPS"],
+            "GUC"       => [ 7 , "GUC"],
+            "EGUC"      => [ 7 , "EGUC"],
+            "COTIS"     => [ 8 , "COTIS"],
+            "FACT"      => [ 9 , "FACTURE"],
+            "PISC"      => [10 , "PISCINE"],
+            "MAT"       => [11 , "MATERIEL"],
+            "FEDE"      => [12 , "FEDE"],
+            "AXA"       => [13 , "AXA"],
+            "INSCRIT"   => [14 , "INSCRIT"],
+            "VALID"     => [14 , "INSCRIT"]
+        ];
 
         if (($value == 'NON' || $value == '') && $field == 'liste_droits') {
             $value = "PN1:NON|PN2:NON|PN3:NON|PN4:NON|PMF1:NON|PINI:NON|ENF:NON|ADO:NON|PMT:NON|APN:NON|BAP:NON|CRT:NON|ADM:NON|ENC:NON|GON:NON|MAT:NON|PUB:NON|BUR:NON";
@@ -196,23 +215,43 @@ class ConvertDatabase
         }
 
         if ($value == 'OK' && $field == 'admin_ok') {
-            $value = "DOSS:OK|CERTIF:OK|NIVP:OK|NIVA:OK|SIUAPS:OK|ESIUAPS:OK|EGUC:OK|COTIS:OK|FACT:OK|PISC:OK|MAT:OK|FEDE:OK|AXA:OK|VALID:OK";
+            $value = "INSCRIT:OK";
         }
 
-        if (($value == 'NON' || $value == '') && $field == 'admin_ok') {
-            $value = "DOSS:KO|CERTIF:KO|NIVP:KO|NIVA:KO|SIUAPS:KO|ESIUAPS:KO|EGUC:KO|COTIS:KO|FACT:KO|PISC:KO|MAT:KO|FEDE:KO|AXA:KO|VALID:KO";
+        if ($value == 'NON' && $field == 'admin_ok') {
+            $value = "PRE:OK";
+        }
+
+        if ($value == '' && $field == 'admin_ok') {
+            $value = "PRE:KO";
         }
 
         $res_tab = explode('|', $value);
 
+        $pre = false;
         $tabres = [];
         foreach ($res_tab as $k) {
             $b = explode(':', $k);
             $key = $b[0];
-            if ($b[1] == "OUI" || $b[1] == 'OK')
-                $tabres[] = $key;
+            if ($b[1] == "OUI" || $b[1] == 'OK') {
+                $pre = true;
+                $tabres[$tabaok[$key][0]] = $tabaok[$key][1];
+            }
+
         }
-        $this->putSQL($field, "'" . json_encode($tabres) . "'");
+        if ($field == 'admin_ok') {
+            if ($pre) {
+                $tabres[$tabaok['PRE'][0]] = $tabaok['PRE'][1];
+            }
+            ksort($tabres);
+            $strres = '';
+            $delim = '';
+            foreach ($tabres as $v) {
+                $strres .= "$delim$v";
+                $delim = '|';
+            }
+        }
+        $this->putSQL($field,  "'" . $strres . "'");
         return true;
     }
 

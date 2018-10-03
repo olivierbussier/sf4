@@ -123,6 +123,21 @@ parameters:
             "Section Pub"         : "ROLE_PUB"
             "Section Initiateur"  : "ROLE_PINI"
             "Section MF1"         : "ROLE_PMF1"
+        form:
+            'cot.BENEVOLE'          : "Bénévole/Encadrant"
+            'cot.ENFANTS'           : "Enfants/Etudiants"
+            'cot.DEBUTANT'          : "Débutants"
+            'cot.MAINTIEN'          : "Maintien"
+            'cot.PROGRESS'          : "Progression"
+            'cot.APNEESCA'          : "Apnée plongeur"
+            'cot.APNEE'             : "Apnée non plongeur"
+        calc:
+            "OK"            : 'App\Inscription\Calculate::OK'
+            "ID_VIDE"       : 'App\Inscription\Calculate::ID_VIDE'
+            "DEJA_UTILISE"  : 'App\Inscription\Calculate::DEJA_UTILISE'
+            "ADH_INCONNU"   : 'App\Inscription\Calculate::ADH_INCONNU'
+            "ID_ERROR"      : 'App\Inscription\Calculate::ID_ERROR'
+            "ID_PERSONEL"   : 'App\Inscription\Calculate::ID_PERSONEL'
 
 services:
     # default configuration for services in *this* file

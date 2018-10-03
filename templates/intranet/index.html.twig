@@ -9,7 +9,7 @@
     <div class="container">
 
         <div class="col-xs-12">
-            <h3>{{ app.user.username }} , Bienvenue sur l'Intranet Plongeur</h3>
+            <h3>{{ app.user.Prenom ~ ' ' ~ app.user.nom ~ ' (' ~ (app.user.username) ~ ')' }} , Bienvenue sur l'Intranet Plongeur</h3>
         </div>
 
 
@@ -35,7 +35,7 @@
 // Trombinoscope
 // ***********************************************************************************
 #}
-        {% if 'ROLE_USER' in app.user.roles %}
+        {% if is_granted('ROLE_USER') %}
 
             <div class="col-xs-12 col-sm-6">
 
@@ -61,7 +61,7 @@
 // ***********************************************************************************
 #}
 
-        {% if ('ROLE_ADMIN' in adh.Roles) or (adh.AdminOK != '') %}
+        {% if is_granted('ROLE_ADMIN') or ('CERTIF' in adh.AdminOK != '') %}
         {# if (Session::isMgr() || Session::getAdminok('CERTIF') == true) { #}
             {% include '/intranet/menu/inc_info_gonflage.html.twig' %}
         {% endif %}
@@ -74,10 +74,10 @@
         //    est encore en possession du club
         // ***********************************************************************************
 #}
-        {% if ('ROLE_ADMIN' in adh.Roles) or
-              (adh.PretMateriel and (adh.AdminOK == 'OK')) or
+        {% if (is_granted('ROLE_ADMIN')) or
+              (adh.PretMateriel and ('INSCRIT' in adh.AdminOK)) or
                adh.PretMaterielOld or
-               adh.adminOK['MAT'] is defined %}
+               'MATERIEL' in adh.adminOK %}
 {#      if (Session::isMgr() || Session::materielOk()) {#}
 
             <div class="col-xs-12">
@@ -110,8 +110,8 @@
 
         {% endif %}
 
-        {% if ('ROLE_ADMIN' not in adh.Roles) and
-              (adh.AdminOK == '') %}
+        {% if (not is_granted('ROLE_ADMIN')) and
+              ('PREINSCR' not in adh.AdminOK) %}
 
         {# if (!Session::isMgr() && Session::userValid() == Session::NOTSTARTED) {#}
 
@@ -131,8 +131,8 @@
                 <p>En cas de problème, vous pouvez contacter <a href="mailto:olivier@bussier.fr">olivier Bussier</a></p>
             </div>
 
-        {% elseif ('ROLE_ADMIN' not in adh.Roles) and
-                  ((adh.AdminOK != '') and adh.AdminOK != 'OK') %}
+        {% elseif (not is_granted('ROLE_ADMIN')) and
+                  ('PREINSCR' in adh.AdminOK) and ('INSCRIT' not in adh.AdminOK) %}
             {# if (!Session::isMgr() && (Session::userValid() != Session::VALIDATED)) { #}
             {# Si l'adhérent n'a pas initialisé sa pré-inscription, alors message d'avertissement #}
 
@@ -147,8 +147,8 @@
                     cette étape sera terminée.</p>
             </div>
 
-        {% elseif ('ROLE_ADMIN' in adh.Roles) or
-                  (adh.AdminOK != '') %}
+        {% elseif (is_granted('ROLE_ADMIN')) or
+                  ('PREINSCR' in adh.AdminOK) %}
 
             {# if (Session::isMgr() || Session::userValid() != Session::NOTSTARTED) {#}
 
@@ -186,11 +186,11 @@
 // ***********************************************************************************
 #}
 
-        {% if ('ROLE_ADMIN' in adh.Roles) or
-              ('ROLE_ENC' in adh.Roles) or
-              ('ROLE_MAT' in adh.Roles) or
-              ('ROLE_PUB' in adh.Roles) or
-              ('ROLE_GON' in adh.Roles) %}
+        {% if is_granted('ROLE_ADMIN') or
+              is_granted('ROLE_ENC') or
+              is_granted('ROLE_MAT') or
+              is_granted('ROLE_PUB') or
+              is_granted('ROLE_GON') %}
 
             <div class="col-xs-12">
                 <h3>Administration des activités</h3>
@@ -233,9 +233,9 @@
 // ***********************************************************************************
 #}
 
-        {% if ('ROLE_ADMIN' in adh.Roles) or
-              ('ROLE_ENC' in adh.Roles) or
-              ('ROLE_GON' in adh.Roles) %}
+        {% if is_granted('ROLE_ADMIN') or
+              is_granted('ROLE_ENC') or
+              is_granted('ROLE_GON') %}
 
             <div class="col-xs-12 col-sm-6">
                 {{  control.bouton(
@@ -253,9 +253,9 @@
 // Rubriques d'admin encadrants et matériel
 // ***********************************************************************************
 #}
-        {% if ('ROLE_ADMIN' in adh.Roles) or
-              ('ROLE_ENC' in adh.Roles) or
-              ('ROLE_MAT' in adh.Roles) %}
+        {% if is_granted('ROLE_ADMIN') or
+              is_granted('ROLE_ENC') or
+              is_granted('ROLE_MAT') %}
 
             <div class="col-xs-12 col-sm-6">
                 {{  control.bouton(
@@ -273,11 +273,11 @@
 // Fin de rubriques d'admin encadrants, matériel et gonfleurs
 // ***********************************************************************************
 #}
-        {% if ('ROLE_ADMIN' in adh.Roles) or
-              ('ROLE_ENC' in adh.Roles) or
-              ('ROLE_MAT' in adh.Roles) or
-              ('ROLE_PUB' in adh.Roles) or
-              ('ROLE_GON' in adh.Roles) %}
+        {% if is_granted('ROLE_ADMIN') or
+              is_granted('ROLE_ENC') or
+              is_granted('ROLE_MAT') or
+              is_granted('ROLE_PUB') or
+              is_granted('ROLE_GON') %}
 
 {#
 // ***********************************************************************************
@@ -285,23 +285,23 @@
 // ***********************************************************************************
 #}
 
-            {% if ('ROLE_ADMIN' in adh.Roles) or ('ROLE_PUB' in adh.Roles) %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PUB') %}
                 {% include 'intranet/menu/inc_admin_publication.html.twig' %}
             {% endif %}
 
-            {% if ('ROLE_ADMIN' in adh.Roles) or ('ROLE_ENC' in adh.Roles) %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ENC') %}
                 {% include 'intranet/menu/inc_admin_encadrants.html.twig' %}
             {% endif %}
 
-            {% if ('ROLE_ADMIN' in adh.Roles) or ('ROLE_MAT' in adh.Roles) %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MAT') %}
                 {% include 'intranet/menu/inc_admin_materiel.html.twig' %}
             {% endif %}
 
-            {% if ('ROLE_ADMIN' in adh.Roles) or ('ROLE_ADMIN' in adh.Roles) %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN') %}
                 {% include 'intranet/menu/inc_administration.html.twig' %}
             {% endif %}
 
-            {% if ('ROLE_ADMIN' in adh.Roles) or ('ROLE_GON' in adh.Roles) %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_GON') %}
                 {% include 'intranet/menu/inc_admin_gonflage.html.twig' %}
             {% endif %}
 

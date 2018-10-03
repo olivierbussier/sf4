@@ -19,17 +19,12 @@ class Role
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Role;
+    private $role;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Adherent", inversedBy="Roles")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Adherent", inversedBy="roles")
      */
     private $adherent;
-
-    public function __toString()
-    {
-        return $this->getRole();
-    }
 
     public function getId()
     {
@@ -38,12 +33,12 @@ class Role
 
     public function getRole(): ?string
     {
-        return $this->Role;
+        return $this->role;
     }
 
-    public function setRole(string $Role): self
+    public function setRole(string $role): self
     {
-        $this->Role = $Role;
+        $this->role = $role;
 
         return $this;
     }

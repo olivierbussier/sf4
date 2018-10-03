@@ -28,6 +28,10 @@ class Adherent implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Choice(
+     *     choices = { "fiction", "non-fiction" },
+     *     message = "Choose a valid genre."
+     * )
      */
     private $Username;
 
@@ -42,8 +46,12 @@ class Adherent implements UserInterface
     private $Prenom;
 
     /**
+    /**
+     * @Assert\Email(
+     *     message = "'{{ value }}' n'est pas une adresse mail valide.",
+     *     checkMX = true
+     * )
      * @ORM\Column(type="string", length=255)
-     * @Assert\Email()
      */
     private $Mail;
 
@@ -124,7 +132,7 @@ class Adherent implements UserInterface
     private $TelPort;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Diplome", mappedBy="diplome")
+     * @ORM\OneToMany(targetEntity="App\Entity\Diplome", mappedBy="user")
      */
     private $diplomes;
 
@@ -289,9 +297,9 @@ class Adherent implements UserInterface
     private $DatePremInscr;
 
     /**
-     * @ORM\Column(type="json", length=512, nullable=true)
+     * @ORM\Column(type="text", length=512, nullable=true)
      */
-    private $AdminOK = [];
+    private $AdminOK;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -311,49 +319,17 @@ class Adherent implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Role", mappedBy="adherent")
      */
-    private $Roles;
+    private $roles;
+
+    private $reglementRGPD;
+    private $mineurSign;
+
 
     public function __construct()
     {
-        $this->Roles = new ArrayCollection();
+        $this->roles = new ArrayCollection();
     }
 
-    public function getRoles()
-    {
-        return $this->Roles->toArray();
-        /*
-        $toto = [];
-
-        $rl = $this->Roles->getValues();
-        foreach ($rl as $v) {
-            $toto[] = $v->getRole();
-        }
-        return $toto;
-*/
-    }
-
-    public function addRole(Role $role): self
-    {
-        if (!$this->Roles->contains($role)) {
-            $this->Roles[] = $role;
-            $role->setRole($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRole(Role $role): self
-    {
-        if ($this->Roles->contains($role)) {
-            $this->Roles->removeElement($role);
-            // set the owning side to null (unless already changed)
-            if ($role->getRole() === $this) {
-                $role->setRole(null);
-            }
-        }
-
-        return $this;
-    }
     public function getId()
     {
         return $this->id;
@@ -964,12 +940,12 @@ class Adherent implements UserInterface
 
     public function getAdminOK()
     {
-        return $this->AdminOK;
+        return explode('|', $this->AdminOK);
     }
 
     public function setAdminOK($AdminOK)
     {
-        $this->AdminOK = $AdminOK;
+        $this->AdminOK = implode('|', $AdminOK);
 
         return $this;
     }
@@ -1040,5 +1016,76 @@ class Adherent implements UserInterface
     public function setDiplomes($Diplomes): void
     {
         $this->diplomes = $Diplomes;
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getRoles()
+    {
+        $ret = [];
+        /**
+         * @var Role $v
+         */
+        foreach ($this->roles as $v) {
+            $ret[] = $v->getRole();
+        }
+        // $ret = $this->roles->getValues();
+        return $ret;
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->roles->contains($role)) {
+            $this->roles[] = $role;
+            $role->setAdherent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        if ($this->roles->contains($role)) {
+            $this->roles->removeElement($role);
+            // set the owning side to null (unless already changed)
+            if ($role->getAdherent() === $this) {
+                $role->setAdherent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReglementRGPD()
+    {
+        return $this->reglementRGPD;
+    }
+
+    /**
+     * @param mixed $reglementRGPD
+     */
+    public function setReglementRGPD($reglementRGPD): void
+    {
+        $this->reglementRGPD = $reglementRGPD;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMineurSign()
+    {
+        return $this->mineurSign;
+    }
+
+    /**
+     * @param mixed $minSign
+     */
+    public function setMineurSign($mineurSign): void
+    {
+        $this->mineurSign = $mineurSign;
     }
 }

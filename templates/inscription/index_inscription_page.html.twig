@@ -1,0 +1,1026 @@
+{#{% form_theme formInscr 'bootstrap_3_layout.html.twig' %}#}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur l'Intranetdu GUC{% endblock %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    {# Pour le cropper #}
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/cropper_slim.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/cropper_slim_guc.css") }}">
+
+    {# Styles pour le date picker #}
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/bootstrap-datepicker3.css") }}">
+
+    {# Pour FileInput #}
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/fileinput.css") }}">
+
+{% endblock %}
+
+{% block javascripts_head %}
+
+    {{ parent() }}
+
+    {# Cropper #}
+    <script type="text/javascript" src="{{ asset("js/slim.kickstart.js") }}"></script>
+
+    {# Datepicker using jquery #}
+    <script type="text/javascript" src="{{ asset("js/bootstrap-datepicker.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("js/bootstrap-datepicker.fr.min.js") }}"></script>
+
+    // Pour FileInput
+    <script type="text/javascript" src="{{ asset("js/piexif.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("js/fileinput.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("js/fr.js") }}"></script>
+
+    <script>
+        function adaptprix() {
+            var form = $('#inscript').serializeArray();
+            $.ajax({
+                method: "POST",
+                url: "{{ url("ajax_calculate", {'licMode': licenceMode}) }}", {#{#ajax_calculate_async.php?mode=<?= Session::get('LICENCE_MODE') ?>",#}
+                data: form,
+                success: function(ret,statut) {
+                    tab = JSON.parse(ret)
+                    document.getElementById("pmain_detail" ).innerHTML = tab['css'] + tab['detail'];
+                    document.getElementById("pmain_total"  ).innerHTML = tab['total'];
+                    document.getElementById("pmain_rfam"   ).innerHTML = tab['msgFamille'];
+                    if (tab['code'] == '{{ listes.calc.OK }}' || tab['code'] == '{{ listes.calc.ID_VIDE }}')
+                        hideError(8,4)
+                    else
+                        affError(8,4)
+                    //document.getElementById("pmain_id_text"   ).val(tab['famille']);
+                }
+            })
+        }
+        $(adaptprix)
+    </script>
+
+{% endblock %}
+
+{% block main_page %}
+
+    <div class="container">
+
+        <div class="col-xs-12">
+        {#// Afficher erreurs éventuelles
+    if ($e->getNbErrors() != 0) {?>
+                <h3>Votre pré-inscription n'a pas encore abouti</h3>
+                <div class="col-xs-12">
+                    <p>Corrigez les erreurs indiquées <span style="color:red">en rouge</span>
+                       au début de chaque rubrique indiquée :</p>
+                    <ul>
+    <?php     $e->afficheErrors(0, 0, true);  ?>
+                    </ul> #}
+        </div>
+
+    {% set fPassager = app.user.Licence == 'passager' %}
+
+    {% import 'macros/bouton.html.twig' as control %}
+
+    {#
+        static private $fields = [
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affEtud',           'check' => null],
+            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affDnaiss',         'check' => 'checkDnaiss'],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affTel',            'check' => 'checkTel'],
+            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affMail',           'check' => 'checkMail'],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affPhoto',          'check' => 'checkPhoto'],
+            // 2
+            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affNiv',            'check' => 'checkNiv'],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affDipl',           'check' => 'checkDipl'],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affActi',           'check' => 'checkActi'],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affBene',           'check' => null],
+            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affMedic',          'check' => null],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affAcci',           'check' => 'checkAcci'],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affAspi',           'check' => 'checkAspi'],
+            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affDcertif',        'check' => 'checkDcertif'],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affLic',            'check' => 'checkLic'],
+            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affAss',            'check' => 'checkAss'],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affReducfam',       'check' => 'checkReducfam'],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affFact',           'check' => null],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affPret',           'check' => 'checkPret'],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affBadge',          'check' => null],
+            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affInfoperso',      'check' => null],
+            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affMailliste',      'check' => 'checkMailliste'],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affReglement',      'check' => 'checkReglement'],
+            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affMineur',         'check' => 'checkMineur'],
+            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affCalcul',         'check' => null],
+            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affConfirm',        'check' => null]
+        ];
+#}
+    {{ form_start(formInscr, {'attr': {'id': 'inscript'}}) }}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>Inscription GUC Plongée - Saison <?php echo Config::$p_annee . "-" . (Config::$p_annee + 1); ?>.</h3>
+        </div>
+
+        <div class="col-xs-12">
+            <h4>Instructions</h4>
+        </div>
+
+        <div class="col-xs-12">
+            <p>Avec ce formulaire, vous allez effectuer votre pré-inscription. A l'issue, vous recevrez un mail
+                confirmant
+                sa prise en compte, avec en attachement votre fiche d'inscription PDF préremplie que vous
+                n'aurez plus qu'à imprimer et signer.</p>
+            <p>Vous devrez ensuite vous présenter à une des séances d'inscription indiquées au bas de votre fiche,
+                en emportant avec vous tous les documents demandés.</p>
+            <p>Lorsque le club aura récupéré et validé la totalité de ces documents, votre inscription sera
+                définitivement validée et vous recevrez un second mail pour vous le signifier. Si vous avez demandé
+                une facture, celle-ci vous parviendra à ce moment là.</p>
+            <p>Avant leur inscription définitive, les enfants de 10 à 14 ans auront un entretien avec un
+                membre de la section enfants.</p>
+            <p>Si vous rencontrez des difficultés, n'hésitez pas à nous les remonter au moyen de la rubrique
+                <a href="{{ url('ecrire') }}" target="ifr">Contact</a>,
+                ou en envoyant un mail au <a href="mailto:webmaster@guc-plongee.net">Webmaster</a></p>
+
+            <p><strong>Attention:</strong></p>
+            <ul>
+                <li>La remise du dossier complet est un pré-requis a la validation de l'inscription
+                    et donc à l'accès au bassin.
+                </li>
+                <li>Le remboursement des activités ne pourra être réalisé qu'exceptionellement et au cas par cas</li>
+                <li>Après le 30 Novembre, pour les personnes n'ayant pas validé leur inscription,
+                    le prix de la cotisation sera majoré de {{ conf.MAJO_COTISATION }}€.
+                </li>
+            </ul>
+        </div>
+
+    {% else %}
+
+        {# mode == PASSAGER #}
+
+        <div class="col-xs-12">
+            <h3>Inscription GUC Plongée (Licence Passager) -
+                Saison {{ conf.p_annee }} - {{ conf.p_annee + 1 }}.</h3>
+        </div>
+
+        <div class="col-xs-12">
+            <h4>Instructions</h4>
+        </div>
+
+        <div class="col-xs-12">
+            <p>Avec ce formulaire, vous allez effectuer votre demande de licence passager. A l'issue,
+                vous recevrez un mail confirmant sa prise en compte.</p>
+            <p>Si vous rencontrez des difficultés, n'hésitez pas à nous les remonter au moyen de la rubrique
+                <a href="{{ url('contact') }}">Contact</a>. Ou en envoyant un mail au
+                <a href="mailto:webmaster@guc-plongee.net">Webmaster</a></p>
+        </div>
+
+    {% endif %}
+
+    {% if fPassager or not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>1 - Informations personnelles de {{ app.user.nom }} {{ app.user.prenom }}</h3>
+        </div>
+
+        <div class="col-xs-12">
+            <h4>Genre</h4>
+        </div>
+
+        {{ control.error(1,1) }}
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_label(formInscr.Genre) }}
+            {{ form_errors(formInscr.Genre) }}
+            {{ form_widget(formInscr.Genre) }}
+            {{ form_help(formInscr.Genre) }}
+        </div>
+
+    {% endif %}
+
+    {% if fPassager or not fPassager %}
+
+        <div class="col-xs-12">
+            <h4>Coordonnées</h4>
+        </div>
+
+        {{ control.error(1,2) }}
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_label(formInscr.Adresse1, 'Adresse : ') }}
+            {{ form_errors(formInscr.Adresse1) }}
+            {{ form_widget(formInscr.Adresse1) }}
+            {{ form_help(formInscr.Adresse1) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_label(formInscr.Adresse2, 'Suite adresse : ') }}
+            {{ form_errors(formInscr.Adresse2) }}
+            {{ form_widget(formInscr.Adresse2) }}
+            {{ form_help(formInscr.Adresse2) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_label(formInscr.CodePostal, 'Code Postal : ') }}
+            {{ form_errors(formInscr.CodePostal) }}
+            {{ form_widget(formInscr.CodePostal) }}
+            {{ form_help(formInscr.CodePostal) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_label(formInscr.Ville, 'Ville : ') }}
+            {{ form_errors(formInscr.Ville) }}
+            {{ form_widget(formInscr.Ville) }}
+            {{ form_help(formInscr.Ville) }}
+        </div>
+
+    {% endif %}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12 col-sm-6">
+            {{ control.error(1, 3) }}
+            {{ form_label(formInscr.Profession, 'Profession : ') }}
+            {{ form_errors(formInscr.Profession) }}
+            {{ form_widget(formInscr.Profession) }}
+            {{ form_help(formInscr.Profession) }}
+        </div>
+
+    {% endif %}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_label(formInscr.fEtudiant, 'Cochez cette case si vous êtes étudiant') }}
+            {{ form_errors(formInscr.fEtudiant) }}
+            {{ form_widget(formInscr.fEtudiant) }}
+            {{ form_help(formInscr.fEtudiant) }}
+        </div>
+
+    {% endif %}
+
+    {% if fPassager or not fPassager %}
+
+        <div class="col-xs-12 col-sm-6">
+            {{ control.error(1,4) }}
+            {{ form_label(formInscr.DateNaissance, 'Date de naissance : ') }}
+            {{ form_errors(formInscr.DateNaissance) }}
+            {{ form_widget(formInscr.DateNaissance) }}
+            {{ form_help(formInscr.DateNaissance) }}
+        </div>
+
+    {% endif %}
+
+    {% if fPassager or not fPassager %}
+
+        <div class="col-xs-12 col-sm-6">
+            {{ control.error(1, 5) }}
+            {{ form_label(formInscr.TelFix, 'Téléphone fixe : ') }}
+            {{ form_errors(formInscr.TelFix) }}
+            {{ form_widget(formInscr.TelFix) }}
+            {{ form_help(formInscr.TelFix) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ control.error(1, 6) }}
+            {{ form_label(formInscr.TelPort, 'Téléphone portable : ') }}
+            {{ form_errors(formInscr.TelPort) }}
+            {{ form_widget(formInscr.TelPort) }}
+            {{ form_help(formInscr.TelPort) }}
+        </div>
+
+    {% endif %}
+
+    {% if fPassager or not fPassager %}
+
+        <div class="col-xs-12 col-sm-6">
+            {{ control.error(1, 7) }}
+            {{ form_label(formInscr.Mail, 'Adresse mail : ') }}
+            {{ form_errors(formInscr.Mail) }}
+            {{ form_widget(formInscr.Mail) }}
+            {{ form_help(formInscr.Mail) }}
+        </div>
+
+    {% endif %}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>2 - Photo d'identité.</h3>
+            {{ control.error(2, 1) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-8">
+            <div id="textimg">
+                {% if fGood == 'toutok' %}
+
+                    <p>La photo ci-contre à droite sera utilisée dans votre dossier et dans le trombinoscope du club</p>
+                    <p>Vous pouvez :</p><ul>
+                        <li>La recadrer et/ou la faire pivoter en cliquant sur le stylo dans l'image</li>
+                        <li>En changer en cliquant sur la photo ou en faisant un 'glisser-déposer d'une nouvelle photo</li>
+                        </ul>
+                    <p>Si vous ne pouvez pas scanner et/ou télécharger une photo, joignez en une au format papier
+                        <strong>(avec votre nom au dos)</strong> dans le dossier d'inscription afin que le secrétariat fasse
+                        le scan pour vous.</p>
+                    {% set image = fileName ~ '?id=' ~ random(0,9999) %}
+
+                {% else %}
+
+                    <p>Nous n'avons pas trouvé de photo d'identité de vous dans notre base d'adhérents.</p>
+                    <p>Vous devez donc télécharger une photo. Pour ce faire, cliquez dans la zone grise ci-contre, vous
+                        pourrez alors choisir une photo sur votre ordinateur, la cadrer et/ou la faire pivoter puis
+                        l'enregistrer</p><p>Une fois sauvegardée, cette photo sera utilisée pour votre dossier d'inscription;
+                        elle sera aussi utilisée pour le trombinoscope du club que vous trouverez dans l'intranet.</p>
+                    <p>Si vous ne pouvez pas scanner et/ou télécharger une photo, joignez en une au format papier
+                        <strong>(avec votre nom au dos)</strong> dans le dossier d'inscription afin que le secrétariat fasse
+                        le scan pour vous.</p><p><strong>Sans photo exploitable, tout dossier d’inscription sera
+                        rejeté.</strong></p>";
+                    {% set image = '' %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-4">
+            <div class="slim"
+                 data-post="output"
+                 data-service="ajax_slim_async.php"
+                 data-push="true"
+                 data-save-initial-image="false"
+                 data-did-confirm="callback_after_save"
+                 data-did-receive-server-error="callback_error_server"
+                 data-instant-edit="true"
+                 data-size="480,620"
+                 data-force-size="240,310"
+                 data-force-type="jpg"
+                 data-jpeg-compression="95"
+                 data-ratio="24:31"
+                 data-min-size="48,62"
+                 data-max-file-size="8"
+                 data-status-file-size="Taille Max = 8Mo"
+                 data-meta-nom="{{ app.user.nom }}"
+                 data-meta-prenom="{{ app.user.prenom }}"
+                 data-meta-refusr="{{ refPhoto }}"
+                 data-button-remove-label="false"
+                 data-label="Clickez ici pour choisir une photo<br><br>ou bien<br><br>déposer ici une photo">
+                <input type="file" name="slim[]"/>
+                {% if image != '' %}
+                    <img src="{{ asset(image) }}">
+                {% endif %}
+
+            </div>
+            <script>
+                function callback_error_server(error, defaultError) {
+                    document.getElementById("textimg").innerHTML = '<span class="redw">Erreur serveur</span>';
+                    console.log(error);
+                    console.log(defaultError);
+                }
+
+                function callback_after_save(data) {
+                    texte = "<p>La photo ci-contre à droite sera utilisée dans votre dossier et dans le " +
+                        "trombinoscope du club</p>Vous pouvez :<ul><li>La recadrer et/ou la faire pivoter " +
+                        "en cliquant sur le stylo dans l'image</li><li>En changer en cliquant sur la photo ou " +
+                        "en faisant un 'glisser-déposer d'une nouvelle photo</li></ul></p><p>Si vous ne pouvez " +
+                        "pas scanner et/ou télécharger une photo, joignez en une au format papier " +
+                        "<strong>(avec votre nom au dos)</strong> dans le dossier d'inscription afin que le " +
+                        "secrétariat fasse le scan pour vous.</p>";
+                    document.getElementById("textimg").innerHTML = texte;
+                }
+            </script>
+
+        </div>
+
+    {% endif %}
+
+    {% if fPassager or not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>3 - Niveaux de plongée</h3>
+            <p>Renseignez vos niveaux de scaphandre et d'apnée. Indiquez "Débutant" si vous n'avez jamais pratiqué.
+                Une copie du ou des diplômes est exigée en début d’année pour les nouveaux adhérents.</p>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            <h4>Plongée scaphandre</h4>
+            {{ control.error(3, 1) }}
+            {{ form_label(formInscr.NiveauSca, 'Niveau scaphandre : ') }}
+            {{ form_errors(formInscr.NiveauSca) }}
+            {{ form_widget(formInscr.NiveauSca) }}
+            {{ form_help(formInscr.NiveauSca) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            <h4>Apnée</h4>
+            {{ control.error(3, 2) }}
+            {{ form_label(formInscr.NiveauApn, 'Niveau apnée : ') }}
+            {{ form_errors(formInscr.NiveauApn) }}
+            {{ form_widget(formInscr.NiveauApn) }}
+            {{ form_help(formInscr.NiveauApn) }}
+        </div>
+
+    {% endif %}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>4 - Autres diplômes</h3>
+            <p>Renseignez ici vos dipômes et qualifications, pensez à amener une photocopie le jour de l'inscription</p>
+        </div>
+
+        <div class="col-xs-12">
+            <h4>Secourisme/Médecins</h4>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-ml-4">
+            {{ control.error(4, 1) }}
+            {{ form_label(formInscr.diplomes, 'TIV') }}
+            {{ form_errors(formInscr.diplomes) }}
+            {{ form_widget(formInscr.diplomes) }}
+            {{ form_help(formInscr.diplomes) }}
+        </div>
+
+        <div class="col-xs-12">
+            <h4>Chargement de la copie de vos diplomes</h4>
+            <p>Utilisez le bouton ci-dessous pour charger une copie de vos diplomes.
+                Depuis votre téléphone, vous pourrez en prendre directement une photo</p>
+            <input id="input-b0" name="input-b0[]" type="file" multiple>
+        </div>
+
+        <script>
+            //initialPreviewShowDelete: true,
+            $(document).ready(function () {
+                $("#input-b0").fileinput({
+                    language: 'fr',
+                    uploadUrl: "ajax_upload.php",
+                    maxFileSize: 9000,
+                    overwriteInitial: false,
+                    uploadExtraData: {nbFiles: 4, Type: 'diplomes'},
+                    deleteExtraData: {nbFiles: 4, Type: 'diplomes'},
+
+                    maxImageWidth: 1100,
+                    maxImageHeight: 2000,
+                    resizePreference: 'height',
+                    resizeImage: true,
+                    resizeIfSizeMoreThan: 1000,
+                    maxFileCount:4,
+                    //autoReplace: true,
+                    fileActionSettings: {
+                        showUpload: false,
+                        showDownload: false
+                    },
+                    showUpload: false, // hide upload button
+                    allowedFileExtensions: ['jpg','jpeg','png','gif','pdf']
+                    {% if fileDiplomes %}  ,
+                        initialPreview: [
+                            {% set virg = '' %}
+                            {% for file in fileDiplomes %}
+                                {{ virg }}'{{ asset('xx/' ~ file.name) }}'
+                                {% set virg = ',' %}
+                            {% endfor %}
+                        ],
+                    {% endif %}
+                    append: true,
+                    validateInitialCount: true,
+                    initialPreviewAsData: true,
+                    deleteUrl: "ajax_delete.php"
+                    {% if fileDiplomes %}  ,
+                        initialPreviewConfig: [
+                            {% set virg = '' %}
+                            {% for file in fileDiplomes %}
+                                {{ virg }}{
+                                type: '{{ file.type }}',
+                                caption: '{{ file.name }}',
+                                width: '120px',
+                                downloadUrl: '{{ asset('xx/' ~ file.name) }}',
+                                key: '{{ file.name }}'
+                            }
+                                {% set virg = ',' %}
+                            {% endfor %}
+                        ]
+                    {% endif %}
+                })
+            })
+        </script>
+
+    {% endif %}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>5 - Activité prévue cette année</h3>
+            <p>Renseignez ici l'activité que vous souhaitez pour cette année</p>
+        </div>
+
+        <div class="col-xs-12">
+            {{ control.error(5, 1) }}
+            {{ form_label(formInscr.Activite) }}
+            {{ form_errors(formInscr.Activite) }}
+            {{ form_widget(formInscr.Activite) }}
+            {{ form_help(formInscr.Activite) }}
+        </div>
+
+        <div class="col-xs-12">
+            {{ control.error(5, 2) }}
+            {{ form_label(formInscr.fApneeSca) }}
+            {{ form_errors(formInscr.fApneeSca) }}
+            {{ form_widget(formInscr.fApneeSca, {
+                'label': 'Pour les activités nage et apnée, si vous souhaitez participer aux sorties plongée '  ~
+                         'et/ou pouvoir emprunter du matériel, cochez cette case',
+                'label_attr': {'class': 'redw'}
+            }) }}
+            {{ form_help(formInscr.fApneeSca) }}
+        </div>
+
+    {% endif %}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12">
+            <h4>Je participe à la vie du club</h4>
+            <p>Le club n'existe que parce que quelques-uns de ses adhérents s'impliquent pour organiser l'activité :</p>
+            <ul>
+                <li>La gestion du matériel</li>
+                <li>La gestion avant les séances (gonflage et retours de matériel)</li>
+                <li>La gestion pendant les séances (si vous avez un niveau d'encadrement)</li>
+                <li>La gestion après les séances (sorties matériel, fermeture bassin)</li>
+                <li>Et tout au long de l'année (communication, organisation sorties, ...)</li>
+                <li>Bien d'autres encore ...</li>
+            </ul>
+
+            <p>La démarche est encouragée par le club qui propose une cotisation réduite à ceux qui donnent
+                de leur temps. Toutefois ceci n'est possible que si des postes sont disponibles et rarement
+                compatible avec la préparation d'un niveau de plongée ou d'apnée.</p>
+            <p>Si vous êtes intéressé, venez un mardi soir pour rencontrer le président (Patrick) ou l'un des
+                responsables du matériel (Olivier ou Philippe) ou du gonflage (Jean-François). Une fois leur accord
+                obtenu, le montant de votre cotisation sera ajusté au tarif bénévole.</p>
+
+            {{ form_errors(formInscr.fApneeSca) }}
+            {{ form_widget(formInscr.fBenevole,  { 'label': 'La case ci-contre est cochée si le club à validé votre bénévolat' }) }}
+            {{ form_help(formInscr.fApneeSca) }}
+
+        </div>
+
+    {% endif %}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>6 - Informations médicales</h3>
+        </div>
+
+        <div class="col-xs-12">
+            <h4>Personne à prévenir en cas d'accident</h4>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ control.error(6,1) }}
+            {{ form_label(formInscr.DateCertif, 'Nom de la personne à prévenir') }}
+            {{ form_errors(formInscr.AccidentNom) }}
+            {{ form_widget(formInscr.AccidentNom) }}
+            {{ form_help(formInscr.AccidentNom) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ control.error(6,2) }}
+            {{ form_label(formInscr.DateCertif, 'Prénom de la personne à prévenir') }}
+            {{ form_errors(formInscr.AccidentPrenom) }}
+            {{ form_widget(formInscr.AccidentPrenom) }}
+            {{ form_help(formInscr.AccidentPrenom) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ control.error(6,3) }}
+            {{ form_label(formInscr.DateCertif, 'Téléphone fixe de la personne à prévenir') }}
+            {{ form_errors(formInscr.AccidentTelFix) }}
+            {{ form_widget(formInscr.AccidentTelFix,  { 'label': 'Tel fixe de la personne à prévenir' }) }}
+            {{ form_help(formInscr.AccidentTelFix) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ control.error(6,1) }}
+            {{ form_label(formInscr.DateCertif, 'Téléphone mobile de la personne à prévenir') }}
+            {{ form_errors(formInscr.AccidentTelPort) }}
+            {{ form_widget(formInscr.AccidentTelPort,  { 'label': 'Tel GSM de la personne à prévenir' }) }}
+            {{ form_help(formInscr.AccidentTelPort) }}
+        </div>
+        {#
+        if (($res = self::verifTel($tel)) == false)
+            $e->error(6, 1, "Le téléphone portable de la personne à prévenir en cas d'accident est incorrect.");
+
+        #}
+
+    {% endif %}
+
+    {% if fPassager or not fPassager %}
+
+        <div class="col-xs-12">
+            <h4>Certificat médical.</h4>
+        </div>
+
+        <div class="col-xs-12">
+            {{ control.error(6, 2) }}
+
+            <p>Une copie du certificat médical est exigée pour tout adhérent du GUC. Ce certificat de non-contre
+                indication à la pratique de la plongée (ou apnée, ou nage) doit être délivré par un médecin du sport
+                ou par un médecin fédéral et doit être postérieur au 1er Juillet <?= Config::$p_annee; ?> afin qu'il
+                garde sa validité toute l'année scolaire.</p>
+            <p>Cette copie ne sera pas rendue : <strong>Gardez bien l'original</strong> au cas où d'autres copies
+                seraient demandées par ailleurs (ex: club du bord de mer).</p>
+            <p>Le modèle de certificat préconisé par la FFESSM est téléchargeable
+                <a class=mnav2 href="../docs/CertMed.pdf" target=_blank><b><u>ICI</u></b></a></p>
+            <p>Pour les enfants de moins de 14 ans non titulaires du N1, ce certificat doit être délivré
+                par un médecin fédéral.</p>
+            <p>Si vous vous êtes inscrit à un passage de niveau, demandez bien au médecin de cocher l'aptitude
+                à la préparation et au passage du brevet suivant, et préciser le niveau.</p>
+
+            {{ control.error(6,1) }}
+            {{ form_label(formInscr.DateCertif, 'Date du certificat') }}
+            {{ form_errors(formInscr.DateCertif) }}
+            {{ form_widget(formInscr.DateCertif,  { 'label': 'Date du certificat médical' }) }}
+            {{ form_help(formInscr.DateCertif) }}
+
+        </div>
+
+        <div class="col-xs-12">
+            <h4>Chargement de la copie de votre certificat médical</h4>
+            <p>Utilisez le bouton ci-dessous pour charger une copie. Depuis votre téléphone, vous pourrez
+                en prendre directement une photo</p>
+            <input id="input-b1" name="input-b1[]" type="file" multiple>
+        </div>
+
+        <script>
+            //initialPreviewShowDelete: true,
+            $(document).ready(function () {
+                $("#input-b1").fileinput({
+                        language: 'fr',
+                        uploadUrl: "ajax_upload.php",
+                        maxFileSize: 9000,
+                        overwriteInitial: false,
+                        uploadExtraData: {nbFiles: 1, Type: 'certifs'},
+                        deleteExtraData: {nbFiles: 1, Type: 'certifs'},
+                        maxImageWidth: 1100,
+                        maxImageHeight: 2000,
+                        resizePreference: 'height',
+                        resizeImage: true,
+                        resizeIfSizeMoreThan: 1000,
+                        maxFileCount: 1,
+                        autoReplace: true,
+                        fileActionSettings: {
+                            showUpload: false,
+                            showDownload: false
+                        },
+                        showUpload: false, // hide upload button
+                        allowedFileExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf']
+                        {% if fileCertif %}  ,
+                            initialPreview: [
+                                {% set virg = '' %}
+                                {% for file in fileCertif %}
+                                {{ virg }}'{{ asset('xx/' ~ file.name) }}'
+                                {% set virg = ',' %}
+                                {% endfor %}
+                            ],
+                        {% endif %}
+                        append: true,
+                        validateInitialCount: true,
+                        initialPreviewAsData: true,
+                        deleteUrl: "ajax_delete.php"
+                        {% if fileDiplomes %}  ,
+                            initialPreviewConfig: [
+                            {% set virg = '' %}
+                            {% for file in fileCertif %}
+                                {{ virg }}{
+                                type: '{{ file.type }}',
+                                caption: '{{ file.name }}',
+                                width: '120px',
+                                downloadUrl: '{{ asset('xx/' ~ file.name) }}',
+                                key: '{{ file.name }}'
+                                }
+                                {% set virg = ',' %}
+                            {% endfor %}
+                            ]
+                        {% endif %}
+                    })
+                })
+        </script>
+
+        <div class="col-xs-12">
+            <h4>Intolérence à l'aspirine.</h4>
+            {{ control.error(6, 3) }}
+
+
+
+            {{ form_errors(formInscr.fAllergAspirine) }}
+            {{ form_widget(formInscr.fAllergAspirine,  {
+                'label': 'Cochez cette case si vous avez une intolérance forte à l\'aspirine ? ' ~
+                         '(réactions allant au delà de simples maux d\'estomac)' }) }}
+            {{ form_help(formInscr.fAllergAspirine) }}
+
+        </div>
+
+    {% endif %}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>7 - Licence FFESSM</h3>
+            <h4>Licence</h4>
+            {{ control.error(7, 1) }}
+            <p>Il est obligatoire d'être licencié par la FFESSM pour pratiquer la plongée en club ou la nage
+                avec palmes ou l’apnée. La licence tient lieu d'assurance en responsabilité civile. Si vous
+                êtes déjà licencié(e) dans un autre club, ne pas demander de licence au GUC.</p>
+
+            {{ form_errors(formInscr.Licence) }}
+            {{ form_widget(formInscr.Licence,  {
+                'label': "J'ai déjà ma licence FFESSM pour l'année " ~ conf.p_annee ~ "-" ~ (conf.p_annee + 1) ~
+                " (en joindre alors une photocopie)" }) }}
+            {{ form_help(formInscr.Licence) }}
+
+        </div>
+
+    {% endif %}
+
+    {% if fPassager or not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>8 - Assurance personelle complémentaire facultative</h3>
+            <p>La FFESSM a négocie avec le groupe AXA une assurance complémentaire. Voir les tableaux d'affichage.
+                Cette assurance est facultative pour la plongée mais nécessaire pour la compétition de nage avec palmes.
+                Pour vous aider à choisir votre assurance, vous pouvez consulter les garanties dans le tableau
+                <a href="<?php echo Config::P_LAXA; ?>" target="_blank"><strong><u>suivant</u></strong></a>.</p>
+            {{ control.error(8, 1) }}
+            {{ form_label(formInscr.Assurance) }}
+            {{ form_errors(formInscr.Assurance) }}
+            {{ form_widget(formInscr.Assurance) }}
+            {{ form_help(formInscr.Assurance) }}
+
+        </div>
+
+    {% endif %}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>9 -Réductions</h3>
+        </div>
+
+        <div class="col-xs-12">
+            <h4>Réduction famille</h4>
+            <p>A partir du deuxième inscrit d'une famille, il est possible d'avoir une réduction. Cette réduction
+                n'est pas cumulable avec les cotisations bénévoles, encadrants ou apnéistes non-plongeurs.</p>
+        </div>
+
+        <style>
+            .big {
+                font-size: larger;
+            }
+        </style>
+
+        <div class="col-xs-12 col-sm-6">
+            <p>Si vous payez plein tarif, vous pouvez utiliser l'identifiant ci-dessous pour obtenir une réduction
+                famille lors de l'inscription d'autres membres de votre famille</p>
+            <p>Cet identifiant est également indiqué sur la fiche PDF délivrée a la fin de la preinscription
+                dans la rubrique "récapitulatif des documents à fournir</p>
+            <p>Identifiant réduction famille <span class="label label-primary big">{{ ReducFamId }}</span></p>
+            <input type="hidden" name="REDUCFAMID" value="{{ ReducFamId }}">
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+
+            <p>Vous pouvez également renseigner dans le champ ci-dessous un indentifiant réduction famille
+                d'un membre de la famille ayant réalisé une inscription plein tarif.</p>
+            <div class="col-xs-8">
+                {{ control.error(9, 1) }}
+                {{ form_label(formInscr.ReducFam,"Indiquez l'identifiant de l'adhérent plein tarif") }}
+                {{ form_errors(formInscr.ReducFam) }}
+                {{ form_widget(formInscr.ReducFam) }}
+                {{ form_help(formInscr.ReducFam) }}
+            </div>
+
+            <div class="col-xs-4">
+                <button id="id_btn_reducfam" class="btn btn-primary" >Valider cet ID</button>
+            </div>
+
+            <script>
+                $('#id_btn_reducfam').click(function (event) {
+                    event.preventDefault();
+                    adaptprix()
+                })
+            </script>
+
+            <div class="col-xs-12">
+                <span id="pmain_rfam" ></span>
+            </div>
+
+        </div>
+
+    {% endif %}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>10 - Chèques de caution, prise en charge CAESUG et facture</h3>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            <h4>Facture et prise en charge CAESUG</h4>
+            {{ control.error(10, 1) }}
+            {{ form_label(formInscr.Facture) }}
+            {{ form_errors(formInscr.Facture) }}
+            {{ form_widget(formInscr.Facture) }}
+            {{ form_help(formInscr.Facture) }}
+        </div>
+
+    {% endif %}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12">
+            <h4>Prêt de matériel</h4>
+
+            <p>Si vous désirez emprunter du matériel au club (détendeur, gilet, bouteille, …), un chèque de caution
+                d'un montant de {{ conf.CAUTION_MATOS }}€ vous sera demandé et sera conservé par le
+                club toute l’année.</p>
+            <p class="yellow">Si vous vous inscrivez en passage de niveau, vous devrez participer à des week-end
+                techniques à Niolon pour conforter et valider vos acquis. Si vous n'avez pas tout votre matériel,
+                en cochant 'oui' ci-dessous, vous pourrez emprunter gratuitement stab et détendeur pour ces W.E.</p>
+            <p>Ce chèque peut vous être restitué au mois de juin si vous le demandez, sinon il sera conservé jusqu'au
+                mois de Novembre, détruit ensuite, pour vous permettre d'emprunter du matériel jusqu'à la prochaine
+                inscription au club.</p>
+            <p><strong>Si vous ne faites pas de chèque, vous n'aurez pas accès au prêt matériel.</strong></p>
+
+            <p>Souhaitez-vous emprunter du matériel ?</p>
+            {{ control.error(10, 2) }}
+            {{ form_label(formInscr.PretMateriel) }}
+            {{ form_errors(formInscr.PretMateriel) }}
+            {{ form_widget(formInscr.PretMateriel) }}
+            {{ form_help(formInscr.PretMateriel) }}
+        </div>
+
+    {% endif %}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12">
+            <h4>Badge magnétique pour l'accès à la piscine</h4>
+            <p>Afin de pouvoir accéder à la piscine du campus, un badge magnétique vous est prêté pour toute l’année.
+                En échange, un chèque de caution de {{ conf.BADGE_PISCINE }}€ établi à l'ordre du GUC Plongée
+                vous est demandé. <strong>Si vous perdez le badge ou si vous ne le rendez pas fin
+                    juin {{ (conf.p_annee + 1) }},
+                    le chèque sera encaissé.</strong></p>
+        </div>
+
+    {% endif %}
+
+    {% if fPassager or not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>11 - Informations administratives</h3>
+            <h4>Informations légales.</h4>
+            <p>Les informations recueillies sont nécessaires pour votre adhésion. Elles font l’objet d’un traitement
+                informatique et sont destinées au secrétariat. En application de l’article 34 de la Loi du 6 janvier
+                1978,
+                vous bénéficiez d’un droit d’accès et de rectification aux informations qui vous concernent.
+                Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant,
+                veuillez vous adresser au secrétariat de l’association.</p>
+        </div>
+
+        <div class="col-xs-12">
+            <h4>Utilisation de votre mail</h4>
+            <p>Souhaitez-vous communiquer votre email au GUC Central afin de recevoir
+                des informations complémentaires ?</p>
+            {{ control.error(11, 1) }}
+            {{ form_label(formInscr.fMailGUC) }}
+            {{ form_errors(formInscr.fMailGUC) }}
+            {{ form_widget(formInscr.fMailGUC) }}
+            {{ form_help(formInscr.fMailGUC) }}
+        </div>
+
+    {% endif %}
+
+    {% if fPassager or not fPassager %}
+
+        <div class="col-xs-12">
+            <h4>Réglement intérieur et politique de protection des données personelles.</h4>
+            {{ control.error(11, 2) }}
+            <p>Je reconnais avoir pris connaissance
+                <a href="{{ asset('docs/ReglementInterieur.pdf') }}" target="_blank">du réglement intérieur</a> ainsi que
+                de <a href="{{ asset('docs/RGPD.pdf') }}" target="_blank">la politique de protection des Données personelles</a>.</p>
+            <p>Je peux également en avoir une copie auprès du secrétariat du club.</p>
+
+            {{ form_errors(formInscr.ReglementRGPD) }}
+            {{ form_widget(formInscr.ReglementRGPD, {'label': '<mark>Je signe en cochant cette case.</mark>'}) }}
+            {{ form_help(formInscr.ReglementRGPD) }}
+
+        </div>
+
+    {% endif %}
+
+    {% if not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>12 - Mineurs</h3>
+            <h4>Autorisation parentale pour les mineurs uniquement</h4>
+            {{ control.error(12,1) }}
+            <p>Je soussigné(e)</p>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_label(formInscr.MineurNom,"Le nom de la personne responsable") }}
+            {{ form_errors(formInscr.MineurNom) }}
+            {{ form_widget(formInscr.MineurNom) }}
+            {{ form_help(formInscr.MineurNom) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_label(formInscr.MineurPrenom,"Le prénom de la personne responsable") }}
+            {{ form_errors(formInscr.MineurPrenom) }}
+            {{ form_widget(formInscr.MineurPrenom) }}
+            {{ form_help(formInscr.MineurPrenom) }}
+        </div>
+
+        <div class="col-xs-12">
+            <p>agissant en qualité de</p>
+            {{ form_label(formInscr.MineurQualite,'') }}
+            {{ form_errors(formInscr.MineurQualite) }}
+            {{ form_widget(formInscr.MineurQualite) }}
+            {{ form_help(formInscr.MineurQualite) }}
+
+            <p>autorise le mineur sus-nommé à pratiquer la plongée sous-marine dans le cadre des activités
+                organisées par le club.</p>
+
+            {{ form_errors(formInscr.MineurSign) }}
+            {{ form_widget(formInscr.MineurSign, {'label': 'Je signe en cochant cette case.'}) }}
+            {{ form_help(formInscr.MineurSign) }}
+
+        </div>
+
+    {% endif %}
+
+    {% if fPassager or not fPassager %}
+
+        <div class="col-xs-12">
+            <h3>13 - Cotisations</h3>
+            <p>La cotisation club vous permet l'accès aux activités organisées par le club : piscine, brevets,
+                sorties, nage, prêts (selon les conditions définies dans le Règlement Intérieur).
+                Cette cotisation inclut l'adhésion au club, l'adhésion au GUC central et l'accès à la piscine
+                (et à toutes les installations du SIUAPS).</p>
+        </div>
+
+        <div class="col-xs-12 col-sm-7">
+            <span id="pmain_detail" ></span>
+            {{ control.error(13, 1) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-5">
+            <span id="pmain_total" ></span>
+        </div>
+
+        <div class="clearfix"></div>
+
+    {% endif %}
+
+    <div class="col-xs-12">
+        <h3>14 - Validation et envoi de la pré-inscription</h3>
+        <p>Avant d'appuyer sur le bouton "Valider" ci-dessous, prenez le temps de bien vérifier bien que toutes
+            les données saisies dans le formulaire sont exactes.</p>
+
+        <button id="idSubmit" type="submit" class="btn btn-default btn-block" name="mySubmit" value="Valider ma pré-inscription">
+            <span class="glyphicon glyphicon-ok"></span> Valider ma préinscription
+        </button>
+    </div>
+
+    {{ form_end(formInscr) }}
+        <script>
+            $(document).ready(function() {
+                // you may need to change this code if you are not using Bootstrap Datepicker
+                $('.js-datepicker').datepicker({
+                    todayBtn: "linked",
+                    language: "fr",
+                    autoclose: true,
+                    format: 'dd/mm/yyyy'
+                });
+            });
+        </script>
+    <script>
+        var valide0 = false;
+        var valide1 = false;
+        $('#idSubmit').click(function (event) {
+            $('#input-b0').fileinput('upload');
+            $('#input-b1').fileinput('upload');
+            event.preventDefault()
+        });
+        $('#input-b0').on('filebatchuploadcomplete', function(event, files, extra) {
+            valide0 = true;
+            if (valide0 && valide1) {
+                var form = $('#inscript');
+                form.submit()
+            }
+        });
+        $('#input-b1').on('filebatchuploadcomplete', function(event, files, extra) {
+            valide1 = true;
+            if (valide0 && valide1) {
+                var form = $('#inscript');
+                form.submit()
+            }
+        });
+    </script>
+
+</div>
+
+{% endblock %}
