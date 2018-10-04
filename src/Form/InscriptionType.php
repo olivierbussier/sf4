@@ -35,7 +35,7 @@ class InscriptionType extends AbstractType
             ->add('fEtudiant')
             ->add('NiveauSca', ChoiceType::class, ['choices' => FormConst::$niveauxSca])
             ->add('NiveauApn', ChoiceType::class, ['choices' => FormConst::$niveauxApn])
-            ->add('diplomes' , CheckboxType::class)
+            //->add('diplomes')
             ->add('Activite', ChoiceType::class, [
                 'choices' => [
                     '--' => '--',
@@ -57,7 +57,7 @@ class InscriptionType extends AbstractType
                 'attr'   => [ 'class' => 'js-datepicker']
             ])
             ->add('fAllergAspirine')
-            ->add('Licence', CheckboxType::class)
+            ->add('Licence')
             ->add('Assurance', ChoiceType::class, [
                 'choices' => [
                     '--'          => '--',

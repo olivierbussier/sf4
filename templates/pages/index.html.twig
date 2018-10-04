@@ -12,7 +12,6 @@
             '04' : "Avril",   '05' : "Mai",      '06' : "Juin",
             '07' : "Juillet", '08' : "Aout",     '09' : "Septembre",
             '10' : "Octobre", '11' : "Novembre", '12' : "Décembre"} %}
-        {% set htmlimg   = "$beginlink<img src=\"upload/$urlimg\">$endlink" %}
 
         {% for post in posts %}
             {% set tabdate = post.postedAt|date('d-m-Y') | split('-') %}
@@ -29,6 +28,7 @@
                     {% set htmlimg = '<img src="' ~ asset(imblog ~ "/" ~ post.image) ~ '">' %}
 
                 {% endif %}
+
             {% else %}
 
                 {% set posimg = 'none' %}
@@ -61,17 +61,17 @@
                         <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 blog-img">{{ htmlimg| raw }}</div>
                         <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9 blog-text">{{ htmltext| raw }}</div>
 
-                    {% elseif post.PositionImage == 'droite' %}
+                    {% elseif posimg == 'droite' %}
 
                         <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9 blog-text">{{ htmltext| raw }}</div>
                         <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 blog-img">{{ htmlimg| raw }}</div>
 
-                    {% elseif post.PositionImage == 'dessous' %}
+                    {% elseif posimg == 'dessous' %}
 
                         <div class="col-xs-12 blog-text">{{ htmltext| raw }}</div>
                         <div class="col-xs-12 blog-img">{{ htmlimg| raw }}</div>
 
-                    {% elseif post.PositionImage == 'dessus' %}
+                    {% elseif posimg == 'dessus' %}
 
                         <div class="col-xs-12 blog-img">{{ htmlimg| raw }}</div>
                         <div class="col-xs-12 blog-text">{{ htmltext| raw }}</div>

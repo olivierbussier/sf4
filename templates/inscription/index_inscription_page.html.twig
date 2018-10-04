@@ -112,7 +112,7 @@
         ];
 #}
     {{ form_start(formInscr, {'attr': {'id': 'inscript'}}) }}
-
+{{ dump(app.user) }}
     {% if not fPassager %}
 
         <div class="col-xs-12">
@@ -151,7 +151,9 @@
             </ul>
         </div>
 
-    {% else %}
+    {% endif %}
+
+    {% if fPassager %}
 
         {# mode == PASSAGER #}
 
@@ -428,11 +430,11 @@
         </div>
 
         <div class="col-xs-12 col-sm-6 col-ml-4">
-            {{ control.error(4, 1) }}
+            {#{{ control.error(4, 1) }}
             {{ form_label(formInscr.diplomes, 'TIV') }}
             {{ form_errors(formInscr.diplomes) }}
             {{ form_widget(formInscr.diplomes) }}
-            {{ form_help(formInscr.diplomes) }}
+            {{ form_help(formInscr.diplomes) }}#}
         </div>
 
         <div class="col-xs-12">

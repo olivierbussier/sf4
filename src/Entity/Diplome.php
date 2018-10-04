@@ -55,72 +55,72 @@ class Diplome
 
     public function getUser(): ?Adherent
     {
-        return $this->User;
+        return $this->user;
     }
 
-    public function setUser(?Adherent $User): self
+    public function setUser(?Adherent $user): self
     {
-        $this->User = $User;
+        $this->user = $user;
 
         return $this;
     }
 
     public function getType(): ?string
     {
-        return $this->Type;
+        return $this->type;
     }
 
-    public function setType(string $Type): self
+    public function setType(string $type): self
     {
-        $this->Type = $Type;
+        $this->type = $type;
 
         return $this;
     }
 
     public function getDateObtention(): ?DateTimeInterface
     {
-        return $this->DateObtention;
+        return $this->dateObtention;
     }
 
-    public function setDateObtention(DateTimeInterface $DateObtention): self
+    public function setDateObtention(DateTimeInterface $dateObtention): self
     {
-        $this->DateObtention = $DateObtention;
+        $this->dateObtention = $dateObtention;
 
         return $this;
     }
 
     public function getDateRecyclage(): ?DateTimeInterface
     {
-        return $this->DateRecyclage;
+        return $this->dateRecyclage;
     }
 
-    public function setDateRecyclage(DateTimeInterface $DateRecyclage): self
+    public function setDateRecyclage(DateTimeInterface $dateRecyclage): self
     {
-        $this->DateRecyclage = $DateRecyclage;
+        $this->dateRecyclage = $dateRecyclage;
 
         return $this;
     }
 
     public function getNumero(): ?string
     {
-        return $this->Numero;
+        return $this->numero;
     }
 
-    public function setNumero(string $Numero): self
+    public function setNumero(string $numero): self
     {
-        $this->Numero = $Numero;
+        $this->numero = $numero;
 
         return $this;
     }
 
     public function getCommentaire(): ?string
     {
-        return $this->Commentaire;
+        return $this->commentaire;
     }
 
-    public function setCommentaire(string $Commentaire): self
+    public function setCommentaire(string $commentaire): self
     {
-        $this->Commentaire = $Commentaire;
+        $this->commentaire = $commentaire;
 
         return $this;
     }

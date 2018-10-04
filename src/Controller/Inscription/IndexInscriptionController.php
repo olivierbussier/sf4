@@ -16,7 +16,7 @@ class IndexInscriptionController extends Controller
      */
     public function index()
     {
-        $user = new Adherent();
+        $user = $this->getUser();
 
         $form = $this->createForm(InscriptionType::class, $user);
 
