@@ -67,11 +67,6 @@ class Adherent implements UserInterface
     private $Mail;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     */
-    private $ListeDroits = [];
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $CodeSecret;
@@ -413,22 +408,6 @@ class Adherent implements UserInterface
     public function getSalt()
     {
         // TODO: Implement getSalt() method.
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getListeDroits()
-    {
-        return $this->ListeDroits;
-    }
-
-    /**
-     * @param mixed $ListeDroits
-     */
-    public function setListeDroits($ListeDroits): void
-    {
-        $this->ListeDroits = $ListeDroits;
     }
 
     /**
