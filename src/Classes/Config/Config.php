@@ -18,6 +18,7 @@ class Config
     /******************************************************************/
     public static $path_photo  = "../identites/";  // Photos d'identité
     public static $path_certif = "../certif/";
+    public static $path_diplome= "../diplomes/";
     public static $path_fiches = "../insc/";       // Fiches d'inscription PDF
     public static $path_fact   = "../factures/";   // Factures
     public static $path_team   = "images/team/";
@@ -36,17 +37,17 @@ class Config
     ];
 
     /******************************************************************/
-    public static $insc_enfants = true;  // false si section complete
-    public static $resp_enfants = array("Pierre Frouin" => "pierre.frouin@neuf.fr");
+    public const  insc_enfants = true;  // false si section complete
+    public const  resp_enfants = array("Pierre Frouin" => "pierre.frouin@neuf.fr");
     /******************************************************************/
-    public static $insc_N1 = true;  // false si section complete
-    public static $resp_N1 = array("Xavier Dupuis" => "xdupuis@gmail.com");
+    public const  insc_N1 = true;  // false si section complete
+    public const  resp_N1 = array("Xavier Dupuis" => "xdupuis@gmail.com");
     /******************************************************************/
-    public static $insc_N2 = true;  // false si section complete
-    public static $resp_N2 = array("Serge Morand" => "srg.morand@sfr.fr");
+    public const  insc_N2 = true;  // false si section complete
+    public const  resp_N2 = array("Serge Morand" => "srg.morand@sfr.fr");
     /******************************************************************/
-    public static $insc_apnee = true;  // false si section complete
-    public static $resp_apnee = array("Thierry Lamboley" => "thlamboley@laposte.net",
+    public const  insc_apnee = true;  // false si section complete
+    public const  resp_apnee = array("Thierry Lamboley" => "thlamboley@laposte.net",
                                       "Philippe Péan" => "phil.pean@gmail.com");
     /******************************************************************/
     public const NOM_CAESUG  = "Jérôme Mars";      // Nom de la personne en charge du CAESUG
@@ -82,6 +83,7 @@ class Config
     public const  AXA_L2T = 50.00; // Loisir 2 Top
     public const  AXA_L3T = 83.00; // Loisir 3 Top
     public const  AXA_PIS = 11.00; // Piscine
+    public const  AXA_NON =  0.00; // Aucune
     /******************************************************************/
     // Divers
     /******************************************************************/
@@ -102,4 +104,7 @@ class Config
     public const  CLUB_APN2 = 50 +self::SIUAPS_NEW; // Nage Avec Palmes/Apnée non Plongeur Tarif 2
     public const  CARTE_GUC = 5;   // Prix de la carte GUC}
     //******************************************************************/
+    // Payment
+    //******************************************************************/
+    public const payment_paypal = false;
 }

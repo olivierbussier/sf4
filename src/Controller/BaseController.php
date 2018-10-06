@@ -67,6 +67,9 @@ class BaseController extends AbstractController
 
     /**
      * @Route("/ecrire", name="ecrire")
+     * @param Request $request
+     * @param Swift_Mailer $mailer
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function ecrire(Request $request,Swift_Mailer $mailer)
     {

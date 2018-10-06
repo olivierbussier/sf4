@@ -16,6 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     fields = {"Username"},
  *     message = "Le nom d'adhérent est déjà utilisé"
  * )
+ * @Assert\Callback({"App\Controller\Inscription\AdherentValidator", "validate"})
  */
 class Adherent implements UserInterface
 {
@@ -28,30 +29,40 @@ class Adherent implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Choice(
-     *     choices = { "fiction", "non-fiction" },
-     *     message = "Choose a valid genre."
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9_]*$/",
+     *     message="Votre identifiant ne doit comporter que des minuscules, majuscules, chiffres et '_' sans caractères spéciaux"
+     * )
+     * @Assert\Length(
+     *     min=8,
+     *     max=20,
+     *     minMessage="Votre identifiant doit comporter au moins 8 caractères",
+     *     maxMessage="Votre identifiant doit comporter au plus 20 caractères"
      * )
      */
     private $Username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $Nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $Prenom;
 
     /**
     /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      * @Assert\Email(
      *     message = "'{{ value }}' n'est pas une adresse mail valide.",
      *     checkMX = true
      * )
-     * @ORM\Column(type="string", length=255)
      */
     private $Mail;
 
@@ -67,19 +78,30 @@ class Adherent implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min="8", minMessage="Votre mot de passe doit faire minimum 8 caractères")
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min="8",
+     *     minMessage="Votre mot de passe doit comporter au minimum 8 caractères"
+     * )
      */
     private $Password;
 
     /**
+     * @Assert\NotBlank()
      * @Assert\EqualTo(propertyPath="Password", message="Password et confirm_password sont différents")
      */
     public $confirm_Password;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=32)
      */
     private $Genre;
+
+    /**
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    public $inscrType;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -317,7 +339,7 @@ class Adherent implements UserInterface
     private $ReducFam;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Role", mappedBy="adherent")
+     * @ORM\OneToMany(targetEntity="App\Entity\Role", mappedBy="adherent", cascade="persist")
      */
     private $roles;
 
@@ -1087,5 +1109,37 @@ class Adherent implements UserInterface
     public function setMineurSign($mineurSign): void
     {
         $this->mineurSign = $mineurSign;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInscrType()
+    {
+        return $this->inscrType;
+    }
+
+    /**
+     * @param mixed $inscrType
+     */
+    public function setInscrType($inscrType): void
+    {
+        $this->inscrType = $inscrType;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfirmPassword()
+    {
+        return $this->confirm_Password;
+    }
+
+    /**
+     * @param mixed $confirm_Password
+     */
+    public function setConfirmPassword($confirm_Password): void
+    {
+        $this->confirm_Password = $confirm_Password;
     }
 }

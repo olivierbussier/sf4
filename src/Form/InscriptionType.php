@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -42,7 +43,10 @@ class InscriptionType extends AbstractType
                     'Activités Scaphandre' => FormConst::$activitesSca,
                     'Activités Nage'       => FormConst::$activitesDiv,
                     'Activités Apnée'      => FormConst::$activitesApn,
-                    'Activités Encadrement'=> FormConst::$activitesEnc
+                    'Activités Encadrement'=> FormConst::$activitesEnc,
+                ],
+                'attr'   => [
+                    'onchange' => 'adaptprix()'
                 ]
             ])
             ->add('fApneeSca',CheckboxType::class)
@@ -83,6 +87,10 @@ class InscriptionType extends AbstractType
             ])
             ->add('MineurSign', CheckboxType::class)
             ->add('ReglementRGPD', CheckboxType::class)
+
+            ->add('InscrType', HiddenType::class)
+            ->add('ReducFamilleID', HiddenType::class)
+
             //->add('LieuNaissance')
             //->add('DepartementNaissance')
             //->add('fTrombi')

@@ -4,12 +4,14 @@ namespace App\Controller\Inscription;
 
 use App\Classes\Form\FormConst;
 use App\Classes\Inscription\Calculate;
+use App\Entity\Adherent;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AjaxController
+class AjaxController extends Controller
 {
     const ITEM = 1;
     const TITR = 2;
@@ -55,17 +57,22 @@ class AjaxController
     }
 
     /**
-     * @Route("/inscription/ajax/calculate/{licMode}", name="ajax_calculate")
-     * @param string $reducFam
-     * @param string $reducFamId
-     * @param EntityManager $em
+     * @Route("/ajax/calculate/{licMode}", name="ajax_calculate")
+     * @return Response
      */
-    public function indexAjaxCalculate(EntityManagerInterface $em, string $reducFam = '', string $reducFamId = '')
+    public function indexAjaxCalculate()
     {
         // Avant de calculer la cotisation, on regarde si il y a a traiter une réduction famille
         // Réduction famille
 
-        $calc = new Calculate($em);
+        /** @var Adherent $user */
+        $user = $this->getUser();
+
+        $form = $_POST['inscription'];
+        $calc = new Calculate();
+
+        $reducFam   = $form['ReducFam'];
+        $reducFamId = $user->getReducFamilleID();
 
         if ($reducFam != '') {
 
@@ -173,12 +180,12 @@ class AjaxController
 
         $return_val['css'] = ob_get_clean();
 
-        $tt = json_decode(json_encode($calc->calcCotis($_POST)), true);
+        $tt = json_decode(json_encode($calc->calcCotis($form)), true);
 
         if (!$tt['fErr']) {
             ob_start();
 
-            if ($_POST['LICENCE_MODE'] == FormConst::INSCR_NORMAL) {
+            if ($user->getInscrType() == FormConst::INSCR_NORMAL) {
                 $this->ligne(
                     $this->aff(self::TITR, "Montant calculé de votre cotisation selon les informations fournies :")
                 );
@@ -228,8 +235,8 @@ class AjaxController
             echo $this->aff(self::TITR, "Calcul de la cotisation et de la licence impossible, Vérifiez votre saisie");
         }
 
-        if (isset($_POST['ASSURANCE'])) {
-            $assurance = $_POST{'ASSURANCE'};
+        if (isset($form['Assurance'])) {
+            $assurance = $form{'Assurance'};
         } else {
             $assurance = '';
         }
@@ -254,7 +261,7 @@ class AjaxController
 
         if (!$tt['fErr']) {
             $this->ligne($this->aff(self::TITR, "Sommes à régler : "));
-            if ($_POST['LICENCE_MODE'] == FormConst::INSCR_NORMAL) {
+            if ($user->getInscrType() == FormConst::INSCR_NORMAL) {
                 $this->ligne(
                     $this->aff(self::ITEM, "Un cheque de ") .
                     $this->aff(self::BADG, $total . "€", 'success') .
@@ -281,8 +288,9 @@ class AjaxController
 
         $return_val['total'] = ob_get_clean();
 
-        return new Response(json_encode($return_val));
+        $tt = json_encode($return_val);
+        $uu = new Response($tt);
 
-        //echo print_r($tt,true);
+        return $uu;
     }
 }

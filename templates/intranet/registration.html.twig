@@ -1,0 +1,53 @@
+{% form_theme formInscr 'bootstrap_3_layout.html.twig' %}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block main_page %}
+    <div class="container">
+
+        {{ form_start(formInscr, {'attr': {'novalidate': 'novalidate'}}) }}
+
+        <div class="col-xs-12">
+            <h1>Inscription</h1>
+        </div>
+
+        <div class="col-xs-12">
+            {{ form_row(formInscr.Username,{
+                'attr': {
+                    'placeholder': 'Indiquez ici l\'identifiant choisi (sans espaces ni caracteres spéciaux)'
+                }
+            }) }}
+        </div>
+
+        <div class="col-xs-3">
+            {{ form_row(formInscr.Genre) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-5">
+            {{ form_row(formInscr.Nom) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-4">
+            {{ form_row(formInscr.Prenom) }}
+        </div>
+
+        <div class="col-xs-12">
+            {{ form_row(formInscr.Mail) }}
+        </div>
+
+        <div class="col-xs-12">
+            {{ form_row(formInscr.Password) }}
+        </div>
+
+        <div class="col-xs-12">
+            {{ form_row(formInscr.confirm_Password) }}
+        </div>
+
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-block btn-primary">Go!</button>
+            {{ form_end(formInscr) }}
+        </div>
+    </div>
+{% endblock %}

@@ -10,6 +10,7 @@ class FormConst {
 
     public const INSCR_NORMAL   = 1;
     public const INSCR_PASSAGER = 2;
+    public const REGISTER       = 3;
 
     /**
      * Civilité
@@ -217,14 +218,14 @@ class FormConst {
     public const A_NONE = "Aucune";
 
     public static $axaBase = [
-        self::A_L1B  => 'AXA_L1B',
-        self::A_L2B  => 'AXA_L2B',
-        self::A_L3B  => 'AXA_L3B',
+        self::A_L1B  => self::A_L1B,
+        self::A_L2B  => self::A_L2B,
+        self::A_L3B  => self::A_L3B,
     ];
     public static $axaTop = [
-        self::A_L1T  => 'AXA_L1T',
-        self::A_L2T  => 'AXA_L2T',
-        self::A_L3T  => 'AXA_L3T',
+        self::A_L1T  => self::A_L1T,
+        self::A_L2T  => self::A_L2T,
+        self::A_L3T  => self::A_L3T,
     ];
     public static $axaPisc = [
         self::A_PIS  => 'AXA_PIS',

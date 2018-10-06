@@ -2,8 +2,10 @@
 
 namespace App\Form;
 
+use App\Classes\Form\FormConst;
 use App\Entity\Adherent;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,6 +15,7 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('Genre', ChoiceType::class,['choices' => FormConst::$civilite])
             ->add('Username')
             ->add('Mail')
             ->add('Nom')

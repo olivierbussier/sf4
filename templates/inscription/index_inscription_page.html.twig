@@ -1,4 +1,4 @@
-{#{% form_theme formInscr 'bootstrap_3_layout.html.twig' %}#}
+{% form_theme formInscr 'bootstrap_3_layout.html.twig' %}
 
 {% extends 'base.html.twig' %}
 
@@ -36,7 +36,19 @@
     <script type="text/javascript" src="{{ asset("js/fileinput.js") }}"></script>
     <script type="text/javascript" src="{{ asset("js/fr.js") }}"></script>
 
+    {% set licenceMode = app.user.InscrType %}
+
     <script>
+        function affError(section, sousSection) {
+            var id = '#c_' + section + '_' + sousSection;
+            $(id).attr('style','display:inline');
+        }
+
+        function hideError(section, sousSection) {
+            var id = '#c_' + section + '_' + sousSection;
+            $(id).attr('style','display:none');
+        }
+
         function adaptprix() {
             var form = $('#inscript').serializeArray();
             $.ajax({
@@ -63,56 +75,55 @@
 
 {% block main_page %}
 
+    {% set fPassager   = (app.user.InscrType == constant('App\\Classes\\Form\\FormConst::INSCR_PASSAGER')) %}
+
     <div class="container">
 
         <div class="col-xs-12">
-        {#// Afficher erreurs éventuelles
-    if ($e->getNbErrors() != 0) {?>
-                <h3>Votre pré-inscription n'a pas encore abouti</h3>
-                <div class="col-xs-12">
-                    <p>Corrigez les erreurs indiquées <span style="color:red">en rouge</span>
-                       au début de chaque rubrique indiquée :</p>
-                    <ul>
-    <?php     $e->afficheErrors(0, 0, true);  ?>
-                    </ul> #}
+            {% if not formInscr.vars.valid %}
+            <ul>
+                {# Loop through every form item #}
+                {% for child in formInscr.children %}
+                    {# Display the errors of the form item #}
+                    {%for error in child.vars.errors%}
+                        <li>{{error.message}}</li>
+                    {%endfor%}
+                {%endfor%}
+            </ul>
+            {% endif %}
         </div>
-
-    {% set fPassager = app.user.Licence == 'passager' %}
 
     {% import 'macros/bouton.html.twig' as control %}
 
     {#
-        static private $fields = [
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affEtud',           'check' => null],
-            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affDnaiss',         'check' => 'checkDnaiss'],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affTel',            'check' => 'checkTel'],
-            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affMail',           'check' => 'checkMail'],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affPhoto',          'check' => 'checkPhoto'],
-            // 2
-            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affNiv',            'check' => 'checkNiv'],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affDipl',           'check' => 'checkDipl'],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affActi',           'check' => 'checkActi'],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affBene',           'check' => null],
-            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affMedic',          'check' => null],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affAcci',           'check' => 'checkAcci'],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affAspi',           'check' => 'checkAspi'],
-            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affDcertif',        'check' => 'checkDcertif'],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affLic',            'check' => 'checkLic'],
-            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affAss',            'check' => 'checkAss'],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affReducfam',       'check' => 'checkReducfam'],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affFact',           'check' => null],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affPret',           'check' => 'checkPret'],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affBadge',          'check' => null],
-            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affInfoperso',      'check' => null],
-            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affMailliste',      'check' => 'checkMailliste'],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affReglement',      'check' => 'checkReglement'],
-            [self::PASSAGER => false, self::NORMAL => true,  'aff' => 'affMineur',         'check' => 'checkMineur'],
-            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affCalcul',         'check' => null],
-            [self::PASSAGER => true,  self::NORMAL => true,  'aff' => 'affConfirm',        'check' => null]
-        ];
+        'affEtud',      null],              PASSAGER => false, NORMAL => true,
+        'affDnaiss',    'checkDnaiss'],     PASSAGER => true,  NORMAL => true,
+        'affTel',       'checkTel'],        PASSAGER => false, NORMAL => true,
+        'affMail',      'checkMail'],       PASSAGER => true,  NORMAL => true,
+        'affPhoto',     'checkPhoto'],      PASSAGER => false, NORMAL => true,
+        'affNiv',       'checkNiv'],        PASSAGER => true,  NORMAL => true,
+        'affDipl',      'checkDipl'],       PASSAGER => false, NORMAL => true,
+        'affActi',      'checkActi'],       PASSAGER => false, NORMAL => true,
+        'affBene',      null],              PASSAGER => false, NORMAL => true,
+        'affMedic',     null],              PASSAGER => true,  NORMAL => true,
+        'affAcci',      'checkAcci'],       PASSAGER => false, NORMAL => true,
+        'affAspi',      'checkAspi'],       PASSAGER => false, NORMAL => true,
+        'affDcertif',   'checkDcertif'],    PASSAGER => true,  NORMAL => true,
+        'affLic',       'checkLic'],        PASSAGER => false, NORMAL => true,
+        'affAss',       'checkAss'],        PASSAGER => true,  NORMAL => true,
+        'affReducfam',  'checkReducfam'],   PASSAGER => false, NORMAL => true,
+        'affFact',      null],              PASSAGER => false, NORMAL => true,
+        'affPret',      'checkPret'],       PASSAGER => false, NORMAL => true,
+        'affBadge',     null],              PASSAGER => false, NORMAL => true,
+        'affInfoperso', null],              PASSAGER => true,  NORMAL => true,
+        'affMailliste', 'checkMailliste']   PASSAGER => true,  NORMAL => true,
+        'affReglement', 'checkReglement']   PASSAGER => false, NORMAL => true,
+        'affMineur',    'checkMineur'],     PASSAGER => false, NORMAL => true,
+        'affCalcul',    null],              PASSAGER => true,  NORMAL => true,
+        'affConfirm',   null]               PASSAGER => true,  NORMAL => true,
 #}
     {{ form_start(formInscr, {'attr': {'id': 'inscript'}}) }}
-{{ dump(app.user) }}
+
     {% if not fPassager %}
 
         <div class="col-xs-12">
@@ -125,8 +136,7 @@
 
         <div class="col-xs-12">
             <p>Avec ce formulaire, vous allez effectuer votre pré-inscription. A l'issue, vous recevrez un mail
-                confirmant
-                sa prise en compte, avec en attachement votre fiche d'inscription PDF préremplie que vous
+                confirmant sa prise en compte, avec en attachement votre fiche d'inscription PDF préremplie que vous
                 n'aurez plus qu'à imprimer et signer.</p>
             <p>Vous devrez ensuite vous présenter à une des séances d'inscription indiquées au bas de votre fiche,
                 en emportant avec vous tous les documents demandés.</p>
@@ -170,7 +180,7 @@
             <p>Avec ce formulaire, vous allez effectuer votre demande de licence passager. A l'issue,
                 vous recevrez un mail confirmant sa prise en compte.</p>
             <p>Si vous rencontrez des difficultés, n'hésitez pas à nous les remonter au moyen de la rubrique
-                <a href="{{ url('contact') }}">Contact</a>. Ou en envoyant un mail au
+                <a href="{{ url('ecrire') }}">Contact</a>. Ou en envoyant un mail au
                 <a href="mailto:webmaster@guc-plongee.net">Webmaster</a></p>
         </div>
 
@@ -189,10 +199,7 @@
         {{ control.error(1,1) }}
 
         <div class="col-xs-12 col-sm-6">
-            {{ form_label(formInscr.Genre) }}
-            {{ form_errors(formInscr.Genre) }}
-            {{ form_widget(formInscr.Genre) }}
-            {{ form_help(formInscr.Genre) }}
+            {{ form_row(formInscr.Genre) }}
         </div>
 
     {% endif %}
@@ -250,9 +257,9 @@
     {% if not fPassager %}
 
         <div class="col-xs-12 col-sm-6">
-            {{ form_label(formInscr.fEtudiant, 'Cochez cette case si vous êtes étudiant') }}
+            {{ form_label(formInscr.fEtudiant) }}
             {{ form_errors(formInscr.fEtudiant) }}
-            {{ form_widget(formInscr.fEtudiant) }}
+            {{ form_widget(formInscr.fEtudiant, {'label':'Cochez cette case si vous êtes étudiant'}) }}
             {{ form_help(formInscr.fEtudiant) }}
         </div>
 
@@ -267,7 +274,14 @@
             {{ form_widget(formInscr.DateNaissance) }}
             {{ form_help(formInscr.DateNaissance) }}
         </div>
-
+        <script>
+            $(document).ready(function() {
+                // you may need to change this code if you are not using Bootstrap Datepicker
+                $('.js-datepicker').datepicker({
+                    format: 'yyyy-mm-dd'
+                });
+            });
+        </script>
     {% endif %}
 
     {% if fPassager or not fPassager %}
@@ -430,11 +444,13 @@
         </div>
 
         <div class="col-xs-12 col-sm-6 col-ml-4">
-            {#{{ control.error(4, 1) }}
+            {#
+            {{ control.error(4, 1) }}
             {{ form_label(formInscr.diplomes, 'TIV') }}
             {{ form_errors(formInscr.diplomes) }}
             {{ form_widget(formInscr.diplomes) }}
-            {{ form_help(formInscr.diplomes) }}#}
+            {{ form_help(formInscr.diplomes) }}
+            #}
         </div>
 
         <div class="col-xs-12">
@@ -552,9 +568,9 @@
                 responsables du matériel (Olivier ou Philippe) ou du gonflage (Jean-François). Une fois leur accord
                 obtenu, le montant de votre cotisation sera ajusté au tarif bénévole.</p>
 
-            {{ form_errors(formInscr.fApneeSca) }}
+            {{ form_errors(formInscr.fBenevole) }}
             {{ form_widget(formInscr.fBenevole,  { 'label': 'La case ci-contre est cochée si le club à validé votre bénévolat' }) }}
-            {{ form_help(formInscr.fApneeSca) }}
+            {{ form_help(formInscr.fBenevole) }}
 
         </div>
 
@@ -779,7 +795,6 @@
             <p>Cet identifiant est également indiqué sur la fiche PDF délivrée a la fin de la preinscription
                 dans la rubrique "récapitulatif des documents à fournir</p>
             <p>Identifiant réduction famille <span class="label label-primary big">{{ ReducFamId }}</span></p>
-            <input type="hidden" name="REDUCFAMID" value="{{ ReducFamId }}">
         </div>
 
         <div class="col-xs-12 col-sm-6">

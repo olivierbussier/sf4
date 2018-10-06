@@ -10,6 +10,10 @@
 
             <h1>Veuillez vous connecter:</h1>
 
+            {% if error %}
+                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
             <form action="{{ path('connexion') }}" method="post">
                 <div class="form-group">
                     <input placeholder="Username" required name="_username" type="text" class="form-control">
@@ -21,6 +25,11 @@
                     <button type="submit" class="btn btn-success">Connexion !</button>
                 </div>
             </form>
+        </div>
+
+        <div class="col-xs-12">
+            <p>Pas encore de compte ? <a href="{{ url('registration') }}">Inscrivez vous</a></p>
+
         </div>
     </div>
 {% endblock %}

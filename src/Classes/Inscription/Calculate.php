@@ -4,6 +4,7 @@ namespace App\Classes\Inscription;
 
 use App\Classes\Config\Config;
 use App\Classes\Form\FormConst;
+use App\Entity\Adherent;
 use DateTime;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,17 +20,11 @@ class Calculate
     public const ID_VIDE      = 5;
 
     /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    /**
      * Calculate constructor.
      * @param EntityManagerInterface $em
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct()
     {
-        $this->em = $em;
     }
 
     /**
@@ -49,7 +44,7 @@ class Calculate
      * @param string $reducID l'ID de la personne demandant une réduction famille
      * @return array
      */
-    public function calcReducFam(string $val, string $reducID)
+    public function calcReducFam(?string $val, ?string $reducID)
     {
         if ($val == '') {
             $ret['fErr'] = self::ID_VIDE;
@@ -110,26 +105,58 @@ class Calculate
         }
     }
 
+    private function testFlag($val,$elem)
+    {
+        if (isset($val[$elem]) && $val[$elem] == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private function testVal($val,$elem)
+    {
+        if (isset($val[$elem])) {
+            return $val[$elem];
+        } else {
+            return '';
+        }
+    }
     /**
      * Calcul de la cotisation club basé sur les valeurs du tableau passé en parametre. Ce tableau a les meme noms de
      * champs que $_POST issu du formulaire d'inscription
-     * @param array $tab
+     * @param Adherent $user
      * @return array
      */
-    public function calcCotis(array $tab): array
+    public function calcCotis($post): array
     {
-        $benevole =  $this->isSet($tab, 'BENEVOLE');
-        $familleID=  isset($tab['REDUCFAMID']) ? $tab['REDUCFAMID'] : '';
-        $famille  =  isset($tab['REDUCFAM'  ]) ? $tab['REDUCFAM'] : '';
-        $etudiant =  $this->isSet($tab, 'ETUDIANT');
-        $apneesca =  $this->isSet($tab, 'APNEESCA');
-        $flicence =  $this->isSet($tab, 'FLICENCE');
-        $caesug   = (isset($tab['FACTURE'  ]) && $tab['FACTURE'] == 'CAESUG') ? true : false;
-        $niveau   =  isset($tab['NIVEAU'   ]) ? $tab['NIVEAU'] : '';
-        $apnee    =  isset($tab['APNEE'    ]) ? $tab['APNEE' ] : '';
-        $activite =  isset($tab['ACTIVITE' ]) ? $tab['ACTIVITE'] : '';
-        $datenaiss=  isset($tab['DATENAISS']) ? $tab['DATENAISS'] : '';
-        $mode     =  isset($tab['LICENCE_MODE']) ? $tab['LICENCE_MODE'] : FormConst::INSCR_NORMAL;
+        if ($post instanceof Adherent) {
+            $benevole =  $post->getFBenevole();
+            $familleID=  $post->getReducFamilleID();
+            $famille  =  $post->getReducFam();
+            $etudiant =  $post->getFEtudiant();
+            $apneesca =  $post->getFApneeSca();
+            $flicence =  $post->getLicence() == 'Autre Club';
+            $caesug   =  $post->getFacture() == 'CAESUG';
+            $niveau   =  $post->getNiveauSca();
+            $apnee    =  $post->getNiveauApn();
+            $activite =  $post->getActivite();
+            $datenaiss=  $post->getDateNaissance()->format('d/m/Y');
+            $mode     =  $post->getInscrType();
+        } else {
+            $benevole =  $this->testFlag($post,'fBenevole');
+            $familleID=  $this->testVal($post,'ReducFamID');
+            $famille  =  $post['ReducFam'];
+            $etudiant =  $this->testFlag($post,'fEtudiant');
+            $apneesca =  $this->testFlag($post,'fApneeSca');
+            $flicence =  $post['Licence'] == 'Autre Club';
+            $caesug   =  $post['Facture'] == 'CAESUG';
+            $niveau   =  $post['NiveauSca'];
+            $apnee    =  $post['NiveauApn'];
+            $activite =  $post['Activite'];
+            $datenaiss=  $post['DateNaissance'];
+            $mode     =  $post['InscrType'];
+
+        }
 
         return $this->adaptPrix(
             $niveau,
@@ -247,18 +274,18 @@ $ret = 1;
      * @return array
      */
     public function adaptPrix(
-        string $nivSca,
-        string $nivApnee,
-        string $activite,
-        string $dNaiss,
-        bool $fBene,
-        bool $fEtud,
-        string $famille,
-        string $familleID,
-        bool $fApneeSca,
-        bool $fLic,
-        bool $fCAESUG,
-        int  $mode = FormConst::INSCR_NORMAL
+        ?string $nivSca,
+        ?string $nivApnee,
+        ?string $activite,
+        ?string $dNaiss,
+        ?bool $fBene,
+        ?bool $fEtud,
+        ?string $famille,
+        ?string $familleID,
+        ?bool $fApneeSca,
+        ?bool $fLic,
+        ?bool $fCAESUG,
+        ?int  $mode = FormConst::INSCR_NORMAL
     ): array {
         $fErreur = false;
 

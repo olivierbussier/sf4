@@ -1,0 +1,352 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Récapitulatif de votre pré-inscription{% endblock %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+{% endblock %}
+
+{% block javascripts_head %}
+
+    {{ parent() }}
+
+{% endblock %}
+
+{% block main_page %}
+
+{#
+function aff_mails($liste, $html = false)
+{
+    $idx=0;
+    $buffer = "";
+
+    foreach ($liste as $nom => $mail) {
+        if ($html) {
+            if ($idx++ > 0) {
+                $buffer .= " ou ";
+            }
+            $buffer .= "<a href=\"mailto:".$mail."\">".$nom."</a> (".$mail.")";
+        } else {
+            if ($idx++ > 0) {
+                $buffer .= " ou ";
+            }
+            $buffer .= $nom." (".$mail.")";
+        }
+    }
+    return $buffer;
+}
+#}
+
+    {% import 'macros/utils.html.twig' as utils %}
+
+    <div class="container">
+
+        <div class="col-xs-12">
+            <p>Votre pré-inscription est enregistrée.</p>
+
+            {% if Activite == "Section Enfants" and not constant('App\\Classes\\Config\\Config::insc_enfants') %}
+
+                <p class="redw">Mais attention, la section enfants est complète, contactez par mail
+                    {{ utils.aff_mails(constant('App\\Classes\\Config\\Config::resp_enfants')) }}
+                </p>
+
+            {% endif %}
+
+            {% if Activite == "Prépa N1" and not constant('App\\Classes\\Config\\Config::insc_N1') %}
+                <p class="redw">Mais attention, la section prépa N1 est complète, contactez par mail
+                    {{ utils.aff_mails(constant('App\\Classes\\Config\\Config::resp_N1')) }}
+                </p>
+            {% endif %}
+
+            {% if Activite == "Prépa N2" and not constant('App\\Classes\\Config\\Config','insc_N2') %}
+                <p class="redw">Mais attention, la section prépa N2 est complète, contactez par mail
+                    {{ utils.aff_mails(constant('App\\Classes\\Config\\Config::resp_N2')) }}</p>
+            {% endif %}
+
+            {% if Activite == 'Apnée Débutants' or
+                  Activite == 'Apnée Confirmés' or
+                  Activite == 'Apnée Initiateur' and not constant('App\\Classes\\Config\\Config::insc_apnee') %}
+                <p class="redw">Mais attention, la section apnée étant complète, votre inscription ne pourra être
+                    validée qu'après avoir contacté par mail {{ utils.aff_mails(constant('App\\Classes\\Config\\Config::resp_apnee')) }}
+                </p>
+            {% endif %}
+
+            {% if refPP != '' and constant('App\\Classes\\Config\\Config::payment_paypal') %}
+                <p>Votre paiement d'un montant de {{ pAmount }}€ a été fait le $pDate à $pTime sous la
+                    référence PayPal : {{ refPP }}."</p>
+            {% endif %}
+
+            <p>Votre numéro d'adhérent est le : {{ app.user.id }}</p>
+
+            <p>Vous pouvez modifier votre dossier ou télécharger les documents demandées jusqu'à la validation
+                définive  de votre inscription</p>
+
+            <p>Votre inscription deviendra définitive lorsque vous aurez apporté les chèques et tous les
+                documents manquants lors des permanences inscriptions qui se tiendront dès 19h00 chaque
+                Mardi dans le hall de la piscine de Saint Martin d'Hères a compter du
+                {{ constant('App\\Classes\\Config\\Config::DATE_DOSSIER') }}.
+            </p>
+
+            {% if app.user.Facture == 'CAESUG' %}
+                <p>Vous avez déclaré vouloir utiliser les services du CAESUG pour régler la cotisation au Club. En
+                    plus du dossier au GUC PLONGEE, vous devez donc maintenant faire votre dossier CAESUG Plongée
+                    et faire parvenir votre participation au CAESUG en suivant les consignes se trouvant sur leur
+                    site Internet. Le contact CAESUG pour la plongée est
+                    <a href="mailto:{{ constant('App\\Classes\\Config\\Config::MAIL_CAESUG') }}">{{ constant('App\\Classes\\Config\\Config::NOM_CAESUG') }}</a>
+                </p>
+            {% endif %}
+
+            {% if app.user.Facture == 'OUI' %}
+                <p>Vous avez demandé une facture. Celle-ci vous sera envoyée lors de la validation définitive
+                    de votre inscription
+                </p>
+            {% endif %}
+
+            {# texte_specifique #}
+
+            Ce document a été transmis au secrétariat du club.</p>
+            <p>Vous devez maintenant :</p><ul>
+                <li>relire et vérifier soigneusement vos informations. Si vous détéctez des erreurs,
+                    vous pouvez modifier votre inscription (inscription -> Réinscription ou modification)
+                </li>
+                <li>Lire le règlement intérieur.
+                </li>
+                <li>Vous rendre à l'une des sessions d'inscription à la piscine (voir calendrier)
+                </li>
+
+                {% if age < 18 %}
+                    <li>Faire signer le cadre d'autorisation parentale par le représentant légal.
+                    </li>
+                {% endif %}
+
+            </ul>
+
+            <p>N'oubliez pas d'apporter si vous ne l'avez pas téléchargée:</p>
+            <ul>
+            {% if not photo %}
+                <li>Une photo d'identité (avec votre nom et prénom au dos) .
+                </li>
+            {% endif %}
+
+            {% if app.user.NiveauSca != "Débutant" and app.user.NiveauSca != "Enfant" %}
+                <li>Une photocopie de votre ".$Niveau.".
+                </li>
+            {% endif %}
+
+            {% if app.user.diplomes|length %}
+                {% for diplome in app.user.Diplomes %}
+                    <li>Une photocopie de votre {{ diplome.type }}</li>
+                {% endfor %}
+
+                <li>(Les photocopies des diplômes sont facultatives si le club les a déjà).</li>
+            {% endif %}
+
+            <li>Une photocopie de votre certificat médical.</li>
+
+            {% if app.user.Licence == "Autre Club" %}
+                <li>Une photocopie de votre licence
+                    {{ constant('App\\Classes\\Config\\Config::p_annee') }} - {{ constant('App\\Classes\\Config\\Config::p_apnee') + 1}}
+                </li>
+            {% endif %}
+
+            </ul>
+
+            <p>Ainsi que :</p>
+            <ul>
+
+                {% if refPP == '' %}
+                    <li>Un chèque de {{ total }}€ à l'ordre du GUC Plongée.</li>
+
+                    {% if totalass > 0 %}
+                        <li>Un chèque de {{ totalass }}€ à l'ordre de AXA Assurance.</li>
+                    {% endif %}
+                {% endif %}
+
+                {% if app.user.PretMateriel %}
+                    <li>Un chèque de caution de {{ constant('App\\Classes\\Config\\Config::CAUTION_MATOS') }}€
+                        à l'ordre du GUC Plongée pour le prêt de matériel.</li>
+                {% endif %}
+
+
+                <li>Un chèque de caution de {{ constant('App\\Classes\\Config\\Config::BADGE_PISCINE') }}€ à l'ordre
+                    du GUC Plongée pour le badge d'accès piscine.
+                </li>
+            </ul>
+            <p>Merci et à bientôt.</p>
+
+
+$REFUSR = Session::get('REFUSR');
+$MODIFUSER = Session::get('MODIFUSER');
+$NOM = Session::get('NOM');
+$PRENOM = Session::get('PRENOM');
+
+$l = new Calculate();
+
+/** @var Error $e Créée par le script appelant */
+
+$post = Session::get('POST');
+Form::initialise(null, $post);
+
+$cotis = $l->calcCotis(Form::getArray());
+$axa   = $l->calcAxa(Form::get('ASSURANCE'));
+
+// Calcul Cotisation
+
+$mytotal    = $cotis['prixCotis'] + $cotis['prixLicence'] - $cotis['prixReduc'] - $cotis['prixRemb'];         // Montant cotisation
+$mytotalass = $axa  ['prixAxa' ];                               // Montant assurance
+$fbene      = $cotis['fBene'];         // Bénévole
+$fenc       = $cotis['fEnc'];          // Encadrant actif
+
+$age_today = GucDate::age(Form::get('DATENAISS'));
+$Activite  = GucDate::age(Form::get('ACTIVITE'));
+
+
+
+// Génération du PDF
+    
+// Initialisation de ces variables pour pointer correctement le path du fichier généré
+// selon que l'on à affaire à un lien dans une page HTML ($path).
+// Ou un lien dans un mail ($path_mail)
+// ------------------------------------------------------------------------------------
+    
+$tronc = $NOM."-".$PRENOM."-".$REFUSR;
+$path_corr   = FileHelpers::corrigerPath(Config::$path_fiches);
+$path_adher  = FileHelpers::corrigerPath($tronc.".pdf");
+$path_livret = FileHelpers::corrigerPath("../docs/livret_accueil_GUC.pdf");
+
+$path_ident = FileHelpers::initPathPhoto($NOM, $PRENOM, $REFUSR, FileHelpers::THUMBNAIL);
+
+(new CreatePDF())->createPDF(
+    $REFUSR,
+    $NOM,
+    $PRENOM,
+    $path_corr.$path_adher,
+    $path_ident,
+    $age_today,
+    $mytotal,
+    $mytotalass,
+    $fbene,
+    $fenc
+);
+
+// Envoi du mail vers le webmaster pour signaler un nouvel inscrit ou bien une mise à jour
+// ------------------------------------------------------------------------------------
+
+$sujet="Inscription GUC Plongée";
+
+$body_text  = "\n*************************\n";
+$body_text .= "Nom     : ".$NOM."\n";
+$body_text .= "Prénom  : ".$PRENOM."\n";
+$body_text .= "Ref     : ".$REFUSR."\n";
+$body_text .= "OLD/NEW : ".$MODIFUSER."\n";
+$body_text .= "\n*************************\n";
+
+$body_html  = "<html><head></head><body>\n";
+$body_html .= "<table border=\"1\" width=\"400\" style=\"border-collapse:collapse;\">\n";
+$body_html .= "<tr><th>Nom</th><th>Prénom</th><th>Ref</th><th>OLD/NEW</th></tr>\n";
+$body_html .= "<tr><td>".$NOM."</td><td>".$PRENOM."</td><td>".$REFUSR."</td><td>".$MODIFUSER."</td></tr>\n";
+$body_html .= "</table>\n";
+$body_html .= "</body></html>\n";
+
+//$sender = "Inscriptions GUC Plongee <contact@guc-plongee.net>";
+$sender = "contact@guc-plongee.net";
+
+(new MailMime())->mimeMail(
+    $sender,
+    MailUsers::$webmaster,
+    $sujet,
+    $body_text,
+    $body_html
+);
+
+// Envoi du mail vers l'adhérent avec toutes les infos.
+// ------------------------------------------------------------------------------------
+
+$userdest  = Form::get('MAIL');
+$usersujet = "Pre-inscription GUC Plongee pour la saison ".Config::$p_annee."-".(Config::$p_annee+1);
+
+$texte_spec = "<p>Vous trouverez en attachement de ce mail le livret d'accueil du GUC Plongée ".
+              "et votre dossier d'inscription PDF pré-rempli. ";
+$mail_html = create_mail_body(
+    $REFUSR,
+    $Activite,
+    Session::get('PHOTO'),
+    $age_today,
+    Form::get('NIVEAU'),
+    Form::get('LICENCE'),
+    Form::get('CARTESIUAPS'),
+    Form::get('PRETMAT'),
+    $mytotal,
+    $mytotalass,
+    $texte_spec
+);
+
+$mail_text = (new HtmlToTxt())->html2txt($mail_html);
+$filename = $tronc.'.pdf';
+
+$ml = new MailMime();
+
+$ml->init($sender, $userdest, $usersujet, $sender);
+$ml->setDkimSign(true);
+$ml->addAlternative($mail_text, $mail_html);
+
+$ret_form = $ml->addFile($path_corr, $path_adher);
+$ret_accl = $ml->addFile('../docs', $path_livret);
+$retsend  = $ml->send();
+
+// ************************************************************************************
+// affiche le html qui suit si succes
+// ************************************************************************************
+
+$html = new Header('..');
+$html->start('Inscription');
+?>
+    <div class="container">
+        <h3>Votre pré-inscription est enregistrée</h3>
+        <div class="col-xs-12">
+<?php
+if ($ret_form == false) {?>
+                <p class="red">Erreur : impossible d'attacher votre fiche PDF au mail de confirmation,
+                       contactez le webmaster au moyen de la rubrique contact</p>
+<?php
+}
+if ($retsend == false) {?>
+                <p class="red">Erreur d'envoi du mail, contactez le webmaster au moyen de la rubrique contact</p>
+<?php
+}
+if ($ret_form == false || $retsend == false) {
+    $texte_web = "<p><a href=\"".Globals::getConf()->url_web."insc/$filename?a=".rand(0, 9999).
+                 "\" target=\"_blank\">Votre formulaire PDF peut être téléchargé ici</a>.</p>";
+} else {
+    $texte_web = "<p>Votre formulaire PDF se trouve en attachement dans le mail qui vous à été envoyé, ".
+                 "<a href=\"".Globals::getConf()->url_web."insc/".$filename.
+                 "\" target=\"_blank\">vous pouvez néanmoins le télécharger ici</a>.</p> ";
+}
+if ($ret_accl == false) {
+    $texte_web .= "<p>Le livret d'accueil du GUC Plongée peut être téléchargé ".
+                  "<a href=\"".Globals::getConf()->url_web.
+                  "docs/livret_accueil_GUC.pdf\" target=\"_blank\">ici</a>.</p>";
+} else {
+    $texte_web .= "<p>Le livret d'accueil du GUC Plongée se trouve également en attachement dans le mail qui vous à " .
+                  "été envoyé, <a href=\"".Globals::getConf()->url_web.
+                  "docs/livret_accueil_GUC.pdf\" target=\"_blank\">vous pouvez néanmoins le télécharger ici</a>.</p> ";
+}
+echo create_mail_body(
+    $REFUSR,
+    $Activite,
+    Session::get('PHOTO'),
+    $age_today,
+    Form::get('NIVEAU'),
+    Form::get('LICENCE'),
+    Form::get('CARTESIUAPS'),
+    Form::get('PRETMAT'),
+    $mytotal,
+    $mytotalass,
+    $texte_web
+);
+?>
+</div></div>
+<?php $html->end();
+{% endblock %}

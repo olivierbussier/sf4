@@ -123,7 +123,12 @@
                                         </ul>
                                     </li>
                                     {{ Menu.item('index_bapteme', 'Faire un Baptême', '', 'menubapteme') }}
-                                    {{ Menu.item('index_inscription', 'Inscription') }}
+                                    <li><a href="#">Inscription</a>
+                                        <ul>
+                                            {{ Menu.item('inscription', 'Inscription Club',{'slug':'normal'}) }}
+                                            {{ Menu.item('inscription', 'Inscription Passager',{'slug':'passager'}) }}
+                                        </ul>
+                                    </li>
                                     {{ Menu.item('index_calendrier', 'Calendrier') }}
                                     {{ Menu.item('index_contact', 'Contact') }}
                                 </ul>

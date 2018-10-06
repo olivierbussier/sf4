@@ -3,8 +3,11 @@
 namespace App\Controller\Inscription;
 
 use App\Classes\Form\FormConst;
+use App\Classes\Inscription\AdhCoding;
 use App\Entity\Adherent;
 use App\Form\InscriptionType;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -12,23 +15,53 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class IndexInscriptionController extends Controller
 {
     /**
-     * @Route("/inscription/index", name="index_inscription")
+     * @Route("/inscription/form/{slug}", name="inscription")
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @param string $slug
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index()
+    public function index(Request $request, ObjectManager $manager, string $slug = 'Normal')
     {
+        /** @var Adherent $user */
         $user = $this->getUser();
+
+        if ($slug == 'normal') {
+            $user->setInscrType(FormConst::INSCR_NORMAL);
+        } elseif ($slug == 'passager') {
+            $user->setInscrType(FormConst::INSCR_PASSAGER);
+        } else {
+            return $this->redirectToRoute('root');
+        }
+
+        // Calcul de l'ID reducfam s'il n'esiste pas
+
+        if (($valReducFam = $user->getReducFamilleID()) == '') {
+            // Génération d'un ID et sauvegarde
+            $valReducFam = AdhCoding::getRandomValID($user->getId());
+            $user->setReducFamilleID($valReducFam);
+        }
+
+        $user->setConfirmPassword($user->getPassword());
 
         $form = $this->createForm(InscriptionType::class, $user);
 
-        /*if (($valReducFam = Form::get('REDUCFAMID')) == '') {
-            // Génération d'un ID et sauvegarde
-            $valReducFam = AdhCoding::getRandomValID();
-            Form::set('REDUCFAMID', $valReducFam);
-        }*/
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $fValid = $form->isValid();
+
+            // On enregister quoi qu'il en soit les saisies de l'adhérent
+
+            $manager->persist($user);
+            $manager->flush();
+
+            if ($fValid) {
+                return $this->redirectToRoute('recap_inscription');
+            }
+        }
 
         return $this->render('inscription/index_inscription_page.html.twig',[
-            'fPassager' => false,
-            'licenceMode' => FormConst::INSCR_NORMAL,
             'formInscr' => $form->createView(),
             'fGood'     => true,
             'fileName'  => 'xx/a.jpg',
@@ -42,7 +75,25 @@ class IndexInscriptionController extends Controller
             'fileCertif' => [
                 ['name' => 'c.jpg', 'type' => 'image']
             ],
-            'ReducFamId' => '123456ff'
+            'ReducFamId' => $valReducFam
+        ]);
+    }
+
+    /**
+     * @Route("/inscription/recap", name="recap_inscription")
+     */
+    public function recapInscription()
+    {
+        /** @var Adherent $user */
+        $user = $this->getUser();
+
+        return $this->render('inscription/index_inscription_fin.html.twig', [
+            'Activite' => $user->getActivite(),
+            'refPP'    => 0,
+            'age'      => 17,
+            'photo'    => 'KO',
+            'total'    => 127,
+            'totalass' => 89
         ]);
     }
 

@@ -2,25 +2,18 @@
 
 namespace App\Classes\Inscription;
 
+use App\Classes\Config\Config;
+
 class AdhCoding
 {
-    public static function getRandomValID()
+    public static function getRandomValID($userId)
     {
-        $db = Globals::getDb();
-
         // constitution de l'identifiant reduction famille:
         //  - 6 digits décimaux suivis de 2 digits hexa de chechsum
-        while (1) {
-            $random = hexdec(rand(0, 9999));
-            $crc = substr(dechex(crc32($random)), 0, 2);
-            $val = strtolower($random . $crc);
-            $res = $db->query("select LOWER(REDUCFAMID) from @#@liste where REDUCFAMID = '$val'");
-            if ($db->numrows($res) != 0) {
-                // Existe déjà
-                continue;
-            }
-            return $val;
-        }
+        $random = $userId + Config::$p_annee + 4587;
+        $crc = substr(dechex(crc32($random)), 0, 2);
+        $val = strtolower($random . $crc);
+        return $val;
     }
 
     public static function checkValID($id)
