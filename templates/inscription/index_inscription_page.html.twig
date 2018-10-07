@@ -36,8 +36,6 @@
     <script type="text/javascript" src="{{ asset("js/fileinput.js") }}"></script>
     <script type="text/javascript" src="{{ asset("js/fr.js") }}"></script>
 
-    {% set licenceMode = app.user.InscrType %}
-
     <script>
         function affError(section, sousSection) {
             var id = '#c_' + section + '_' + sousSection;
@@ -53,18 +51,13 @@
             var form = $('#inscript').serializeArray();
             $.ajax({
                 method: "POST",
-                url: "{{ url("ajax_calculate", {'licMode': licenceMode}) }}", {#{#ajax_calculate_async.php?mode=<?= Session::get('LICENCE_MODE') ?>",#}
+                url: "{{ url("ajax_calculate", {'licMode': inscrType}) }}", {#{#ajax_calculate_async.php?mode=<?= Session::get('LICENCE_MODE') ?>",#}
                 data: form,
                 success: function(ret,statut) {
                     tab = JSON.parse(ret)
                     document.getElementById("pmain_detail" ).innerHTML = tab['css'] + tab['detail'];
                     document.getElementById("pmain_total"  ).innerHTML = tab['total'];
                     document.getElementById("pmain_rfam"   ).innerHTML = tab['msgFamille'];
-                    if (tab['code'] == '{{ listes.calc.OK }}' || tab['code'] == '{{ listes.calc.ID_VIDE }}')
-                        hideError(8,4)
-                    else
-                        affError(8,4)
-                    //document.getElementById("pmain_id_text"   ).val(tab['famille']);
                 }
             })
         }
@@ -75,7 +68,7 @@
 
 {% block main_page %}
 
-    {% set fPassager   = (app.user.InscrType == constant('App\\Classes\\Form\\FormConst::INSCR_PASSAGER')) %}
+    {% set fPassager   = (inscrType == constant('App\\Classes\\Form\\FormConst::INSCR_PASSAGER')) %}
 
     <div class="container">
 
@@ -259,7 +252,7 @@
         <div class="col-xs-12 col-sm-6">
             {{ form_label(formInscr.fEtudiant) }}
             {{ form_errors(formInscr.fEtudiant) }}
-            {{ form_widget(formInscr.fEtudiant, {'label':'Cochez cette case si vous êtes étudiant'}) }}
+            {{ form_widget(formInscr.fEtudiant) }}
             {{ form_help(formInscr.fEtudiant) }}
         </div>
 
@@ -720,13 +713,11 @@
         <div class="col-xs-12">
             <h4>Intolérence à l'aspirine.</h4>
             {{ control.error(6, 3) }}
-
-
+            <p>Cochez cette case si vous avez une intolérance forte à l'aspirine ?
+                (réactions allant au delà de simples maux d'estomac)</p>
 
             {{ form_errors(formInscr.fAllergAspirine) }}
-            {{ form_widget(formInscr.fAllergAspirine,  {
-                'label': 'Cochez cette case si vous avez une intolérance forte à l\'aspirine ? ' ~
-                         '(réactions allant au delà de simples maux d\'estomac)' }) }}
+            {{ form_widget(formInscr.fAllergAspirine) }}
             {{ form_help(formInscr.fAllergAspirine) }}
 
         </div>
@@ -899,13 +890,10 @@
 
         <div class="col-xs-12">
             <h4>Utilisation de votre mail</h4>
-            <p>Souhaitez-vous communiquer votre email au GUC Central afin de recevoir
-                des informations complémentaires ?</p>
+
             {{ control.error(11, 1) }}
-            {{ form_label(formInscr.fMailGUC) }}
-            {{ form_errors(formInscr.fMailGUC) }}
-            {{ form_widget(formInscr.fMailGUC) }}
-            {{ form_help(formInscr.fMailGUC) }}
+            {{ form_row(formInscr.fMailGUC,{ 'label': 'Souhaitez-vous communiquer votre email au GUC Central ' ~
+                'afin de recevoir des informations complémentaires ?'}) }}
         </div>
 
     {% endif %}
@@ -921,7 +909,7 @@
             <p>Je peux également en avoir une copie auprès du secrétariat du club.</p>
 
             {{ form_errors(formInscr.ReglementRGPD) }}
-            {{ form_widget(formInscr.ReglementRGPD, {'label': '<mark>Je signe en cochant cette case.</mark>'}) }}
+            {{ form_widget(formInscr.ReglementRGPD, {'label': 'Je signe en cochant cette case.'}) }}
             {{ form_help(formInscr.ReglementRGPD) }}
 
         </div>

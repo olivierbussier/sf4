@@ -41,7 +41,7 @@
                     <div class="col-xs-12 col-sm-2 blog-date">{{ tabdate[0] }} {{ mois[tabdate[1]] }} {{ tabdate[2] }} -</div>
                     <div class="col-xs-12 col-sm-10 blog-title">{{ post.title }}
                         <div class="blog-actions">
-                            {% if app.user %}
+                            {% if testDroit(app,'ROLE_PUB') %}
                                 {{ control.bouton(
                                     '',
                                     url('blog_admin_edit',{blogId: post.id}),

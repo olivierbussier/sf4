@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Inscription;
+namespace App\Bundles\Validator;
 
 use App\Classes\Config\Config;
 use App\Classes\Helpers\DateHelper;
@@ -11,14 +11,18 @@ use App\Entity\Adherent;
 use App\Entity\Diplome;
 use DateInterval;
 use DateTime;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintValidator;
 
-class AdherentValidator
+class AdherentClassValidator extends ConstraintValidator
 {
     /**
      * @var string fonction Javascript appelée lorsque le contenu d'un champ change
      */
-    static private $oc   = "attr:onchange=\"adaptprix()\"";
+    private $requestStack;
+    private $em;
 
     /**
      * @var array Paramétrage des différents champs des formulaires d'inscription (normal et passager)
@@ -33,15 +37,14 @@ class AdherentValidator
      * @uses checkMailliste, checkReglement, checkRGPD, checkMineur,
 
      */
-    static private $fields = [
+    private $fields = [
         [FormConst::INSCR_PASSAGER => true,  FormConst::INSCR_NORMAL => true,  'check' => 'checkAddress'],
         [FormConst::INSCR_PASSAGER => true,  FormConst::INSCR_NORMAL => true,  'check' => 'checkProf'],
         [FormConst::INSCR_PASSAGER => true,  FormConst::INSCR_NORMAL => true,  'check' => 'checkDnaiss'],
-
         [FormConst::INSCR_PASSAGER => false, FormConst::INSCR_NORMAL => true,  'check' => 'checkTel'],
         [FormConst::INSCR_PASSAGER => true,  FormConst::INSCR_NORMAL => true,  'check' => 'checkNiv'],
         [FormConst::INSCR_PASSAGER => false, FormConst::INSCR_NORMAL => true,  'check' => 'checkDipl'],
-        [FormConst::INSCR_PASSAGER => false, FormConst::INSCR_NORMAL => true,  'check' => 'checkActi']/*,
+        [FormConst::INSCR_PASSAGER => false, FormConst::INSCR_NORMAL => true,  'check' => 'checkActi'],
         [FormConst::INSCR_PASSAGER => false, FormConst::INSCR_NORMAL => true,  'check' => 'checkAcci'],
         [FormConst::INSCR_PASSAGER => false, FormConst::INSCR_NORMAL => true,  'check' => 'checkAspi'],
         [FormConst::INSCR_PASSAGER => true,  FormConst::INSCR_NORMAL => true,  'check' => 'checkDcertif'],
@@ -49,15 +52,21 @@ class AdherentValidator
         [FormConst::INSCR_PASSAGER => true,  FormConst::INSCR_NORMAL => true,  'check' => 'checkAss'],
         [FormConst::INSCR_PASSAGER => false, FormConst::INSCR_NORMAL => true,  'check' => 'checkReducfam'],
         [FormConst::INSCR_PASSAGER => false, FormConst::INSCR_NORMAL => true,  'check' => 'checkPret'],
-        [FormConst::INSCR_PASSAGER => true,  FormConst::INSCR_NORMAL => true,  'check' => 'checkMailliste'],
+        [FormConst::INSCR_PASSAGER => true,  FormConst::INSCR_NORMAL => true,  'check' => 'checkMailliste']/*,
         [FormConst::INSCR_PASSAGER => false, FormConst::INSCR_NORMAL => true,  'check' => 'checkReglement'],
         [FormConst::INSCR_PASSAGER => false, FormConst::INSCR_NORMAL => true,  'check' => 'checkMineur'],
         [FormConst::INSCR_PASSAGER => false, FormConst::INSCR_NORMAL => true,  'check' => 'checkPhoto']*/
     ];
 
-    private static function e($context,$text,$var)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $em)
     {
-        $context->buildViolation($text)
+        $this->em = $em;
+        $this->requestStack = $requestStack;
+    }
+
+    private function e($text, $var)
+    {
+        $this->context->buildViolation($text)
             ->atPath($var)
             ->addViolation();
 
@@ -66,15 +75,14 @@ class AdherentValidator
     /**
      * Vérification des champs d'adresse
      * @param Adherent $user
-     * @param ExecutionContextInterface $context
      */
-    private static function checkAddress(Adherent $user, ExecutionContextInterface $context)
+    private function checkAddress(Adherent $user)
     {
         // *********************************************************************
         // verifier addresse != 0
         // *********************************************************************
         if ($user->getAdresse1() == "") {
-            self::e($context,"Vous n'avez pas mis votre adresse.", 'Adresse1');
+            $this->e("Vous n'avez pas mis votre adresse.", 'Adresse1');
         }
 
         // *********************************************************************
@@ -82,41 +90,33 @@ class AdherentValidator
         // *********************************************************************
         $codep = $user->getCodePostal();
         if (!preg_match('/[0-9][0-9][0-9][0-9][0-9]/', $codep) || (strlen($codep) != 5)) {
-            $context->buildViolation("Votre code postal est incorrect.")
-                ->atPath('CodePostal')
-                ->addViolation();
+           $this->e("Votre code postal est incorrect.", 'CodePostal');
         }
 
         // *********************************************************************
         // verifier ville != 0
         // *********************************************************************
         if ($user->getVille() == "") {
-            $context->buildViolation("Vous n'avez pas mis votre ville.")
-                ->atPath('Ville')
-                ->addViolation();
+            $this->e("Vous n'avez pas mis votre ville.", 'Ville');
         }
     }
 
     /**
      * Vérification de la saisie du champ profession
      * @param Adherent $user
-     * @param ExecutionContextInterface $context
      */
-    private static function checkProf(Adherent $user, ExecutionContextInterface $context)
+    private function checkProf(Adherent $user)
     {
         if ($user->getProfession() == "") {
-            $context->buildViolation("Vous n'avez pas mis votre profession.")
-                ->atPath('Profession')
-                ->addViolation();
+            $this->e("Vous n'avez pas mis votre profession.", 'Profession');
         }
     }
 
     /**
      * Fonction de check de la date de naissance
      * @param Adherent $user
-     * @param ExecutionContextInterface $context
      */
-    private static function checkDnaiss(Adherent $user, ExecutionContextInterface $context)
+    private function checkDnaiss(Adherent $user)
     {
         // *********************************************************************
         // calcul de l'âge
@@ -132,16 +132,16 @@ class AdherentValidator
 
         switch (DateHelper::verifDate($datenaiss)) {
             case -1:
-                self::e($context, "Votre date de naissance est incorrecte ($datenaiss).",'DateNaissance');
+                $this->e("Votre date de naissance est incorrecte ($datenaiss).",'DateNaissance');
                 break;
             case -2:
-                self::e($context, "Votre date de naissance est incorrecte (2) ($datenaiss).", 'DateNaissance');
+                $this->e("Votre date de naissance est incorrecte (2) ($datenaiss).", 'DateNaissance');
                 break;
             case -3:
-                self::e($context, "L'année de naissance est incorrecte.", 'DateNaissance');
+                $this->e("L'année de naissance est incorrecte.", 'DateNaissance');
                 break;
             case -4:
-                self::e($context, "L'année de naissance est incorrecte (3).",'DateNaissance');
+                $this->e("L'année de naissance est incorrecte (3).",'DateNaissance');
                 break;
             case 0:
                 break; // Pas d'erreur
@@ -150,10 +150,8 @@ class AdherentValidator
         $age_finannee = DateHelper::age($datenaiss, "31/12/" . Config::$p_annee);
 
         if ($age_finannee < 10) {
-            $context->buildViolation("Il est nécessaire d'avoir 10ans révolus au 01/01/" . (Config::$p_annee + 1) .
-                " pour prendre une licence FFESSM et/ou vous inscrire au club.")
-                ->atPath('DateNaissance')
-                ->addViolation();
+            $this->e("Il est nécessaire d'avoir 10ans révolus au 01/01/" . (Config::$p_annee + 1) .
+                " pour prendre une licence FFESSM et/ou vous inscrire au club.", 'DateNaissance');
         }
     }
 
@@ -162,7 +160,7 @@ class AdherentValidator
      * @param $str
      * @return bool|null|string|string[]
      */
-    private static function verifTel($str)
+    private function verifTel($str)
     {
         $tel = false;
         // Suppression des caractères spéciaux
@@ -191,17 +189,14 @@ class AdherentValidator
     /**
      * Vérification des numéros de téléphone
      * @param Adherent $user
-     * @param ExecutionContextInterface $context
      */
-    private static function checkTel(Adherent $user, ExecutionContextInterface $context)
+    private function checkTel(Adherent $user)
     {
         $tel = $user->getTelFix();
 
         if ($tel != '') {
             if (($res = self::verifTel($tel)) == false) {
-                $context->buildViolation("Votre numéro de téléphone fixe est incorrect.")
-                    ->atPath('TelFix')
-                    ->addViolation();
+                $this->e("Votre numéro de téléphone fixe est incorrect.", 'TelFix');
             } else {
                 $user->setTelFix($res);
             }
@@ -210,27 +205,22 @@ class AdherentValidator
         $tel = $user->getTelPort();
         if ($tel != '') {
             if (($res = self::verifTel($tel)) == false) {
-                $context->buildViolation("Votre numéro de téléphone portable est incorrect.")
-                    ->atPath('TelPort')
-                    ->addViolation();
+                $this->e("Votre numéro de téléphone portable est incorrect.", 'TelPort');
             } else {
                 $user->setTelPort($res);
             }
         }
 
         if (($user->getTelFix() == "") && ($user->getTelPort() == "")) {
-            $context->buildViolation("Au moins un téléphone doit être renseigné.")
-                ->atPath('TelFix')
-                ->addViolation();
+            $this->e("Au moins un téléphone doit être renseigné.", 'TelFix');
         }
     }
 
     /**
      * Vérification photo
      * @param Adherent $user
-     * @param ExecutionContextInterface $context
      */
-    private static function checkPhoto(Adherent $user, ExecutionContextInterface $context)
+    private function checkPhoto(Adherent $user)
     {
         $NOM    = $user->getNom();
         $PRENOM = $user->getPrenom();
@@ -241,18 +231,15 @@ class AdherentValidator
         // Vérification de l'existence de l'image
 
         if (!file_exists($path)) {
-            $context->buildViolation("Votre photo d'identité est manquante.")
-                ->atPath('Photo')
-                ->addViolation();
+            $this->e("Votre photo d'identité est manquante.", 'Photo');
         }
     }
 
     /**
      * Vérification de la saisie des niveaux
      * @param Adherent $user
-     * @param ExecutionContextInterface $context
      */
-    private static function checkNiv(Adherent $user, ExecutionContextInterface $context)
+    private function checkNiv(Adherent $user)
     {
         $Niveau = $user->getNiveauSca();
         $Apnee = $user->getNiveauApn();
@@ -261,38 +248,29 @@ class AdherentValidator
         $age_finannee = DateHelper::age($dnaiss, "31/12/" . Config::$p_annee);
 
         if ($Niveau == "") {
-            $context->buildViolation("Vous n'avez pas renseigné votre niveau actuel de plongée scaphandre.")
-                ->atPath('NiveauSca')
-                ->addViolation();
+            $this->e("Vous n'avez pas renseigné votre niveau actuel de plongée scaphandre.", 'NiveauSca');
         } else {
             if ($age_finannee < 13 && $Niveau != "Enfant") {
-                $context->buildViolation("Agé de " . $age_finannee . " ans au 31/12/" . Config::$p_annee .
-                    " et à moins de 14 ans, vous devez cocher enfant.")
-                    ->atPath('NiveauSca')
-                    ->addViolation();
+                $this->e("Agé de " . $age_finannee . " ans au 31/12/" . Config::$p_annee .
+                    " et à moins de 14 ans, vous devez cocher enfant.", 'NiveauSca');
             }
 
             if ($age_finannee >= 14 && $Niveau == "Enfant") {
-                $context->buildViolation("Agé de " . $age_finannee . " ans au 01/01/" . (Config::$p_annee + 1) .
-                    " et à partir de 14 ans, vous n'êtes plus considéré comme un enfant pour la FFESSM.")
-                    ->atPath('NiveauSca')
-                    ->addViolation();
+                $this->e("Agé de " . $age_finannee . " ans au 01/01/" . (Config::$p_annee + 1) .
+                    " et à partir de 14 ans, vous n'êtes plus considéré comme un enfant pour la FFESSM.", 'NiveauSca');
             }
         }
 
         if ($Apnee == "") {
-            $context->buildViolation("Vous n'avez pas renseigné votre niveau actuel d'apnée.")
-                ->atPath('NiveauApn')
-                ->addViolation();
+            $this->e("Vous n'avez pas renseigné votre niveau actuel d'apnée.", 'NiveauApn');
         }
     }
 
     /**
      * Vérification des champs de saisie des diplômes
      * @param Adherent $user
-     * @param ExecutionContextInterface $context
      */
-    private static function checkDipl(Adherent $user, ExecutionContextInterface $context)
+    private function checkDipl(Adherent $user)
     {
         $dnaiss = $user->getDateNaissance()->format('d/m/Y');
         $age_today = DateHelper::age($dnaiss);
@@ -306,15 +284,11 @@ class AdherentValidator
             switch ($diplome->getType()) {
                 case 'TIV':
                     if ($age_today < 18) {
-                        $context->buildViolation("Vous avez " . $age_today .
-                            " ans et TIV implique que vous êtes majeur, vérifiez votre date de naissance.")
-                            ->atPath('Diplomes')
-                            ->addViolation();
+                        $this->e("Vous avez " . $age_today .
+                            " ans et TIV implique que vous êtes majeur, vérifiez votre date de naissance.", 'Diplomes');
                     }
                     if ($Niveau == "Débutant" || $Niveau == "N1" || $Niveau == "Enfant") {
-                        $context->buildViolation("TIV implique que vous êtes au moins Niveau 2.")
-                            ->atPath('Diplomes')
-                            ->addViolation();
+                        $this->e("TIV implique que vous êtes au moins Niveau 2.", 'Diplomes');
                     }
                     break;
             }
@@ -324,9 +298,8 @@ class AdherentValidator
     /**
      * Vérification des champs de saisie d'activité
      * @param Adherent $user
-     * @param ExecutionContextInterface $context
      */
-    private static function checkActi(Adherent $user, ExecutionContextInterface $context)
+    private function checkActi(Adherent $user)
     {
         $Niveau   = $user->getNiveauSca();
         $Apnee    = $user->getNiveauApn();
@@ -337,22 +310,22 @@ class AdherentValidator
         $age_finannee = DateHelper::age($dnaiss, "31/12/" . Config::$p_annee);
 
         if ($Activite == "") {
-            self::e($context, "Vous n'avez pas renseigné votre activité pour cette année.", 'Activite');
+            $this->e("Vous n'avez pas renseigné votre activité pour cette année.", 'Activite');
         }
 
         if (($Activite == FormConst::A_ENFANTS) && ($Niveau != FormConst::N_ENFANT)) {
-            self::e($context,"Votre activité est incompatible avec votre niveau de plongée.", 'Activite');
+            $this->e("Votre activité est incompatible avec votre niveau de plongée.", 'Activite');
         }
 
         if ($age_finannee >= 14 && $Activite == FormConst::A_ENFANTS) {
-            self::e($context,"Vous êtes trop âgé  (" . $age_today . " ans) pour la section enfants.",'Activite');
+            $this->e("Vous êtes trop âgé  (" . $age_today . " ans) pour la section enfants.",'Activite');
         }
 
         if (($Activite == FormConst::A_PN1) &&
             ($Niveau   != FormConst::N_ENFANT) &&
             ($Niveau   != FormConst::N_DEBUT) &&
             ($Niveau   != FormConst::N_OWD)) {
-            self::e($context,"Votre activité est incompatible avec votre niveau de plongée.",'Activite');
+            $this->e("Votre activité est incompatible avec votre niveau de plongée.",'Activite');
         }
 
         if (($Activite == FormConst::A_PN2) &&
@@ -361,7 +334,7 @@ class AdherentValidator
             ($Niveau   != FormConst::N_PE4) &&
             ($Niveau   != FormConst::N_OWD) &&
             ($Niveau   != FormConst::N_AOWD)) {
-            self::e($context,"Votre activité est incompatible avec votre niveau de plongée.",'Activite');
+            $this->e("Votre activité est incompatible avec votre niveau de plongée.",'Activite');
         }
 
         if (($Activite == FormConst::A_PE4) &&
@@ -369,7 +342,7 @@ class AdherentValidator
             ($Niveau   != FormConst::N_PA2) &&
             ($Niveau   != FormConst::N_OWD) &&
             ($Niveau   != FormConst::N_AOWD)) {
-            self::e($context, "Votre activité est incompatible avec votre niveau de plongée.", 'Activite');
+            $this->e("Votre activité est incompatible avec votre niveau de plongée.", 'Activite');
         }
 
         if (($Activite == FormConst::A_PN3) &&
@@ -377,13 +350,13 @@ class AdherentValidator
             ($Niveau   != FormConst::N_N2) &&
             ($Niveau   != FormConst::N_N2I) &&
             ($Niveau   != FormConst::N_RDMD)) {
-            self::e($context, "Votre activité est incompatible avec votre niveau de plongée.",'Activite');
+            $this->e("Votre activité est incompatible avec votre niveau de plongée.",'Activite');
         }
 
         if ($Activite == FormConst::A_PN4) {
             if (($Niveau != FormConst::N_N3) &&
                 ($Niveau != FormConst::N_N3I)) {
-                self::e($context, "Votre activité est incompatible avec votre niveau de plongée.",'Activite');
+                $this->e("Votre activité est incompatible avec votre niveau de plongée.",'Activite');
             }
         }
 
@@ -391,14 +364,14 @@ class AdherentValidator
             if (($Niveau != FormConst::N_N2) &&
                 ($Niveau != FormConst::N_N3) &&
                 ($Niveau != FormConst::N_N4)) {
-                self::e($context, "Votre activité est incompatible avec votre niveau de plongée.", 'Activite');
+                $this->e("Votre activité est incompatible avec votre niveau de plongée.", 'Activite');
             }
         }
 
         if ($Activite == FormConst::A_PMF1) {
             if (($Niveau != FormConst::N_N4) &&
                 ($Niveau != FormConst::N_N4I)) {
-                self::e($context, "Votre activité est incompatible avec votre niveau de plongée.", 'Activite');
+                $this->e("Votre activité est incompatible avec votre niveau de plongée.", 'Activite');
             }
         }
 
@@ -409,7 +382,7 @@ class AdherentValidator
                 ($Apnee  != FormConst::N_A2I)  && ($Apnee  != FormConst::N_A3I) &&
                 ($Apnee  != FormConst::N_A4)   && ($Apnee  != FormConst::N_A4I) &&
                 ($Apnee  != FormConst::N_MEF1) && ($Apnee  != FormConst::N_MEF2)) {
-                self::e($context, "Pour encadrer, vous devez avoir un diplôme d'encadrant.", 'Activite');
+                $this->e("Pour encadrer, vous devez avoir un diplôme d'encadrant.", 'Activite');
             }
         }
 
@@ -419,77 +392,77 @@ class AdherentValidator
         $ret = $cal->calcCotis($user);
 
         if ($ret['fErr']) {
-            self::e($context, "Erreur, calcul cotisation impossible, revérifiez votre saisie (1)", 'Cotisation');
+            $this->e("Erreur, calcul cotisation impossible, revérifiez votre saisie (1)", 'Cotisation');
         } else {
             $user->setCotisation($ret['typeCotis']);
         }
 
         if ($user->getCotisation() == FormConst::COT_ENFANTS && $age_finannee >= 25) {
-            self::e($context, "Vous devez être agé de moins de 18 ans ou " .
+            $this->e("Vous devez être agé de moins de 18 ans ou " .
                 "être étudiant de moins de 25 ans pour prendre cette cotisation.", 'Cotisation');
         }
 
         if ($user->getCotisation() == FormConst::COT_ENFANTS && $age_finannee >= 18 && !$user->getFEtudiant()) {
-            self::e($context, "Vous devez être agé de moins de 18 ans ou " .
+            $this->e("Vous devez être agé de moins de 18 ans ou " .
                 "être étudiant de moins de 25 ans pour prendre cette cotisation.", 'Cotisation');
         }
     }
 
     /**
      * Vérification des champs de saisie de la personne à prevenir en cas d'accident
-     * @param Error $e
+     * @param Adherent $user
      */
-    private static function checkAcci(Error $e)
+    private function checkAcci(Adherent $user)
     {
-        if (Form::get('ACCNOM') == "") {
-            $e->error(6, 1, "Vous n'avez pas renseigné le nom de la personne à prévenir en cas d'accident.");
+        if ($user->getAccidentNom() == "") {
+            $this->e("Vous n'avez pas renseigné le nom de la personne à prévenir en cas d'accident.", 'AccidentNom');
         }
 
-        if (Form::get('ACCPRENOM') == "") {
-            $e->error(6, 1, "Vous n'avez pas enseigné le prénom de la personne à prévenir en cas d'accident.");
+        if ($user->getAccidentPrenom() == "") {
+            $this->e("Vous n'avez pas enseigné le prénom de la personne à prévenir en cas d'accident.", 'AccidentPrenom');
         }
 
-        $tel = Form::get('ACCTELFIX');
+        $tel = $user->getAccidentTelFix();
         if ($tel != '') {
             if (($res = self::verifTel($tel)) == false) {
-                $e->error(6, 1, "Le téléphone fixe de la personne à prévenir en cas d'accident est incorrect.");
+                $this->e("Le téléphone fixe de la personne à prévenir en cas d'accident est incorrect.", 'AccidentTelFix');
             } else {
-                Form::set('ACCTELFIX', $res);
+                $user->setAccidentTelFix($res);
             }
         }
 
-        $tel = Form::get('ACCTELPORT');
+        $tel = $user->getAccidentTelPort();
         if ($tel != '') {
             if (($res = self::verifTel($tel)) == false) {
-                $e->error(6, 1, "Le téléphone portable de la personne à prévenir en cas d'accident est incorrect.");
+                $this->e("Le téléphone portable de la personne à prévenir en cas d'accident est incorrect.", 'AccidentTelPort');
             } else {
-                Form::set('ACCTELPORT', $res);
+                $user->setAccidentTelPort($res);
             }
         }
 
-        if ((Form::get('ACCTELFIX') == "") && (Form::get('ACCTELPORT') == "")) {
-            $e->error(6, 1, "Au moins un téléphone d'une personne à prévenir en cas d'accident doit être renseigné.");
+        if (($user->getAccidentTelFix() == "") && ($user->getAccidentTelPort() == "")) {
+            $this->e("Au moins un téléphone d'une personne à prévenir en cas d'accident doit être renseigné.",'AccidentTelFix');
         }
     }
 
     /**
      * Vérification des champs de saisie du certificat médical
-     * @param Error $e
+     * @param Adherent $user
      * @throws \Exception
      */
-    private static function checkDcertif(Error $e)
+    private function checkDcertif(Adherent $user)
     {
-        $dc = Form::get('DATECERTIF');
+        $dc = $user->getDateCertif()->format('Y-m-d');
 
         if ($dc != "") {
             // verifier date certif
 
-            switch (GucDate::verifDate($dc)) {
+            switch (DateHelper::verifDate($dc)) {
                 case -1:
-                    $e->error(6, 2, "Votre date de certificat est incorrecte (1).");
+                    $this->e("Votre date de certificat est incorrecte (1).",'DateCertif');
                     break;
                 case -2:
-                    $e->error(6, 2, "Votre date de certificat est incorrecte (2).");
+                    $this->e("Votre date de certificat est incorrecte (2).", 'DateCertif');
                     break;
                 case -3:
                 case 0:
@@ -499,186 +472,178 @@ class AdherentValidator
                     $diff = $expir->diff($today);
                     $day = $diff->format('%a');
                     if ($day < 40) {
-                        $e->error(6, 2, "Votre certificat médical est trop vieux.");
+                        $this->e("Votre certificat médical est trop vieux.", 'DateCertif');
                     }
                     break;
             }
-        } //else
-        //Error(5,2,"Vous n'avez pas renseigné la date de certificat médical, ".
-        //          "il faudra en amener un le jour de la remise du dossier",false);
+        }
     }
 
     /**
      * Vérification du champ de saisie de l'allergie à l'aspirine
-     * @param Error $e
+     * @param Adherent $user
      */
-    private static function checkAspi(Error $e)
+    private function checkAspi(Adherent $user)
     {
-        if (Form::get('ALERGASP') == "") {
-            $e->error(6, 3, "Vous n'avez pas précisé votre intolérance à l'aspirine.");
+        if ($user->getFAllergAspirine() == "") {
+            $this->e("Vous n'avez pas précisé votre intolérance à l'aspirine.",'fAllergAsp');
         }
     }
 
     /**
      * Vérification du champ de saisie licence FFESSM
-     * @param Error $e
+     * @param Adherent $user
      */
-    private static function checkLic(Error $e)
+    private function checkLic(Adherent $user)
     {
         // Calcul Licence
 
-        $age_today = GucDate::age(Form::get('DATENAISS'));
+        $age_today = DateHelper::age($user->getDateNaissance()->format('Y-m-d'));
 
         $cotis = new Calculate();
-        $licence = $cotis->calcCotis($_POST);
+        $licence = $cotis->calcCotis($user);
 
         if ($licence['fErr']) {
-            $e->error(7, 1, "Erreur, calcul licence  impossible, revérifiez votre saisie (2)");
+            $this->e("Erreur, calcul licence  impossible, revérifiez votre saisie (2)", 'Licence');
+            return;
         } else {
-            Form::set('LICENCE', $licence);
+            $lic = $licence['typeLicence'];
+            $user->setLicence($lic);
         }
 
-        if (Form::get('LICENCE') == "") {
-            $e->error(7, 1, "Vous n'avez pas renseigné le type de licence FFESSM souhaité.");
+        if ($lic == FormConst::LIC_ENFANT && $age_today >= 12) {
+            $this->e("Vous êtes trop âgé (" . $age_today . " ans) pour prendre cette licence.", 'Licence');
         }
 
-        if (Form::get('LICENCE') == FormConst::LIC_ENFANT && $age_today >= 12) {
-            $e->error(7, 1, "Vous êtes trop âgé (" . $age_today . " ans) pour prendre cette licence.");
+        if ($lic == FormConst::LIC_JUNIOR && $age_today >= 16) {
+            $this->e("Vous êtes trop âgé (" . $age_today . " ans) pour prendre cette licence.", 'Licence');
         }
 
-        if (Form::get('LICENCE') == FormConst::LIC_JUNIOR && $age_today >= 16) {
-            $e->error(7, 1, "Vous êtes trop âgé (" . $age_today . " ans) pour prendre cette licence.");
+        if ($lic == FormConst::LIC_JUNIOR && $age_today < 12) {
+            $this->e("Vous êtes trop jeune (" . $age_today . " ans) pour prendre cette licence.", 'Licence');
         }
 
-        if (Form::get('LICENCE') == FormConst::LIC_JUNIOR && $age_today < 12) {
-            $e->error(7, 1, "Vous êtes trop jeune (" . $age_today . " ans) pour prendre cette licence.");
-        }
-
-        if (Form::get('LICENCE') == FormConst::LIC_ADULTE && $age_today < 16) {
-            $e->error(7, 1, "Vous êtes trop jeune (" . $age_today . " ans) pour prendre cette licence.");
+        if ($lic == FormConst::LIC_ADULTE && $age_today < 16) {
+            $this->e("Vous êtes trop jeune (" . $age_today . " ans) pour prendre cette licence.", 'Licence');
         }
     }
 
     /**
      * Vérification des champs de saisie AXA
-     * @param Error $e
+     * @param Adherent $user
      */
-    private static function checkAss(Error $e)
+    private function checkAss(Adherent $user)
     {
-        $assurance = Form::get('ASSURANCE');
+        $assurance = $user->getAssurance();
 
         if ($assurance == "") {
-            $e->error(8, 1, "Vous n'avez pas précisé l'assurance personnelle que vous souhaitez.");
+            $this->e("Vous n'avez pas précisé l'assurance personnelle que vous souhaitez.",'Assurance');
         }
 
-        if ($assurance != FormConst::A_NONE && Form::get('LICENCE') == FormConst::LIC_AUTRE_CLUB) {
-            $e->error(8, 1, "Pour prendre une assurance, contactez le club qui vous a délivré votre licence.");
+        if ($assurance != FormConst::A_NONE && $user->getLicence() == FormConst::LIC_AUTRE_CLUB) {
+            $this->e("Pour prendre une assurance, contactez le club qui vous a délivré votre licence.", 'Assurance');
         }
 
         $k = new Calculate();
         $axa = $k->calcAxa($assurance);
         if ($axa < 0) {
-            $e->error(8, 1, "Erreur de calcul assurance.");
+            $this->e("Erreur de calcul assurance.", 'Assurance');
         }
     }
 
     /**
      * Vérification du champ "réduction famille"
-     * @param Error $e
+     * @param Adherent $user
      */
-    private static function checkReducfam(Error $e)
+    private function checkReducfam(Adherent $user)
     {
-        $reducFam = Form::get('REDUCFAM');
+        $reducFam = $user->getReducFam();
 
         if ($reducFam != '') {
-            if (Form::get('BENEVOLE') == 'OUI' ||
-                Form::get('ACTIVITE') == FormConst::A_ENCADREMENT ||
-                Form::get('COTISATION') == FormConst::COT_APNEE) {
-                $e->error(9, 1, "La réduction famille n'est pas compatible avec votre cotisation.");
+            if ($user->getFBenevole() ||
+                $user->getActivite() == FormConst::A_ENCADREMENT ||
+                $user->getCotisation() == FormConst::COT_APNEE) {
+                $this->e("La réduction famille n'est pas compatible avec votre cotisation.", 'ReducFam');
             }
 
             $calc = new Calculate();
-            $res = $calc->calcReducFam($reducFam, Form::get('REDUCFAMID'));
+            $res = $calc->calcReducFam($reducFam, $user->getReducFamilleID(),$this->em);
 
             if (($res['fErr'] != Calculate::OK) &&
                 ($res['fErr'] != Calculate::ID_VIDE)) {
-                $e->error(
-                    9,
-                    1,
-                    "Erreur sur l'identifiant de réduction famille, vérifiez votre saisie"
-                );
+                $this->e("Erreur sur l'identifiant de réduction famille, vérifiez votre saisie", 'ReducFam');
             }
         }
     }
 
     /**
      * Vérification du champ "prêt de matériel"
-     * @param Error $e
+     * @param Adherent $user
      */
-    private static function checkPret(Error $e)
+    private function checkPret(Adherent $user)
     {
-        if (Form::get('PRETMAT') == "") {
-            $e->error(10, 2, "Vous n'avez pas précisé si vous voulez emprunter du matériel.");
+        if ($user->getPretMateriel() == "") {
+            $this->e("Vous n'avez pas précisé si vous voulez emprunter du matériel.", 'PretMateriel');
         }
 
-        if (Form::get('PRETMAT') == "OUI" &&
-            (Form::get('ACTIVITE') == FormConst::A_APNEEDEB ||
-             Form::get('ACTIVITE') == FormConst::A_APNEECONF) &&
-            !Form::get('APNEESCA')) {
-            $e->error(10, 2, "Vous ne pouvez pas emprunter de matériel avec la cotisation GUC choisie.");
+        if ($user->getPretMateriel() &&
+            ($user->getActivite() == FormConst::A_APNEEDEB ||
+             $user->getActivite() == FormConst::A_APNEECONF) &&
+             !$user->getFApneeSca()) {
+            $this->e("Vous ne pouvez pas emprunter de matériel avec la cotisation GUC choisie.", 'PretMateriel');
         }
     }
 
     /**
      * Vérification du champ de saisie d'autorisation d'utilisation de l'adresse mail
-     * @param Error $e
+     * @param Adherent $user
      */
-    private static function checkMailliste(Error $e)
+    private function checkMailliste(Adherent $user)
     {
-        if (Form::get('MAILGUC') == "") {
-            $e->error(11, 1, "Vous n'avez pas précisé si vous voulez communiquer votre email au GUC Central.");
+        if ($user->getFMailGUC() == "") {
+            $this->e("Vous n'avez pas précisé si vous voulez communiquer votre email au GUC Central.", 'fMailGUC');
         }
     }
 
     /**
      * Vérification du champ de saisie règlement accepté
-     * @param Error $e
+     * @param Adherent $user
      */
-    private static function checkReglement(Error $e)
+    private function checkReglement(Adherent $user)
     {
-        if (Form::get('REGLEMENT') != "OUI" && !Session::isInscriptionModeToOther()) {
-            $e->error(
-                11,
-                2,
+        if (!$user->getReglementRGPD() && !Session::isInscriptionModeToOther()) {
+            $this->e(
+
                 "Vous n'avez pas accepté le règlement intérieur ".
-                         "et/ou la politique de protection des données personelles."
+                "et/ou la politique de protection des données personelles.",
+                'ReglementRGPD'
             );
         }
     }
 
     /**
      * Vérification du champ de saisie autorisation parentale
-     * @param Error $e
+     * @param Adherent $user
      */
-    private static function checkMineur(Error $e)
+    private function checkMineur(Adherent $user)
     {
-        $age_today = GucDate::age(Form::get('DATENAISS'));
+        $age_today = DateHelper::age($user->getDateNaissance());
 
         if ($age_today < 18) {
-            if (Form::get('MINNOM') == "") {
-                $e->error(12, 1, "Vous êtes mineur et le nom du représentant légal n'est pas renseigné.");
+            if ($user->getMineurNom() == "") {
+                $this->e("Vous êtes mineur et le nom du représentant légal n'est pas renseigné.",'MineurNom');
             }
 
-            if (Form::get('MINPRENOM') == "") {
-                $e->error(12, 1, "Vous êtes mineur et le prénom du représentant légal n'est pas renseigné.");
+            if ($user->getMineurPrenom() == "") {
+                $this->e("Vous êtes mineur et le prénom du représentant légal n'est pas renseigné.", 'MineurPrenom');
             }
 
-            if (Form::get('MINQUAL') == "") {
-                $e->error(12, 1, "Vous êtes mineur et la qualité du représentant légal n'est pas renseignée.");
+            if ($user->getMineurQualite() == "") {
+                $this->e("Vous êtes mineur et la qualité du représentant légal n'est pas renseignée.", 'MineurQualite');
             }
 
-            if (Form::get('MINSIGN') != "OUI" && !Session::isInscriptionModeToOther()) {
-                $e->error(12, 1, "Vous êtes mineur et le document n'est pas signé par le représentant légal .");
+            if (!$user->getMineurSign() && !Session::isInscriptionModeToOther()) {
+                $this->e("Vous êtes mineur et le document n'est pas signé par le représentant légal .",'MineurSign');
             }
         }
 
@@ -686,31 +651,28 @@ class AdherentValidator
         // Si l(adhérent est majeur
 
         if ($age_today >= 18) {
-            Form::set('MINNOM', "");
-            Form::set('MINPRENOM', "");
-            Form::set('MINQUAL', "");
+            $user->setMineurNom('');
+            $user->setMineurPrenom('');
+            $user->setMineurQualite('');
         }
     }
 
     /**
      * Fonction d'execution des routine de vérification des champs et informations
      * en fonction du type de licence
-     * @param Adherent $user
-     * @param ExecutionContextInterface $context
-     * @param $payload
+     * @param $adherent
+     * @param Constraint $constraint
      */
-    public static function validate(Adherent $user, ExecutionContextInterface $context, $payload): void
+    public function validate($adherent, Constraint $constraint): void
     {
-        if ($user->getInscrType() == FormConst::REGISTER) {
+        if ($adherent->getInscrType() == FormConst::REGISTER) {
             return;
         }
 
-        foreach (self::$fields as $v) {
+        foreach ($this->fields as $v) {
             $func = $v['check'];
             if ($func != null) {
-                $class=get_class();
-                $func = $class.'::'.$func;
-                $func($user, $context);
+                $this->{$func}($adherent, $this->context);
             }
         }
     }

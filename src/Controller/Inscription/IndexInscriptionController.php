@@ -24,15 +24,18 @@ class IndexInscriptionController extends Controller
     public function index(Request $request, ObjectManager $manager, string $slug = 'Normal')
     {
         /** @var Adherent $user */
+        $user2 = $manager->getRepository('App\\Entity\\Adherent')->find(410);
         $user = $this->getUser();
 
         if ($slug == 'normal') {
-            $user->setInscrType(FormConst::INSCR_NORMAL);
+            $inscrType = FormConst::INSCR_NORMAL;
         } elseif ($slug == 'passager') {
-            $user->setInscrType(FormConst::INSCR_PASSAGER);
+            $inscrType = FormConst::INSCR_PASSAGER;
         } else {
             return $this->redirectToRoute('root');
         }
+
+        $user->setInscrType($inscrType);
 
         // Calcul de l'ID reducfam s'il n'esiste pas
 
@@ -63,6 +66,7 @@ class IndexInscriptionController extends Controller
 
         return $this->render('inscription/index_inscription_page.html.twig',[
             'formInscr' => $form->createView(),
+            'inscrType' => $inscrType,
             'fGood'     => true,
             'fileName'  => 'xx/a.jpg',
             'refPhoto'  => 411,

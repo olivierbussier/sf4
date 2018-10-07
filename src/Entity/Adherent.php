@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use App\Bundles\Validator\AdherentConstraint;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AdherentRepository")
@@ -16,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     fields = {"Username"},
  *     message = "Le nom d'adhérent est déjà utilisé"
  * )
- * @Assert\Callback({"App\Controller\Inscription\AdherentValidator", "validate"})
+ * @AdherentConstraint()
  */
 class Adherent implements UserInterface
 {
@@ -94,7 +96,7 @@ class Adherent implements UserInterface
     private $Genre;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     public $inscrType;
 
@@ -1121,4 +1123,22 @@ class Adherent implements UserInterface
     {
         $this->confirm_Password = $confirm_Password;
     }
+    /**
+     * Fonction d'execution des routine de vérification des champs et informations
+     * en fonction du type de licence
+     * @param ExecutionContextInterface $context
+     * @param $payload
+     */
+
+    /*
+     * @Assert\Callback
+     * @param ExecutionContextInterface $context
+     * @param $payload
+     *//*
+    public function validate(ExecutionContextInterface $context, $payload): void
+    {
+        $validator = new AdherentValidator();
+
+        $validator->validate($context, $payload);
+    }*/
 }

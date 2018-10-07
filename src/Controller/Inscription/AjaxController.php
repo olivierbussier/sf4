@@ -66,9 +66,12 @@ class AjaxController extends Controller
         // Réduction famille
 
         /** @var Adherent $user */
+        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
 
         $form = $_POST['inscription'];
+        $inscrType = $form['InscrType'];
+
         $calc = new Calculate();
 
         $reducFam   = $form['ReducFam'];
@@ -76,7 +79,7 @@ class AjaxController extends Controller
 
         if ($reducFam != '') {
 
-            $res = $calc->calcReducFam($reducFam, $reducFamId);
+            $res = $calc->calcReducFam($reducFam, $reducFamId, $em);
 
             $return_val['code'] = $res['fErr'];
 
@@ -145,6 +148,9 @@ class AjaxController extends Controller
                     $return_val['msgFamille'] = ob_get_clean();
                     break;
             }
+        } else {
+            $return_val['code'] = Calculate::ID_VIDE;
+            $return_val['msgFamille'] = '';
         }
 
         ob_start(); ?>
@@ -185,7 +191,7 @@ class AjaxController extends Controller
         if (!$tt['fErr']) {
             ob_start();
 
-            if ($user->getInscrType() == FormConst::INSCR_NORMAL) {
+            if ($inscrType == FormConst::INSCR_NORMAL) {
                 $this->ligne(
                     $this->aff(self::TITR, "Montant calculé de votre cotisation selon les informations fournies :")
                 );
@@ -261,7 +267,7 @@ class AjaxController extends Controller
 
         if (!$tt['fErr']) {
             $this->ligne($this->aff(self::TITR, "Sommes à régler : "));
-            if ($user->getInscrType() == FormConst::INSCR_NORMAL) {
+            if ($inscrType == FormConst::INSCR_NORMAL) {
                 $this->ligne(
                     $this->aff(self::ITEM, "Un cheque de ") .
                     $this->aff(self::BADG, $total . "€", 'success') .

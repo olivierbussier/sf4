@@ -29,14 +29,30 @@ class InscriptionType extends AbstractType
             ->add('DateNaissance', DateType::class, [
                 'widget' => 'single_text',
                 'html5'  => false,
-                'attr'   => [ 'class' => 'js-datepicker']
+                'attr'   => [
+                    'class' => 'js-datepicker',
+                    'onchange' => 'adaptprix()'
+                ]
             ])
             ->add('TelFix')
             ->add('TelPort')
-            ->add('fEtudiant')
-            ->add('NiveauSca', ChoiceType::class, ['choices' => FormConst::$niveauxSca])
-            ->add('NiveauApn', ChoiceType::class, ['choices' => FormConst::$niveauxApn])
-            //->add('diplomes')
+            ->add('fEtudiant',CheckboxType::class, [
+                'attr'   => [
+                    'onchange' => 'adaptprix()'
+                ]
+            ])
+            ->add('NiveauSca', ChoiceType::class, [
+                'choices' => FormConst::$niveauxSca,
+                'attr'   => [
+                    'onchange' => 'adaptprix()'
+                ]
+            ])
+            ->add('NiveauApn', ChoiceType::class, [
+                'choices' => FormConst::$niveauxApn,
+                'attr'   => [
+                    'onchange' => 'adaptprix()'
+                ]
+            ])
             ->add('Activite', ChoiceType::class, [
                 'choices' => [
                     '--' => '--',
@@ -49,7 +65,11 @@ class InscriptionType extends AbstractType
                     'onchange' => 'adaptprix()'
                 ]
             ])
-            ->add('fApneeSca',CheckboxType::class)
+            ->add('fApneeSca',CheckboxType::class,[
+                'attr'   => [
+                    'onchange' => 'adaptprix()'
+                ]
+            ])
             ->add('fBenevole', CheckboxType::class)
             ->add('AccidentNom')
             ->add('AccidentPrenom')
@@ -60,7 +80,9 @@ class InscriptionType extends AbstractType
                 'html5'  => false,
                 'attr'   => [ 'class' => 'js-datepicker']
             ])
-            ->add('fAllergAspirine')
+            ->add('fAllergAspirine', ChoiceType::class, [
+                'choices' => FormConst::$ouinon
+            ])
             ->add('Licence')
             ->add('Assurance', ChoiceType::class, [
                 'choices' => [
@@ -68,6 +90,9 @@ class InscriptionType extends AbstractType
                     'Loisir Base' => FormConst::$axaBase,
                     'Loisir Top'  => FormConst::$axaTop,
                     'Autres'     => FormConst::$axaPisc
+                ],
+                'attr'   => [
+                    'onchange' => 'adaptprix()'
                 ]
             ])
             ->add('ReducFam')
@@ -75,10 +100,16 @@ class InscriptionType extends AbstractType
                 'choices' => FormConst::$ouinon
             ])
             ->add('Facture', ChoiceType::class, [
-                'choices' => FormConst::$facture
+                'choices' => FormConst::$facture,
+                'attr'   => [
+                    'onchange' => 'adaptprix()'
+                ]
             ])
             ->add('PretMateriel', ChoiceType::class, [
-                'choices' => FormConst::$ouinon
+                'choices' => FormConst::$ouinon,
+                'attr'   => [
+                    'onchange' => 'adaptprix()'
+                ]
             ])
             ->add('MineurNom')
             ->add('MineurPrenom')
@@ -90,30 +121,6 @@ class InscriptionType extends AbstractType
 
             ->add('InscrType', HiddenType::class)
             ->add('ReducFamilleID', HiddenType::class)
-
-            //->add('LieuNaissance')
-            //->add('DepartementNaissance')
-            //->add('fTrombi')
-            //->add('Cotisation')
-            //->add('EnvoiGUC')
-            //->add('EnvoiSIUAPS')
-            //->add('fCarteGUC')
-            //->add('fCarteSIUAPS')
-            //->add('RefFacture')
-            //->add('ReducFamilleID')
-            //->add('Username')
-            //->add('Nom')
-            //->add('Prenom')
-            //->add('ListeDroits')
-            //->add('CodeSecret')
-            //->add('Password')
-            //->add('fEncadrant')
-            //->add('PretMaterielOld')
-            //->add('DateModifUser')
-            //->add('DatePremInscr')
-            //->add('AdminOK')
-            //->add('Comments')
-            //->add('ModifUser')
         ;
     }
 

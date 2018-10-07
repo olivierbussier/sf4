@@ -42,9 +42,10 @@ class Calculate
      * Calcul de la réduction famille en fonction de l'identifiant famille passé en paramètre.
      * @param $val string l'identifiant reduction famille à vérifier
      * @param string $reducID l'ID de la personne demandant une réduction famille
+     * @param EntityManagerInterface $em
      * @return array
      */
-    public function calcReducFam(?string $val, ?string $reducID)
+    public function calcReducFam(?string $val, ?string $reducID, EntityManagerInterface $em = null)
     {
         if ($val == '') {
             $ret['fErr'] = self::ID_VIDE;
@@ -56,32 +57,32 @@ class Calculate
                 if ($val == $reducID) {
                     $ret['fErr'] = self::ID_PERSONEL;
                     $ret['msg'] = '';
-                } else {
+                } elseif ($em) {
                     // Valide, Vérification que ce numéro n'est pas déja utilisé pour
                     // valider d'autres réductions famille
 
-                    $adhRepo = $this->em->getRepository('Adherent');
-                    $id = $adhRepo->findBy(['ReducFamId' => $val]);
-/*
-                    $db = Globals::getDb();
+                    $adhRepo = $em->getRepository(Adherent::class);
+                    /** @var Adherent $user */
+                    $users = $adhRepo->findBy(['ReducFamilleID' => $val]);
 
-                    $res = $db->query("select NOM,PRENOM,REDUCFAM,ADMINOK from @#@liste ".
-                                        "where LOWER(REDUCFAMID)='$val' and ADMINOK <> ''");
-*/
-                    if ($id) {/*
+                    if ($users && count($users) == 1) {
+                        $user = $users[0];
                         // L'adhérent existe et est inscrit ou en cours d'inscription
 
-                        if ($d['REDUCFAM'] != '') {
+                        if ($user->getReducFam() != '') {
                             $ret['fErr'] = self::DEJA_UTILISE;
                             $ret['msg'] = '';
                         } else {
                             $ret['fErr'] = self::OK;
-                            $ret['msg'] = $d['PRENOM'] . ' ' . $d['NOM'];
-                        }*/
+                            $ret['msg'] = $user->getPrenom() . ' ' . $user->getNom();
+                        }
                     } else {
                         $ret['fErr'] = self::ADH_INCONNU;
                         $ret['msg'] = '';
                     }
+                } else {
+                    $ret['fErr'] = self::ADH_INCONNU;
+                    $ret['msg'] = '';
                 }
             } else {
                 $ret['fErr'] = self::ID_ERROR;
