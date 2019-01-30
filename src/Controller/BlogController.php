@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Classes\Blog\BlogHelpers;
+use App\Classes\Config\Config;
 use App\Entity\Blog;
 use App\Form\BlogEditType;
 use App\Repository\BlogRepository;
@@ -168,8 +169,7 @@ class BlogController extends AbstractController
         $blogsRepo = $doctrine->getRepository(Blog::class);
         $em = $this->getDoctrine()->getManager();
 
-        $conf = $this->getParameter('conf.blog');
-        $dirImages = $conf['blog.images'];
+        $dirImages = Config::blogImages;;
 
         if ($blogId == 0) {
             $blog = new Blog();
@@ -275,8 +275,7 @@ class BlogController extends AbstractController
             $this->redirectToRoute('root');
         }
 
-        $conf = $this->getParameter('conf.blog');
-        $dirImages = $conf['blog.images'];
+        $dirImages = Config::blogImages;;
         /**
          * @var $blogsRepo BlogRepository
          */

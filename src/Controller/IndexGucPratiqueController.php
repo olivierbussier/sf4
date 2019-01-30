@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class IndexGucPratiqueController extends Controller
+class IndexGucPratiqueController extends AbstractController
 {
     /**
      * @Route("/index_documents", name="index_documents")

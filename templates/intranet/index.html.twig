@@ -43,7 +43,7 @@
 
                 {{ control.bouton(
                     ' Trombinoscope du club',
-                    url('index_admin_trombi'),
+                    url('index_trombi'),
                     '',
                     'btn-block btn-default',
                     'camera'
@@ -119,11 +119,11 @@
 
             <div class="col-xs-12">
                 <h3>Pas de pré-inscription enregistrée
-                    pour l'année {{ conf.p_annee }}-{{ conf.p_annee + 1 }}</h3>
+                    pour l'année {{ conf('p_annee') }}-{{ conf('p_annee') + 1 }}</h3>
             </div>
 
             <div class="col-xs-12">
-                <p>Voous ne vous êtes pas encore inscrit pour <?= Config::$p_annee."-".(Config::$p_annee+1); ?>.
+                <p>Vous ne vous êtes pas encore inscrit pour <?= Config::p_annee."-".(Config::p_annee+1); ?>.
                     Les autres rubriques de l'intranet seront disponibles en totalité lorsque cette étape sera
                     terminée.</p>
                 <p>Vous pourrez emprunter du matériel lorque votre chèque de caution sera enregistré par le
@@ -141,7 +141,7 @@
             </div>
 
             <div class="col-xs-12">
-                <p>Votre inscription <?= Config::$p_annee."-".(Config::$p_annee+1); ?>
+                <p>Votre inscription <?= Config::p_annee."-".(Config::p_annee+1); ?>
                     n'a pas encore été validée par le secrétariat.</p>
                 <p>Les autres rubriques de l'intranet seront disponibles en totalité lorsque
                     cette étape sera terminée.</p>

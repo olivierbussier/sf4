@@ -4,10 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Diplome;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class IndexSectionsController extends Controller
+class IndexSectionsController extends AbstractController
 {
     /**
      * @Route("/index_formation_enfants", name="index_formation_enfants")

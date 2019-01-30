@@ -83,10 +83,14 @@ class InscriptionType extends AbstractType
             ->add('fAllergAspirine', ChoiceType::class, [
                 'choices' => FormConst::$ouinon
             ])
-            ->add('Licence')
+            ->add('fLicence', CheckboxType::class, [
+                'attr'   => [
+                    'onchange' => 'adaptprix()'
+                ]
+            ])
             ->add('Assurance', ChoiceType::class, [
                 'choices' => [
-                    '--'          => '--',
+                    '--'          => '',
                     'Loisir Base' => FormConst::$axaBase,
                     'Loisir Top'  => FormConst::$axaTop,
                     'Autres'     => FormConst::$axaPisc

@@ -2,10 +2,10 @@
 
 namespace App\Controller\Intranet;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class IndexGonflageController extends Controller
+class IndexGonflageController extends AbstractController
 {
     /**
      * @Route("/gonflage/index_modif_gonf_eleves", name="index_modif_gonf_eleves")

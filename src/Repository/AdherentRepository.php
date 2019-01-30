@@ -28,7 +28,7 @@ class AdherentRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->select(['a.Nom','a.Prenom','a.fTrombi','a.NiveauSca','a.id'])
             ->orderBy('a.Nom','asc')
-            ->where("JSON_SEARCH(a.AdminOK,'one','VALID') <> 0")
+            ->where("a.AdminOK <> ''")
             ->getQuery()
             ->getResult();
     }

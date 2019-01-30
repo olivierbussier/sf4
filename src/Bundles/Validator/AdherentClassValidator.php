@@ -147,10 +147,10 @@ class AdherentClassValidator extends ConstraintValidator
                 break; // Pas d'erreur
         }
 
-        $age_finannee = DateHelper::age($datenaiss, "31/12/" . Config::$p_annee);
+        $age_finannee = DateHelper::age($datenaiss, "31/12/" . Config::p_annee);
 
         if ($age_finannee < 10) {
-            $this->e("Il est nécessaire d'avoir 10ans révolus au 01/01/" . (Config::$p_annee + 1) .
+            $this->e("Il est nécessaire d'avoir 10ans révolus au 01/01/" . (Config::p_annee + 1) .
                 " pour prendre une licence FFESSM et/ou vous inscrire au club.", 'DateNaissance');
         }
     }
@@ -245,18 +245,18 @@ class AdherentClassValidator extends ConstraintValidator
         $Apnee = $user->getNiveauApn();
         $dnaiss = $user->getDateNaissance()->format('d/m/Y');
 
-        $age_finannee = DateHelper::age($dnaiss, "31/12/" . Config::$p_annee);
+        $age_finannee = DateHelper::age($dnaiss, "31/12/" . Config::p_annee);
 
         if ($Niveau == "") {
             $this->e("Vous n'avez pas renseigné votre niveau actuel de plongée scaphandre.", 'NiveauSca');
         } else {
             if ($age_finannee < 13 && $Niveau != "Enfant") {
-                $this->e("Agé de " . $age_finannee . " ans au 31/12/" . Config::$p_annee .
+                $this->e("Agé de " . $age_finannee . " ans au 31/12/" . Config::p_annee .
                     " et à moins de 14 ans, vous devez cocher enfant.", 'NiveauSca');
             }
 
             if ($age_finannee >= 14 && $Niveau == "Enfant") {
-                $this->e("Agé de " . $age_finannee . " ans au 01/01/" . (Config::$p_annee + 1) .
+                $this->e("Agé de " . $age_finannee . " ans au 01/01/" . (Config::p_annee + 1) .
                     " et à partir de 14 ans, vous n'êtes plus considéré comme un enfant pour la FFESSM.", 'NiveauSca');
             }
         }
@@ -307,7 +307,7 @@ class AdherentClassValidator extends ConstraintValidator
         $dnaiss   = $user->getDateNaissance()->format('d/m/Y');
 
         $age_today    = DateHelper::age($dnaiss);
-        $age_finannee = DateHelper::age($dnaiss, "31/12/" . Config::$p_annee);
+        $age_finannee = DateHelper::age($dnaiss, "31/12/" . Config::p_annee);
 
         if ($Activite == "") {
             $this->e("Vous n'avez pas renseigné votre activité pour cette année.", 'Activite');
@@ -486,7 +486,7 @@ class AdherentClassValidator extends ConstraintValidator
     private function checkAspi(Adherent $user)
     {
         if ($user->getFAllergAspirine() == "") {
-            $this->e("Vous n'avez pas précisé votre intolérance à l'aspirine.",'fAllergAsp');
+            $this->e("Vous n'avez pas précisé votre intolérance à l'aspirine.",'fAllergAspirine');
         }
     }
 

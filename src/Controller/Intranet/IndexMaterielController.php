@@ -2,10 +2,10 @@
 
 namespace App\Controller\Intranet;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class IndexMaterielController extends Controller
+class IndexMaterielController extends AbstractController
 {
     /**
      * @Route("/materiel/index_demande_emprunt", name="index_demande_emprunt")

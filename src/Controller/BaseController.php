@@ -2,16 +2,13 @@
 
 namespace App\Controller;
 
+use App\Classes\Config\Config;
 use App\Entity\Blog;
-use App\Entity\Resultat;
-use App\Form\ChoixCourseType;
 use App\Form\EcrireType;
 use Swift_Mailer;
 use Swift_Message;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,8 +23,8 @@ class BaseController extends AbstractController
     {
         $posts = $doctrine->getRepository(Blog::class)->getAllPosts();
 
-        $conf = $this->getParameter('conf.blog');
-        $dirImages = $conf['blog.images'];
+
+        $dirImages = Config::blogImages;
 
         // affichage de toutes les images du rep pub
 
@@ -53,8 +50,7 @@ class BaseController extends AbstractController
 
         $post = $doctrine->getRepository(Blog::class)->find($blogId);
 
-        $conf = $this->getParameter('conf.blog');
-        $dirImages = $conf['blog.images'];
+        $dirImages = Config::blogImages;
 
         return $this->render(
             'pages/index_preview.html.twig', [

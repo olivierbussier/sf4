@@ -59,7 +59,7 @@ Chez Guy VERE<br>
 
 <p>Merci et à bientôt.</p>
 EOD;
-    
+
     return $userbody;
 }
 
@@ -90,12 +90,12 @@ if ($e->getNbErrors() == 0) {
     }
 
     $date = date("Y-m-d");
-    
+
     // Toute les informations sont correctes
     // On va transférer la ligne de la table 'liste_temp' vers 'liste'
     // 2 cas de figure: l'adhérents existe , ou n'existe pas
     // -------------------------------------------------------------------
-    
+
     // ------------------------------------------------------------------------
     // REFUSRADHERENT contient :
     // Soit la référence valide d'un adhérent existant.
@@ -113,12 +113,12 @@ if ($e->getNbErrors() == 0) {
     // Si on trouve une ligne, c'est que la REF pointe vers le bon adhérent
     // Si on ne trouve rien, c'est que REFUSRADHERENT est une REF temporaire
     // ------------------------------------------------------------------------
-    
+
     $sql = "SELECT MODIFUSER FROM @#@liste where Ref='".Session::get('REFUSR')."'";
     $resultat = $db->query($sql);
 
     $data = $db->nextrow($resultat);
-    
+
     $SQL = Form::getSQL(true, Form::PASSAGER);
 
     if ($data != false) {
@@ -134,7 +134,7 @@ if ($e->getNbErrors() == 0) {
         } else {
             $MODIFUSER = $data['MODIFUSER'];
         }
-        
+
         $db->query("update @#@liste set $SQL,".
                         "COTISATION='Passager',".
                         "ACTIVITE='Passager',".
@@ -142,11 +142,11 @@ if ($e->getNbErrors() == 0) {
                         "MODIFUSER     = '$MODIFUSER',".
                         "DATEMODIFUSER = '$date'".
                         " where Ref = '".Session::get('REFUSR')."'");
-        
+
         // Init de NEWREF pour pouvoir repositionner la variable de session REFUSR
         // à la fin de ces traitements
         // ------------------------------------------------------------------------------------
-        
+
         $NEWREF = Session::get('REFUSR');
     } else {
         // L'adhérent n'est pas dans la base avec cette REFUSR
@@ -154,7 +154,7 @@ if ($e->getNbErrors() == 0) {
         // On recopie les données du formulaire validé vers une
         // nouvelle ligne dans 'liste'
         // ------------------------------------------------------------------------------------
-        
+
         $sq = "insert into @#@liste set $SQL,".
                         "NOM    ='".Session::get('NOM')."',".
                         "PRENOM ='".Session::get('PRENOM')."',".
@@ -166,30 +166,30 @@ if ($e->getNbErrors() == 0) {
                         "DATEMODIFUSER = '$date',".
                         "DATEPREMINSCR = '$date'";
         $db->query($sq);
-        
+
         // Récuperation de la REFUSR créée
-        
+
         $NEWREF = $db->last_insert_id();
     }
 
     // Suppressionde la ligne dans table_temp
-        
+
     $db->query("delete from @#@liste_temp where Ref = '".Session::get('REFUSR')."'");
-    
+
     // Initialisation de REFUSR et de la variable de session REFUSER avec la ref de la ligne
     // de la table 'liste' qui pointe vers les données de l'adhérent
     // ------------------------------------------------------------------------------------
-    
+
     Session::set('REFUSR', $NEWREF);
     Session::setRefUser(Session::get('REFUSR'));
-    
+
     // Génération du PDF
-    
+
     // Initialisation de ces variables pour pointer correctement le path du fichier généré
     // selon que l'on à affaire à un lien dans une page HTML ($path).
     // Ou un lien dans un mail ($path_mail)
     // ------------------------------------------------------------------------------------
-    
+
     // Envoi du mail vers le webmaster pour signaler un nouvel inscrit ou bien une mise à jour
     // ------------------------------------------------------------------------------------
 
@@ -201,7 +201,7 @@ if ($e->getNbErrors() == 0) {
     $body_text .= "Ref     : ".Session::get('REFUSR')."\n";
     $body_text .= "OLD/NEW : ".Session::get('MODIFUSER')."\n";
     $body_text .= "\n*************************\n";
-    
+
     $body_html  = "<html><head></head><body>\n";
     $body_html .= "<table border=\"1\" width=\"400\" style=\"border-collapse:collapse;\">\n";
     $body_html .= "<tr><th>Nom</th><th>Prénom</th><th>Ref</th><th>OLD/NEW</th></tr>\n";
@@ -211,7 +211,7 @@ if ($e->getNbErrors() == 0) {
     $body_html .= "</body></html>\n";
 
     $sender = "Inscriptions GUC Plongee <contact@guc-plongee.net>";
-    
+
     (new MailMime())->mimeMail(
         $sender,
         MailUsers::$webmaster,
@@ -224,7 +224,7 @@ if ($e->getNbErrors() == 0) {
     // ------------------------------------------------------------------------------------
 
     $userdest  = Form::get('MAIL');
-    $usersujet = "GUC Plongee - Licence passager pour la saison ".Config::$p_annee."-".(Config::$p_annee+1);
+    $usersujet = "GUC Plongee - Licence passager pour la saison ".Config::p_annee."-".(Config::p_annee+1);
 
     $mail_html = create_mail_body(
         Session::get('REFUSR'),
@@ -239,7 +239,7 @@ if ($e->getNbErrors() == 0) {
     $ml->init($sender, $userdest, $usersujet, $sender);
     $ml->setDkimSign(true);
     $ml->addAlternative($mail_text, $mail_html);
-    
+
     $retsend = $ml->send();
 
     // ************************************************************************************

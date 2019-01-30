@@ -32,7 +32,7 @@
     {% if mode is 'NORMAL' %}
 
         <div class="col-xs-12">
-            <h3>Inscription GUC Plongée - Saison <?php echo Config::$p_annee . "-" . (Config::$p_annee + 1); ?>.</h3>
+            <h3>Inscription GUC Plongée - Saison <?php echo Config::p_annee . "-" . (Config::p_annee + 1); ?>.</h3>
         </div>
 
         <div class="col-xs-12">
@@ -73,7 +73,7 @@
 
         <div class="col-xs-12">
             <h3>Inscription GUC Plongée (Licence Passager) -
-                Saison {{ conf.p_annee }} - {{ conf.p_annee + 1 }}.</h3>
+                Saison {{ conf('p_annee') }} - {{ conf('p_annee') + 1 }}.</h3>
         </div>
 
         <div class="col-xs-12">
@@ -551,18 +551,18 @@
         $Apnee = Form::get('APNEE');
         $dnaiss = Form::get('DATENAISS');
 
-        $age_finannee = GucDate::age($dnaiss, "31/12/" . Config::$p_annee);
+        $age_finannee = GucDate::age($dnaiss, "31/12/" . Config::p_annee);
 
         if ($Niveau == "") {
             $e->error(3, 1, "Vous n'avez pas renseigné votre niveau actuel de plongée scaphandre.");
         } else {
             if ($age_finannee < 13 && $Niveau != "Enfant") {
-                $e->error(3, 1, "Agé de " . $age_finannee . " ans au 31/12/" . Config::$p_annee .
+                $e->error(3, 1, "Agé de " . $age_finannee . " ans au 31/12/" . Config::p_annee .
                     " et à moins de 14 ans, vous devez cocher enfant.");
             }
 
             if ($age_finannee >= 14 && $Niveau == "Enfant") {
-                $e->error(3, 1, "Agé de " . $age_finannee . " ans au 01/01/" . (Config::$p_annee + 1) .
+                $e->error(3, 1, "Agé de " . $age_finannee . " ans au 01/01/" . (Config::p_annee + 1) .
                     " et à partir de 14 ans, vous n'êtes plus considéré comme un enfant pour la FFESSM.");
             }
         }
@@ -833,7 +833,7 @@
         $dnaiss   = Form::get('DATENAISS');
 
         $age_today    = GucDate::age($dnaiss);
-        $age_finannee = GucDate::age($dnaiss, "31/12/" . Config::$p_annee);
+        $age_finannee = GucDate::age($dnaiss, "31/12/" . Config::p_annee);
 
         if ($Activite == "") {
             $e->error(5, 1, "Vous n'avez pas renseigné votre activité pour cette année.");
@@ -1074,7 +1074,7 @@
 
             <p>Une copie du certificat médical est exigée pour tout adhérent du GUC. Ce certificat de non-contre
                 indication à la pratique de la plongée (ou apnée, ou nage) doit être délivré par un médecin du sport
-                ou par un médecin fédéral et doit être postérieur au 1er Juillet <?= Config::$p_annee; ?> afin qu'il
+                ou par un médecin fédéral et doit être postérieur au 1er Juillet <?= Config::p_annee; ?> afin qu'il
                 garde sa validité toute l'année scolaire.</p>
             <p>Cette copie ne sera pas rendue : <strong>Gardez bien l'original</strong> au cas où d'autres copies
                 seraient demandées par ailleurs (ex: club du bord de mer).</p>
@@ -1132,7 +1132,7 @@
                     initialPreview: [
 <?php
                     $virg = '';
-                foreach ($tab as $v) { 
+                foreach ($tab as $v) {
 ?><?= $virg ?>                      '<?= $v['name'] ?>'<?php
                     $virg = ",\n";
                 }
@@ -1145,7 +1145,7 @@
                     initialPreviewConfig: [
 <?php
                             $virg = '';
-                foreach ($tab as $v) { 
+                foreach ($tab as $v) {
                 ?><?= $virg ?>
                         {
                             type: '<?= $v["type"] ?>',
@@ -1255,7 +1255,7 @@
                 êtes déjà licencié(e) dans un autre club, ne pas demander de licence au GUC.</p>
 
             <?php Controls::incheckbox(
-                "J'ai déjà ma licence FFESSM pour l'année " . Config::$p_annee . "-" . (Config::$p_annee + 1) .
+                "J'ai déjà ma licence FFESSM pour l'année " . Config::p_annee . "-" . (Config::p_annee + 1) .
                 " (en joindre alors une photocopie)",
                 'FLICENCE',
                 Form::get('FLICENCE') == 'OUI',
@@ -1575,7 +1575,7 @@
             <p>Afin de pouvoir accéder à la piscine du campus, un badge magnétique vous est prêté pour toute l’année.
                 En échange, un chèque de caution de <?= Config::BADGE_PISCINE; ?> € établi à l'ordre du GUC Plongée
                 vous est demandé. <strong>Si vous perdez le badge ou si vous ne le rendez pas fin
-                    juin <?= Config::$p_annee + 1; ?>,
+                    juin <?= Config::p_annee + 1; ?>,
                     le chèque sera encaissé.</strong></p>
         </div>
         <?php

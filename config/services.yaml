@@ -6,139 +6,6 @@
 parameters:
     locale: 'fr'
 
-    # paramètres spécifiques a l'application
-    conf.galerie:
-        # Galerie
-        galerie.path_images: 'galerie'
-        galerie.path_thumb:  'galerie/thumb'
-        galerie.path_sized:  'galerie/sized'
-        galerie.path_img:    'galerie/img'
-        galerie.nb_par_page:   60
-        galerie.thumbHeight:  320
-        galerie.thumbWidth:   320
-        galerie.thumbQuality:  80
-        galerie.sizedHeight: 1080
-        galerie.sizedWidth:  1920
-        galerie.sizedQuality:  80
-    
-    conf.blog:
-        blog.images: 'imblog'
-    
-    conf:
-        # Paramétrages de base
-        p_annee: 2017       # Pour l'année scolaire 2017-2018
-        nb_sess_req : 2     # Nombre de sessions de gonflage obligatoires
-        # Répertoire utilisés
-        path_photo  : "../identites/"  # Photos d'identité
-        path_certif : "../certif/"
-        path_fiches : "../insc/"        # Fiches d'inscription PDF
-        path_fact   : "../factures/"    # Factures
-        path_team   : "images/team/"
-        # Fichiers de Log
-        PATH_LOGS   : "/../../logs/"
-        LOG_AP      :  "1"
-        LOG_DB      :  "2"
-        LOG_ML      :  "3"
-        # Ouverture des inscriptions
-        INSCR_AUCUNE   : '0'
-        INSCR_PASSAGER : '1'
-        INSCR_NORMAL   : '3'
-        # // TODO a déplacer dans configenv
-        status_inscriptions : INSCR_AUCUNE
-        #status_inscriptions : 'INSCR_PASSAGER'
-        #status_inscriptions : 'INSCR_NORMAL'
-        # *****************************************************************/
-        insc_enfants : true # false si section complete
-        resp_enfants :
-            "Pierre Frouin" : "pierre.frouin@neuf.fr"
-        # *****************************************************************/
-        insc_N1 : true # false si section complete
-        resp_N1 :
-            "Xavier Dupuis" : "xdupuis@gmail.com"
-        # *****************************************************************/
-        insc_N2 : true # false si section complete
-        resp_N2 :
-            "Serge Morand" : "srg.morand@sfr.fr"
-        # *****************************************************************/
-        insc_apnee : true # false si section complete
-        resp_apnee :
-            "Thierry Lamboley" : "thlamboley@laposte.net"
-            "Philippe Péan"    : "phil.pean@gmail.com"
-        # *****************************************************************/
-        NOM_CAESUG  : "Jérôme Mars" # Nom de la personne en charge du CAESUG
-        MAIL_CAESUG : "Jerome.Mars@gipsa-lab.grenoble-inp.fr" # mail de la personne en charge du CAESUG pour le GUC
-        # Liens et textes affiches dans le PDF
-        P_LCERTIF   : "http://www.guc-plongee.net/docs/CertMed.pdf"
-        P_LAXA      : "http://www.cabinet-lafont.com/accueil/Tableau_garanties_2017-2018.pdf"
-        P_BAS       : "Vous pourrez déposer votre dossier chaque Mardi, de 19h00 à 21h00, à compter du 12 Septembre à la piscine de saint martin d'Hères."
-        P_BAS_PASSAGER : "Vous pourrez déposer votre dossier chaque Mardi, ou les envoyer par courrier à l'adresse indiquée dans le cartouche ci-dessus."
-        DATE_DOSSIER : "12 Septembre 2017"
-        # Cautions
-        CAUTION_MATOS : 500 # Chèque de caution maétériel
-        BADGE_PISCINE : 6   # Caution du badge d'accès piscine
-        # //Fede
-        LICENCE_12   : 12 # Licence moins de 12 ans (a partir de 10)
-        LICENCE12_16 : 26 # Licence de 12 ans à 16 ans
-        LICENCE_ADUL : 40 # Licence Adulte
-        # // AXA
-        AXA_L1B : 20.00 # Loisir 1 Base
-        AXA_L2B : 25.00 # Loisir 2 Base
-        AXA_L3B : 42.00 # Loisir 3 Base
-        AXA_L1T : 39.00 # Loisir 1 Top
-        AXA_L2T : 50.00 # Loisir 2 Top
-        AXA_L3T : 83.00 # Loisir 3 Top
-        AXA_PIS : 11.00 # Piscine
-        # // Club
-        CLUB_BENE : 50    # Bénévole
-        CLUB_JEUN : 100   # Enfants/Etudiants
-        CLUB_MAIN : 100   # Maintien
-        CLUB_AUTR : 140   # Progression
-        CLUB_DEBU : 100   # Débutants
-        CLUB_APN1 : 100   # Nage Avec Palmes/Apnée et Plongeur Tarif 1
-        CLUB_APN2 : 50    # Nage Avec Palmes/Apnée non Plongeur Tarif 2
-        CARTE_GUC : 5     # Prix de la carte GUC
-        # // Divers
-        SIUAPS          : 22
-        REDUC_FAMILLE   : 50  # Réduction pour plusieurs membres famille
-        MAJO_COTISATION : 15  # Si dossier en retard
-        TAXE            : 0   # Taux de taxe applicable pour les factures
-
-    listes:
-        roles:
-            "Admin"               : "ROLE_ADMIN"
-            "Section Ado"         : "ROLE_ADO"
-            "Section Apnée"       : "ROLE_APNEE"
-            "Section baptemes"    : "ROLE_BAPTEME"
-            "Bureau"              : "ROLE_BUREAU"
-            "Certif"              : "ROLE_CRT"
-            "Encadrant"           : "ROLE_ENCADRANT"
-            "Section enfants"     : "ROLE_ENFANT"
-            "Section Gonflage"    : "ROLE_GON"
-            "Section matériel"    : "ROLE_MAT"
-            "Section PMT"         : "ROLE_PMT"
-            "Section PN1"         : "ROLE_PN1"
-            "Section PN2"         : "ROLE_PN2"
-            "Section PN3"         : "ROLE_PN3"
-            "Section PN4"         : "ROLE_PN4"
-            "Section Pub"         : "ROLE_PUB"
-            "Section Initiateur"  : "ROLE_PINI"
-            "Section MF1"         : "ROLE_PMF1"
-        form:
-            'cot.BENEVOLE'          : "Bénévole/Encadrant"
-            'cot.ENFANTS'           : "Enfants/Etudiants"
-            'cot.DEBUTANT'          : "Débutants"
-            'cot.MAINTIEN'          : "Maintien"
-            'cot.PROGRESS'          : "Progression"
-            'cot.APNEESCA'          : "Apnée plongeur"
-            'cot.APNEE'             : "Apnée non plongeur"
-        calc:
-            "OK"            : 'App\Inscription\Calculate::OK'
-            "ID_VIDE"       : 'App\Inscription\Calculate::ID_VIDE'
-            "DEJA_UTILISE"  : 'App\Inscription\Calculate::DEJA_UTILISE'
-            "ADH_INCONNU"   : 'App\Inscription\Calculate::ADH_INCONNU'
-            "ID_ERROR"      : 'App\Inscription\Calculate::ID_ERROR'
-            "ID_PERSONEL"   : 'App\Inscription\Calculate::ID_PERSONEL'
-
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -152,7 +19,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,Classes/PDF/font}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class

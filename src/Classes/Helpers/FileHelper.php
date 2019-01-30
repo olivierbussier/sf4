@@ -102,7 +102,7 @@ class FileHelper
                 $ext = '';
                 break;
         }
-        return self::corrigerPath(Config::$path_photo . $NOM . "-" . $PRENOM . "-" . $REF . '-' . $mod . $ext);
+        return self::corrigerPath(Config::path_photo . $NOM . "-" . $PRENOM . "-" . $REF . '-' . $mod . $ext);
     }
 
     /**
@@ -133,15 +133,15 @@ class FileHelper
     {
         switch ($type) {
             case 'certifs':
-                $pathType = $baseDir . '/' . Config::$path_certif;
+                $pathType = $baseDir . '/' . Config::path_certif;
                 $extBase = 'certifs';
                 break;
             case 'diplomes':
-                $pathType = $baseDir . '/' . Config::$path_diplome;
+                $pathType = $baseDir . '/' . Config::path_diplome;
                 $extBase = 'diplomes';
                 break;
             case 'photos':
-                $pathType = $baseDir . '/' . Config::$path_photo;
+                $pathType = $baseDir . '/' . Config::path_photo;
                 $extBase = 'th';
                 break;
         }

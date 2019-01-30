@@ -2,6 +2,8 @@
 
 namespace App\Classes\Galerie;
 
+use App\Classes\Config\Config;
+
 class GenImages
 {
 
@@ -19,13 +21,6 @@ class GenImages
     const GALOK = 1;
     const GALNO = 2;
     const GALKO = 3;
-
-    private $conf = [];
-
-    public function __construct($config)
-    {
-        $this->conf = $config;
-    }
 
     /**************************************************************************/
     function TestExif($name)
@@ -62,7 +57,7 @@ class GenImages
     {
         // Si le répèrtoire de thumbnails n'existe pas (1er accès)
         // Il est crée
-        $target = $this->conf['galerie.path_images'] . '/' . $dir . '/' . $imgrep; //"images/$dir/$imgrep";
+        $target = Config::path_images . '/' . $dir . '/' . $imgrep; //"images/$dir/$imgrep";
         //v('t=',$target);
 
         if (!file_exists($target)) {
@@ -77,7 +72,7 @@ class GenImages
     {
         // Recherche du fichier source
 
-        $pathSource = $this->conf['galerie.path_img'];
+        $pathSource = Config::path_img;
         $fileName = pathinfo($basename, PATHINFO_FILENAME);
         $target = urldecode($pathSource .'/' . $imgrep . '/' . $fileName);
 
@@ -145,14 +140,14 @@ class GenImages
 
         switch ($type) {
             case 'thumb':
-                $imgMH = $this->conf['galerie.thumbHeight'];
-                $imgMW = $this->conf['galerie.thumbWidth'];
-                $quality = $this->conf['galerie.thumbQuality'];;
+                $imgMH = Config::thumbHeight;
+                $imgMW = Config::thumbWidth;
+                $quality = Config::thumbQuality;
                 break;
             case 'sized':
-                $imgMH = $this->conf['galerie.sizedHeight'];
-                $imgMW = $this->conf['galerie.sizedWidth'];
-                $quality = $this->conf['galerie.sizedQuality'];;
+                $imgMH = Config::sizedHeight;
+                $imgMW = Config::sizedWidth;
+                $quality = Config::sizedQuality;
                 break;
         }
         if ($imgMW / $imgRatio <= $imgMH) {
@@ -203,7 +198,7 @@ class GenImages
         // Sauvegarde du fichier créé
 
 
-        $fl = $this->conf['galerie.path_images'] . '/' . $type . '/' . $imgrep . '/' . $fileName . '.jpg';
+        $fl = Config::path_images . '/' . $type . '/' . $imgrep . '/' . $fileName . '.jpg';
         imagejpeg($imCible, $fl, $quality);
 
         $this->log(self::GALOK, "Image '$fl' créée");

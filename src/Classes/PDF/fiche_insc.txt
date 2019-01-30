@@ -1,0 +1,330 @@
+// La page fait 210mmm x 297mm
+colorbox(0xffffff)
+
+/****************************************
+ Init des labels pour les tests
+ ***************************************/
+// Cartouche
+/*
+setlabel(@texaninscr, "Inscription 2015-2016")
+setlabel(@textnomadh, "Olivier Bussier")
+setlabel(@textnumadh, "410")
+setlabel(@caesug,     "Caesug")
+setlabel(@guc,        "GUC")
+setlabel(@siuaps,     "SIUAPS")
+*/
+setlabel(@photo,"photo.jpg")
+/*
+// Docs à fournir
+setlabel(@doc1,"Certificat médical postérieur au 1er Juillet 2015")
+setlabel(@doc2,"Licence/Assurance : Chèque de 123.45€ à l'ordre du GUC Plongée")
+setlabel(@doc3,"Caution matériel : Chèque de 500€ à l'ordre du GUC Plongée")
+setlabel(@doc4,"Caution badge : Chèque de 6€ à l'ordre du GUC Plongée")
+setlabel(@doc5,"Diplômes : Photocopie TIV, N3 Initiateur")
+setlabel(@doc6,"Ce présent document daté et signé")
+setlabel(@doc7,"7")
+setlabel(@doc8,"8")
+setlabel(@doc9,"9")
+// TODO changer doc10 en reducfamid
+setlabel(@doc10,"10")
+
+// Rens Perso
+setlabel(@datejour,"22/07/2015")
+setlabel(@adhname,"Mr BUSSIER Olivier")
+setlabel(@tutorname,"Mr XXXXXXXX Xxxxxxxxx")
+setlabel(@lienparen,"Père")
+setlabel(@addr,"21, chemin du Boeuf")
+setlabel(@codep,"38330")
+setlabel(@ville,"Biviers")
+setlabel(@profess,"Ingénieur")
+setlabel(@datnaiss,"06/02/1960")
+setlabel(@lieunaiss,"Paris 18eme")
+setlabel(@depnaiss,"75")
+setlabel(@telfix,"04 76 52 91 61")
+setlabel(@telgsm,"06 03 25 50 50")
+setlabel(@mail,"olivier@bussier.fr")
+// Niveaux, diplomes et formation souhaitée
+setlabel(@nivscaph,"N3 Initiateur")
+setlabel(@nivapnee,"Débutant")
+setlabel(@activite,"N4")
+// Bénévole/encadrant
+setlabel(@choixbene,"X")
+setlabel(@choixenca,"X")
+// Personne à prévenir
+setlabel(@nomacc,"BUSSIER")
+setlabel(@prenomacc,"Sylvie")
+setlabel(@telfixacc,"04 76 14 78 59")
+setlabel(@telporacc,"06 98 95 54 86")
+// Cartes et CAESUG
+
+setlabel(@choixcaesug,"X")
+setlabel(@choixfac,"X")
+
+setlabel(@choixguc,"X")
+setlabel(@choixsiuaps,"X")
+setlabel(@choixcarteguc,"X")
+setlabel(@choixffessm,"X")
+setlabel(@choixyyyy,"X")
+setlabel(@choixcotguc,"X")
+
+// Divers
+
+setlabel(@choixmat,"X")
+setlabel(@choixfam,"X")
+setlabel(@assaxa,"Loisir 1 TOP")
+setlabel(@datecertif,"08/07/2015")
+setlabel(@intolasp,"Non")
+*/
+setlabel(@reglok,     "Je reconnais avoir pris connaissance du règlement intérieur du GUC. Ce dernier est disponible sur le site web")
+
+setlabel(@regllink,   "http://guc-plongee.net/docs/ReglementInterieur.pdf")
+setlabel(@templatecertiflien,"http://www.guc-plongee.net/docs/CertMed.pdf")
+
+setlabel(@dipl1,"")
+setlabel(@dipl2,"")
+setlabel(@dipl3,"")
+setlabel(@dipl4,"")
+setlabel(@dipl5,"")
+setlabel(@dipl6,"")
+
+setlabel(@doc1,"")
+setlabel(@doc2,"")
+setlabel(@doc3,"")
+setlabel(@doc4,"")
+setlabel(@doc5,"")
+setlabel(@doc6,"")
+setlabel(@doc7,"")
+setlabel(@doc8,"")
+setlabel(@doc9,"")
+setlabel(@doc10,"")
+/*
+setlabel(@axalien,"http://www.cabinet-lafont.com/accueil/Tableau_garanties_2014-2015.pdf")
+
+setlabel(@infobas,    "Vous pourrez déposer votre dossier chaque Mardi, de 19h00 à 20h00, à compter du 8 Septembre à la piscine de saint martin d'Hères.")
+*/
+/**************************************************
+ Attributs texte séparés par :
+ gras, italique, souligné, gauche, centré, droit
+ *************************************************/
+
+box(10, 10, 190,277) { // Page
+  // ****************************************************
+  // Cartouche
+  // ****************************************************
+  colorbox(0)
+  box( 0, 0,100%,   20) {
+    box(  0, 0, 20,100%) {image(1%,1%,98%,98%,"logo.gif")}
+    box( 20, 0, 35,100%) {text("comic",18,"centré",0,"@texaninscr")}
+    box( 55, 0, 76,100%) {text("comic",18,"centré",0,"@textnomadh")}
+    box(131, 0, 27,100%) {
+      box(0,     0,100%,33.33%) {text("comic",10,"gras:centré",0,"@flag1")}
+      box(0,33.33%,100%,33.33%) {text("comic",10,"gras:centré",0,"@flag2")}
+      box(0,66.66%,100%,33.33%) {text("comic",10,"gras:centré",0,"@flag3")}
+    }
+    box(158,0,32,100%) {text("comic",34,"gras:centré",0,"@textnumadh")}
+  }
+  // ****************************************************
+  // Corps 1 (docs a fournir + photo)
+  // ****************************************************
+  box(0,22,100%,60) {
+    box(0,0,75%,100%) {
+      box(0, 0,100%, 7) {text("comic",14,"gras:centré",0,"Récapitulatif des documents à fournir")}
+      box(1,8,98%, 45) {
+        box(0, 0,5%,5) box(5%, 0,95%,5) {text("comic",8,"gauche",0,"@doc1")}
+        box(0, 5,5%,5) box(5%, 5,95%,5) {text("comic",8,"gauche",0,"@doc2")}
+        box(0,10,5%,5) box(5%,10,95%,5) {text("comic",8,"gauche",0,"@doc3")}
+        box(0,15,5%,5) box(5%,15,95%,5) {text("comic",8,"gauche",0,"@doc4")}
+        box(0,20,5%,5) box(5%,20,95%,5) {text("comic",8,"gauche",0,"@doc5")}
+        box(0,25,5%,5) box(5%,25,95%,5) {text("comic",8,"gauche",0,"@doc6")}
+        box(0,30,5%,5) box(5%,30,95%,5) {text("comic",8,"gauche",0,"@doc7")}
+        box(0,35,5%,5) box(5%,35,95%,5) {text("comic",8,"gauche",0,"@doc8")}
+        box(0,40,5%,5) box(5%,40,95%,5) {text("comic",8,"gauche",0,"@doc9")}
+        box(0,45,5%,5) box(5%,45,95%,5) {text("comic",8,"gauche",0,"@doc10")}
+      }
+    }
+    box(75%,0,25%,100%) {image(1.9%,1%,98%,98%,"@photo")}
+  }
+  // ****************************************************
+  // Corps 2 (Rens perso)
+  // ****************************************************
+  frame(0,84,100%,80) {
+    box(0,0,49.5%,80) {
+      // ************************************************
+      // Adresse,tel, ...
+      // ************************************************
+      box(0, 0,100%,10) {text("comic",14,"gras:centré",0,"@adhname")}
+      frame(0,10,100%,10) {
+        box(0  ,0,35%,100%) {text("comic",9,"gras:droite",0,"Adresse")}
+        box(35%,0,65%,100%) {text("comic",9,"gauche",0,"@addr")}
+      }
+      frame(0,20,100%,6) {
+        box(0  ,0,35%,100%) {text("comic",9,"gras:droite",0,"Code Postal")}
+        box(35%,0,65%,100%) {text("comic",9,"gauche",0,"@codep")}
+      }
+      frame(0,26,100%,6) {
+        box(0  ,0,35%,100%) {text("comic",9,"gras:droite",0,"Ville")}
+        box(35%,0,65%,100%) {text("comic",9,"gauche",0,"@ville")}
+      }
+      frame(0,32,100%,6) {
+        box(0  ,0,35%,100%) {text("comic",9,"gras:droite",0,"Profession")}
+        box(35%,0,65%,100%) {text("comic",9,"gauche",0,"@profess")}
+      }
+      frame(0,38,100%,6) {
+        box(0  ,0,35%,100%) {text("comic",9,"gras:droite",0,"Date de naissance")}
+        box(35%,0,65%,100%) {text("comic",9,"gauche",0,"@datnaiss")}
+      }
+      frame(0,44,100%,6) {
+        box(0  ,0,35%,100%) {text("comic",9,"gras:droite",0,"Tel Fixe")}
+        box(35%,0,65%,100%) {text("comic",9,"gauche",0,"@telfix")}
+      }
+      frame(0,50,100%,6) {
+        box(0  ,0,35%,100%) {text("comic",9,"gras:droite",0,"Tel Portable")}
+        box(35%,0,65%,100%) {text("comic",9,"gauche",0,"@telpor")}
+      }
+      frame(0,56,100%,6) {
+        box(0  ,0,35%,100%) {text("comic",9,"gras:droite",0,"Adresse mail")}
+        box(35%,0,65%,100%) {text("comic",9,"gauche",0,"@mail")}
+      }
+      frame(0,62,100%,6) {
+        box(0  ,0,35%,100%) {text("comic",9,"gras:droite",0," ")}
+        box(35%,0,65%,100%) {text("comic",9,"gauche",0," ")}
+      }
+      frame(0,68,100%,6) {
+        box(0  ,0,35%,100%) {text("comic",9,"gras:droite",0," ")}
+        box(35%,0,65%,100%) {text("comic",9,"gauche",0," ")}
+      }
+      frame(0,74,100%,6) {
+        box(0  ,0,35%,100%) {text("comic",9,"gras:droite",0," ")}
+        box(35%,0,65%,100%) {text("comic",9,"gauche",0," ")}
+      }
+    }
+    // **************************************************
+    // Param plongeur
+    // **************************************************
+    frame(50.5%,0,49.5%,80) {
+      box(0,0,100%,18) {
+        // Niveau plongée
+        box(0,0,50%,100%) {
+          box(0  ,    0,100%,33.3%) {text("comic",9,"gras:centré",0,"Niveau actuel")}
+          box(0  ,33.3%, 50%,33.3%) {text("comic",9,"gras:centré",0,"Scaphandre")}
+          box(50%,33.3%, 50%,33.3%) {text("comic",9,"gras:centré",0,"Apnée")}
+          box(0  ,66.6%, 50%,33.3%) {text("comic",9,"centré",0,"@nivscaph")}
+          box(50%,66.6%, 50%,33.3%) {text("comic",9,"centré",0,"@nivapnee")}
+        }
+        // Activité prévue cette année
+        box(50%,0,50%,100%) {
+          box(0,0,100%,66.6%) {text("comic",9,"gras:centré",0,"Activité prévue cette année")}
+          box(0,66.6%,100%,33.3%) {text("comic",9,"centré",0,"@activite")}
+        }
+      }
+      // Autres diplomes
+      box(0,20,100%,12) {
+        box(0,  0,100%,50%) {text("comic",9,"gras:centré",0,"Autres diplômes")}
+        box(0    ,50%,16.6%,50%) {text("comic",9,"centré",0,"@dipl1")}
+        box(16.6%,50%,16.6%,50%) {text("comic",9,"centré",0,"@dipl2")}
+        box(33.2%,50%,16.6%,50%) {text("comic",9,"centré",0,"@dipl3")}
+        box(49.8%,50%,16.6%,50%) {text("comic",9,"centré",0,"@dipl4")}
+        box(66.4%,50%,16.6%,50%) {text("comic",9,"centré",0,"@dipl5")}
+        box(83.0%,50%,17.0%,50%) {text("comic",9,"centré",0,"@dipl6")}
+      }
+      // Bénévole / Encadrant
+      box(0,34,100%,12) {
+        box(0,  0,100%,50%) {text("comic",9,"gras:centré",0,"Je participe à la vie du club (avec l'accord du président)")}
+        box(0,50%, 40%,50%) {text("comic",9,"gras:centré",0,"Bénévole")}
+        box(40%,50%, 10%,50%) {text("comic",9,"centré",0,"@choixbene")}
+        box(50%,50%, 40%,50%) {text("comic",9,"gras:centré",0,"Encadrant")}
+        box(90%,50%, 10%,50%) {text("comic",9,"centré",0,"@choixenca")}
+      }
+      // Personne à prévenir
+      box(0,50,100%,30) {
+        box(0  ,  0,100%,25%) {text("comic",9,"gras:centré",0,"Personne à prévenir en cas d'accident")}
+        box(0  ,25%, 20%,25%) {text("comic",9,"gras:droite",0,"Nom")}
+        box(20%,25%, 80%,25%) {text("comic",9,"gauche",0,"@nomacc")}
+        box(0  ,50%, 20%,25%) {text("comic",9,"gras:droite",0,"Prénom")}
+        box(20%,50%, 80%,25%) {text("comic",9,"gauche",0,"@prenomacc")}
+        box(0  ,75%, 20%,25%) {text("comic",9,"gras:droite",0,"Tel Fixe.")}
+        box(20%,75%, 30%,25%) {text("comic",9,"centré",0,"@telfixacc")}
+        box(50%,75%, 20%,25%) {text("comic",9,"gras:droite",0,"Tel Port.")}
+        box(70%,75%, 30%,25%) {text("comic",9,"centré",0,"@telporacc")}
+      }
+    }
+  }
+  // ****************************************************
+  // Corps 3 (Licence assurance admin)
+  // ****************************************************
+  frame(0,165,100%,18) {
+    box(0  ,0,32.5%,100%) {
+      box(0  ,0    ,40%,33.3%) {text("comic",9,"gras:centré",0,"CAESUG")}
+      box(40%,0    ,10%,33.3%) {text("comic",9,"centré"     ,0,"@choixcaesug")}
+      box(50%,0    ,40%,33.3%) {text("comic",9,"gras:centré",0,"Facture")}
+      box(90%,0    ,10%,33.3%) {text("comic",9,"centré"     ,0,"@choixfac")}
+      box(0  ,33.3%,40%,33.3%) {text("comic",9,"gras:centré",0,"Carte GUC")}
+      box(40%,33.3%,10%,33.3%) {text("comic",9,"centré"     ,0,"@choixguc")}
+      box(50%,33.3%,40%,33.3%) {text("comic",9,"gras:centré",0,"Carte SIUAPS")}
+      box(90%,33.3%,10%,33.3%) {text("comic",9,"centré"     ,0,"@choixsiuaps")}
+      box(0  ,66.6%,40%,33.3%) {text("comic",9,"gras:centré",0,"Prêt matériel")}
+      box(40%,66.6%,10%,33.3%) {text("comic",9,"centré"     ,0,"@choixmat")}
+      box(50%,66.6%,40%,33.3%) {text("comic",9,"gras:centré",0,"Etudiant")}
+      box(90%,66.6%,10%,33.3%) {text("comic",9,"centré"     ,0,"@etudiant")}
+    }
+    box(33.5%,0,32.5%,100%) {
+      box(0  ,0    ,45%,33.3%) {text("comic",9,"gras:centré",0,"Licence FFESSM")}
+      box(45%,0    ,55%,33.3%) {text("comic",9,"centré"     ,0,"@choixffessm")}
+      box(0  ,33.3%,45%,33.3%) {text("comic",9,"gras:centré",0,"Assurance AXA")}
+      box(45%,33.3%,55%,33.3%) {text("comic",9,"centré"     ,0,"@choixaxa")}
+      box(0  ,66.6%,45%,33.3%) {text("comic",9,"gras:centré",0,"Cotisation GUC")}
+      box(45%,66.6%,55%,33.3%) {text("comic",9,"centré"     ,0,"@choixcotguc")}
+    }
+    box(67%,0,33%,100%) {
+      box(0  ,    0,90%,33.3%) {text("comic",9,"gras:centré",0,"Réduction famille")}
+      box(90%,    0,10%,33.3%) {text("comic",9,"centré"    ,0,"@choixfam")}
+      box(0  ,33.3%,60%,33.3%) {text("comic",9,"gras:centré",0,"Date Certif. médical")}
+      box(60%,33.3%,40%,33.3%) {text("comic",9,"centré"     ,0,"@datecertif")}
+      box(0  ,66.6%,60%,33.3%) {text("comic",9,"gras:centré",0,"Intolérence Aspirine")}
+      box(60%,66.6%,40%,33.3%) {text("comic",9,"centré"     ,0,"@intolasp")}
+    }
+  }
+  // ****************************************************
+  // Corps 4 (Messages)
+  // ****************************************************
+  frame(0,185,100%,10) {
+    frame(0,0,100%,5) { text("comic",10,"centré",0,"@reglok") }
+    frame(0,5,100%,5) { link("comic",10,"centré",0x0000FF,"@regllink") }
+  }
+  // ****************************************************
+  // Corps 4 (Messages)
+  // ****************************************************
+  frame(0,197,100%,10) {
+    frame(  0,0,32% ,5) { text("comic",10,"droite",0,"certificat médical :") }
+    frame(32%,0,67% ,5) { link("comic",10,"gauche",0x0000FF,"@templatecertiflien") }
+    frame(  0,5,32% ,5) { text("comic",10,"droite",0,"Couvertures des assurances AXA :") }
+    frame(32%,5,67% ,5) { link("comic",10,"gauche",0x0000FF,"@axalien") }
+  }
+  // ****************************************************
+  // Corps 5 (Signatures)
+  // ****************************************************
+  frame(0,210,100%,55) {
+    box(0  ,0, 49%,100%) {
+      box  (0  ,0 ,100%,5) {text("comic",9,"gras:centré",0,"Signature du tuteur légal ou du parent pour les mineurs")}
+      frame(1% ,6 , 29%,5) {text("comic",9,"gauche",0,"Nom Prénom")}
+      frame(30%,6 , 69%,5) {text("comic",9,"gauche",0,"@tutorname")}
+      frame(1% ,12, 29%,5) {text("comic",9,"gauche",0,"Lien de parenté :")}
+      frame(30%,12, 69%,5) {text("comic",9,"gauche",0,"@lienparen")}
+    }
+    box(51%,0, 49%,100%) {
+      box  (0  ,0 ,100%,5) {text("comic",9,"gras:centré",0,"Signature de l’adhérent")}
+      frame(1% ,6 , 29%,5) {text("comic",9,"gauche",0,"Nom Prénom")}
+      frame(30%,6 , 69%,5) {text("comic",9,"gauche",0,"@adhname")}
+      frame(1% ,12, 29%,5) {text("comic",9,"gauche",0,"Date :")}
+      frame(30%,12, 69%,5) {text("comic",9,"gauche",0,"@datejour")}
+    }
+  }
+  // ****************************************************
+  // Corps 6 (Bas de page)
+  // ****************************************************
+  frame(0,265,100%,15) {
+    frame(0  ,0, 100%,100%) {
+        text("comic",9,"gras:gauche",0,"@infobas")
+    }
+  }
+}

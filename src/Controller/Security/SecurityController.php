@@ -8,14 +8,13 @@ use App\Entity\Role;
 use App\Form\RegistrationType;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Form;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SecurityController extends Controller
+class SecurityController extends AbstractController
 {
     /**
      * @Route("/registration", name="registration")
@@ -23,6 +22,7 @@ class SecurityController extends Controller
      * @param ObjectManager $manager
      * @param UserPasswordEncoderInterface $encoder
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     public function Registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
@@ -62,11 +62,10 @@ class SecurityController extends Controller
 
     /**
      * @Route("/connexion", name="connexion")
-     * @param Request $request
      * @param AuthenticationUtils $authenticationUtils
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function login(Request $request, AuthenticationUtils $authenticationUtils)
+    public function login(AuthenticationUtils $authenticationUtils)
     {
 
         $error = $authenticationUtils->getLastAuthenticationError();

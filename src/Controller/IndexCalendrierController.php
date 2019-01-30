@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class IndexCalendrierController extends Controller
+class IndexCalendrierController extends AbstractController
 {
     /**
      * @Route("/index_calendrier", name="index_calendrier")

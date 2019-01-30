@@ -1,0 +1,146 @@
+// La page fait 210mmm x 297mm
+colorbox(0xffffff)
+
+/****************************************
+ Init des labels pour les tests
+ ***************************************/
+// Cartouche
+
+setlabel(@photo,"photo.jpg")
+
+// Docs à fournir
+setlabel(@ad1,"")
+setlabel(@ad2,"")
+setlabel(@ad3,"")
+setlabel(@ad4,"")
+
+/**************************************************
+ Attributs texte séparés par :
+ gras, italique, souligné, gauche, centré, droit
+ *************************************************/
+
+box(10, 10, 190,277) { // Page
+  // ****************************************************
+  // Cartouche
+  // ****************************************************
+  colorbox(0)
+  box( 0, 0,100%,   20) {
+    box(  0, 0, 20,100%) {image(1%,1%,98%,98%,"../pdf/logo.gif")}
+    box( 20, 0, 35,100%) {text("comic",18,"centré",0,"GUC Plongée")}
+    box( 55, 0, 50,100%) {text("comic",30,"centré",0,"Facture")}
+    box(105, 0, 85,100%) {text("comic",34,"gras:centré",0,"@reffact")}
+  }
+  // ****************************************************
+  // cadre GUC
+  // ****************************************************
+  box(   0,25,49%,40) {
+    box  (  0, 0, 100%,8) {text("comic",16,"gras:centré",0,"Emetteur")}
+    frame(  0,10, 100%,6) {text("comic",14,"gras:gauche",0,"GUC Plongée")}
+    frame(  0,16, 100%,6) {text("comic",14,"gauche",0,"Piscine Universitaire")}
+    frame(  0,22, 100%,6) {text("comic",14,"gauche",0,"Avenue de la piscine")}
+    frame(  0,28, 100%,6) {text("comic",14,"gauche",0,"Domaine universitaire")}
+    frame(  0,34, 100%,6) {text("comic",14,"gauche",0,"38402 Saint Martin d'Hères")}
+  }
+  // ****************************************************
+  // Destinataire
+  // ****************************************************
+  box(  51%,25,49%,40) {
+    box  (  0, 0, 100%,8) {text("comic",16,"gras:centré",0,"Destinataire")}
+    frame(  0,10, 100%,6) {text("comic",14,"gras:gauche",0,"@destinat")}
+    frame(  0,16, 100%,6) {text("comic",14,"gauche",0,"@ad1")}
+    frame(  0,22, 100%,6) {text("comic",14,"gauche",0,"@ad2")}
+    frame(  0,28, 100%,6) {text("comic",14,"gauche",0,"@ad3")}
+    frame(  0,34, 100%,6) {text("comic",14,"gauche",0,"@ad4")}
+  }
+
+  // Date
+  frame(  0,70,100%,8) {
+    frame(  0,0, 30,6) {text("comic",14,"gras:gauche",0,"Date :")}
+    frame( 30,0, 50,6) {text("comic",14,"gras:gauche",0,"@date")}    
+  }
+  // ****************************************************
+  // (docs a fournir + photo)
+  // ****************************************************
+  box(0,83,100%,120) {
+    // Titres
+    box(  0, 0,130, 9) {text("comic",10,"gras:centré",0,"Item")}
+    box(130, 0, 20, 9) {text("comic",10,"gras:centré",0,"Prix HT")}
+    box(150, 0, 20, 9) {text("comic",10,"gras:centré",0,"Taux TVA")}
+    box(170, 0, 20, 9) {text("comic",10,"gras:centré",0,"Prix TTC")}
+    // Ligne 1
+    frame(  0, 9,130, 9) {text("comic",10,"droite",0,"@i1")}
+    frame(130, 9, 20, 9) {text("comic",10,"droite",0,"@h1")}
+    frame(150, 9, 20, 9) {text("comic",10,"droite",0,"@v1")}
+    frame(170, 9, 20, 9) {text("comic",10,"droite",0,"@t1")}
+    // Ligne 2
+    frame(  0,18,130, 9) {text("comic",10,"droite",0,"@i2")}
+    frame(130,18, 20, 9) {text("comic",10,"droite",0,"@h2")}
+    frame(150,18, 20, 9) {text("comic",10,"droite",0,"@v2")}
+    frame(170,18, 20, 9) {text("comic",10,"droite",0,"@t2")}
+    // Ligne 3
+    frame(  0,27,130, 9) {text("comic",10,"droite",0,"@i3")}
+    frame(130,27, 20, 9) {text("comic",10,"droite",0,"@h3")}
+    frame(150,27, 20, 9) {text("comic",10,"droite",0,"@v3")}
+    frame(170,27, 20, 9) {text("comic",10,"droite",0,"@t3")}
+    // Ligne 4
+    frame(  0,36,130, 9) {text("comic",10,"droite",0,"@i4")}
+    frame(130,36, 20, 9) {text("comic",10,"droite",0,"@h4")}
+    frame(150,36, 20, 9) {text("comic",10,"droite",0,"@v4")}
+    frame(170,36, 20, 9) {text("comic",10,"droite",0,"@t4")}
+    // Ligne 5
+    frame(  0,45,130, 9) {text("comic",10,"droite",0,"@i5")}
+    frame(130,45, 20, 9) {text("comic",10,"droite",0,"@h5")}
+    frame(150,45, 20, 9) {text("comic",10,"droite",0,"@v5")}
+    frame(170,45, 20, 9) {text("comic",10,"droite",0,"@t5")}
+    // Ligne 6
+    frame(  0,54,130, 9) {text("comic",10,"droite",0,"@i6")}
+    frame(130,54, 20, 9) {text("comic",10,"droite",0,"@h6")}
+    frame(150,54, 20, 9) {text("comic",10,"droite",0,"@v6")}
+    frame(170,54, 20, 9) {text("comic",10,"droite",0,"@t6")}
+    // Ligne 7
+    frame(  0,63,130, 9) {text("comic",10,"droite",0,"@i7")}
+    frame(130,63, 20, 9) {text("comic",10,"droite",0,"@h7")}
+    frame(150,63, 20, 9) {text("comic",10,"droite",0,"@v7")}
+    frame(170,63, 20, 9) {text("comic",10,"droite",0,"@t7")}
+    // Ligne 8
+    frame(  0,72,130, 9) {text("comic",10,"droite",0,"@i8")}
+    frame(130,72, 20, 9) {text("comic",10,"droite",0,"@h8")}
+    frame(150,72, 20, 9) {text("comic",10,"droite",0,"@v8")}
+    frame(170,72, 20, 9) {text("comic",10,"droite",0,"@t8")}
+    // Ligne 9
+    frame(  0,81,130, 9) {text("comic",10,"droite",0,"@i9")}
+    frame(130,81, 20, 9) {text("comic",10,"droite",0,"@h9")}
+    frame(150,81, 20, 9) {text("comic",10,"droite",0,"@v9")}
+    frame(170,81, 20, 9) {text("comic",10,"droite",0,"@t9")}
+    // Ligne 10
+    frame(  0,90,130, 9) {text("comic",10,"droite",0,"@i10")}
+    frame(130,90, 20, 9) {text("comic",10,"droite",0,"@h10")}
+    frame(150,90, 20, 9) {text("comic",10,"droite",0,"@v10")}
+    frame(170,90, 20, 9) {text("comic",10,"droite",0,"@t10")}
+    // Total HT
+    box  (  0,100,80%, 10) {text("comic",12,"gras:droite",0,"Total H.T")}
+    box  (80%,100,20%, 10) {text("comic",12,"gras:droite",0,"@totht")}
+    box  (  0,110,80%, 10) {text("comic",12,"gras:droite",0,"Taxes")}
+    box  (80%,110,20%, 10) {text("comic",12,"gras:droite",0,"@tottax")}
+    box  (60%,120,20%, 10) {text("comic",12,"gras:droite",0,"Total TTC")}
+    box  (80%,120,20%, 10) {text("comic",12,"gras:droite",0,"@totttc")}
+  }
+  // ****************************************************
+  // Corps 6 (Bas de page)
+  // ****************************************************
+  box(0,239, 49%,30) {
+    frame(0  ,0, 100%, 6) { text("comic",9,"gras:centré",0," Grenoble Université Club - Section Plongée") }
+    frame(0  ,6, 100%, 6) { text("comic",9,"gras:centré",0," Association loi 1901") }
+    frame(0  ,12, 45%, 6) { text("comic",9,"gras:droite",0,"SIRET:") }
+    frame(45%,12, 55%, 6) { text("comic",9,"gauche",0,"452 782 907 00029") }
+    frame(0  ,18, 45%, 6) { text("comic",9,"gras:droite",0,"Affiliation FFESSM:") }
+    frame(45%,18, 55%, 6) { text("comic",9,"gauche",0,"14 38 0024") }
+    frame(0  ,24  45%, 6) { text("comic",9,"gras:droite",0,"No d'agréement J&S:") }
+    frame(45%,24, 55%, 6) { text("comic",9,"gauche",0,"38 06 016") }
+  }
+  // ****************************************************
+  // (Facture acquitée et tampon guc)
+  // ****************************************************
+  frame(51%,230,49%,10) { text("comic",18,"gras:centré",0,"Facture acquittée") }
+  frame(65%,240,80%,30) { image(1%,1%,98%,98%,"../pdf/tamponguc.gif") }
+}

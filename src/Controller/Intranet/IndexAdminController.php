@@ -2,54 +2,11 @@
 
 namespace App\Controller\Intranet;
 
-use App\Entity\Essai;
-use App\Form\InfoPersoType;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Entity\Adherent;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
-
-class IndexAdminController extends Controller
+class IndexAdminController extends AbstractController
 {
-    /**
-     * @Route("/intranet/index_admin_affiche_perso", name="index_admin_affiche_perso")
-     *
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
-    public function affiche_perso(Request $request)
-    {
-        $user = $this->getUser();
-        $form = $this->createForm(InfoPersoType::class, $user);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('');
-        }
-
-        return $this->render('intranet/index_affiche_perso.html.twig', [
-            'formInfoPerso' => $form->createView(),
-            'adh' => $user
-        ]);
-    }
-
-    /**
-     * @Route("/intranet/index_admin_trombi", name="index_admin_trombi")
-     * @param RegistryInterface $doctrine
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function trombi(RegistryInterface $doctrine)
-    {
-        $photos = $doctrine->getRepository(Adherent::class)->getAllPhotos();
-
-        return $this->render('intranet/index_trombi.html.twig',[
-            'photos' => $photos
-        ]);
-    }
-
     /**
      * @Route("/intranet/index_admin_calendrier", name="index_admin_calendrier")
      */

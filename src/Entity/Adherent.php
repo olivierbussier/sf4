@@ -225,6 +225,7 @@ class Adherent implements UserInterface
      */
     private $Licence;
 
+    private $fLicence;
     /**
      * @ORM\Column(type="string", length=32, nullable=true)
      */
@@ -1123,22 +1124,20 @@ class Adherent implements UserInterface
     {
         $this->confirm_Password = $confirm_Password;
     }
+
     /**
-     * Fonction d'execution des routine de vérification des champs et informations
-     * en fonction du type de licence
-     * @param ExecutionContextInterface $context
-     * @param $payload
+     * @return bool
      */
-
-    /*
-     * @Assert\Callback
-     * @param ExecutionContextInterface $context
-     * @param $payload
-     *//*
-    public function validate(ExecutionContextInterface $context, $payload): void
+    public function getFLicence(): ?bool
     {
-        $validator = new AdherentValidator();
+        return $this->fLicence;
+    }
 
-        $validator->validate($context, $payload);
-    }*/
+    /**
+     * @param bool $fLicence
+     */
+    public function setFLicence(bool $fLicence): void
+    {
+        $this->fLicence = $fLicence;
+    }
 }

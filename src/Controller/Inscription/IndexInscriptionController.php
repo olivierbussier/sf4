@@ -2,17 +2,21 @@
 
 namespace App\Controller\Inscription;
 
+use App\Classes\Config\Config;
 use App\Classes\Form\FormConst;
+use App\Classes\Helpers\DateHelper;
+use App\Classes\Helpers\FileHelper;
 use App\Classes\Inscription\AdhCoding;
+use App\Classes\Inscription\Calculate;
+use App\Classes\Inscription\CreatePDF;
 use App\Entity\Adherent;
 use App\Form\InscriptionType;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-
-class IndexInscriptionController extends Controller
+class IndexInscriptionController extends AbstractController
 {
     /**
      * @Route("/inscription/form/{slug}", name="inscription")
@@ -91,13 +95,54 @@ class IndexInscriptionController extends Controller
         /** @var Adherent $user */
         $user = $this->getUser();
 
+        $l = new Calculate();
+
+        /** @var Error $e Créée par le script appelant */
+
+        $cotis = $l->calcCotis($user);
+        $axa   = $l->calcAxa($user->getAssurance());
+
+        // Calcul Cotisation
+
+        $mytotal    = $cotis['prixCotis'] + $cotis['prixLicence'] - $cotis['prixReduc'] - $cotis['prixRemb'];         // Montant cotisation
+        $mytotalass = $axa  ['prixAxa' ];                               // Montant assurance
+        $fbene      = $cotis['fBene'];         // Bénévole
+        $fenc       = $cotis['fEnc'];          // Encadrant actif
+
+        $age_today = DateHelper::age($user->getDateNaissance()->format('Y-m-d'));
+
+        // Génération du PDF
+
+        // Initialisation de ces variables pour pointer correctement le path du fichier généré
+        // selon que l'on à affaire à un lien dans une page HTML ($path).
+        // Ou un lien dans un mail ($path_mail)
+        // ------------------------------------------------------------------------------------
+
+        $tronc = $user->getNom()."-".$user->getPrenom()."-".$user->getId();
+        $path_corr   = FileHelper::corrigerPath(Config::path_fiches);
+        $path_adher  = FileHelper::corrigerPath($tronc.".pdf");
+        $path_livret = FileHelper::corrigerPath("../docs/livret_accueil_GUC.pdf");
+
+        $path_ident = FileHelper::initPathPhoto(
+            $user->getNom(), $user->getPrenom(), $user->getId(), FileHelper::THUMBNAIL
+        );
+
+        (new CreatePDF())->createPDF(
+            $user,
+            $path_corr.$path_adher,
+            $path_ident,
+            $mytotal,
+            $mytotalass
+        );
+
+
         return $this->render('inscription/index_inscription_fin.html.twig', [
             'Activite' => $user->getActivite(),
             'refPP'    => 0,
-            'age'      => 17,
+            'age'      => $age_today,
             'photo'    => 'KO',
-            'total'    => 127,
-            'totalass' => 89
+            'total'    => $mytotal,
+            'totalass' => $mytotalass
         ]);
     }
 

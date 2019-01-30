@@ -3,15 +3,16 @@
 namespace App\Controller\Intranet;
 
 use App\Entity\Adherent;
-use App\Repository\AdherentRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class IndexBaptemeController extends Controller
+class IndexBaptemeController extends AbstractController
 {
     /**
      * @Route("/intranet/bapteme", name="index_bapteme")
+     * @param RegistryInterface $doctrine
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(RegistryInterface $doctrine)
     {

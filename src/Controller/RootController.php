@@ -2,25 +2,27 @@
 
 namespace App\Controller;
 
+use App\Classes\Config\Config;
 use App\Entity\Blog;
 use App\Form\ContactType;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class RootController extends Controller
+class RootController extends AbstractController
 {
     /**
      * @Route("/", name="root")
-     * @throws \ReflectionException
+     * @param RegistryInterface $doctrine
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(RegistryInterface $doctrine)
     {
         $posts = $doctrine->getRepository(Blog::class)->getallPosts();
 
-        $conf = $this->getParameter('conf.blog');
-        $dirImages = $conf['blog.images'];
+        $dirImages = Config::blogImages;;
 
         return $this->render('pages/index.html.twig',[
 			'imblog' => $dirImages,
@@ -46,6 +48,8 @@ class RootController extends Controller
 
     /**
      * @Route("contact", name="index_contact")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function contact(Request $request)
     {
@@ -64,6 +68,8 @@ class RootController extends Controller
 
     /**
      * @Route("contact_succes", name="index_contact_success")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function contactSuccess(Request $request)
     {

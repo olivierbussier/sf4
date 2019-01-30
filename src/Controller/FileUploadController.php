@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class FileUploadController extends Controller
+class FileUploadController extends AbstractController
 {
     /**
      * @Route("/file/upload", name="fileupload")

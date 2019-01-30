@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Classes\Config\Config;
 use App\Entity\Adherent;
 use Symfony\Bridge\Twig\AppVariable;
 use Twig\Extension\AbstractExtension;
@@ -16,7 +17,20 @@ class CustomExtensions extends AbstractExtension
             new Twig_Function('fileExists'         , array($this, 'fileExists')),
             new Twig_Function('rationalizeFilename', array($this, 'rationalizeFilename')),
             new Twig_Function('testDroit'          , array($this, 'testDroit')),
+            new Twig_Function('conf'               , array($this, 'getConf' ) )
         );
+    }
+
+    public function getConf($conf)
+    {
+        $cdef = defined("App\\Classes\\Config\\Config::$conf");
+
+        if ($cdef) {
+            $res = constant("App\\Classes\\Config\\Config::$conf");
+        } else {
+            $res = Config::$$conf;
+        }
+        return $res;
     }
 
     public function readFile(string $filename)

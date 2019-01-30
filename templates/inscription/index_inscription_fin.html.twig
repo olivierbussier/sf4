@@ -41,8 +41,7 @@ function aff_mails($liste, $html = false)
 
     {% import 'macros/utils.html.twig' as utils %}
 
-    <div class="container">
-
+{% macro prepMail(Activite, refPaypal, texte_specifique, age) %}
         <div class="col-xs-12">
             <p>Votre pré-inscription est enregistrée.</p>
 
@@ -73,9 +72,9 @@ function aff_mails($liste, $html = false)
                 </p>
             {% endif %}
 
-            {% if refPP != '' and constant('App\\Classes\\Config\\Config::payment_paypal') %}
+            {% if refPaypal != '' and constant('App\\Classes\\Config\\Config::payment_paypal') %}
                 <p>Votre paiement d'un montant de {{ pAmount }}€ a été fait le $pDate à $pTime sous la
-                    référence PayPal : {{ refPP }}."</p>
+                    référence PayPal : {{ refPaypal }}."</p>
             {% endif %}
 
             <p>Votre numéro d'adhérent est le : {{ app.user.id }}</p>
@@ -104,7 +103,7 @@ function aff_mails($liste, $html = false)
                 </p>
             {% endif %}
 
-            {# texte_specifique #}
+            {% texte_specifique %}
 
             Ce document a été transmis au secrétariat du club.</p>
             <p>Vous devez maintenant :</p><ul>
@@ -147,7 +146,7 @@ function aff_mails($liste, $html = false)
 
             {% if app.user.Licence == "Autre Club" %}
                 <li>Une photocopie de votre licence
-                    {{ constant('App\\Classes\\Config\\Config::p_annee') }} - {{ constant('App\\Classes\\Config\\Config::p_apnee') + 1}}
+                    {{ conf('p_annee') }} - {{ conf('p_apnee') + 1}}
                 </li>
             {% endif %}
 
@@ -175,61 +174,9 @@ function aff_mails($liste, $html = false)
                 </li>
             </ul>
             <p>Merci et à bientôt.</p>
+{% endmacro %}
 
-
-$REFUSR = Session::get('REFUSR');
-$MODIFUSER = Session::get('MODIFUSER');
-$NOM = Session::get('NOM');
-$PRENOM = Session::get('PRENOM');
-
-$l = new Calculate();
-
-/** @var Error $e Créée par le script appelant */
-
-$post = Session::get('POST');
-Form::initialise(null, $post);
-
-$cotis = $l->calcCotis(Form::getArray());
-$axa   = $l->calcAxa(Form::get('ASSURANCE'));
-
-// Calcul Cotisation
-
-$mytotal    = $cotis['prixCotis'] + $cotis['prixLicence'] - $cotis['prixReduc'] - $cotis['prixRemb'];         // Montant cotisation
-$mytotalass = $axa  ['prixAxa' ];                               // Montant assurance
-$fbene      = $cotis['fBene'];         // Bénévole
-$fenc       = $cotis['fEnc'];          // Encadrant actif
-
-$age_today = GucDate::age(Form::get('DATENAISS'));
-$Activite  = GucDate::age(Form::get('ACTIVITE'));
-
-
-
-// Génération du PDF
-    
-// Initialisation de ces variables pour pointer correctement le path du fichier généré
-// selon que l'on à affaire à un lien dans une page HTML ($path).
-// Ou un lien dans un mail ($path_mail)
-// ------------------------------------------------------------------------------------
-    
-$tronc = $NOM."-".$PRENOM."-".$REFUSR;
-$path_corr   = FileHelpers::corrigerPath(Config::$path_fiches);
-$path_adher  = FileHelpers::corrigerPath($tronc.".pdf");
-$path_livret = FileHelpers::corrigerPath("../docs/livret_accueil_GUC.pdf");
-
-$path_ident = FileHelpers::initPathPhoto($NOM, $PRENOM, $REFUSR, FileHelpers::THUMBNAIL);
-
-(new CreatePDF())->createPDF(
-    $REFUSR,
-    $NOM,
-    $PRENOM,
-    $path_corr.$path_adher,
-    $path_ident,
-    $age_today,
-    $mytotal,
-    $mytotalass,
-    $fbene,
-    $fenc
-);
+    <div class="container">
 
 // Envoi du mail vers le webmaster pour signaler un nouvel inscrit ou bien une mise à jour
 // ------------------------------------------------------------------------------------
@@ -265,7 +212,7 @@ $sender = "contact@guc-plongee.net";
 // ------------------------------------------------------------------------------------
 
 $userdest  = Form::get('MAIL');
-$usersujet = "Pre-inscription GUC Plongee pour la saison ".Config::$p_annee."-".(Config::$p_annee+1);
+$usersujet = "Pre-inscription GUC Plongee pour la saison ".Config::p_annee."-".(Config::p_annee+1);
 
 $texte_spec = "<p>Vous trouverez en attachement de ce mail le livret d'accueil du GUC Plongée ".
               "et votre dossier d'inscription PDF pré-rempli. ";

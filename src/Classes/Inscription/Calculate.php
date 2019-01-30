@@ -21,7 +21,6 @@ class Calculate
 
     /**
      * Calculate constructor.
-     * @param EntityManagerInterface $em
      */
     public function __construct()
     {
@@ -93,19 +92,10 @@ class Calculate
     }
 
     /**
-     * @param array $tab
-     * @param string $var
+     * @param $val
+     * @param $elem
      * @return bool
      */
-    private function isSet(array $tab, string $var)
-    {
-        if (isset($tab[$var]) && $tab[$var] == 'OUI') {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     private function testFlag($val,$elem)
     {
         if (isset($val[$elem]) && $val[$elem] == true) {
@@ -114,6 +104,12 @@ class Calculate
             return false;
         }
     }
+
+    /**
+     * @param $val
+     * @param $elem
+     * @return string
+     */
     private function testVal($val,$elem)
     {
         if (isset($val[$elem])) {
@@ -122,10 +118,11 @@ class Calculate
             return '';
         }
     }
+
     /**
      * Calcul de la cotisation club basé sur les valeurs du tableau passé en parametre. Ce tableau a les meme noms de
      * champs que $_POST issu du formulaire d'inscription
-     * @param Adherent $user
+     * @param $post
      * @return array
      */
     public function calcCotis($post): array
@@ -149,7 +146,7 @@ class Calculate
             $famille  =  $post['ReducFam'];
             $etudiant =  $this->testFlag($post,'fEtudiant');
             $apneesca =  $this->testFlag($post,'fApneeSca');
-            $flicence =  $post['Licence'] == 'Autre Club';
+            $flicence =  $this->testFlag($post,'fLicence');
             $caesug   =  $post['Facture'] == 'CAESUG';
             $niveau   =  $post['NiveauSca'];
             $apnee    =  $post['NiveauApn'];
@@ -300,7 +297,7 @@ $ret = 1;
 
         $fEnc = false;
         $dateNaiss = new DateTime($dNaiss);
-        $ageFinAnnee = $this->dateDiff($dateNaiss, (new DateTime(Config::$p_annee . "-12-31")));
+        $ageFinAnnee = $this->dateDiff($dateNaiss, (new DateTime(Config::p_annee . "-12-31")));
 
         $lic = $this->calcLicence($dateNaiss, $fLic);
         $ret['typeLicence'] = $lic['typeLicence'];

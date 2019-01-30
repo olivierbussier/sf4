@@ -73,7 +73,7 @@ class InfoPersoType extends AbstractType
             ->add('TelPort')
             ->add('fEtudiant')
             ->add('NiveauSca')
-            ->add('NiveauApn')
+            ->add('NiveauApn')/*
             ->add('Diplomes',ChoiceType::class, [
                 'choices' => [
                     'TIV' => 'TIV',
@@ -82,14 +82,14 @@ class InfoPersoType extends AbstractType
                 'expanded' => false,
                 'multiple' => true,
                 'disabled' => true
-            ])
+            ])*/
             ->add('fApneeSca',ChoiceType::class, [
                 'choices' => [
                     'Apnéiste Plongeur' => true,
                     'Apnéiste non plongeur' => false
                 ],
                 'expanded' => false,
-                'multiple' => true,
+                'multiple' => false,
                 'disabled' => true
             ])
             ->add('Activite')

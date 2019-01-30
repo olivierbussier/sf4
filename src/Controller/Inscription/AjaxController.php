@@ -5,13 +5,11 @@ namespace App\Controller\Inscription;
 use App\Classes\Form\FormConst;
 use App\Classes\Inscription\Calculate;
 use App\Entity\Adherent;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AjaxController extends Controller
+class AjaxController extends AbstractController
 {
     const ITEM = 1;
     const TITR = 2;

@@ -10,7 +10,7 @@ class AdhCoding
     {
         // constitution de l'identifiant reduction famille:
         //  - 6 digits décimaux suivis de 2 digits hexa de chechsum
-        $random = $userId + Config::$p_annee + 4587;
+        $random = $userId + Config::p_annee + 4587;
         $crc = substr(dechex(crc32($random)), 0, 2);
         $val = strtolower($random . $crc);
         return $val;

@@ -11,17 +11,17 @@ class Config
     /******************************************************************/
     // Paramétrages de base
     /******************************************************************/
-    public static $p_annee = 2018;  // Pour l'année scolaire 2017-2018
-    public static $nb_sess_req = 2;     // Nombre de sessions de gonflage obligatoires
+    public const p_annee = 2018;  // Pour l'année scolaire 2017-2018
+    public const nb_sess_req = 2;     // Nombre de sessions de gonflage obligatoires
     /******************************************************************/
     // Répertoire utilisés
     /******************************************************************/
-    public static $path_photo  = "../identites/";  // Photos d'identité
-    public static $path_certif = "../certif/";
-    public static $path_diplome= "../diplomes/";
-    public static $path_fiches = "../insc/";       // Fiches d'inscription PDF
-    public static $path_fact   = "../factures/";   // Factures
-    public static $path_team   = "images/team/";
+    public const path_photo  = "../identites/";  // Photos d'identité
+    public const path_certif = "../certif/";
+    public const path_diplome= "../diplomes/";
+    public const path_fiches = "../insc/";       // Fiches d'inscription PDF
+    public const path_fact   = "../factures/";   // Factures
+    public const path_team   = "images/team/";
     /******************************************************************/
     // Fichiers de Log
     /******************************************************************/
@@ -107,4 +107,22 @@ class Config
     // Payment
     //******************************************************************/
     public const payment_paypal = false;
+
+    // Blog
+
+    public const blogImages = 'imblog';
+
+    // Galerie
+    public const path_images  = 'galerie';
+    public const path_thumb   = 'galerie/thumb';
+    public const path_sized   = 'galerie/sized';
+    public const path_img     = 'galerie/img';
+    public const nb_par_page  =   60;
+    public const thumbHeight  =  320;
+    public const thumbWidth   =  320;
+    public const thumbQuality =   80;
+    public const sizedHeight  = 1080;
+    public const sizedWidth   = 1920;
+    public const sizedQuality =   80;
+
 }
