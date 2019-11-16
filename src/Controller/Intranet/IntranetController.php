@@ -8,15 +8,17 @@ use App\Form\InfoPersoType;
 use App\Repository\AdherentRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class IntranetController extends AbstractController
 {
     /**
-     * @Route("/intranet/index", name="index_intranet")
+     * @Route("/intranet", name="index_intranet")
      * @param RegistryInterface $doctrine
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function index(RegistryInterface $doctrine)
     {
@@ -34,7 +36,7 @@ class IntranetController extends AbstractController
     /**
      * @Route("/intranet/trombi", name="index_trombi")
      * @param RegistryInterface $doctrine
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function trombi(RegistryInterface $doctrine)
     {
@@ -48,10 +50,10 @@ class IntranetController extends AbstractController
     }
 
     /**
-     * @Route("/intranet/index_admin_affiche_perso", name="index_admin_affiche_perso")
+     * @Route("/intranet/info_perso", name="index_admin_affiche_perso")
      *
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function affiche_perso(Request $request)
     {
@@ -69,6 +71,4 @@ class IntranetController extends AbstractController
             'adh' => $user
         ]);
     }
-
-
 }

@@ -50,9 +50,9 @@ class DiplomeRepository extends ServiceEntityRepository
     public function getDiplomesSecourisme()
     {
         return $this->createQueryBuilder('d')
-            ->leftJoin('d.User','a')
+            ->leftJoin('d.user','a')
             ->addSelect('a')
-            ->where("d.Type = '".self::DIP_MF."' or d.Type = '".self::DIP_MA."' or d.Type = '".self::DIP_PA."'")
+            ->where("d.type = '".self::DIP_MF."' or d.type = '".self::DIP_MA."' or d.type = '".self::DIP_PA."'")
             ->orderBy('a.Nom', 'desc')
             //->setMaxResults(10)
             ->getQuery()

@@ -128,30 +128,36 @@ class AdherentClassValidator extends ConstraintValidator
 
         // Vérification de la date
 
-        $datenaiss = $user->getDateNaissance()->format('d/m/Y');
+        $dnaiss = $user->getDateNaissance();
 
-        switch (DateHelper::verifDate($datenaiss)) {
-            case -1:
-                $this->e("Votre date de naissance est incorrecte ($datenaiss).",'DateNaissance');
-                break;
-            case -2:
-                $this->e("Votre date de naissance est incorrecte (2) ($datenaiss).", 'DateNaissance');
-                break;
-            case -3:
-                $this->e("L'année de naissance est incorrecte.", 'DateNaissance');
-                break;
-            case -4:
-                $this->e("L'année de naissance est incorrecte (3).",'DateNaissance');
-                break;
-            case 0:
-                break; // Pas d'erreur
-        }
+        if ($dnaiss != null) {
+            $datenaiss = $dnaiss->format('d/m/Y');
 
-        $age_finannee = DateHelper::age($datenaiss, "31/12/" . Config::p_annee);
+            switch (DateHelper::verifDate($datenaiss)) {
+                case -1:
+                    $this->e("Votre date de naissance est incorrecte ($datenaiss).", 'DateNaissance');
+                    break;
+                case -2:
+                    $this->e("Votre date de naissance est incorrecte (2) ($datenaiss).", 'DateNaissance');
+                    break;
+                case -3:
+                    $this->e("L'année de naissance est incorrecte.", 'DateNaissance');
+                    break;
+                case -4:
+                    $this->e("L'année de naissance est incorrecte (3).", 'DateNaissance');
+                    break;
+                case 0:
+                    break; // Pas d'erreur
+            }
 
-        if ($age_finannee < 10) {
-            $this->e("Il est nécessaire d'avoir 10ans révolus au 01/01/" . (Config::p_annee + 1) .
-                " pour prendre une licence FFESSM et/ou vous inscrire au club.", 'DateNaissance');
+            $age_finannee = DateHelper::age($datenaiss, "31/12/" . Config::p_annee);
+
+            if ($age_finannee < 10) {
+                $this->e("Il est nécessaire d'avoir 10ans révolus au 01/01/" . (Config::p_annee + 1) .
+                    " pour prendre une licence FFESSM et/ou vous inscrire au club.", 'DateNaissance');
+            }
+        } else {
+            $this->e("L'année de naissance n'est pas renseignée.", 'DateNaissance');
         }
     }
 
@@ -452,30 +458,36 @@ class AdherentClassValidator extends ConstraintValidator
      */
     private function checkDcertif(Adherent $user)
     {
-        $dc = $user->getDateCertif()->format('Y-m-d');
+        $dcert = $user->getDateCertif();
 
-        if ($dc != "") {
-            // verifier date certif
+        if ($dcert != null) {
+            $dc = $dcert->format('Y-m-d');
 
-            switch (DateHelper::verifDate($dc)) {
-                case -1:
-                    $this->e("Votre date de certificat est incorrecte (1).",'DateCertif');
-                    break;
-                case -2:
-                    $this->e("Votre date de certificat est incorrecte (2).", 'DateCertif');
-                    break;
-                case -3:
-                case 0:
-                    $today = new DateTime();
-                    $certif = new DateTime($dc);
-                    $expir = $certif->add(new DateInterval('P365D'));
-                    $diff = $expir->diff($today);
-                    $day = $diff->format('%a');
-                    if ($day < 40) {
-                        $this->e("Votre certificat médical est trop vieux.", 'DateCertif');
-                    }
-                    break;
+            if ($dc != "") {
+                // verifier date certif
+
+                switch (DateHelper::verifDate($dc)) {
+                    case -1:
+                        $this->e("Votre date de certificat est incorrecte (1).", 'DateCertif');
+                        break;
+                    case -2:
+                        $this->e("Votre date de certificat est incorrecte (2).", 'DateCertif');
+                        break;
+                    case -3:
+                    case 0:
+                        $today = new DateTime();
+                        $certif = new DateTime($dc);
+                        $expir = $certif->add(new DateInterval('P365D'));
+                        $diff = $expir->diff($today);
+                        $day = $diff->format('%a');
+                        if ($day < 40) {
+                            $this->e("Votre certificat médical est trop vieux.", 'DateCertif');
+                        }
+                        break;
+                }
             }
+        } else {
+            $this->e("Votre date de certificat n'est pas renseignée.", 'DateCertif');
         }
     }
 

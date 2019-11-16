@@ -32,3 +32,6 @@ doctrine:
                 JSON_EXTRACT:  App\DQL\Mysql\JsonExtract
                 JSON_CONTAINS: App\DQL\Mysql\JsonContains
                 JSON_SEARCH:   App\DQL\Mysql\JsonSearch
+            #datetime_functions:
+            # beberlei/doctrineextensions
+            #    NOW: DoctrineExtensions\Query\Mysql\Now

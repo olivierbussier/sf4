@@ -9,7 +9,9 @@ use App\Form\RegistrationType;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,7 +23,7 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @param ObjectManager $manager
      * @param UserPasswordEncoderInterface $encoder
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      * @throws \Exception
      */
     public function Registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
@@ -63,7 +65,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/connexion", name="connexion")
      * @param AuthenticationUtils $authenticationUtils
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {

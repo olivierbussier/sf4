@@ -124,5 +124,9 @@ class Config
     public const sizedHeight  = 1080;
     public const sizedWidth   = 1920;
     public const sizedQuality =   80;
+    //******************************************************************/
+    // Réservations
+    //******************************************************************/
+    public const validitePreResa = 600; // validité en secondes d'une pré-réservation : 10 Minutes par défaut
 
 }

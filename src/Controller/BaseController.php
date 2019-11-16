@@ -9,7 +9,9 @@ use Swift_Mailer;
 use Swift_Message;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BaseController extends AbstractController
@@ -17,7 +19,7 @@ class BaseController extends AbstractController
     /**
      * @Route("/", name="root")
      * @param RegistryInterface $doctrine
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function index(RegistryInterface $doctrine)
     {
@@ -40,7 +42,7 @@ class BaseController extends AbstractController
      * @Route("/preview/{blogId}", name="root_preview")
      * @param RegistryInterface $doctrine
      * @param string $blogId
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function indexPreviewBlog(RegistryInterface $doctrine, $blogId = '')
     {
@@ -65,7 +67,7 @@ class BaseController extends AbstractController
      * @Route("/ecrire", name="ecrire")
      * @param Request $request
      * @param Swift_Mailer $mailer
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function ecrire(Request $request,Swift_Mailer $mailer)
     {

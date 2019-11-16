@@ -344,10 +344,16 @@ class Adherent implements UserInterface
     private $reglementRGPD;
     private $mineurSign;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MatCal", mappedBy="RefUser")
+     */
+    private $matCals;
+
 
     public function __construct()
     {
         $this->roles = new ArrayCollection();
+        $this->matCals = new ArrayCollection();
     }
 
     public function getId()
@@ -1139,5 +1145,36 @@ class Adherent implements UserInterface
     public function setFLicence(bool $fLicence): void
     {
         $this->fLicence = $fLicence;
+    }
+
+    /**
+     * @return Collection|MatCal[]
+     */
+    public function getMatCals(): Collection
+    {
+        return $this->matCals;
+    }
+
+    public function addMatCal(MatCal $matCal): self
+    {
+        if (!$this->matCals->contains($matCal)) {
+            $this->matCals[] = $matCal;
+            $matCal->setRefUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatCal(MatCal $matCal): self
+    {
+        if ($this->matCals->contains($matCal)) {
+            $this->matCals->removeElement($matCal);
+            // set the owning side to null (unless already changed)
+            if ($matCal->getRefUser() === $this) {
+                $matCal->setRefUser(null);
+            }
+        }
+
+        return $this;
     }
 }

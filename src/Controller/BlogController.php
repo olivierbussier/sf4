@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -21,9 +22,9 @@ class BlogController extends AbstractController
      * @Route("/intranet/admin_blog", name="blog_admin_index")
      * @param RegistryInterface $doctrine
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function index(RegistryInterface $doctrine, Request $request)
+    public function index(RegistryInterface $doctrine, Request $request): Response
     {
         /**
          * @var $blogsRepo BlogRepository
@@ -46,9 +47,9 @@ class BlogController extends AbstractController
      * @param RegistryInterface $doctrine
      * @param Request $request
      * @param string $blogId
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function delete(RegistryInterface $doctrine, Request $request, $blogId = '')
+    public function delete(RegistryInterface $doctrine, Request $request, $blogId = ''):Response
     {
         /**
          * @var $blogsRepo BlogRepository
@@ -77,7 +78,7 @@ class BlogController extends AbstractController
      * @param RegistryInterface $doctrine
      * @param Request $request
      * @param string $blogId
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -117,7 +118,7 @@ class BlogController extends AbstractController
      * @param RegistryInterface $doctrine
      * @param Request $request
      * @param string $blogId
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -157,7 +158,7 @@ class BlogController extends AbstractController
      * @Route("/intranet/admin_blog/edit/{blogId}", name="blog_admin_edit")
      * @param RegistryInterface $doctrine
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */

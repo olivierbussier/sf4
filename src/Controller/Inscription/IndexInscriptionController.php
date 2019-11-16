@@ -14,6 +14,7 @@ use App\Form\InscriptionType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class IndexInscriptionController extends AbstractController
@@ -23,7 +24,7 @@ class IndexInscriptionController extends AbstractController
      * @param Request $request
      * @param ObjectManager $manager
      * @param string $slug
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function index(Request $request, ObjectManager $manager, string $slug = 'Normal')
     {

@@ -1,0 +1,22 @@
+<script>
+{% macro action(command, listeActions, listValues) %}
+$.ajax({
+    url: '{{ url('ajax_pre_reservation') }}',
+    method: 'POST',
+    data: {
+        commande: '{{ command }}',
+        {% for action in listeActions %}
+            {{ action }}: $('#{{ action }}').val(),
+        {% endfor %}
+        {% for key, action in listValues %}
+            {{ key }}: '{{ action }}',
+        {% endfor %}
+    },
+    dataType: 'html',
+    success: function (data) {
+        $('#ajax_retour').html(data)
+    }
+})
+{% endmacro %}
+</script>
+

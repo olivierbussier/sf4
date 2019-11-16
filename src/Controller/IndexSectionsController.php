@@ -57,7 +57,8 @@ class IndexSectionsController extends AbstractController
     {
         // Recherche des diplomes
 
-        $Diplomes = $doctrine->getRepository(Diplome::class)->getDiplomesSecourisme();
+        $rpDipl = $doctrine->getRepository(Diplome::class);
+        $Diplomes = $rpDipl->getDiplomesSecourisme();
 
         return $this->render(
             'pages/index_formation_secourisme.html.twig',

@@ -1,0 +1,147 @@
+
+{% import 'macros/ajax.html.twig' as ajax %}
+
+<div class="col-xs-12">
+    <h4>Votre demande</h4>
+
+    {#  dump(resa) }}
+    {{  dump(post) #}
+</div>
+
+<div class="col-xs-12">
+
+</div>
+
+{#
+{{ ajax.action('init',['row','typeMat', 'caracMat', 'dateSortie', 'dateRetour']) }}
+#}
+<form method="post" action="">
+
+    <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+            <label for="dateSortie">Date de sortie du matériel</label>
+            <input class="form-control" id="dateSortie"
+                   value="{{ resa.dateSortie }}"
+                   onchange="{{ ajax.action('dateChange',['typeMat', 'dateSortie']) }}">
+        </div>
+        <script>
+            $('#dateSortie').pickadate({
+                disable: [
+                    true,
+                    {% set virg = '' %}
+                    {% for calendrier in datesSortie %}
+                    {% set Y = calendrier.date | date('Y') %}
+                    {% set M = calendrier.date | date('m') - 1 %}
+                    {% set D = calendrier.date | date('d') %}
+                        {{ virg }}[{{ Y }},{{ M }},{{ D }}]
+                        {% set virg = ',' %}
+                    {% endfor %}
+                ]
+            })
+        </script>
+    </div>
+
+    <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+            <label for="dateRetour">Date de restitution du matériel</label>
+            <input type="date" class="form-control" id="dateRetour"
+                   value="{{ resa.dateRetour }}"
+                   onchange="{{ ajax.action('dateChange',['typeMat', 'dateRetour']) }}">
+        </div>
+        <script>
+            $('#dateRetour').pickadate({
+                disable: [
+                    true,
+                    {% set virg = '' %}
+                    {% for calendrier in datesRetour %}
+                        {% set Y = calendrier.date | date('Y') %}
+                        {% set M = calendrier.date | date('m') - 1 %}
+                        {% set D = calendrier.date | date('d') %}
+                        {{ virg }}[{{ Y }},{{ M }},{{ D }}]
+                        {% set virg = ',' %}
+                    {% endfor %}
+                ]
+            })
+        </script>
+    </div>
+
+    <div class="form-group col-xs-12">
+        <label for="typeSortie">type de sortie</label>
+        <select id="typeSortie" class="form-control"
+                onchange="{{ ajax.action('init',['typeMat', 'typeSortie']) }}">
+            {% for k, v in typSortie %}
+                {% if resa.typeSortie == k %}
+                    {% set sel = ' selected' %}
+                {% else %}
+                    {% set sel = '' %}
+                {% endif %}
+                <option value="{{ k }}"{{ sel }}>{{ v }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-inline col-xs-12">
+
+        <h4>Matériels souhaités</h4>
+
+        <div class="form-group">
+            <label class="sr-only" for="typeMat">type</label>
+            <select class="form-control" id="typeMat" onchange="{{ ajax.action('init',['typeMat']) }}">
+                {% for type in tabRes %}
+                    {% if type.AssetType == typeMat %}
+                        {% set selected = ' selected' %}
+                    {% else %}
+                        {% set selected = '' %}
+                    {% endif %}
+                    <option{{ selected }}>{{ type.AssetType }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="sr-only" for="caracMat">type</label>
+            <select class="form-control" id="caracMat" onchange="{{ ajax.action('init',['typeMat', 'caracMat']) }}">
+                {% for car,cnt in tabCaract %}
+                    <option value="{{ car }}"{% if car == post.typeMat %} selected {% endif %}>{{ car }} ({{ cnt }} disponibles)</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="button" class="btn btn-primary"
+                {% if resa.typeSortie is null or resa.dateSortie is null or resa.dateRetour is null %}
+                    disabled
+                {% endif %}
+                onclick="{{ ajax.action('addMat', ['typeMat', 'caracMat']) }}">Ajouter</button>
+    </div>
+
+    <style>
+        .group-asset {
+            border: 1px solid #999;
+            display: block;
+            padding-top: 1em;
+            padding-bottom: 1em;
+            margin-top: 1em;
+            margin-bottom: 1em;
+            border-radius: 5px;
+        }
+        .titlegrp {
+            position: absolute;
+            top: -0.5em;
+            background-color: white;
+            padding-left: 0.5em;
+            padding-right: 0.5em;
+        }
+    </style>
+    <div class="col-xs-12 group-asset"><span class="titlegrp">Liste des matériels à réservér</span>
+    {% for object in resa.items %}
+        <div class="form-inline">
+            <button type="button" class="btn btn-default"
+                    onclick="{{ ajax.action('supMat', ['typeMat', 'caracMat' ], {'row': loop.index0}) }}">X</button>
+            <input class="form-control" type="text" placeholder="{{ object.type }}" readonly>
+            <input class="form-control" type="text" placeholder="{{ object.caract }}" readonly>
+            <input class="form-control" type="text" placeholder="{{ object.itemText }}" readonly>
+        </div>
+    {% endfor %}
+    </div>
+</form>
+

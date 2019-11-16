@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class IndexGonflageController extends AbstractController
 {
     /**
-     * @Route("/gonflage/index_modif_gonf_eleves", name="index_modif_gonf_eleves")
+     * @Route("/gonflage/modif_eleves", name="index_modif_gonf_eleves")
      */
     public function indexModifGonfEleves()
     {

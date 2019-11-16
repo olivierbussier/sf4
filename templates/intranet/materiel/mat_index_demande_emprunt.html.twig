@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% import 'macros/bouton.html.twig' as ctrl %}
+
+{% block title %}Bienvenue sur l'Intranetdu GUC{% endblock %}
+
+{% block main_page %}
+
+    {% set statusTypes = {
+        reserve: 'Réservé',
+        encours: 'Sorti'}
+    %}
+
+<div class="container">
+    <h3>Page de demande de matériel</h3>
+    <div class="col-xs-12">
+
+        <h4>Vos demandes d'emprunt en cours</h4>
+
+        {#{ dump(listeMateriel) }}#}
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <tr><th>Ref</th><th>DateSortie</th><th>DateRetour</th><th>Type Sortie</th>
+                    <th>Status demande</th><th>Type d'asset</th><th>Numéro</th><th>Caractéristique</th><th>Actions</th>
+                </tr>
+
+                {% for emprunt in tabEmprunts %}
+
+                    {% set nbItems = emprunt.assets | length %}
+                    {% set teair = '' %}
+                    {% set finteair = '' %}
+                    <tr>
+                        <td rowspan="{{ nbItems }}">{{ emprunt.RefResa }}</td>
+                        <td rowspan="{{ nbItems }}">{{ emprunt.dateSortie }}</td>
+                        <td rowspan="{{ nbItems }}">{{ emprunt.dateRetour }}</td>
+                        <td rowspan="{{ nbItems }}">{{ listeSorties[emprunt.typeSortie] }}</td>
+
+                        {% for asset in emprunt.assets %}
+                            {{ teair | raw}}
+                            {% set teair = '<tr>' %}
+                                <td>{{ statusTypes[asset.Status] }}</td>
+                                <td>{{ asset.Type }}</td>
+                                <td>{{ asset.Num }}</td>
+                                <td>{{ asset.Carac }}</td>
+                                {% if asset.Status == 'reserve' %}
+                                    <td>{{ ctrl.bouton('X','?action=delete&item=' ~ asset.Ref, '','btn-primary btn-xs') }}</td>
+                                {% else %}
+                                    <td>&nbsp;</td>
+                                {% endif %}
+                            </tr>
+
+                        {% endfor %}
+
+                {% endfor %}
+
+            </table>
+        </div>
+
+    </div>
+
+    {% if msgErr != '' %}
+        <div class="col-xs-12">
+            <p class="bg-danger">{{ msgErr }}</p>
+        </div>
+    {% endif %}
+
+    <div class="col-xs-12">
+        <h4>Nouvelle demande d'emprunt matériel</h4>
+        <p>Avec ce formulaire, vous pouvez faire une demande d'emprunt de matériel.
+            Pour cela, vous devez être inscrit au GUC et avoir donné un chèque de caution
+            de {{ constant("App\\Classes\\Config\\Config::CAUTION_MATOS") }}€ lors de votre inscritption. Si ce n'est pas le cas,
+            merci de contacter le secrétariat du club.</p>
+        <p>Les inserts des blocs doivent toujours rester en place pour le transport. Sinon il y a un
+            risque d'endommager la robinettrie.Si les inserts ne sont pas rendus, <strong> la somme de 5 €
+                vous sera demandée pour chaque insert manquant.</strong>.Si le matériel est volé ou endommagé,
+            la caution sera encaissée.</p>
+        <p>Pour l'oxygénothérapie, vous devez etre titulaire du RIFAP pour l'emprunter. Vous devrez voir avec
+            Sylvie pour le récupérer chez elle. Vous recevrez un mail lorsque vous aurez retiré le matériel
+            auprès du responsable du club.</p>
+    </div>
+
+    <form method="post" action="{{ url('index_demande_emprunt') }}">
+
+        <div id="ajax_retour">
+
+        </div>
+
+        <input type="hidden" name="checkdata">
+        <div class="col-xs-12 col-sm-6">
+            <button type="submit" class="btn btn-block btn-primary">
+                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Réserver</button>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            <a class="btn btn-block btn-default" href="{{ url('index_intranet') }}">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Revenir à l'accueil de l'intranet'</a>
+        </div>
+
+    </form>
+    <script>
+        $.ajax({
+            url: '{{ url("ajax_pre_reservation") }}',
+            method: 'POST',
+            data: {
+                commande: 'init',
+                typeMat: 'Détendeur mer'
+            },
+            dataType: 'html',
+            success: function (data) {
+                $('#ajax_retour').html(data)
+            }
+        })
+    </script>
+</div>
+
+{% endblock %}
