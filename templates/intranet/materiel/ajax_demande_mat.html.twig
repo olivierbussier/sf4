@@ -102,7 +102,7 @@
             <label class="sr-only" for="caracMat">type</label>
             <select class="form-control" id="caracMat" onchange="{{ ajax.action('init',['typeMat', 'caracMat']) }}">
                 {% for car,cnt in tabCaract %}
-                    <option value="{{ car }}"{% if car == post.typeMat %} selected {% endif %}>{{ car }} ({{ cnt }} disponibles)</option>
+                    <option value="{{ car }}"{% if post.caracMat is defined and car == post.caracMat %} selected {% endif %}>{{ car }} ({{ cnt }} disponibles)</option>
                 {% endfor %}
             </select>
         </div>

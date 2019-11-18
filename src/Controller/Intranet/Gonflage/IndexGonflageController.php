@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Intranet;
+namespace App\Controller\Intranet\Gonflage;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;

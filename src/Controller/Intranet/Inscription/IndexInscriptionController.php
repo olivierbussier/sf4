@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Inscription;
+namespace App\Controller\Intranet\Inscription;
 
 use App\Classes\Config\Config;
 use App\Classes\Form\FormConst;

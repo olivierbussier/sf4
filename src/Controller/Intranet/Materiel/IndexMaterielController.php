@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Intranet;
+namespace App\Controller\Intranet\Materiel;
 
 use App\Classes\Materiel\ListeMateriel;
 use App\Classes\Materiel\Resa;
@@ -15,6 +15,7 @@ use DateTime;
 use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -27,12 +28,23 @@ class IndexMaterielController extends AbstractController
      * @Route("/intranet/materiel/demande", name="index_demande_emprunt")
      * @param EntityManagerInterface $em
      * @param SessionInterface $session
+     * @param LoggerInterface $gucLogger
      * @return Response
      * @throws Exception
      */
-    public function indexDemandeEmprunt(EntityManagerInterface $em, SessionInterface $session)
+    public function indexDemandeEmprunt(EntityManagerInterface $em, SessionInterface $session, LoggerInterface $gucLogger)
     {
+        $gucLogger->info('log1');
+
         $resa = new Resa($em);
+
+        if (isset($_GET['action']) && $_GET['action'] == 'delete') {
+            // Suppression d'un item
+
+            $item = $_GET['item'];
+            $resa->libereResa($item);
+        }
+
         if (isset($_POST['checkdata'])) {
             // Traitement de la demande de reservation
 
@@ -57,7 +69,7 @@ class IndexMaterielController extends AbstractController
                     $reservation->items = [];
                     $lrr = $em->getRepository(LocRefs::class);
                     $reservation->refResa = $lrr->getRefResa();
-                    $session->set('reservation', $reservation);
+                    $session->set('reservation', null);
                     $msgerr = "Votre demande de matériel est enregistrée";
                 } else {
                     $msgerr = 'Veuillez compléter la demande avant de la soumettre';
@@ -106,7 +118,7 @@ class IndexMaterielController extends AbstractController
             }
             $x = $r->getMatCarac();
             $Detail = [];
-            $Detail['Ref']     = $x->getId();
+            $Detail['Ref']     = $r->getId();
             $Detail['Num']     = $x->getAssetNum();
             $Detail['Type']    = $x->getAssetType();
             $Detail['Count']   = $x->getUsageCount();
@@ -127,46 +139,6 @@ class IndexMaterielController extends AbstractController
             'tabEmprunts' => $tabEmprunts,
             'msgErr' => $msgerr
         ]);
-    }
-
-    /**
-     * @Route("/materiel/index_admin_genmat", name="index_admin_genmat")
-     */
-    public function indexAdminGenMat()
-    {
-        return $this->render('');
-    }
-
-    /**
-     * @Route("/materiel/admin_demandes", name="admin_demandes")
-     */
-    public function adminDemandes()
-    {
-        return $this->render('');
-    }
-
-    /**
-     * @Route("/materiel/admin_demandes_excel", name="admin_demandes_excel")
-     */
-    public function adminDemandesExcel()
-    {
-        return $this->render('');
-    }
-
-    /**
-     * @Route("/materiel/admin_calendrier_materiel", name="admin_calendrier_materiel")
-     */
-    public function adminCalendrierMateriel()
-    {
-        return $this->render('');
-    }
-
-    /**
-     * @Route("/materiel/admin_calendrier_adherent", name="admin_calendrier_adherent")
-     */
-    public function adminCalendrierAdherent()
-    {
-        return $this->render('');
     }
 
     /**
@@ -228,6 +200,7 @@ class IndexMaterielController extends AbstractController
                     $userId,
                     $typeMat,
                     $reservation->typeSortie,
+                    $reservation->refResa,
                     $matCar,
                     "",
                     "preReserve"
@@ -277,6 +250,7 @@ class IndexMaterielController extends AbstractController
                         $userId,
                         $reservation->numResa,
                         $item->type,
+                        $reservation->refResa,
                         $item->caract,
                         "",
                         "preReserve"
@@ -321,8 +295,8 @@ class IndexMaterielController extends AbstractController
         // Recherche des dates valides
 
         $crep = $em->getRepository(Calendrier::class);
-        $datesSortie = $crep->findDatesAfter(new DateTime('now', new DateTimeZone('Europe/Paris')),['seancePiscine' => 'O']);
-        $datesRetour = $crep->findDatesAfter(new DateTime($reservation->dateSortie, new DateTimeZone('Europe/Paris')),['seancePiscine' => 'O']);
+        $datesSortie = $crep->findDatesAfter(new DateTime('now', new DateTimeZone('Europe/Paris')),['seanceBassin' => 'O']);
+        $datesRetour = $crep->findDatesAfter(new DateTime($reservation->dateSortie, new DateTimeZone('Europe/Paris')),['seanceBassin' => 'O']);
 
         // Formulaire mini
 

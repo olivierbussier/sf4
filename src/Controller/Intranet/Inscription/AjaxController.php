@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Inscription;
+namespace App\Controller\Intranet\Inscription;
 
 use App\Classes\Form\FormConst;
 use App\Classes\Inscription\Calculate;

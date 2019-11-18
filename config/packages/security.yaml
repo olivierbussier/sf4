@@ -34,9 +34,17 @@ security:
             # form_login: true
             # https://symfony.com/doc/current/security/form_login_setup.html
 
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER, ROLE_ENC, ROLE_MAT, ROLE_PUB, ROLE_GON, ROLE_USER, ROLE_BAPTEME, ROLE_BUREAU, ROLE_CERTIF, ROLE_PN1, ROLE_PN2, ROLE_PN3, ROLE_PN4, ROLE_PMF1, ROLE_INI, ROLE_ENFANT, ROLE_ADO, ROLE_APNEE]
+        ROLE_ENC: [ROLE_USER, ROLE_ENC]
+
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/intranet/materiel,    roles: ROLE_MAT }
+        - { path: ^/intranet/gonflage,    roles: ROLE_GON }
+        - { path: ^/intranet/publication, roles: ROLE_PUB }
+        - { path: ^/intranet/encadrement, roles: ROLE_ENC }
         - { path: ^/intranet,    roles: ROLE_USER }
         - { path: ^/inscription, roles: ROLE_USER }
         # - { path: ^/admin, roles: ROLE_ADMIN }

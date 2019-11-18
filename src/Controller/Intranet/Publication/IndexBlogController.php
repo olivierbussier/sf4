@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Intranet\Publication;
 
 use App\Classes\Blog\BlogHelpers;
 use App\Classes\Config\Config;
@@ -11,15 +11,16 @@ use DateTime;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class BlogController extends AbstractController
+class IndexBlogController extends AbstractController
 {
     /**
-     * @Route("/intranet/admin_blog", name="blog_admin_index")
+     * @Route("/intranet/publication", name="blog_admin_index")
      * @param RegistryInterface $doctrine
      * @param Request $request
      * @return Response
@@ -43,7 +44,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/intranet/admin_blog/delete/{blogId}", name="blog_admin_delete")
+     * @Route("/intranet/publication/admin_blog/delete/{blogId}", name="blog_admin_delete")
      * @param RegistryInterface $doctrine
      * @param Request $request
      * @param string $blogId
@@ -74,7 +75,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/intranet/admin_blog/up/{blogId}", name="blog_admin_up")
+     * @Route("/intranet/publication/admin_blog/up/{blogId}", name="blog_admin_up")
      * @param RegistryInterface $doctrine
      * @param Request $request
      * @param string $blogId
@@ -114,7 +115,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/intranet/admin_blog/down/{blogId}", name="blog_admin_down")
+     * @Route("/intranet/publication/admin_blog/down/{blogId}", name="blog_admin_down")
      * @param RegistryInterface $doctrine
      * @param Request $request
      * @param string $blogId
@@ -154,8 +155,8 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/intranet/admin_blog/new", name="blog_admin_create")
-     * @Route("/intranet/admin_blog/edit/{blogId}", name="blog_admin_edit")
+     * @Route("/intranet/publication/admin_blog/new", name="blog_admin_create")
+     * @Route("/intranet/publication/admin_blog/edit/{blogId}", name="blog_admin_edit")
      * @param RegistryInterface $doctrine
      * @param Request $request
      * @return Response
@@ -265,10 +266,10 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("intranet/admin_blog/delete_image/{blogId}", name="blog_admin_delete_image")
+     * @Route("intranet/publication/admin_blog/delete_image/{blogId}", name="blog_admin_delete_image")
      * @param RegistryInterface $doctrine
      * @param int $blogId
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function deleteImage(RegistryInterface $doctrine, $blogId = 0)
     {

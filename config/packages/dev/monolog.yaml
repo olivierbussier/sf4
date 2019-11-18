@@ -1,5 +1,12 @@
 monolog:
+    channels: [guc]
     handlers:
+        guc:
+            type: stream
+            level: info
+            path: "%kernel.logs_dir%/application.log"
+            channels: [guc]
+
         main:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"

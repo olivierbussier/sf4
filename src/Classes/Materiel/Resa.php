@@ -338,7 +338,7 @@ class Resa
      */
     public function libereResa($expr)
     {
-        if (is_int($expr)) {
+        if (is_int($expr) || is_string($expr)) {
             $rp = $this->em->getRepository(MatCal::class);
             $expr = $rp->find($expr);
         }
@@ -639,13 +639,11 @@ class Resa
      * @param string $refUser
      * @param string $assettype Type de matériel à réserver
      * @param string $typeSortie
+     * @param int $refResa
      * @param string $caract Caractéristique du matériel (15L,DIN, ...)
      * @param string $assetnum Matériel en particulier
      * @param string $status Type de résa : preReserve, reserve, maintenance
      * @return mixed
-     * @throws ConnectionException
-     * @throws ORMException
-     * @throws OptimisticLockException
      * @throws Exception
      */
     public function reserveResa(
@@ -654,9 +652,11 @@ class Resa
         string $refUser,
         string $assettype,
         string $typeSortie,
+        int    $refResa,
         string $caract = '',
         string $assetnum = '',
         string $status = "reserve"
+
     ) {
 
         $this->libereExpiredPreResa();
@@ -753,7 +753,7 @@ class Resa
             ->setRefUser($adherent)
             ->setStatus($status)
             ->setAssetText('')
-            ->setRefResa(0);
+            ->setRefResa($refResa);
 
         $em->persist($matcal);
         $em->flush($matcal);
