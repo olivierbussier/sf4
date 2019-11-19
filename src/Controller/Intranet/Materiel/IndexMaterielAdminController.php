@@ -414,7 +414,7 @@ class IndexMaterielAdminController extends AbstractController
             $cal_startdate->sub(new DateInterval('P'.($dow-1).'D'));
         }
 
-        $nbsemaines = 3;
+        $nbsemaines = 4;
 
         $cal_enddate = clone $cal_startdate;
         $cal_enddate->add(new DateInterval('P'.($nbsemaines).'W'));
@@ -422,224 +422,140 @@ class IndexMaterielAdminController extends AbstractController
         // Le tableau qui suit est divisé en colonnes de 1j
         $nbcols = $nbsemaines*7;
 
-        $i=0;
-        $cal_curdate = clone $cal_startdate; // Date courante
-        $colspan=1;                          // Initialisé a 1 pour prendre en compte la 1ere colonne d'affichage des assets reservables
         // Affichage des réservations effectives
         // Récuperation du calendrier objets
-
-        $nbjcal = $cal_enddate->diff($cal_startdate)->days;
 
         $startd      = $cal_startdate->format('Y-m-d');
         $endd        = $cal_enddate->format('Y-m-d');
 
+        // Liste des réservations entre ddeb et dfin
+
+        // On va chercher les assets réservées pour ce User
+        // -> Toutes les lignes de matcal avec un status non libre, et une période en recouvrement avec
+        //    le calendrier affiché.
+        // -> On trie les assets par refResa afin de pouvoir les regrouper
+
         $mat = $em->createQueryBuilder()
             ->select('ml, ad')
             ->from (MatCal::class,'ml')
+            ->join('ml.MatCarac', 'mc')
             ->join('ml.RefUser', 'ad')
             ->where("ml.status <> 'libre'")
             ->andWhere("(((ml.dateDebut >= '$startd') and (ml.dateDebut < '$endd')) or ".
                         "((ml.dateFin >= '$startd') and (ml.dateFin < '$endd'))) or " .
                         "((ml.dateDebut <= '$startd') and (ml.dateFin >= '$endd'))")
-            ->orderBy('ml.dateDebut', 'asc')
+            ->orderBy('ml.RefResa, mc.AssetType', 'asc')
             ->getQuery()
             ->execute();
-        // Liste des adhérents concernés par une reservation entre ddeb et dfin
-        /*
-        $sql = "select distinct User from @#@loc_matcal where ".
-            "status <> 'libre' and (".
-            "(((ddeb >= '$startd') and (ddeb < '$endd')) or ".
-            "((dfin >= '$startd') and (dfin < '$endd'))) or ".
-            "((ddeb <= '$startd') and (dfin >= '$endd')) ".
-            ") order by ddeb asc";
 
-        $mat = $db->query($sql);
-        */
+        // Premiere boucle sur les réservations
+        // On les regroupe par numéro de réservation
 
-        // Premier boucle sur les utilisateurs
-
+        $prevResa = 0;
+        $tabResa = [];
+        $curResa = [];
+        $lineAsset = [];
         /** @var MatCal $m */
         foreach ($mat as $m) {
-            $adh = $m->getRefUser();
-            $userId = $adh->getId();
-            $lineUser = [];
-            $lineUser['user'] = $userId;
-            $lineUser['nom']  = $adh->getNom();
-            $lineUser['prenom']  = $adh->getPrenom();
-            $lineUser['assets']  = [];
-            // Début d'une ligne user
+            if ($prevResa != $m->getRefResa()) {
+                $adh = $m->getRefUser();
 
-            $cal_curdate = clone $cal_startdate;
-            $startd      = $cal_startdate->format('Y-m-d');
-            $endd        = $cal_enddate->format('Y-m-d');
-
-            // On va chercher les réservations pour ce User
-            // -> Toutes les lignes de matcal avec un status non libre, et une période en recouvrement avec
-            //    le calendrier affiché.
-            // -> On trie les assets par date de début afin de les traiter chronologiquement
-
-            $resaUser = $em->createQueryBuilder()
-                ->select('ml, mc, ad')
-                ->from(MatCal::class, 'ml')
-                ->join('ml.MatCarac','mc')
-                ->join('ml.RefUser','ad')
-                ->where("ad.id = $userId")
-                ->andWhere("ml.status <> 'libre'")
-                ->andWhere("(((ml.dateDebut >= '$startd') and (ml.dateDebut < '$endd')) or ".
-                            "((ml.dateFin >= '$startd') and (ml.dateFin < '$endd'))) or ".
-                            "((ml.dateDebut <= '$startd') and (ml.dateFin >= '$endd')) ")
-                ->groupBy('ml.RefResa')
-                ->orderBy('mc.AssetNum, ml.dateDebut', 'asc')
-                ->getQuery()
-                ->execute();
-            /*
-            $sql = "select * from @#@loc_matcal where ".
-                "User = '".$m['User']."' and ".
-                "status <> 'libre' and (".
-                "(((ddeb >= '$startd') and (ddeb < '$endd')) or ".
-                "((dfin >= '$startd') and (dfin < '$endd'))) or ".
-                "((ddeb <= '$startd') and (dfin >= '$endd')) ".
-                ") order by AssetRef,ddeb asc";
-
-            $res = $db->query($sql);
-            $cnt = $db->numrows($res);
-            */
-            // Si il y a du matériel réservé pour cet user et visible
-            // dans l'intervalle de dates startd endd
-
-
-            // On boucle sur la liste des réservations de ce user
-
-            $title = false;
-
-            /** @var MatCal $r */
-            foreach ($resaUser as $r) {
-                // Début ligne
-                $lineAsset = [];
-
-                // On affiche le nom du user sur la première rangée
-                // avec un rowspan qui correspond au nombre de résevrations
-                // a afficher pour cet user
-
-                /*if (!$title) { ?>
-                    <td rowspan="<?= $cnt;?>">
-                        <?= $m['User'];?>
-                    </td>
-                    <?php
-                    // Pour ne pas réafficher le nom de cet user
-                    $title=true;
-                }*/
-
-                $res_deb  = $r->getDateDebut();
-                $res_fin  = $r->getDateFin();
-                $res_stat = $r->getStatus();
-                $res_txt  = $r->getAssetText();
-
-                // Recherche dans matcarac des caractéristiques du matériel
-                // a afficher
-
-                $matCarac = $m->getMatCarac();
-                $lineAsset['AssetNum']  = $matCarac->getAssetNum();
-                $lineAsset['AssetType'] = $matCarac->getAssetType();
-                //$Compat    = $matCarac->get['Compatibilite'];
-
-                // Si la réservation commence après le début du calendrier
-
-                $lineAsset['colsDeb'] = $cal_curdate->diff($res_deb)->d;
-
-                /*
-                while ($cal_curdate < $res_deb) { ?>
-                    <td>&nbsp;</td>
-                    <?php	      $cal_curdate = $cal_curdate->add(new DateInterval('P1D'));
+                if ($prevResa != 0) {
+                    $tabResa[] = $curResa;
                 }
-                */
+                $curResa = [];
+                $curResa['assets']  = $lineAsset;
+                $curResa['userId'] = $adh->getId();
+                $curResa['nom']  = $adh->getNom();
+                $curResa['prenom']  = $adh->getPrenom();
+                $curResa['dateDebut'] = $m->getDateDebut();
+                $curResa['dateFin'] = $m->getDateFin();
+                $curResa['typeSortie'] = $m->getTypeSortie();
+                $curResa['colsDeb'] = $cal_startdate->diff($m->getDateDebut())->d;
 
-                // Ici, $cal_curdate est forcément plus grand ou égal que $res_deb
-                // On s'attache a regarder ce qui'il faut afficher
-
-                if ($res_fin <= $cal_enddate) {
+                if ($m->getDateFin() <= $cal_enddate) {
                     // La res finit avant la fin de l'affichage du calendrier
                     // Calcul du nombre de jours a afficher pour cette réservation
                     // Date de fin - cal_startdate
 
-                    $lineAsset['colsFin'] = $res_fin->diff($cal_curdate)->days+1;
+                    $curResa['colsRes'] = $m->getDateFin()->diff($m->getDateDebut())->d;
+                    $curResa['colsFin'] = $cal_enddate->diff($m->getDateFin())->days;
                 } else {
                     // La res finit après la fin de l'affichage du calendrier
                     // Calcul du nombre de jours a afficher pour cette réservation
                     // date de fin calendrier - date courante
 
-                    $lineAsset['colsFin'] = $cal_enddate->diff($cal_curdate)->days;
+                    $curResa['colsRes'] = $nbcols - $curResa['colsDeb'];
+                    $curResa['colsFin'] = 0;
                 }
 
-                $lineAsset['status'] = $res_stat;
+                $curResa['assets'] = [];
+                $lineAsset         = [];
+                $prevResa          = $m->getRefResa();
             }
-            $cal_curdate = $cal_curdate->add(new DateInterval('P'.$lineAsset['colsFin'].'D'));
+
+            $lineAsset['status'] = $m->getStatus();
+            $lineAsset['assetText']  = $m->getAssetText();
+
+            // Recherche dans matcarac des caractéristiques du matériel
+            // a afficher
+
+            $matCarac = $m->getMatCarac();
+            $lineAsset['AssetNum']  = $matCarac->getAssetNum();
+            $lineAsset['AssetType'] = $matCarac->getAssetType();
+            //$Compat    = $matCarac->get['Compatibilite'];
+
+            // Recherche des autres matériels du même type dispo à ces dates
+
+            $debutResa = $m->getDateDebut()->format('Y-m-d');
+            $finResa   = $m->getDateFin()->format('Y-m-d');
+            $type      = $matCarac->getAssetType();
+
+            $others = $em->createQueryBuilder()
+                ->select('ml, mc')
+                ->from (MatCal::class,'ml')
+                ->join('ml.MatCarac', 'mc')
+                ->where("ml.status = 'libre'")
+                ->andWhere("mc.AssetType = '$type'")
+                ->andWhere("((ml.dateDebut <= '$debutResa') and (ml.dateFin >= '$finResa'))")
+                ->orderBy('mc.AssetType', 'asc')
+                ->getQuery()
+                ->execute();
+
+            $lineAsset['libres'] = $others;
+            $curResa['assets'][] = $lineAsset;
 
         }
+        $tabResa[] = $curResa;
 
-        // Finir l'affichage du calendrier après scan des réservations
-        // Cas ou la fin de la derniere réservation ne va pas jusqu'a la
-        // fin du calendrier
+        // Calcul du header
 
-        $this->render('', [
-                'startDate' => $cal_startdate,
-                'nbcols' => $nbcols
-                ]);
-/*
-        <table class="table">
-            <tr>
-                <td class="wlegend libre">Créneau Libre</td>
-                <td class="wlegend reserve">Créneau réservé</td>
-                <td class="wlegend encours">Matériel sorti</td>
-                <td class="wlegend restitue">Matériel restitué</td>
-                <td class="wlegend maintenance">Matériel indisponible (maintenance)</td>
-            </tr>
-        </table>
+        $calHeader['startDate']      = $cal_startdate;
+        $calHeader['nbJours'] = $nbcols;
+        $calHeader['nbSemaines'] = $nbsemaines;
+        $calHeader['lines'] = [];
 
-        <form id="dd" method="post" action="mat_index_calendrier_adh.php">
-            <table class="table">
-                <tr>
-                    <td>
-                        <?php	     Controls::intext("Nom", "nom", "Aucun"); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <?php	      Controls::indate("Date de debut : ", "ddeb", ''); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <?php	      Controls::indate("Date de fin : ", "dfin", ''); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <?php	$matos = array('Détendeur' => 'Det', 'Bloc' => 'Bloc', 'Gilet' => 'Stab');
-                        Controls::inoption('materiel', $matos, ''); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <?php	$status = array('reserve' => 'reserve', 'encours' => 'encours', 'restitue' => 'restitue', 'maintenance' => 'maintenance');
-                        Controls::inoption('status', $status, '');?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <?php	      Controls::intext('Numéro', 'asset', 'Auto'); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input type="submit" name="Submit" value="Valider">
-                    </td>
-                </tr>
-                <input type="hidden" name="caldeb" value="<?= $cal_startdate->format('Y-m-d');?>">
-            </table></form></div>
-    <?php $html->end();
+        $cal_curdate = clone($cal_startdate);
+        $totalDays = 0;
+        while ($totalDays < $nbcols) {
+            $line['curMonth']       = $cal_curdate->format('n') - 1;
+            if ($totalDays + $cal_curdate->daysForNextMonth() <= $nbcols) {
+                $line['nbDayInMonth'] = $cal_curdate->daysForNextMonth();
+            } else {
+                $line['nbDayInMonth'] = $nbcols - $totalDays;
+            }
+            $totalDays += $cal_curdate->daysForNextMonth();
+            $line['startDayOfWeek'] = $cal_curdate->format('N') - 1;
+            $line['startDay']       = $cal_curdate->format('j');
+            $calHeader['lines'][] = $line;
+            $cal_curdate->add(new DateInterval("P" . $line['nbDayInMonth'] ."D"));
+        }
 
-*/
+        return $this->render(
+            'intranet/materiel/mat_index_calendrier_adh.html.twig', [
+            'calHeader' => $calHeader,
+            'tabResa'   => $tabResa
+        ]);
     }
 
     /**
