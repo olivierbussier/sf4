@@ -1,0 +1,70 @@
+<div class="container">
+    <form id="cd" method="post" action="mat_index_calendrier_adh.php">
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    <?php               Controls::indate("Date de début :", 'ddeb', $cal_startdate->format('Y-m-d')); ?>
+                    <form method="post" action="mat_index_calendrier_adh.php">
+                        <input type="hidden" name="caldeb" value="<?= $cal_startdate->format('Y-m-d'); ?>" />
+                        <input type="submit" name="calprec" value="Previous" />
+                        <input type="submit" name="calsuiv" value="Next" />
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    {% set mtxt = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"] %}
+    {% set mday = ["Lu","Ma","Me","Je","Ve","Sa","Di"] %}
+
+    <table class="table table-bordered">
+        <tr>
+            {% for i in 0--nbcols  %}
+                {#  //   while ($i < $nbcols) {
+                    Combien de jours pour aller de la date courante
+                   Au 1er jour du mois suivant
+
+                   $nbdays = $cal_curdate->daysForNextMonth();
+
+                    Si le nombre de jours pour aller au mois suivant est
+                    Supérieur au nombre de jours du calendrier restant a afficher
+                    alors on tronque
+                #}
+
+                {% if i + nbDays >= nbcols %}   {#if ($i + $nbdays >= $nbcols) {#}
+                    {% set nbdays = nbcols - i %}
+                {% endif %}
+
+                {# Affichage du mois et année avec le bon "colspan"#}
+
+                <th colspan="{{ nbdays + colspan }}">{{ mtxt[cal_curdate | date("n") - 1] }} {{ cal_curdate | date("Y") }}</th>
+
+                {% set colspan = 0 %} {# Remise à zéro du colspan maintenant qu'on a affiché le 1er mois #}
+
+                {# On passe au mois suivants #}
+
+                {% set i = i + nbdays %}
+                {% set cal_curdate = cal_curdate | date_modify('+' ~ nbdays ~ 'day') %}
+            }
+
+            {# Fin de la ligne mois année et début de la ligne jour de la semaine/jour du mois #}
+
+        </tr>
+        <tr></tr>
+        <tr>
+            <th>&nbsp;</th>
+
+                {# Prise en compte de la 1ere colonne d'affichage des assets reservables #}
+                {% set cal_curdate = cal_startdate %} {# $cal_curdate = clone $cal_startdate;     // Réinit de la date courante #}
+
+                // Affichage des colonnes sous la forme : jour semaine (Lu-Di)<br>jour du mois (1-31)
+
+            {% for i = 0--nbcols %} {# for ($i = 0; $i < $nbcols; $i++) { ?> #}
+                <th>{{ mday[cal_curdate | date("N") - 1] }}<br>{{ cal_curdate | date("d") }}</th>
+                    {% set cal_curdate = cal_curdate | date_modify('+1 day') %}
+            {% endfor %}
+
+            {# Fin de la ligne jour de la semaine/jour du mois #}
+        </tr>
+    </table>
+</div>

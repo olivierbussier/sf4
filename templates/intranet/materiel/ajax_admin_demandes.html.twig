@@ -1,0 +1,77 @@
+
+{% import 'macros/ajax.html.twig' as ajax %}
+{% import "macros/pagination.html.twig" as pages %}
+
+
+<div class="container">
+    {% if nbPages > 1 %}
+        <nav aria-label="NavClients">
+            {{ pages.pages(nbPages, startPage, search) }}
+        </nav>
+    {% endif %}
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        {% set idx = 1 %}
+
+        {% set test = false %}
+        {% if reservations is not empty %}
+            {% for resa in reservations %}
+                {% if test %}
+                    {{ resa.status }}
+                    {{ dump(resa) }}
+                {% else %}
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading{{ idx }}">
+                        <h4 class="panel-title">
+                            <a role="button"
+                               data-toggle="collapse"
+                               data-parent="#accordion"
+                               href="#collapse{{ idx }}"
+                               aria-expanded="true"
+                               aria-controls="collapse{{ idx }}">
+                                <div class="label label-primary">{{ resa.user }} ({{ resa.userid }})</div>
+                                <div class="label label-danger">{{ resa.typeSortie }}</div>
+                                <div class="label label-success">{{ resa.dateSortie }}</div>
+                                <div class="label label-warning">{{ resa.dateRetour }}</div>
+                            </a>
+                        </h4>
+                    </div>
+                    <style>
+                        .btn-spec {
+                            width: 90px!important;
+                        }
+                        .lst-spec {
+                            width: 170px!important;
+                        }
+                    </style>
+                    <div id="collapse{{ idx }}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{ idx }}">
+                        <div class="panel-body">
+
+                            {% for item in resa.assets %}
+                                <div class="form-inline">
+                                    <span style="display: inline-block; width: 300px">{{ item.Type }} {{ item.Carac }}</span>
+                                    <select class="form-control lst-spec">
+                                        {% for nom, otherItem in item.otherItems %}
+                                            <option value="{{ nom }}"{% if nom == item.Num %} selected{% endif %}>{{ nom }} ({{ otherItem.carac }}) - {{ otherItem.status }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <span>
+                                        <a href="" class="btn btn-default btn-spec">Annuler</a>
+                                        <a href="" class="btn btn-default btn-spec">Sortir</a>
+                                        <a href="" class="btn btn-default btn-spec">Restituer</a>
+                                        <a href="" class="btn btn-default btn-spec">Prolonger</a>
+                                        <a href="" class="btn btn-default btn-spec">Transferer</a>
+                                    </span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% set idx = idx + 1 %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+

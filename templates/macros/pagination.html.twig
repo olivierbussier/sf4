@@ -1,0 +1,75 @@
+{% set url = 'mat_index_admin_materiel.php' %}
+
+{% macro pages(nbPages, start, term) %}
+
+    {% set nbBefore = start %}
+    {% set nbAfter  = nbPages - start - 1 %}
+
+    {% set beforeLost = max(10 - nbBefore,0) %}
+    {% set afterLost  = max(10 - nbAfter - 1, 0) %}
+
+    {% set startPage = max(0, start - 10 - afterLost) + 1 %}
+    {% set stopPage  = min(start + 10 + beforeLost, nbPages) + 1 %}
+
+    <ul class="pagination pagination-sm d-flex flex-wrap justify-content">
+
+        {# if nbBefore > 0 %}
+            <li class="page-item"><a class="page-link" href="{{ url }}?startPage=0&search={{ term }}">0</a></li>
+            <span style="width:20px">&nbsp;</span>
+        {% endif #}
+
+        {% if nbBefore > 10 %}
+            <li class="page-item"><a class="page-link" href="{{ url }}?startPage={{ max(0,start - 100) }}&search={{ term }}"><<<</a></li>
+            <span style="width:20px">&nbsp;</span>
+        {% endif %}
+
+        {% if nbBefore > 1 %}
+            <li class="page-item"><a class="page-link" href="{{ url }}?startPage={{ max(0,start - 10) }}&search={{ term }}"><<</a></li>
+            <span style="width:20px">&nbsp;</span>
+        {% endif %}
+
+        {% if nbBefore > 0 %}
+            <li class="page-item"><a class="page-link" href="{{ url }}?startPage={{ max(0,start - 1) }}&search={{ term }}"><</a></li>
+            <span style="width:20px">&nbsp;</span>
+        {% endif %}
+
+        {% for page in range(startPage,stopPage-1) %}
+            {% if page - 1 == start %}
+                {% set active = ' active' %}
+            {% else %}
+                {% set active = '' %}
+            {% endif %}
+            <li class="page-item{{ active }}"><a class="page-link" href="{{ url }}?startPage={{ page - 1 }}&search={{ term }}">{{ page }}</a></li>
+        {% endfor %}
+
+        {% if nbAfter > 0 %}
+            <span style="width:20px">&nbsp;</span>
+            <li class="page-item"><a class="page-link" href="{{ url }}?startPage={{ min(nbPages - 1,start + 1) }}&search={{ term }}">></a></li>
+        {% endif %}
+
+        {% if nbAfter > 1 %}
+            <span style="width:20px">&nbsp;</span>
+            <li class="page-item"><a class="page-link" href="{{ url }}?startPage={{ min(start + 10,nbPages) }}&search={{ term }}">>></a></li>
+        {% endif %}
+
+        {% if nbAfter > 10 %}
+            <span style="width:20px">&nbsp;</span>
+            <li class="page-item"><a class="page-link" href="{{ url }}?startPage={{ min(start + 100,nbPages) }}&search={{ term }}">>>></a></li>
+        {% endif %}
+
+        {# if nbAfter > 0 %}
+            <span style="width:20px">&nbsp;</span>
+            <li class="page-item"><a class="page-link" href="{{ url }}?startPage={{ nbPages - 1 }}&search={{ term }}">{{ nbPages }}</a></li>
+        {% endif #}
+
+    </ul>
+    {#
+        <br> nbPages  : {{ nbPages }}
+        <br> nbBefore : {{ nbBefore }}
+        <br> nbAfter  : {{ nbAfter  }}
+        <br> beforeLost : {{ beforeLost }}
+        <br> afterLost  : {{ afterLost  }}
+        <br> startPage: {{ startPage }}
+        <br> stopPage : {{ stopPage }}
+    #}
+{% endmacro %}

@@ -3,8 +3,40 @@ namespace App\Classes\Helpers;
 
 use DateTime;
 
-class DateHelper
+class DateHelper extends DateTime
 {
+    /**
+     * @param string $now
+     * @param bool $absolute
+     * @return \DateInterval|false
+     * @throws \Exception
+     */
+    public function diff($now = 'NOW', $absolute = false)
+    {
+        if (!($now instanceof DateTime)) {
+            $now = new DateTime($now);
+        }
+        return parent::diff($now);
+    }
+
+    /**
+     * @return mixed
+     * @throws \Exception
+     */
+    public function daysForNextMonth()
+    {
+        // Calcul du nombre de jour jusu'au 1er jour du mois suivant
+        $nday   = "01";
+        $nmonth = (int)($this->format('m')) + 1;
+        $nyear  = $this->format('Y');
+        if ($nmonth>12) {
+            $nmonth=1;
+            $nyear += 1;
+        }
+        $newd = new DateTime($nyear.'-'.$nmonth.'-'.$nday);
+        return $newd->diff($this)->days;
+    }
+
     /**
      * Convertit une date au format YYYY-MM-DD au format DD/MM/YYYY
      * @param string $date
@@ -69,7 +101,6 @@ class DateHelper
         if ($fCheckToday && $annee >= (int)date("Y")) {
             return -3;
         }
-
         return 0;
     }
 
@@ -78,6 +109,7 @@ class DateHelper
      * @param string $DateNaiss
      * @param string $Date
      * @return int
+     * @throws \Exception
      */
     public static function age(string $DateNaiss, string $Date = null): int
     {
@@ -106,6 +138,7 @@ class DateHelper
      * @param string $DateNaiss
      * @param string|null $Date
      * @return int
+     * @throws \Exception
      */
     public static function ageinDays(string $DateNaiss, string $Date = null): int
     {
@@ -133,6 +166,7 @@ class DateHelper
      * Calcul de l'age a la date du jour
      * @param string $DateNaiss
      * @return int
+     * @throws \Exception
      */
     public static function ageAujourdhui(string $DateNaiss): int
     {

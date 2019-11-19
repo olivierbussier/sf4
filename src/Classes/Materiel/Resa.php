@@ -581,8 +581,6 @@ class Resa
         string $assetnum
     ) {
 
-        $db = Globals::getDb();
-
         $this->libereExpiredPreResa();
 
         if ($this->checkDates($datedeb, $datefin) == false ||
@@ -590,15 +588,40 @@ class Resa
             return false;
         }
 
-        $r = $db->query(
-            "select * from @#@loc_matcarac ".
-            "where (AssetType = '$assettype') "
-        );
+        $em = $this->em;
+        $r = $em->createQueryBuilder()
+            ->select('mc')
+            ->from(MatCarac::class,"mc")
+            ->where("mc.AssetType = '$assettype'")
+            ->getQuery()
+            ->execute();
 
-        while (($d = $db->nextrow($r)) != false) {
-            $tabres[$d['AssetNum']] = ['status' => 'libre'];
+        $tabres =[];
+
+        /** @var MatCarac $v */
+        foreach ($r as $v) {
+                $tabres[$v->getAssetNum()] = [
+                    'status' => 'libre',
+                    'carac'  => $v->getCaracteristique()
+                ];
         }
 
+        $pr = $em->createQueryBuilder()
+            ->select(['ml', 'mc', 'adh'])
+            ->from(MatCal::class,'ml')
+            ->join('ml.MatCarac','mc')
+            ->join('ml.RefUser', 'adh')
+            ->where("mc.AssetType = '$assettype'")
+            //->andWhere("mc.AssetNum = '$assetnum'")
+            ->andWhere("ml.status <> 'libre'")
+            ->andWhere("((ml.dateDebut >= '$datedeb' and ml.dateDebut <= '$datefin') or (ml.dateFin >= '$datedeb' and ml.dateFin <= '$datefin'))")
+            ->orderBy('ml.dateDebut, adh.Nom', 'ASC');
+
+        $dql = $pr->getQuery();
+        $sql = $dql->getSQL();
+        $res = $dql->execute();
+
+/*
         $sql =  "select @#@loc_matcal.Ref, @#@loc_matcarac.AssetNum, AssetRef,ddeb,dfin,@#@loc_matcal.status, nom, prenom ".
             "from @#@loc_matcal ".
             "join @#@loc_matcarac on @#@loc_matcal.AssetRef = @#@loc_matcarac.Ref ".
@@ -609,19 +632,19 @@ class Resa
             "and (((ddeb >='$datedeb') and (ddeb <= '$datefin')) ".
             "or   ((dfin >='$datedeb') and (dfin <= '$datefin')))".
             "order by ddeb";
+*/
 
-        //$sql = $db->escape_table($sql);
-        //echo $sql."\n";
-        $res = $db->query($sql);
-
-        while (($r = $db->nextrow($res)) != false) {
-            $num = $r['AssetNum'];
+        /** @var MatCal $r */
+        foreach($res as $r) {
+            $num = $r->getMatCarac()->getAssetNum();
+            $usr = $r->getRefUser();
             $tabres[$num] = [
-                'status' => $r['status'],
-                'nom'    => $r['nom'],
-                'prenom' => $r['prenom'],
-                'ddeb'   => $r['ddeb'],
-                'dfin'   => $r['dfin']
+                'status' => $r->getStatus(),
+                'nom'    => $r->getRefUser()->getUsername(),
+                'id'     => $r->getRefUser()->getId(),
+                'ddeb'   => $r->getDateDebut(),
+                'dfin'   => $r->getDateFin(),
+                'carac'  => $r->getMatCarac()->getCaracteristique()
             ];
         }
         return $tabres;
