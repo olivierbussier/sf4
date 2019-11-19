@@ -59,6 +59,9 @@
         .nowrap {
             white-space: nowrap;
         }
+        .boldoption {
+            font-weight: bold;
+        }
     </style>
     <div class="table-responsive">
         <table class="table table-striped table-bordered">
@@ -97,11 +100,12 @@
                         <td class="nowrap">
                             <select class="form-control">
 
+                                <option selected class="boldoption">{{ curItem.AssetType }} {{ curItem.AssetNum }}</option>
                                 {% for libres in curItem.libres %}
                                     <option>{{ libres.MatCarac.AssetType }} {{ libres.MatCarac.AssetNum }}</option>
                                 {% endfor %}
                             </select>
-                            {# {{ curItem.AssetType }} {{ curItem.AssetNum }} #}
+
                         </td>
 
                         {# before #}
