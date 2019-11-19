@@ -503,6 +503,8 @@ class IndexMaterielAdminController extends AbstractController
             $matCarac = $m->getMatCarac();
             $lineAsset['AssetNum']  = $matCarac->getAssetNum();
             $lineAsset['AssetType'] = $matCarac->getAssetType();
+            $lineAsset['AssetCarac']= $matCarac->getCaracteristique();
+
             //$Compat    = $matCarac->get['Compatibilite'];
 
             // Recherche des autres matériels du même type dispo à ces dates
