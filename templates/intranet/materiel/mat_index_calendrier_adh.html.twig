@@ -40,6 +40,11 @@
         .resa {
             background-color: #f6bee1;
         }
+        .cal {
+            vertical-align: middle!important;
+            padding-top: 0!important;
+            padding-bottom: 0!important;
+        }
         .repert {
         }
         .flexer {
@@ -55,12 +60,21 @@
         td {
             padding-left: 4px!important;
             padding-right: 4px!important;
+
         }
         .nowrap {
             white-space: nowrap;
         }
         .boldoption {
             font-weight: bold;
+        }
+        .disoption {
+            font-weight: lighter;
+            font-style: italic;
+            color: red;
+        }
+        .larg {
+            min-width: 100%;
         }
     </style>
     <div class="table-responsive">
@@ -95,28 +109,31 @@
             {% for curResa in tabResa %}
                 {% if curResa.assets is defined %}
                     <tr>
-                    <td  class="nowrap" rowspan="{{ curResa.assets | length }}">{{ curResa.nom }} {{ curResa.prenom }}</td>
+                    <td  class="nowrap cal" rowspan="{{ curResa.assets | length }}">{{ curResa.nom }} {{ curResa.prenom }}</td>
                     {% for curItem in curResa.assets %}
-                        <td class="nowrap">
-                            <select class="form-control">
+                        <td class="nowrap cal">
+                            <label>
+                                <select name="newChoix" class="larg form-control">
 
-                                <option selected class="boldoption">{{ curItem.AssetType }} {{ curItem.AssetNum }} ({{ curItem.AssetCarac }})</option>
-                                {% for libres in curItem.libres %}
-                                    <option>{{ libres.MatCarac.AssetType }} {{ libres.MatCarac.AssetNum }} ({{ libres.MatCarac.Caracteristique }})</option>
-                                {% endfor %}
-                            </select>
-
+                                    {#<option selected class="boldoption">{{ curItem.AssetType }} {{ curItem.AssetNum }} ({{ curItem.AssetCarac }})</option>#}
+                                    {% for libres in curItem.libres %}
+                                        <option{% if libres.MatCarac.assetNum == curItem.AssetNum %}  selected class="boldoption"{% elseif libres.status != 'libre' %} class="disoption" disabled{% endif %}>
+                                            {{ libres.MatCarac.AssetType }} {{ libres.MatCarac.AssetNum }} ({{ libres.MatCarac.Caracteristique }})
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </label>
                         </td>
 
                         {# before #}
                         {% if curResa.colsDeb != 0 %}
                             {% for i in 1..curResa.colsDeb %}
-                                <td></td>
+                                <td class="cal"</td>
                             {% endfor %}
                         {% endif %}
 
                         {# in #}
-                        <td  class="resa" colspan="{{ curResa.colsRes }}">
+                        <td  class="resa cal" colspan="{{ curResa.colsRes }}">
                             <div class="contnr flexer">
                                 <div class="repert">
                                     <button type="button" class="btn btn-default btn-xs">
@@ -150,7 +167,7 @@
                         {# after #}
                         {% if curResa.colsFin != 0 %}
                             {% for i in 1..curResa.colsFin %}
-                                <td></td>
+                                <td class="cal"></td>
                             {% endfor %}
                         {% endif %}
                         </tr>

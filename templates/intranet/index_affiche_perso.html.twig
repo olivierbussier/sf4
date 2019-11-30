@@ -7,7 +7,7 @@
 {% block main_page %}
 
     <div class="container">
-        <h3>Trombinoscope</h3>
+        <h3>Informations personelles</h3>
         {{ dump (formInfoPerso) }}
         <div class="col-xs-12">
             <a class="btn btn-default" href="{{ url('index_intranet') }}">
@@ -15,11 +15,136 @@
             </a>
         </div>
 
+        {{ form_start(formInfoPerso) }}
+        <div class="col-xs-12 col-sm-6">
+            {{ form_row(formInfoPerso.Username) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_row(formInfoPerso.Mail) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-2">
+            {{ form_row(formInfoPerso.Genre) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-5">
+            {{ form_row(formInfoPerso.Nom) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-5">
+            {{ form_row(formInfoPerso.Prenom) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_row(formInfoPerso.Adresse1) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_row(formInfoPerso.Adresse2) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_row(formInfoPerso.CodePostal) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_row(formInfoPerso.Ville) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_row(formInfoPerso.Profession) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_row(formInfoPerso.fEtudiant) }}
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="col-xs-12 col-sm-3">
+            {{ form_row(formInfoPerso.DateNaissance) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_row(formInfoPerso.LieuNaissance) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-3">
+            {{ form_row(formInfoPerso.DepartementNaissance) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.TelFix) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.TelPort) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.NiveauSca) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.NiveauApn) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.Diplomes) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.Activite) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.fApneeSca) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.AccidentNom) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.AccidentPrenom) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.AccidentTelFix) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.AccidentTelPort) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.MineurNom) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.MineurPrenom) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.MineurQualite) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.DateCertif) }}
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.fAllergAspirine) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-12">
+            {{ form_row(formInfoPerso.Roles) }}
+        </div>
+
         <div class="col-xs-12">
-            {{ form_start(formInfoPerso) }}
-            {{ form_widget(formInfoPerso) }}
-            <button type="submit" class="btn btn-success">Go!</button>
-            {{ form_end(formInfoPerso, {'render_rest': false}) }}
+            <button type="submit" class="form-control btn btn-success">Go!</button>
+                {{ form_end(formInfoPerso, {'render_rest': false}) }}
         </div>
 
         <div class="col-xs-12">

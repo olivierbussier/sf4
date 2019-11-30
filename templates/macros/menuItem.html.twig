@@ -1,16 +1,3 @@
 {% macro item(menuLink, menuTitre, params, target , class) %}
-<li><a
-    {% if target %}
-        target="{{ target }}"
-    {% endif %}
-
-    {% if class %}
-        class="{{ class }}"
-    {% endif %}
-    {% if params %}
-        href="{{ url(menuLink,params) }}">{{ menuTitre }}</a></li>
-    {% else %}
-        href="{{ url(menuLink) }}">{{ menuTitre }}</a></li>
-    {% endif %}
-
+<li><a {% if target %}target="{{ target }}"{% endif %}{% if class %} class="{{ class }}"{% endif %}{% if params %} href="{{ url(menuLink,params) }}">{{ menuTitre }}</a></li>{% else %} href="{{ url(menuLink) }}">{{ menuTitre }}</a></li>{% endif %}
 {% endmacro %}

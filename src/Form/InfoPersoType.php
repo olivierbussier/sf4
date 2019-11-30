@@ -18,119 +18,132 @@ class InfoPersoType extends AbstractType
     {
 
         $builder
-            ->add('Username', null,['disabled' => true])
-            ->add('Nom', null,['disabled' => true])
-            ->add('Prenom', null,['disabled' => true])
+            ->add('Username',   null,['disabled' => true])
+            ->add('Nom',        null,['disabled' => true])
+            ->add('Prenom',     null,['disabled' => true])
             ->add('Mail')
             ->add('Roles',ChoiceType::class, [
                 'choices' => [
-                    'ROLE_PN1'         => 'ROLE_PN1',
-                    'ROLE_PN2'         => 'ROLE_PN2',
-                    'ROLE_PN3'         => 'ROLE_PN3',
-                    'ROLE_PN4'         => 'ROLE_PN4',
-                    'ROLE_PMF1'        => 'ROLE_PMF1',
-                    'ROLE_PINI'        => 'ROLE_PINI',
-                    'ROLE_ENFANT'      => 'ROLE_ENFANT',
-                    'ROLE_ADO'         => 'ROLE_ADO',
-                    'ROLE_PMT'         => 'ROLE_PMT',
-                    'ROLE_APNEE'       => 'ROLE_APNEE',
-                    'ROLE_BAPTEME'     => 'ROLE_BAPTEME',
-                    'ROLE_CRT'         => 'ROLE_CRT',
-                    'ROLE_ADMIN'       => 'ROLE_ADMIN',
-                    'ROLE_GON'         => 'ROLE_GON',
-                    'ROLE_MAT'         => 'ROLE_MAT',
-                    'ROLE_PUB'         => 'ROLE_PUB',
-                    'ROLE_BUREAU'      => 'ROLE_BUREAU'
+                    'Encadrant N1'         => 'ROLE_PN1',
+                    'Encadrant N2'         => 'ROLE_PN2',
+                    'Encadrant N3'         => 'ROLE_PN3',
+                    'Encadrant N4'         => 'ROLE_PN4',
+                    'Encadrant MF1'        => 'ROLE_PMF1',
+                    'Encadrant Initiateur' => 'ROLE_PINI',
+                    'Encadrant Enfant'     => 'ROLE_ENFANT',
+                    'Encadrant Ado'        => 'ROLE_ADO',
+                    'Encadrant PMT'        => 'ROLE_PMT',
+                    'Encadrant Apnée'      => 'ROLE_APNEE',
+                    'Encadrant Baptême'    => 'ROLE_BAPTEME',
+                    'Alerte Certif'        => 'ROLE_CRT',
+                    'Administrateur'       => 'ROLE_ADMIN',
+                    'Gonflage'             => 'ROLE_GON',
+                    'Matériel'             => 'ROLE_MAT',
+                    'Publication'          => 'ROLE_PUB',
+                    'Bureau'               => 'ROLE_BUREAU'
                 ],
                 'expanded' => false,
                 'multiple' => true,
                 'disabled' => true
             ])
-            /*->add('ListeDroits',ChoiceType::class, [
-                'choices' => [
-                ],
-                'expanded' => false,
-                'multiple' => true,
-                'disabled' => true
-            ])*/
-            //->add('CodeSecret')
-            //->add('Password')
-            ->add('Genre',null, ['disabled' => true])
-            ->add('Adresse1')
-            ->add('Adresse2')
-            ->add('CodePostal')
+            ->add('Genre',      null, ['disabled' => true])
+            ->add('Adresse1',      null, ['label' => 'Adresse'])
+            ->add('Adresse2',      null, ['label' => 'Suite adresse'])
+            ->add('CodePostal',      null, ['label' => 'Code Postal'])
             ->add('Ville')
             ->add('Profession')
             ->add('DateNaissance', DateType::class, [
-                'widget' => 'single_text',
-                'html5'  => true,
-                'disabled' => true
+                'widget'    => 'single_text',
+                'html5'     => true,
+                'disabled'  => true,
+                'label' => 'Date de naissance'
                 //'attr'   => ['class' => 'js-datepicker']
             ])
             ->add('LieuNaissance')
             ->add('DepartementNaissance')
             ->add('TelFix')
             ->add('TelPort')
-            ->add('fEtudiant')
-            ->add('NiveauSca')
-            ->add('NiveauApn')/*
-            ->add('Diplomes',ChoiceType::class, [
+            ->add('fEtudiant',ChoiceType::class, [
+                'label' => 'Etudiant',
                 'choices' => [
-                    'TIV' => 'TIV',
-                    'Formateur TIV' => 'FTIV'
-                ],
-                'expanded' => false,
-                'multiple' => true,
-                'disabled' => true
-            ])*/
-            ->add('fApneeSca',ChoiceType::class, [
-                'choices' => [
-                    'Apnéiste Plongeur' => true,
-                    'Apnéiste non plongeur' => false
+                    'Oui' => true,
+                    'Non' => false
                 ],
                 'expanded' => false,
                 'multiple' => false,
                 'disabled' => true
             ])
-            ->add('Activite')
-            ->add('fBenevole')
-            ->add('fEncadrant')
-            ->add('AccidentNom')
-            ->add('AccidentPrenom')
-            ->add('AccidentTelFix')
-            ->add('AccidentTelPort')
-            ->add('DateCertif')
-            ->add('fAllergAspirine')
-            ->add('Licence')
-            ->add('Cotisation')
-            ->add('fCarteGUC')
-            ->add('fCarteSIUAPS')
-            ->add('fMailGUC')
-            ->add('fTrombi')
-            ->add('EnvoiGUC')
-            ->add('EnvoiSIUAPS')
-            ->add('Facture')
-            ->add('RefFacture')
-            ->add('Assurance')
-            ->add('PretMateriel')
-            ->add('PretMaterielOld')
-            ->add('MineurNom')
-            ->add('MineurPrenom')
-            ->add('MineurQualite')
-            ->add('ModifUser')
-            ->add('DateModifUser')
-            ->add('DatePremInscr')
-            ->add('AdminOK',ChoiceType::class, [
+            ->add('NiveauSca',      null, [
+                'label' => 'Niveau Scaphandre',
+                'disabled' => true
+            ])
+            ->add('NiveauApn',      null, [
+                'label' => 'Niveau Apnée',
+                'disabled' => true
+            ])
+
+            ->add('Diplomes',ChoiceType::class, [
+                'label' => 'Diplômes et qualifications',
                 'choices' => [
-                    'Admin' => 'ROLE_ADMIN',
-                    'Super' => 'ROLE_SUPER_ADMIN'
+                    'TIV' => 'TIV',
+                    'Formateur TIV' => 'FTIV',
+                    'Médecin' => 'MED',
+                    'Médecin Fédéral' => 'MEDF',
+                    'Nitrox' => 'NITR',
+                    'Nitrox Confirmé' => 'NIRTC',
+                    'Trimix Normoxique' =>'TRIN',
+                    'Trimix Hypoxique' => 'TRIH',
                 ],
                 'expanded' => false,
-                'multiple' => true
+                'multiple' => true,
+                'disabled' => true
             ])
-            ->add('Comments')
-            ->add('ReducFamilleID')
-            ->add('ReducFam')
+            ->add('fApneeSca',ChoiceType::class, [
+                'label' => 'Apnéiste ou maintien Plongeur',
+                'choices' => [
+                    'Plongeur' => true,
+                    'Non plongeur' => false
+                ],
+                'expanded' => false,
+                'multiple' => false,
+                'disabled' => true
+            ])
+            ->add('Activite',       null, ['disabled' => true])
+            ->add('fBenevole')
+            ->add('fEncadrant')
+            ->add('AccidentNom', null, ['label' => 'Nom du contact en cas d\'accident'])
+            ->add('AccidentPrenom', null, ['label' => 'Prénom du contact en cas d\'accident'])
+            ->add('AccidentTelFix', null, ['label' => 'Téléphone fixe du contact en cas d\'accident'])
+            ->add('AccidentTelPort', null, ['label' => 'Téléphone GSM du contact en cas d\'accident'])
+            ->add('DateCertif', DateType::class, [
+                'label'     => 'Date du certificat médical',
+                'widget'    => 'single_text',
+                'html5'     => true,
+                'disabled'  => true
+                //'attr'   => ['class' => 'js-datepicker']
+            ])
+            ->add('fAllergAspirine',ChoiceType::class, [
+                'label'   => 'Allergie à l\'aspirine',
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false
+                ],
+                'expanded' => false,
+                'multiple' => false,
+                'disabled' => true
+            ])
+            ->add('MineurNom',          null, [
+                'label' => 'Nom du représentant légal',
+                'disabled' => true
+            ])
+            ->add('MineurPrenom',       null, [
+                'label' => 'Prénom du représentant légal',
+                'disabled' => true
+            ])
+            ->add('MineurQualite',      null, [
+                'label' => 'Qualité du représentant légal',
+                'disabled' => true
+            ])
         ;
     }
 

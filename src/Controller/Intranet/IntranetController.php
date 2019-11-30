@@ -55,7 +55,7 @@ class IntranetController extends AbstractController
      * @param Request $request
      * @return RedirectResponse|Response
      */
-    public function affiche_perso(Request $request)
+    public function affiche_info_perso(Request $request)
     {
         $user = $this->getUser();
         $form = $this->createForm(InfoPersoType::class, $user);
@@ -63,6 +63,9 @@ class IntranetController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $task = $form->getData();
+            // Vérif si le mail a changé
+
             return $this->redirectToRoute('');
         }
 

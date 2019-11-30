@@ -1017,7 +1017,15 @@ class Adherent implements UserInterface
      */
     public function getDiplomes()
     {
-        return $this->diplomes;
+        $ret = [];
+
+        /**
+         * @var Diplome $v
+         */
+        foreach ($this->diplomes as $v) {
+            $ret[] = $v->getType();
+        }
+        return $ret;
     }
 
     /**

@@ -517,10 +517,10 @@ class IndexMaterielAdminController extends AbstractController
                 ->select('ml, mc')
                 ->from (MatCal::class,'ml')
                 ->join('ml.MatCarac', 'mc')
-                ->where("ml.status = 'libre'")
+                ->where("(ml.status = 'libre' or ml.status = 'reserve' or ml.status = 'preReserve' or ml.status = 'encours')")
                 ->andWhere("mc.AssetType = '$type'")
                 ->andWhere("((ml.dateDebut <= '$debutResa') and (ml.dateFin >= '$finResa'))")
-                ->orderBy('mc.AssetType', 'asc')
+                ->orderBy('mc.Caracteristique, mc.AssetNum', 'asc')
                 ->getQuery()
                 ->execute();
 
