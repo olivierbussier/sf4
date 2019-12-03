@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Classes\Form\FormConst;
+use App\Classes\Inscription\ListesInscription;
 use App\Entity\Adherent;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -20,7 +21,7 @@ class InscriptionType extends AbstractType
     {
         $builder
             ->add('Mail')
-            ->add('Genre', ChoiceType::class,['choices' => FormConst::$civilite])
+            ->add('Genre', ChoiceType::class,['choices' => FormConst::CIVILITE])
             ->add('Adresse1')
             ->add('Adresse2')
             ->add('CodePostal')
@@ -42,24 +43,25 @@ class InscriptionType extends AbstractType
                 ]
             ])
             ->add('NiveauSca', ChoiceType::class, [
-                'choices' => FormConst::$niveauxSca,
+                'choices' => FormConst::NIVEAUXSCA,
                 'attr'   => [
                     'onchange' => 'adaptprix()'
                 ]
             ])
             ->add('NiveauApn', ChoiceType::class, [
-                'choices' => FormConst::$niveauxApn,
+                'choices' => FormConst::NIVEAUXAPN,
                 'attr'   => [
                     'onchange' => 'adaptprix()'
                 ]
             ])
+            ->add('Diplomes',DiplomesType::class)
             ->add('Activite', ChoiceType::class, [
                 'choices' => [
                     '--' => '--',
-                    'Activités Scaphandre' => FormConst::$activitesSca,
-                    'Activités Nage'       => FormConst::$activitesDiv,
-                    'Activités Apnée'      => FormConst::$activitesApn,
-                    'Activités Encadrement'=> FormConst::$activitesEnc,
+                    'Activités Scaphandre' => FormConst::ACTIVITESSCA,
+                    'Activités Nage'       => FormConst::ACTIVITESDIV,
+                    'Activités Apnée'      => FormConst::ACTIVITESAPN,
+                    'Activités Encadrement'=> FormConst::ACTIVITESENC,
                 ],
                 'attr'   => [
                     'onchange' => 'adaptprix()'
@@ -81,7 +83,7 @@ class InscriptionType extends AbstractType
                 'attr'   => [ 'class' => 'js-datepicker']
             ])
             ->add('fAllergAspirine', ChoiceType::class, [
-                'choices' => FormConst::$ouinon
+                'choices' => FormConst::OUINON
             ])
             ->add('fLicence', CheckboxType::class, [
                 'attr'   => [
@@ -91,9 +93,9 @@ class InscriptionType extends AbstractType
             ->add('Assurance', ChoiceType::class, [
                 'choices' => [
                     '--'          => '',
-                    'Loisir Base' => FormConst::$axaBase,
-                    'Loisir Top'  => FormConst::$axaTop,
-                    'Autres'     => FormConst::$axaPisc
+                    'Loisir Base' => FormConst::AXABASE,
+                    'Loisir Top'  => FormConst::AXATOP,
+                    'Autres'     => FormConst::AXAPISC
                 ],
                 'attr'   => [
                     'onchange' => 'adaptprix()'
@@ -101,16 +103,16 @@ class InscriptionType extends AbstractType
             ])
             ->add('ReducFam')
             ->add('fMailGUC', ChoiceType::class, [
-                'choices' => FormConst::$ouinon
+                'choices' => FormConst::OUINON
             ])
             ->add('Facture', ChoiceType::class, [
-                'choices' => FormConst::$facture,
+                'choices' => FormConst::FACTURE,
                 'attr'   => [
                     'onchange' => 'adaptprix()'
                 ]
             ])
             ->add('PretMateriel', ChoiceType::class, [
-                'choices' => FormConst::$ouinon,
+                'choices' => FormConst::OUINON,
                 'attr'   => [
                     'onchange' => 'adaptprix()'
                 ]
@@ -118,7 +120,7 @@ class InscriptionType extends AbstractType
             ->add('MineurNom')
             ->add('MineurPrenom')
             ->add('MineurQualite', ChoiceType::class, [
-                'choices' => FormConst::$peremere
+                'choices' => FormConst::PEREMERE
             ])
             ->add('MineurSign', CheckboxType::class)
             ->add('ReglementRGPD', CheckboxType::class)

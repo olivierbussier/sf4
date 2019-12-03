@@ -16,21 +16,21 @@ class FormConst {
      * Civilité
      */
 
-    public static $civilite = [
+    public const CIVILITE = [
         "-"             => '',
         "Monsieur"      => "Mr.",
         "Madame"        => "Mme.",
         "Mademoiselle"  => "Mlle."
     ];
 
-    public static $peremere = [
+    public const PEREMERE = [
         "-"             => '',
         "Père"          => "Père",
         "Mère"          => "Mère",
         "Tuteur légal"  => "Tuteur"
     ];
 
-    public static $ouinon = [
+    public const OUINON = [
         '-'   => '',
         'Oui' => 'Oui',
         'Non' => 'Non'
@@ -58,7 +58,7 @@ class FormConst {
     public const N_AOWD     = "AOWD";
     public const N_RDMD     = "RDMD";
 
-    public static $niveauxSca = [
+    public const NIVEAUXSCA = [
         "-"                         => '',
         "Enfant"                    => self::N_ENFANT,
         "Débutant"                  => self::N_DEBUT,
@@ -93,7 +93,7 @@ class FormConst {
     public const N_MEF1     = "MEF1";
     public const N_MEF2     = "MEF2";
 
-    public static $niveauxApn = [
+    public const NIVEAUXAPN = [
         "-"                         => '',
         "Débutant"                  => self::N_DEBUT,
         "Niveau 1 (A1)"             => self::N_A1,
@@ -129,7 +129,7 @@ class FormConst {
     public const A_PINITIATEUR  = "Prépa Initiateur";
     public const A_PMF1         = "Prépa MF1";
 
-    public static $activitesSca = [
+    public const ACTIVITESSCA = [
         "Section Enfants"           => self::A_ENFANTS,
         "Prépa Niveau 1 (N1)"       => self::A_PN1,
         "Prépa Niveau 2 (N2)"       => self::A_PN2,
@@ -155,7 +155,7 @@ class FormConst {
     public const A_APNEEDEB     = "Apnée Débutants";
     public const A_APNEECONF    = "Apnée Confirmés";
 
-    public static $activitesApn = [
+    public const ACTIVITESAPN = [
         "Débutants" => self::A_APNEEDEB,
         "Confirmés" => self::A_APNEECONF
     ];
@@ -167,7 +167,7 @@ class FormConst {
     public const A_PERFPMT      = "Perf PMT";
     public const A_MAINTIEN     = "Maintien";
 
-    public static $activitesDiv = [
+    public const ACTIVITESDIV = [
         "Perfectionnement PMT"       => self::A_PERFPMT,
         "Nage non encadrée/Maintien" => self::A_MAINTIEN,
     ];
@@ -178,7 +178,7 @@ class FormConst {
 
     public const A_ENCADREMENT  = "Encadrement";
 
-    public static $activitesEnc = [
+    public const ACTIVITESENC = [
         "Encadrement d'une activité"                => self::A_ENCADREMENT
     ];
 
@@ -217,28 +217,67 @@ class FormConst {
     public const A_PIS = "Piscine";
     public const A_NONE = "Aucune";
 
-    public static $axaBase = [
+    public const AXABASE = [
         self::A_L1B  => self::A_L1B,
         self::A_L2B  => self::A_L2B,
         self::A_L3B  => self::A_L3B,
     ];
-    public static $axaTop = [
+    public const AXATOP = [
         self::A_L1T  => self::A_L1T,
         self::A_L2T  => self::A_L2T,
         self::A_L3T  => self::A_L3T,
     ];
-    public static $axaPisc = [
+    public const AXAPISC = [
         self::A_PIS  => 'AXA_PIS',
         self::A_NONE => 'Aucune'
     ];
 
-    public const FAC_NONE   = 'Aucune facture';
-    public const FAC_CAESUG = 'Prise en charge CAESUG';
-    public const FAC_PERSO  = 'Facture à votre nom';
-
-    public static $facture = [
-        self::FAC_NONE  => 'Non',
-        self::FAC_PERSO => 'Oui',
-        self::FAC_CAESUG=> 'CAESUG'
+    public const FACTURE = [
+        'Aucune facture'         => 'Non',
+        'Prise en charge CAESUG' => 'Oui',
+        'Facture à votre nom'    => 'CAESUG'
     ];
+
+    public const LISTE_DIPLOMES = [
+        'Matériel' => [
+            'TIV'               => 'TIV',
+            'Formateur TIV'     => 'FTIV'
+        ],
+        'Médical' => [
+            'Médecin'           => 'MED',
+            'Médecin Fédéral'   => 'MEDF',
+            'PSE1/PSE2/Anteor'  => 'SEC',
+        ],
+        'Plongée tek' => [
+            'Nitrox'            => 'NITR',
+            'Nitrox Confirmé'   => 'NIRTC',
+            'Trimix Normoxique' =>'TRIN',
+            'Trimix Hypoxique'  => 'TRIH'
+        ]
+    ];
+
+    public const LISTE_ROLES_ENC = [
+        'Encadrant N1'         => 'ROLE_PN1',
+        'Encadrant N2'         => 'ROLE_PN2',
+        'Encadrant N3'         => 'ROLE_PN3',
+        'Encadrant N4'         => 'ROLE_PN4',
+        'Encadrant MF1'        => 'ROLE_PMF1',
+        'Encadrant Initiateur' => 'ROLE_PINI',
+        'Encadrant Enfant'     => 'ROLE_ENFANT',
+        'Encadrant Ado'        => 'ROLE_ADO',
+        'Encadrant PMT'        => 'ROLE_PMT',
+        'Encadrant Apnée'      => 'ROLE_APNEE',
+        'Encadrant Baptême'    => 'ROLE_BAPTEME',
+    ];
+    public const LISTE_ROLES_ADM = [
+        'Alerte Certif'        => 'ROLE_CRT',
+        'Administrateur'       => 'ROLE_ADMIN',
+        'Gonflage'             => 'ROLE_GON',
+        'Matériel'             => 'ROLE_MAT',
+        'Publication'          => 'ROLE_PUB',
+        'Bureau'               => 'ROLE_BUREAU'
+    ];
+
+    public const LISTE_ROLES = self::LISTE_ROLES_ENC + self::LISTE_ROLES_ADM;
+
 }

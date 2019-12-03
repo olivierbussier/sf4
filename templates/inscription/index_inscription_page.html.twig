@@ -120,7 +120,7 @@
     {% if not fPassager %}
 
         <div class="col-xs-12">
-            <h3>Inscription GUC Plongée - Saison <?php echo Config::p_annee . "-" . (Config::p_annee + 1); ?>.</h3>
+            <h3>Inscription GUC Plongée - Saison {{ conf('p_annee') }} - {{ conf('p_annee') + 1 }}.</h3>
         </div>
 
         <div class="col-xs-12">
@@ -401,13 +401,13 @@
         </div>
 
         <div class="col-xs-12 col-sm-6 col-ml-4">
-            {#
+
             {{ control.error(4, 1) }}
-            {{ form_label(formInscr.diplomes, 'TIV') }}
-            {{ form_errors(formInscr.diplomes) }}
-            {{ form_widget(formInscr.diplomes) }}
-            {{ form_help(formInscr.diplomes) }}
-            #}
+            {{ form_label(formInscr.Diplomes, 'TIV') }}
+            {{ form_errors(formInscr.Diplomes) }}
+            {{ form_widget(formInscr.Diplomes) }}
+            {{ form_help(formInscr.Diplomes) }}
+
         </div>
 
         <div class="col-xs-12">

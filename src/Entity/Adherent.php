@@ -1017,6 +1017,7 @@ class Adherent implements UserInterface
      */
     public function getDiplomes()
     {
+
         $ret = [];
 
         /**
@@ -1026,6 +1027,7 @@ class Adherent implements UserInterface
             $ret[] = $v->getType();
         }
         return $ret;
+        //return $this->diplomes;
     }
 
     /**

@@ -16,130 +16,143 @@
         </div>
 
         {{ form_start(formInfoPerso) }}
+
         <div class="col-xs-12 col-sm-6">
-            {{ form_row(formInfoPerso.Username) }}
+            {{ form_row(formInfoPerso.Username, {label: 'Nom utilisateur'}) }}
         </div>
 
         <div class="col-xs-12 col-sm-6">
-            {{ form_row(formInfoPerso.Mail) }}
+            {{ form_row(formInfoPerso.Mail, {label: 'Adresse mail'}) }}
         </div>
 
         <div class="col-xs-12 col-sm-2">
-            {{ form_row(formInfoPerso.Genre) }}
+            {{ form_row(formInfoPerso.Genre, {label: 'Genre'}) }}
         </div>
 
         <div class="col-xs-12 col-sm-5">
-            {{ form_row(formInfoPerso.Nom) }}
+            {{ form_row(formInfoPerso.Nom, {label: 'Nom'}) }}
         </div>
 
         <div class="col-xs-12 col-sm-5">
-            {{ form_row(formInfoPerso.Prenom) }}
+            {{ form_row(formInfoPerso.Prenom, {label: 'Prénom'}) }}
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_row(formInfoPerso.Adresse1, {label: 'Adresse'}) }}
         </div>
 
         <div class="col-xs-12 col-sm-6">
-            {{ form_row(formInfoPerso.Adresse1) }}
+            {{ form_row(formInfoPerso.Adresse2, {label: 'Suite adresse'}) }}
         </div>
 
         <div class="col-xs-12 col-sm-6">
-            {{ form_row(formInfoPerso.Adresse2) }}
+            {{ form_row(formInfoPerso.CodePostal, {label: 'Code postal'}) }}
         </div>
 
         <div class="col-xs-12 col-sm-6">
-            {{ form_row(formInfoPerso.CodePostal) }}
+            {{ form_row(formInfoPerso.Ville, {label: 'Ville'}) }}
         </div>
 
         <div class="col-xs-12 col-sm-6">
-            {{ form_row(formInfoPerso.Ville) }}
+            {{ form_row(formInfoPerso.Profession, {label: 'Profession'}) }}
         </div>
 
         <div class="col-xs-12 col-sm-6">
-            {{ form_row(formInfoPerso.Profession) }}
-        </div>
-
-        <div class="col-xs-12 col-sm-6">
-            {{ form_row(formInfoPerso.fEtudiant) }}
+            {{ form_row(formInfoPerso.fEtudiant, {label: 'Etudiant'}) }}
         </div>
 
         <div class="clearfix"></div>
 
         <div class="col-xs-12 col-sm-3">
-            {{ form_row(formInfoPerso.DateNaissance) }}
+            {{ form_row(formInfoPerso.DateNaissance, {label: 'Date de naissance'}) }}
         </div>
 
         <div class="col-xs-12 col-sm-6">
-            {{ form_row(formInfoPerso.LieuNaissance) }}
+            {{ form_row(formInfoPerso.LieuNaissance, {label: 'Lieu de naissance'}) }}
         </div>
 
         <div class="col-xs-12 col-sm-3">
-            {{ form_row(formInfoPerso.DepartementNaissance) }}
+            {{ form_row(formInfoPerso.DepartementNaissance, {label: 'Département de naissance'}) }}
         </div>
 
         <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.TelFix) }}
+            {{ form_row(formInfoPerso.TelFix, {label: 'Téléphone fixe'}) }}
         </div>
 
         <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.TelPort) }}
+            {{ form_row(formInfoPerso.TelPort, {label: 'Téléphone Portable'}) }}
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.NiveauSca, {label: 'Niveau Scaphandre'}) }}
         </div>
 
         <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.NiveauSca) }}
+            {{ form_row(formInfoPerso.NiveauApn, {label: 'Niveau Apnée'}) }}
         </div>
 
         <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.NiveauApn) }}
+            {{ form_row(formInfoPerso.Activite, {label: 'Activité pour l\'année'}) }}
         </div>
 
         <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.Diplomes) }}
+            {{ form_row(formInfoPerso.fApneeSca, {label: 'Apnéiste ou maintien Plongeur'}) }}
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.AccidentNom,{ label: 'Nom du contact en cas d\'accident'}) }}
         </div>
 
         <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.Activite) }}
+            {{ form_row(formInfoPerso.AccidentPrenom,{ label: 'Prénom du contact en cas d\'accident'}) }}
         </div>
 
         <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.fApneeSca) }}
+            {{ form_row(formInfoPerso.AccidentTelFix,{ label: 'Téléphone fixe du contact'}) }}
         </div>
 
         <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.AccidentNom) }}
+            {{ form_row(formInfoPerso.AccidentTelPort,{ label: 'Téléphone portable du contact'}) }}
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.MineurNom, {label: 'Nom du représentant légal'}) }}
         </div>
 
         <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.AccidentPrenom) }}
+            {{ form_row(formInfoPerso.MineurPrenom, {label: 'Prénom du représentant légal'}) }}
         </div>
 
         <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.AccidentTelFix) }}
+            {{ form_row(formInfoPerso.MineurQualite, {label: 'Qualité du représentant légal'}) }}
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="col-xs-6 col-sm-3">
+            {{ form_row(formInfoPerso.DateCertif, { label: 'Date du certificat médical'}) }}
         </div>
 
         <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.AccidentTelPort) }}
+            {{ form_row(formInfoPerso.fAllergAspirine, {label: 'Allergie à l\'aspirine'}) }}
         </div>
 
-        <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.MineurNom) }}
+        <div class="clearfix"></div>
+
+        <div class="col-xs-12 col-sm-6">
+            {{ form_row(formInfoPerso.Diplomes, {label: 'Diplômes & certifications'}) }}
         </div>
 
-        <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.MineurPrenom) }}
-        </div>
-
-        <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.MineurQualite) }}
-        </div>
-
-        <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.DateCertif) }}
-        </div>
-
-        <div class="col-xs-6 col-sm-3">
-            {{ form_row(formInfoPerso.fAllergAspirine) }}
-        </div>
-
-        <div class="col-xs-12 col-sm-12">
-            {{ form_row(formInfoPerso.Roles) }}
+        <div class="col-xs-12 col-sm-6">
+            {{ form_row(formInfoPerso.Roles, {label: 'Rôles affectés'}) }}
         </div>
 
         <div class="col-xs-12">

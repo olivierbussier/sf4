@@ -88,20 +88,20 @@ class Config
     // Divers
     /******************************************************************/
     public const  SIUAPS          = 22;
-    public const  SIUAPS_NEW      = 0;
-    public const  REDUC_FAMILLE   = 50;  // Réduction pour plusieurs membres famille
-    public const  MAJO_COTISATION = 15;  // Si dossier en retard
-    public const  TAXE            = 0; // Taux de taxe applicable pour les factures
+    public const  SIUAPS_NEW      =  0;
+    public const  REDUC_FAMILLE   = 50; // Réduction pour plusieurs membres famille
+    public const  MAJO_COTISATION = 15; // Si dossier en retard
+    public const  TAXE            =  0; // Taux de taxe applicable pour les factures
     /******************************************************************/
     // Club
     /******************************************************************/
-    public const  CLUB_BENE = 50 +self::SIUAPS_NEW; // Bénévole
-    public const  CLUB_JEUN = 100+self::SIUAPS_NEW; // Enfants/Etudiants
-    public const  CLUB_MAIN = 100+self::SIUAPS_NEW; // Maintien
-    public const  CLUB_AUTR = 140+self::SIUAPS_NEW; // Progression
-    public const  CLUB_DEBU = 100+self::SIUAPS_NEW; // Débutants
-    public const  CLUB_APN1 = 100+self::SIUAPS_NEW; // Nage Avec Palmes/Apnée et Plongeur Tarif 1
-    public const  CLUB_APN2 = 50 +self::SIUAPS_NEW; // Nage Avec Palmes/Apnée non Plongeur Tarif 2
+    public const  CLUB_BENE = 50  + self::SIUAPS_NEW; // Bénévole
+    public const  CLUB_JEUN = 100 + self::SIUAPS_NEW; // Enfants/Etudiants
+    public const  CLUB_MAIN = 100 + self::SIUAPS_NEW; // Maintien
+    public const  CLUB_AUTR = 140 + self::SIUAPS_NEW; // Progression
+    public const  CLUB_DEBU = 100 + self::SIUAPS_NEW; // Débutants
+    public const  CLUB_APN1 = 100 + self::SIUAPS_NEW; // Nage Avec Palmes/Apnée et Plongeur Tarif 1
+    public const  CLUB_APN2 = 50  + self::SIUAPS_NEW; // Nage Avec Palmes/Apnée non Plongeur Tarif 2
     public const  CARTE_GUC = 5;   // Prix de la carte GUC}
     //******************************************************************/
     // Payment

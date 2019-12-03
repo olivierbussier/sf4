@@ -15,7 +15,7 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('Genre', ChoiceType::class,['choices' => FormConst::$civilite])
+            ->add('Genre', ChoiceType::class,['choices' => FormConst::CIVILITE])
             ->add('Username')
             ->add('Mail')
             ->add('Nom')
