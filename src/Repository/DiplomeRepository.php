@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Diplome;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Diplome|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,7 +22,7 @@ class DiplomeRepository extends ServiceEntityRepository
     public const DIP_MA    =    'Médecin';
     public const DIP_PA    =    'PSE1/ANTEOR';
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Diplome::class);
     }

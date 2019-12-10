@@ -6,6 +6,7 @@ use App\Classes\Sheets\Sheets;
 use App\Entity\Adherent;
 use App\Form\InfoPersoType;
 use App\Repository\AdherentRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -17,10 +18,10 @@ class IntranetController extends AbstractController
 {
     /**
      * @Route("/intranet", name="index_intranet")
-     * @param RegistryInterface $doctrine
+     * @param ManagerRegistry $doctrine
      * @return Response
      */
-    public function index(RegistryInterface $doctrine)
+    public function index(ManagerRegistry $doctrine)
     {
         $sheet = Sheets::getSheetURL();
 
@@ -35,10 +36,10 @@ class IntranetController extends AbstractController
 
     /**
      * @Route("/intranet/trombi", name="index_trombi")
-     * @param RegistryInterface $doctrine
+     * @param ManagerRegistry $doctrine
      * @return Response
      */
-    public function trombi(RegistryInterface $doctrine)
+    public function trombi(ManagerRegistry $doctrine)
     {
         $adhRepo = $doctrine->getRepository(Adherent::class);
         /** @var $adhRepo AdherentRepository */

@@ -115,6 +115,7 @@ class AdherentClassValidator extends ConstraintValidator
     /**
      * Fonction de check de la date de naissance
      * @param Adherent $user
+     * @throws \Exception
      */
     private function checkDnaiss(Adherent $user)
     {
@@ -244,6 +245,7 @@ class AdherentClassValidator extends ConstraintValidator
     /**
      * Vérification de la saisie des niveaux
      * @param Adherent $user
+     * @throws \Exception
      */
     private function checkNiv(Adherent $user)
     {
@@ -275,6 +277,7 @@ class AdherentClassValidator extends ConstraintValidator
     /**
      * Vérification des champs de saisie des diplômes
      * @param Adherent $user
+     * @throws \Exception
      */
     private function checkDipl(Adherent $user)
     {
@@ -287,7 +290,7 @@ class AdherentClassValidator extends ConstraintValidator
         /** @var Diplome $diplome */
         foreach ($diplomes as $diplome) {
 
-            switch ($diplome->getType()) {
+            switch ($diplome) {
                 case 'TIV':
                     if ($age_today < 18) {
                         $this->e("Vous avez " . $age_today .
@@ -304,6 +307,7 @@ class AdherentClassValidator extends ConstraintValidator
     /**
      * Vérification des champs de saisie d'activité
      * @param Adherent $user
+     * @throws \Exception
      */
     private function checkActi(Adherent $user)
     {
@@ -636,6 +640,7 @@ class AdherentClassValidator extends ConstraintValidator
     /**
      * Vérification du champ de saisie autorisation parentale
      * @param Adherent $user
+     * @throws \Exception
      */
     private function checkMineur(Adherent $user)
     {

@@ -43,16 +43,17 @@
     </script>
 
     {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/guc.css") }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/menu_top.css") }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/guc_frame.css") }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/fonts/raleway.css") }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/datepicker_classic.css") }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/datepicker_classic.date.css") }}">
-
+        {#{ encore_entry_link_tags('app2') }}#}
+        <link rel="stylesheet" type="text/css" href="{{ asset("css/guc.css") }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset("css/menu_top.css") }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset("css/guc_frame.css") }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset("css/fonts/raleway.css") }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset("css/datepicker_classic.css") }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset("css/datepicker_classic.date.css") }}">
     {% endblock %}
 
     {% block javascripts_head %}
+        {#{ encore_entry_script_tags('app') }}#}
         <script type="text/javascript" src="{{ asset("js/jquery-3.1.1.min.js") }}"></script>
         <script type="text/javascript" src="{{ asset("js/menu_top.js") }}"></script>
         <script type="text/javascript" src="{{ asset("js/bootstrap.min.js") }}"></script>

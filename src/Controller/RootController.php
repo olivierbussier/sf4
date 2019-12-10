@@ -5,20 +5,20 @@ namespace App\Controller;
 use App\Classes\Config\Config;
 use App\Entity\Blog;
 use App\Form\ContactType;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class RootController extends AbstractController
 {
     /**
      * @Route("/", name="root")
-     * @param RegistryInterface $doctrine
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param ManagerRegistry $doctrine
+     * @return Response
      */
-    public function index(RegistryInterface $doctrine)
+    public function index(ManagerRegistry $doctrine)
     {
         $posts = $doctrine->getRepository(Blog::class)->getallPosts();
 
@@ -49,7 +49,7 @@ class RootController extends AbstractController
     /**
      * @Route("contact", name="index_contact")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function contact(Request $request)
     {
@@ -69,7 +69,7 @@ class RootController extends AbstractController
     /**
      * @Route("contact_succes", name="index_contact_success")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function contactSuccess(Request $request)
     {

@@ -6,24 +6,24 @@ use App\Classes\Config\Config;
 use App\Entity\Adherent;
 use Symfony\Bridge\Twig\AppVariable;
 use Twig\Extension\AbstractExtension;
-use Twig_Function;
+use Twig\TwigFunction;
 
 class CustomExtensions extends AbstractExtension
 {
     public function getFunctions()
     {
-        return array(
-            new Twig_Function('readfile'           , array($this, 'readFile')),
-            new Twig_Function('fileExists'         , array($this, 'fileExists')),
-            new Twig_Function('rationalizeFilename', array($this, 'rationalizeFilename')),
-            new Twig_Function('testDroit'          , array($this, 'testDroit')),
-            new Twig_Function('conf'               , array($this, 'getConf' ) )
-        );
+        return [
+            new TwigFunction('readfile'           , [$this, 'readFile']),
+            new TwigFunction('fileExists'         , [$this, 'fileExists']),
+            new TwigFunction('rationalizeFilename', [$this, 'rationalizeFilename']),
+            new TwigFunction('testDroit'          , [$this, 'testDroit']),
+            new TwigFunction('conf'               , [$this, 'getConf'])
+        ];
     }
 
-    public function getConf($conf)
+    public function getConf($conf,$class = "App\\Classes\\Config\\Config")
     {
-        $cdef = defined("App\\Classes\\Config\\Config::$conf");
+        $cdef = defined("$class::$conf");
 
         if ($cdef) {
             $res = constant("App\\Classes\\Config\\Config::$conf");
