@@ -16,9 +16,7 @@
             <h3>Modification/Consultation du planning de gonflage pour {{ app.user.Nom ~ ' ' ~ app.user.prenom }}</h3>
         </div>
 
-        <div class="col-xs-12">
-            <div class="alert alert-danger gonflage_error" role="alert" hidden></div>
-        </div>
+        <div class="alert alert-danger gonflage_error sticky-top" role="alert" hidden></div>
 
         <div class="col-xs-12 gonflage_synthese">
             {% include "intranet/gonflage/_aff_synthese.html.twig" %}
