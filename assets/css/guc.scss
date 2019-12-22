@@ -1,0 +1,26 @@
+
+@import "guc_variables";
+
+body {
+	background-color: #eee;
+}
+
+/* Zone de pied de page */
+.footer {
+	margin: 0 auto 0 auto;
+	padding: 20px;
+	text-align: center;
+	background-color:#345678;
+	p {
+		color:white;
+	}
+}
+
+.form-check, .form-check-input {
+	margin: 0;
+	padding: 0;
+}
+.input-center {
+	margin: 0 auto;
+	vertical-align: center;
+}

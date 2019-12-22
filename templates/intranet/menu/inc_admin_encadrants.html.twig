@@ -1,38 +1,38 @@
 {% import 'macros/bouton.html.twig' as control %}
 
-    <div class="col-xs-12">
+    <div class="col-12">
         <h3>Intranet moniteurs</h3>
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-md-4">
         <h4>Fiches de Suivi Pédagogique</h4>
 
-        {{  control.bouton( ' Fiche de suivi N1',     asset('docs/Fiche_suivi_N1.pdf'),  'niveau', 'btn-block btn-default',  'star') }}
-        {{  control.bouton( ' Fiche de suivi N2',     asset('docs/Fiche_suivi_N2.pdf'),  'niveau', 'btn-block btn-default',  'star') }}
-        {{  control.bouton( ' Fiche de suivi N3',     asset('docs/Fiche_suivi_N3.pdf'),  'niveau', 'btn-block btn-default',  'star') }}
-        {{  control.bouton( ' Fiche de suivi N4',     asset('docs/Fiche_suivi_N4.pdf'),  'niveau', 'btn-block btn-default',  'star') }}
-        {{  control.bouton( ' Fiche de suivi PE40',   asset('docs/Fiche_suivi_PE40.pdf'),'niveau', 'btn-block btn-default',  'star') }}
-        {{  control.bouton( ' Fiche de suivi Nitrox', asset('docs/Fiche_suivi_Nx.pdf'),  'niveau', 'btn-block btn-default',  'ice-lolly-tasted') }}
-        {{  control.bouton( ' Fiche de suivi Nitrox Confirmé', asset('docs/Fiche_suivi_NC.pdf'), 'niveau', 'btn-block btn-default', 'ice-lolly') }}
+        {{  control.bouton( ' Fiche de suivi N1',     asset('docs/Fiche_suivi_N1.pdf'),  'niveau', 'btn-block btn-light btn-outline-guc',  'star') }}
+        {{  control.bouton( ' Fiche de suivi N2',     asset('docs/Fiche_suivi_N2.pdf'),  'niveau', 'btn-block btn-light btn-outline-guc',  'star') }}
+        {{  control.bouton( ' Fiche de suivi N3',     asset('docs/Fiche_suivi_N3.pdf'),  'niveau', 'btn-block btn-light btn-outline-guc',  'star') }}
+        {{  control.bouton( ' Fiche de suivi N4',     asset('docs/Fiche_suivi_N4.pdf'),  'niveau', 'btn-block btn-light btn-outline-guc',  'star') }}
+        {{  control.bouton( ' Fiche de suivi PE40',   asset('docs/Fiche_suivi_PE40.pdf'),'niveau', 'btn-block btn-light btn-outline-guc',  'star') }}
+        {{  control.bouton( ' Fiche de suivi Nitrox', asset('docs/Fiche_suivi_Nx.pdf'),  'niveau', 'btn-block btn-light btn-outline-guc',  'ice-lolly-tasted') }}
+        {{  control.bouton( ' Fiche de suivi Nitrox Confirmé', asset('docs/Fiche_suivi_NC.pdf'), 'niveau', 'btn-block btn-light btn-outline-guc', 'ice-lolly') }}
 
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-md-4">
         <h4>Compétences</h4>
 
-        {{  control.bouton( ' Tableau des diplômes de secourisme', url('index_secouristes'),  '', 'btn-block btn-default',  'bed') }}
-        {{  control.bouton( ' Tableau des diplômes de TIV',        url('index_TIV'),         '', 'btn-block btn-default',  'wrench') }}
+        {{  control.bouton( ' Tableau des diplômes de secourisme', url('index_secouristes'),  '', 'btn-block btn-light btn-outline-guc',  'bed') }}
+        {{  control.bouton( ' Tableau des diplômes de TIV',        url('index_TIV'),         '', 'btn-block btn-light btn-outline-guc',  'wrench') }}
 
         <h4>Baptêmes</h4>
 
-        {{  control.bouton( ' Visualiser la googlesheet des baptêmes', sheetBapteme, '', 'btn-block btn-default',  'tint') }}
+        {{  control.bouton( ' Visualiser la googlesheet des baptêmes', sheetBapteme, '', 'btn-block btn-light btn-outline-guc',  'tint') }}
 
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-md-4">
         <h4>Sorties Mer</h4>
 
-        {{  control.bouton( ' Archiver des feuilles de palanquées', url('fileupload'), '', 'btn-block btn-default',  'edit') }}
+        {{  control.bouton( ' Archiver des feuilles de palanquées', url('fileupload'), '', 'btn-block btn-light btn-outline-guc',  'edit') }}
 
     </div>
-</div>
+
 

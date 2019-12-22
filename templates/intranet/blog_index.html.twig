@@ -18,7 +18,7 @@
                 ' Nouvelle publication',
                 url('blog_admin_create'),
                 '',
-                'btn-block btn-default',
+                'btn-block btn-light btn-outline-guc',
                 'film') }}
 
             <div class="table-responsive">
@@ -34,8 +34,8 @@
                                     '',
                                     url("root_preview") ~ "/" ~ blog.id,
                                     '',
-                                    'btn btn-default btn-xs previewbox-anchor',
-                                    'eye-open') }}
+                                    'btn btn-light btn-outline-guc btn-sm previewbox-anchor',
+                                    'fa-eye') }}
                             </td>
 
                             <td>
@@ -43,8 +43,8 @@
                                     '',
                                     url('blog_admin_delete',{blogId: blog.id}),
                                     '',
-                                    'btn btn-default btn-xs',
-                                    'remove-circle') }}
+                                    'btn btn-light btn-outline-guc btn-sm',
+                                    'fa-trash-alt') }}
                             </td>
 
                             <td>
@@ -52,8 +52,8 @@
                                     '',
                                     url('blog_admin_edit',{blogId: blog.id}),
                                     '',
-                                    'btn btn-default btn-xs',
-                                    'edit') }}
+                                    'btn btn-light btn-outline-guc btn-sm',
+                                    'fa-edit') }}
                             </td>
 
                             <td>{{ blog.title }}</td>
@@ -65,8 +65,8 @@
                                         '',
                                         url('blog_admin_up') ~ '/' ~ blog.id,
                                         '',
-                                        'btn btn-default btn-xs',
-                                        'triangle-top') }}
+                                        'btn btn-light btn-outline-guc btn-sm',
+                                        'fa-angle-up') }}
                                 </td>
                             {% else %}
                                 <td></td>
@@ -78,8 +78,8 @@
                                         '',
                                         url('blog_admin_down') ~ '/' ~ blog.id,
                                         '',
-                                        'btn btn-default btn-xs',
-                                        'triangle-bottom') }}
+                                        'btn btn-light btn-outline-guc btn-sm',
+                                        'fa-angle-down') }}
                                 </td>
                             {% else %}
                                 <td></td>
@@ -103,7 +103,7 @@
                 " Déconnexion",
                 url('deconnexion'),
                 '',
-                'btn btn-block btn-default'
+                'btn btn-block btn-light btn-outline-guc'
 
             ) }}
         </div>
@@ -112,9 +112,3 @@
 
 {% endblock %}
 
-{% block javascripts_end %}
-
-    {{ parent() }}
-    <script type="text/javascript" src="{{ asset("js/previewbox.js") }}"></script>
-
-{% endblock %}

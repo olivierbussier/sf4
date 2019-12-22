@@ -1,6 +1,27 @@
 {
+    "knplabs/knp-components": {
+        "version": "v2.3.0"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.0.0"
+    },
     "php": {
         "version": "7.2"
+    },
+    "sensiolabs/security-checker": {
+        "version": "4.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "160c9b600564faa1224e8f387d49ef13ceb8b793"
+        },
+        "files": [
+            "./config/packages/security_checker.yaml"
+        ]
+    },
+    "symfony/dotenv": {
+        "version": "v4.4.1"
     },
     "symfony/error-handler": {
         "version": "v4.4.1"
@@ -15,6 +36,24 @@
         },
         "files": [
             "./.env"
+        ]
+    },
+    "symfony/http-client": {
+        "version": "v4.4.1"
+    },
+    "symfony/http-client-contracts": {
+        "version": "v1.1.8"
+    },
+    "symfony/mailer": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "15658c2a0176cda2e7dba66276a2030b52bd81b2"
+        },
+        "files": [
+            "./config/packages/mailer.yaml"
         ]
     },
     "symfony/phpunit-bridge": {
@@ -32,6 +71,9 @@
             "./phpunit.xml.dist",
             "./tests/.gitignore"
         ]
+    },
+    "symfony/twig-pack": {
+        "version": "v1.0.0"
     },
     "symfony/webpack-encore-bundle": {
         "version": "1.6",
@@ -51,5 +93,8 @@
             "./package.json",
             "./webpack.config.js"
         ]
+    },
+    "twig/extra-bundle": {
+        "version": "v3.0.0"
     }
 }

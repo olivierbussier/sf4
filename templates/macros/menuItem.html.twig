@@ -1,3 +1,5 @@
 {% macro item(menuLink, menuTitre, params, target , class) %}
-<li><a {% if target %}target="{{ target }}"{% endif %}{% if class %} class="{{ class }}"{% endif %}{% if params %} href="{{ url(menuLink,params) }}">{{ menuTitre }}</a></li>{% else %} href="{{ url(menuLink) }}">{{ menuTitre }}</a></li>{% endif %}
+<a{% if target %} target="{{ target }}"{% endif %}{% if class %} class="{{ class }}"{% else %} class="dropdown-item"{% endif %}{% if params %} href="{{ url(menuLink,params) }}">{{ menuTitre }}</a>{% else %} href="{{ url(menuLink) }}">{{ menuTitre }}</a>{% endif %}
 {% endmacro %}
+
+{% macro divider() %}<div class="dropdown-divider"></div>{% endmacro %}

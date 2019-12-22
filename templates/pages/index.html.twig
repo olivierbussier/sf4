@@ -6,88 +6,50 @@
 
     {% import 'macros/bouton.html.twig' as control %}
 
-    <div class="container">
-        {% set mois = {
-            '01' : "Janvier", '02' : "Février",  '03' : "Mars",
-            '04' : "Avril",   '05' : "Mai",      '06' : "Juin",
-            '07' : "Juillet", '08' : "Aout",     '09' : "Septembre",
-            '10' : "Octobre", '11' : "Novembre", '12' : "Décembre"} %}
+    {% set mois = {
+        '01' : "Janvier", '02' : "Février",  '03' : "Mars",
+        '04' : "Avril",   '05' : "Mai",      '06' : "Juin",
+        '07' : "Juillet", '08' : "Aout",     '09' : "Septembre",
+        '10' : "Octobre", '11' : "Novembre", '12' : "Décembre"} %}
 
-        {% for post in posts %}
-            {% set tabdate = post.postedAt|date('d-m-Y') | split('-') %}
-            {% set htmltext = post.content  %}
-            {% set posimg = post.PositionImage %}
+    <div class="row row-cols-1 row-cols-md-2">
 
-            {% if post.image != '' %}
-                {% if post.Link != "" %}
+    {% for post in posts %}
+        {% set tabdate = post.postedAt|date('d-m-Y') | split('-') %}
+        {% set htmltext = post.content  %}
+        {% set posimg = post.PositionImage %}
+        {% set img = '<img src="' ~ asset(imblog ~ "/" ~ post.image) ~ '" class="card-img-top">' %}
 
-                    {% set htmlimg = '<a href="' ~ post.link ~ '"><img src="' ~ asset(imblog ~ "/" ~ post.image) ~ '"></a>' %}
+        {% if not post.image %}
+            {%  set img='' %}
+        {% endif %}
 
-                {% else %}
+        {% if post.Link != "" %}
+            {% set htmlimg = '<a href="' ~ post.link ~ '">' ~ img ~ '</a>' %}
+        {% else %}
+            {% set htmlimg = img %}
+        {% endif %}
 
-                    {% set htmlimg = '<img src="' ~ asset(imblog ~ "/" ~ post.image) ~ '">' %}
-
-                {% endif %}
-
-            {% else %}
-
-                {% set posimg = 'none' %}
-
-            {% endif %}
-
-            <div class="blog">
-
-                <div class="row blog-header">
-                    <div class="col-xs-12 col-sm-2 blog-date">{{ tabdate[0] }} {{ mois[tabdate[1]] }} {{ tabdate[2] }} -</div>
-                    <div class="col-xs-12 col-sm-10 blog-title">{{ post.title }}
-                        <div class="blog-actions">
-                            {% if testDroit(app,'ROLE_PUB') %}
-                                {{ control.bouton(
-                                    '',
-                                    url('blog_admin_edit',{blogId: post.id}),
-                                    '',
-                                    'btn btn-default btn-xs',
-                                    'edit')
-                                }}
-                            {% endif %}
-                        </div>
-                    </div>
+        <div class="col mb-1">
+            <div class="card h-100">
+                <div class="card-header">
+                    {% if testDroit(app,'ROLE_PUB') %}
+                        <a class="btn btn-light btn-xs" role="button" href="{{ url('blog_admin_edit',{blogId: post.id}) }}">
+                            <i class="fas fa-edit" aria-hidden="true"></i>
+                        </a>
+                    {% endif %}
+                    {{ tabdate[0] }} {{ mois[tabdate[1]] }} {{ tabdate[2] }}
                 </div>
-
-                <div class="row blog-body">
-
-                    {% if posimg == 'gauche' %}
-
-                        <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 blog-img">{{ htmlimg| raw }}</div>
-                        <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9 blog-text">{{ htmltext| raw }}</div>
-
-                    {% elseif posimg == 'droite' %}
-
-                        <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9 blog-text">{{ htmltext| raw }}</div>
-                        <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 blog-img">{{ htmlimg| raw }}</div>
-
-                    {% elseif posimg == 'dessous' %}
-
-                        <div class="col-xs-12 blog-text">{{ htmltext| raw }}</div>
-                        <div class="col-xs-12 blog-img">{{ htmlimg| raw }}</div>
-
-                    {% elseif posimg == 'dessus' %}
-
-                        <div class="col-xs-12 blog-img">{{ htmlimg| raw }}</div>
-                        <div class="col-xs-12 blog-text">{{ htmltext| raw }}</div>
-
-                    {% else %} {# none #}
-
-                        <div class="col-xs-12 blog-text">{{ htmltext| raw }}</div>
-
-                    {%  endif %}
-
+                {{ htmlimg | raw }}
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <div class="card-text">{{ htmltext | raw }}</div>
                 </div>
-
             </div>
+        </div>
 
-        {% endfor %}
+    {% endfor %}
+    <!--</div>-->
 
-    </div>
     <div class="newsindex"></div>
 {% endblock %}

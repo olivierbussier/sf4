@@ -134,7 +134,7 @@
     <div class="col-xs-12 group-asset"><span class="titlegrp">Liste des matériels à réservér</span>
     {% for object in resa.items %}
         <div class="form-inline">
-            <button type="button" class="btn btn-default"
+            <button type="button" class="btn btn-light btn-outline-guc"
                     onclick="{{ ajax.action('supMat', ['typeMat', 'caracMat' ], {'row': loop.index0}) }}">X</button>
             <input class="form-control" type="text" placeholder="{{ object.type }}" readonly>
             <input class="form-control" type="text" placeholder="{{ object.caract }}" readonly>

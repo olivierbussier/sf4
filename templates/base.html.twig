@@ -1,166 +1,192 @@
 <!DOCTYPE html>
-<html><head>
-    <!-- Global Site Tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-50183564-2"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+<html>
+    <head>
+        <!-- Global Site Tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-50183564-2"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
 
-        function gtag() {
-            dataLayer.push(arguments)
-        }
+            function gtag() {
+                dataLayer.push(arguments)
+            }
 
-        gtag('js', new Date());
+            gtag('js', new Date());
 
-        gtag('config', 'UA-50183564-2');
-    </script>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-    <meta charset="UTF-8">
-    <meta http-equiv="content-language" content="fr">
-    <meta name="language" content="fr">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="La plongée à Grenoble avec le GUC : nous sommes affiliés à la Fédération
-            Française d'Etudes et de Sports Sous-Marins (FFESSM) et nous
-            vous proposons des formations du Niveau 1 au MF1. Club associatif entiérement bénévole, nous organisons
-            également des plongées exploration en mer et en lac."/>
-    <meta name="keywords" content="plongee, grenoble, plonger, plongée, isère, cmas, nitrox, trimix, ffessm,
-            club, Rhone alpes, exploration, formation, mer, lac, débutant, moniteur"/>
-    <link rel="icon" type="image/x-icon" href="{{ asset("guc.ico") }}"/>
-    <script type="text/javascript" id="cookiebanner"
-            src="{{ asset("js/cookiebanner.min.js") }}"
-            data-position="top"
-            data-fg="#ffffff"
-            data-bg="#3b5269"
-            data-link="#dddddd"
-            data-moreinfo="http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/que-dit-la-loi/"
-            data-message="Les cookies assurent le bon fonctionnement de notre site Internet.
-                              En utilisant ce dernier, vous acceptez leur utilisation."
-            data-linkmsg="En savoir plus"
-            data-effect="fade"
-            data-expires="{{ "now"|date_modify('+30days')|date('r') }}"
-            data-zindex="1000"
-            data-height="64px"
-            data-font-size="22px">
-    </script>
+            gtag('config', 'UA-50183564-2');
+        </script>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <meta charset="UTF-8">
+        <meta http-equiv="content-language" content="fr">
+        <meta name="language" content="fr">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
+        <meta name="description" content="La plongée à Grenoble avec le GUC : nous sommes affiliés à la Fédération
+                Française d'Etudes et de Sports Sous-Marins (FFESSM) et nous
+                vous proposons des formations du Niveau 1 au MF1. Club associatif entiérement bénévole, nous organisons
+                également des plongées exploration en mer et en lac."/>
+        <meta name="keywords" content="plongee, grenoble, plonger, plongée, isère, cmas, nitrox, trimix, ffessm,
+                club, Rhone alpes, exploration, formation, mer, lac, débutant, moniteur"/>
+        <link rel="icon" type="image/x-icon" href="{{ asset("guc.ico") }}"/>
 
-    {% block stylesheets %}
-        {#{ encore_entry_link_tags('app2') }}#}
-        <link rel="stylesheet" type="text/css" href="{{ asset("css/guc.css") }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset("css/menu_top.css") }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset("css/guc_frame.css") }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset("css/fonts/raleway.css") }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset("css/datepicker_classic.css") }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset("css/datepicker_classic.date.css") }}">
-    {% endblock %}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+            {#
+            <link rel="stylesheet" type="text/css" href="{{ asset("css/guc.css") }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset("css/menu_top.css") }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset("css/guc_frame.css") }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset("css/fonts/raleway.css") }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset("css/datepicker_classic.css") }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset("css/datepicker_classic.date.css") }}">
+            #}
+        {% endblock %}
 
-    {% block javascripts_head %}
-        {#{ encore_entry_script_tags('app') }}#}
-        <script type="text/javascript" src="{{ asset("js/jquery-3.1.1.min.js") }}"></script>
-        <script type="text/javascript" src="{{ asset("js/menu_top.js") }}"></script>
-        <script type="text/javascript" src="{{ asset("js/bootstrap.min.js") }}"></script>
-        <script type="text/javascript" src="{{ asset("js/picker.js") }}"></script>
-        <script type="text/javascript" src="{{ asset("js/picker.date.js") }}"></script>
-        <script type="text/javascript" src="{{ asset("js/picker_fr_FR.js") }}"></script>
-    {% endblock %}
+        {% block javascripts_head %}
+            <script src="https://kit.fontawesome.com/11d80e9ff2.js" crossorigin="anonymous"></script>
+            {{ encore_entry_script_tags('app') }}
+            {#
+            <script type="text/javascript" src="{{ asset("js/picker.js") }}"></script>
+            <script type="text/javascript" src="{{ asset("js/picker.date.js") }}"></script>
+            <script type="text/javascript" src="{{ asset("js/picker_fr_FR.js") }}"></script>
 
-    <title>{% block title %}Welcome!{% endblock %}</title>
+            <script type="text/javascript" src="{{ asset("js/jquery-3.1.1.min.js") }}"></script>
+            <script type="text/javascript" src="{{ asset("js/menu_top.js") }}"></script>
+            <script type="text/javascript" src="{{ asset("js/bootstrap.min.js") }}"></script>
+            #}
+        {% endblock %}
+
+        <title>{% block title %}Welcome!{% endblock %}</title>
 
     </head>
     <body>
         {% block body %}
         {% import 'macros/menuItem.html.twig' as Menu %}
-        <div class="site-container">
-            <div class="iconic">
-                <button class="hamburger hamburger--arrow" type="button" href="#" id="menu-icon">
-                    <span class="hamburger-box">
-                        <span class="hamburger-inner"></span>
-                    </span>
-                </button>
-                <script>
-                    var $hamburger = $("#menu-icon");
-                    $hamburger.on("click", function (e) {
-                        $hamburger.toggleClass("is-active");
-                    });
-                </script>
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col">
+                    <div id="bandeauGuc" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="{{ asset('im/bandeau.jpg') }}" class="d-block w-100" alt="...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="site-pusher">
-                <div id="page" class="round">
-                    <div id="bandeau">
-                        <picture>
-                            <source media="(min-width: 450px)" srcset="{{ asset("im/bandeau.jpg") }}">
-                            <source media="(max-width: 450px)" srcset="{{ asset("im/bandeau360.jpg") }}">
-                            <img src="{{ asset("im/bandeau_def.jpg") }}">
-                        </picture>
-                    </div>
+            <nav class="navbar navbar-expand-lg sticky-top navbar-dark" style="background-color: #394c87">
+                <a class="navbar-brand" href="/">Accueil</a>
 
-                    <div id="siteWrapper">
-                        <header>
-                            <nav>
-                                <div id="headerTop"></div>
-                                <ul id="menu">
-                                    {{ Menu.item('root', 'Accueil') }}
-                                    <li><a href="#">Le club</a>
-                                        <ul>
-                                            {{ Menu.item('index_presentation', 'Présentation') }}
-                                            {{ Menu.item('index_tarifs', 'Tarifs') }}
-                                            {{ Menu.item('index_whoswho', 'Who\'s who') }}
-                                            {{ Menu.item('index_exploration', 'Sorties Exploration') }}
-                                            {{ Menu.item('galeries', 'Galerie') }}
-                                            {{ Menu.item('index_materiel', 'Matériel') }}
-                                            {{ Menu.item('index_gonflage', 'Compresseur et Gonflage') }}
-                                            {{ Menu.item('index_coordonnees', 'Coordonnées') }}
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Les sections</a>
-                                        <ul>
-                                            {{ Menu.item('index_formation_enfants', 'Section Enfants') }}
-                                            {{ Menu.item('index_formation_n1', 'Formation Niveau 1') }}
-                                            {{ Menu.item('index_formation_n2', 'Formation Niveau 2') }}
-                                            {{ Menu.item('index_formation_n3n4', 'Formation Niveau 3 et 4') }}
-                                            {{ Menu.item('index_formation_initiateur', 'Formation Initiateur club') }}
-                                            <li><a href="http://www.apnealp.fr" target="_blank">Section Apnée</a></li>
-                                            {{ Menu.item('index_formation_secourisme', 'Secourisme') }}
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">GUC Pratique</a>
-                                        <ul>
-                                            {{ Menu.item('index_intranet', 'Accès Intranet') }}
-                                            {{ Menu.item('index_documents', 'Documents') }}
-                                            {{ Menu.item('index_liens', 'Liens Utiles') }}
-                                        </ul>
-                                    </li>
-                                    {{ Menu.item('index_bapteme', 'Faire un Baptême', '', 'menubapteme') }}
-                                    <li><a href="#">Inscription</a>
-                                        <ul>
-                                            {{ Menu.item('inscription', 'Inscription Club',{'slug':'normal'}) }}
-                                            {{ Menu.item('inscription', 'Inscription Passager',{'slug':'passager'}) }}
-                                        </ul>
-                                    </li>
-                                    {{ Menu.item('index_calendrier', 'Calendrier') }}
-                                    {{ Menu.item('index_contact', 'Contact') }}
-                                </ul>
-                            </nav>
-                        </header>
-                        <div id="content" class="round pad-menu">
+                <button class="navbar-toggler"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                        {% block main_page %}{% endblock %}
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
 
-                        </div> <!-- div id="content" class="round" name="ifr" -->
-                        <div style="clear: both"></div>
-                    </div>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="leClub" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Le Club
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="leClub">
+                                {{ Menu.item('index_presentation', 'Présentation') }}
+                                {{ Menu.item('index_tarifs', 'Tarifs') }}
+                                {{ Menu.item('index_whoswho', 'Who\'s who') }}
+                                {{ Menu.divider() }}
+                                {{ Menu.item('index_exploration', 'Sorties Exploration') }}
+                                {{ Menu.item('galeries', 'Galerie') }}
+                                {{ Menu.divider() }}
+                                {{ Menu.item('index_materiel', 'Matériel') }}
+                                {{ Menu.item('index_gonflage', 'Compresseur et Gonflage') }}
+                                {{ Menu.item('index_coordonnees', 'Coordonnées') }}
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="lesSections" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Les Sections
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="lesSections">
+                                {{ Menu.item('index_formation_enfants', 'Section Enfants') }}
+                                {{ Menu.item('index_formation_n1', 'Formation Niveau 1') }}
+                                {{ Menu.item('index_formation_n2', 'Formation Niveau 2') }}
+                                {{ Menu.item('index_formation_n3n4', 'Formation Niveau 3 et 4') }}
+                                {{ Menu.item('index_formation_initiateur', 'Formation Initiateur club') }}
+                                <a class="dropdown-item" href="http://www.apnealp.fr" target="_blank">Section Apnée</a>
+                                {{ Menu.item('index_formation_secourisme', 'Secourisme') }}
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="gucPratique" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                GUC Pratique
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="gucPratique">
+                                {{ Menu.item('index_intranet', 'Accès Intranet') }}
+                                {{ Menu.item('index_documents', 'Documents') }}
+                                {{ Menu.item('index_liens', 'Liens Utiles') }}
+                            </div>
+                        </li>
+
+                        <li class="nav-item active">
+                            <a class="nav-link menubapteme" href="{{ url('index_bapteme') }}">Faire un Baptême <span class="sr-only">(current)</span></a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="inscriptions" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Inscription
+                            </a>
+                            <div class="dropdown-menu active" aria-labelledby="inscriptions">
+                                {{ Menu.item('inscription', 'Inscription Club',{'slug':'normal'}) }}
+                                {{ Menu.item('inscription', 'Inscription Passager',{'slug':'passager'}) }}
+                            </div>
+                        </li>
+
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ url('index_calendrier') }}">Calendrier <span class="sr-only">(current)</span></a>
+                        </li>
+
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ url('index_contact') }}">Contact <span class="sr-only">(current)</span></a>
+                        </li>
+
+                    </ul>
+                    <!--                    <form class="form-inline my-2 my-lg-0">
+                                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                                            <button class="btn btn-outline-guc my-2 my-sm-0" type="submit">Search</button>
+                                        </form>
+                                        -->
                 </div>
-                <div id="footer">
+            </nav>
 
+            <div class="row">
+                <div class="col" style="height: 1em"></div>
+            </div>
+
+            {% block main_page %}{% endblock %}
+
+            <div style="clear: both"></div>
+
+            <div class="row">
+                <div class="col-12 footer">
                     {% set tag = readfile(asset('.revision')) %}
-
                     <p>Copyright &copy; 2007-2017 GUC Plongée - {{ tag }}</p>
-
                 </div>
-                <div class="site-cache" id="site-cache"></div>
             </div>
         </div>
-    {% endblock %}
-    {% block body_end %}{% endblock %}
+
+        <div class="site-cache" id="site-cache"></div>
+
+
+        {% endblock %}
+        {% block body_end %}{% endblock %}
+
     </body>
     {% block javascripts_end %}{% endblock %}
     {% block footer_end %}{% endblock %}

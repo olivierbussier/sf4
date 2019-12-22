@@ -5,9 +5,9 @@ namespace App\Controller;
 use App\Classes\Config\Config;
 use App\Entity\Blog;
 use App\Form\EcrireType;
+use Doctrine\ORM\EntityManagerInterface;
 use Swift_Mailer;
 use Swift_Message;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,12 +18,12 @@ class BaseController extends AbstractController
 {
     /**
      * @Route("/", name="root")
-     * @param RegistryInterface $doctrine
+     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function index(RegistryInterface $doctrine)
+    public function index(EntityManagerInterface $em)
     {
-        $posts = $doctrine->getRepository(Blog::class)->getAllPosts();
+        $posts = $em->getRepository(Blog::class)->getAllPosts();
 
 
         $dirImages = Config::blogImages;
@@ -38,19 +38,20 @@ class BaseController extends AbstractController
                 'posts' => $posts
         ]);
     }
+
     /**
      * @Route("/preview/{blogId}", name="root_preview")
-     * @param RegistryInterface $doctrine
+     * @param EntityManagerInterface $em
      * @param string $blogId
      * @return Response
      */
-    public function indexPreviewBlog(RegistryInterface $doctrine, $blogId = '')
+    public function indexPreviewBlog(EntityManagerInterface $em, $blogId = '')
     {
         if ($blogId == '') {
             $this->redirectToRoute('root');
         }
 
-        $post = $doctrine->getRepository(Blog::class)->find($blogId);
+        $post = $em->getRepository(Blog::class)->find($blogId);
 
         $dirImages = Config::blogImages;
 

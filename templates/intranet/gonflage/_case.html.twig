@@ -1,0 +1,25 @@
+{#
+id: cal.id,
+aideGonf: cal.aideGonf1 ,
+aideValidee: cal.aide1Validee,
+aideNumber: 'aide1',
+nomComplet: nomComplet
+#}
+
+{% if aideGonf == '' %}
+    <td class="tbcolor center">
+        <input type="checkbox" class="ajax-select" name="{{ aideNumber }}" id="ck-{{ id }}-{{ aideNumber }}">
+        <span class="nameCal"></span>
+    </td>
+{% else %}
+    {% if aideGonf == nomComplet %}
+        {% if aideValidee == 'NA' or aideValidee == '' %}
+            <td class="tbcolor table-success center">
+                <input type="checkbox" class="ajax-select" name="{{ aideNumber }}" id="ck-{{ id }}-{{ aideNumber }}" checked>
+                <span class="nameCal">{{ nomComplet }}</span>
+            </td>
+        {% endif %}
+    {% else %}
+        <td class="table-danger center">{{ aideGonf }}</td>
+    {% endif %}
+{% endif %}

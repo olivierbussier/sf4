@@ -1039,7 +1039,7 @@ class Adherent implements UserInterface
     }
 
     /**
-     * @return Collection|Role[]
+     * @return Collection|string[]
      */
     public function getRoles()
     {
@@ -1051,6 +1051,21 @@ class Adherent implements UserInterface
             $ret[] = $v->getRole();
         }
         // $ret = $this->roles->getValues();
+        return $ret;
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getRolesAsObjects()
+    {
+        $ret = [];
+        /**
+         * @var Role $v
+         */
+        foreach ($this->roles as $v) {
+            $ret[] = $v;
+        }
         return $ret;
     }
 

@@ -1,17 +1,17 @@
 {% import 'macros/bouton.html.twig' as control %}
 
-    <div class="col-xs-12">
+    <div class="col-12">
         <h3>Administration du site</h3>
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-md-4">
         <h4>Inscriptions</h4>
 
         {{  control.bouton(
             ' Administrer les inscriptions',
             url('admin_inscription_administration'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'edit')
         }}
 
@@ -33,14 +33,14 @@
 
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-md-4">
         <h4>Base adhérents</h4>
 
         {{  control.bouton(
             ' Admin droits utilisateurs',
             url('admin_droits'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'tags')
         }}
 
@@ -48,7 +48,7 @@
             ' Exporter la base historique vers Excel',
             url('admin_gen_excel_full'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'share')
         }}
 
@@ -56,20 +56,20 @@
             ' Exporter la base inscrits vers Excel',
             url('admin_gen_excel_inscrits'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'check')
         }}
 
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-md-4">
         <h4>Listes et photos</h4>
 
         {{  control.bouton(
             ' Administrer les listes de diffusion',
             url('admin_listes_diffusion'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'envelope')
         }}
 
@@ -77,7 +77,7 @@
             ' PDF des photos d\'identité',
             url('admin_export_trombi'),
             'PDFim',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'user')
         }}
 
@@ -85,14 +85,14 @@
 
     <div class="clearfix"></div>
 
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-md-4">
         <h4>Informations système</h4>
 
         {{  control.bouton(
             ' Informations serveur',
             url('admin_info_server_php'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'zoom-in')
         }}
 
@@ -100,20 +100,20 @@
             ' Informations MySQL',
             url('admin_info_server_mysql'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'search')
         }}
 
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-md-4">
         <h4>Logs Database</h4>
 
         {{  control.bouton(
             ' Voir les logs MySQL',
             url('admin_log_mysql'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'edit')
         }}
 
@@ -121,20 +121,20 @@
             ' Réinitialiser le fichier de log MySQL',
             url('admin_reset_log_mysql'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'repeat')
         }}
 
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-md-4">
         <h4>Logs Utilisateur</h4>
 
         {{  control.bouton(
             ' Voir les logs mail',
             url('admin_log_mail'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'envelope')
         }}
 
@@ -142,7 +142,7 @@
             ' Voir les logs des login intranet',
             url('admin_log_intranet'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'user')
         }}
 

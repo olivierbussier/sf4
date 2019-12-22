@@ -8,204 +8,28 @@
 
     <div class="container">
 
-        {% if seancesUser | length > 0 %}
-
-            <div class="col-xs-12">
-                <h3>Planning d'aide au gonflage</h3>
-                <p>Récapitulatif des séances vous concernant :</p>
-            </div>
-
-            <div class="col-xs-12">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <tr>
-                            <th>Date</th>
-                            <th>Status</th>
-                        </tr>
-
-                        {% for seanceUser in seancesUser %}
-
-                            {% set date = seanceUser.date | date('d/m/Y') %}
-
-                            {% if seanceUser.aideGonf1 == user %}
-                                {% set v = seanceUser.Aide1Validee %}
-                            {% elseif seanceUser.aideGonf2 == user %}
-                                {% set v = seanceUser.Aide2Validee %}
-                            {% elseif seanceUser.aideGonf3 == user %}
-                                {% set v = seanceUser.Aide3Validee %}
-                            {% else %}
-                                {% set v = 'X' %}
-                            {% endif %}
-
-                            {% set st = '' %}
-
-                            {% if v == '' or v == 'NA' %}
-                                {% set st = 'Inscrit' %}
-                            {% elseif v == 'O' %}
-                                {% set st = 'Validée' %}
-                            {% elseif v == 'N' %}
-                                {% set st = 'Absent' %}
-                            {% endif %}
-
-                            <tr><td>{{ date }}</td><td>{{ st }}</td></tr>
-                        {% endfor %}
-
-                    </table>
-                </div>
-            </div>
-        {% endif %}
+        <div class="col-xs-12 gonflage_planning">
+            {% include "intranet/gonflage/_aff_planning.html.twig" %}
+        </div>
 
         <div class="col-xs-12">
             <h3>Modification/Consultation du planning de gonflage pour {{ app.user.Nom ~ ' ' ~ app.user.prenom }}</h3>
         </div>
 
         <div class="col-xs-12">
+            <div class="alert alert-danger gonflage_error" role="alert" hidden></div>
+        </div>
 
-            {% if seancesValidees < conf('nb_sess_req') and
-                  ACTIVITE == 'Prépa N2' or ACTIVITE == 'Prépa N3' or ACTIVITE == 'Prépa N4' %}
+        <div class="col-xs-12 gonflage_synthese">
+            {% include "intranet/gonflage/_aff_synthese.html.twig" %}
+        </div>
 
-                <p>Sur cette page, vous pouvez choisir les créneaux ou vous souhaitez participer. N'oubliez pas que
-                    vous devez participer à {{ conf(nb_sess_req) }} séances pour valider votre niveau. Les
-                    séances sont validées si vous êtes présents. En cas d'impossibilité de venir, il vous incombera
-                    de trouver un remplaçant; en effet, sans aide suffisante, le gonflage et la désinfection ne peuvent être réalisés
-                    dans de bonnes conditions, et la séance piscine devra donc se faire sans bloc ni détendeur.
-                    A cet instant votre participation est la suivante:</p>
-                <ul>
-                    <li>Vous vous êtes inscrit à {{ nbSeances }} séance{% if nbSeances > 1 %}s{% endif %}</li>
-                    <li>
-                        {% if nbValidees == 0 %}
-                            Aucune séance validée
-                        {% else %}
-                            {% if nbValidees > 1 %}
-                                {{ nbValidees }} séances ont été validées
-                            {% else %}
-                                1 séance a été validée
-                            {% endif %}
-                        {% endif %}
-                    </li>
-
-                    {% if nbNonvalidees > 1 %}
-                        <li class="red">Vous avez manqué {{ nbNonvalidees }} séances</li>
-                    {% else %}
-                        {% if nbNonvalidees == 1 %}
-                            <li class="red">Vous avez manqué 1 séance</li>
-                        {% else %}
-                            <li>Vous n'avez manqué aucune séance</li>
-                        {% endif %}
-                    {% endif %}
-                </ul>
-            {% else %}
-                <p>Sur cette page, vous pouvez choisir les créneaux ou vous souhaitez participer.</p>
-                <p>Vous avez atteint le nombre de participations requis pour valider votre niveau, ou l'activité que vous
-                    avez choisi cette année ne vous demande pas la participation à ces séances. Vous pouvez tout de même
-                    vous inscrire afin de participer à la vie du club</p>
-
-            {% endif %}
+        <div class="calendrier_eleves">
+            {% include 'intranet/gonflage/_aff_calendrier.html.twig' %}
         </div>
 
         <div class="col-xs-12">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                    <tr>
-                        <th>Date</th>
-                        <th>Aide 1</th>
-                        <th>Aide 2</th>
-                        <th>Aide 3</th>
-                        <th>Responsable séance</th>
-                    </tr>
-
-                    {% if msgErreur != '' %}
-                        <tr><td colspan='5'><h2 class="red">{{ msgErreur }}</h2></td></tr>
-                    {% endif %}
-
-                    {% for cal in calendrier %}
-                        <tr>
-                            {% if cal.seanceGonflage == 'O' %}
-                                <form method="post" action="{{ url('index_modif_gonf_eleves') }}">
-                                    <input type="hidden" name="Action" value="Update"/>
-                                    <input type="hidden" name="REFDB" value="{{ cal.id }}"/>
-                                    <input type="hidden" name="DATE" value="{{ cal.date | date('d/m/Y')}}"/>
-
-                                    <td>{{ cal.date | date('d/m/Y') }}</td>
-                                    {# Cas a gérer :
-                                     1 - aide == '' et qqsoit aidevalide   -> le créneau est vide, on affiche une checkbox
-                                     pour pouvoir prendre le créneau
-                                     2 - aide != '' et aide != currentuser -> le créneau est pris
-                                     3 - aide != '' et aide == currentuser -> le créneau est pris par l'utilisateur, mais on
-                                     affiche la checkbox.
-                                     ----------------------------------------------------------------------------------------
-                                     #}
-                                    {% set nomComplet = app.user.nom ~ ' ' ~ app.user.prenom %}
-
-                                    {% if cal.aideGonf1 == '' %}
-                                        {# Cas 1 : afficher checkbox #}
-                                        <td class="center">
-                                            <input type="checkbox" name="aide1" value="O" onchange="submit();">
-                                        </td>
-                                    {% else %}
-                                        {% if cal.aideGonf1 == nomComplet %}
-                                            {% if cal.aide1Validee == 'NA' or aide1Validee == '' %}
-                                                <td class="success center">
-                                                    <input type="checkbox" name="aide1" value="O" checked  onchange="submit();">
-                                                    {{ nomComplet }}
-                                                </td>
-                                            {% endif %}
-                                        {% else %}
-                                            <td class="grey2 center">{{ cal.aideGonf1 }}</td>
-                                        {% endif %}
-                                    {% endif %}
-
-                                    {% if cal.aideGonf2 == '' %}
-                                        {# Cas 1 : afficher checkbox #}
-                                        <td class="center">
-                                            <input type="checkbox" name="aide1" value="O" onchange="submit();">
-                                        </td>
-                                    {% else %}
-                                        {% if cal.aideGonf2 == nomComplet %}
-                                            {% if cal.aide2Validee == 'NA' or aide2Validee == '' %}
-                                                <td class="success center">
-                                                    <input type="checkbox" name="aide1" value="O" checked  onchange="submit();">
-                                                    {{ nomComplet }}
-                                                </td>
-                                            {% endif %}
-                                        {% else %}
-                                            <td class="grey2 center">{{ cal.aideGonf2 }}</td>
-                                        {% endif %}
-                                    {% endif %}
-
-                                    {% if cal.aideGonf3 == '' %}
-                                        {# Cas 1 : afficher checkbox #}
-                                        <td class="center">
-                                            <input type="checkbox" name="aide1" value="O" onchange="submit();">
-                                        </td>
-                                    {% else %}
-                                        {% if cal.aideGonf3 == nomComplet %}
-                                            {% if cal.aide3Validee == 'NA' or aide3Validee == '' %}
-                                                <td class="success center">
-                                                    <input type="checkbox" name="aide1" value="O" checked  onchange="submit();">
-                                                    {{ nomComplet }}
-                                                </td>
-                                            {% endif %}
-                                        {% else %}
-                                            <td class="grey2 center">{{ cal.aideGonf3 }}</td>
-                                        {% endif %}
-                                    {% endif %}
-
-                                    <td class="center">{{ cal.respGonflage }}</td>
-                                </form>
-                            {% else %}
-                                <td>{{ cal.date | date('d/m/Y') }}</td>
-                                <td class="center grey2" colspan="4">Piscine fermée</td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-
-                </table>
-            </div>
-        </div>
-
-        <div class="col-xs-12">
-            <a class="btn btn-default btn-block" href="{{ url('index_intranet') }}">
+            <a class="btn btn-light btn-outline-guc btn-block" href="{{ url('index_intranet') }}">
                 <span class="glyphicon glyphicon-chevron-left"></span> Revenir à l'accueil de l'intranet.</a>
         </div>
 
@@ -216,5 +40,6 @@
 {% block javascripts_end %}
 
     {{ parent() }}
+    {{ encore_entry_script_tags('gonflage') }}
 
 {% endblock %}

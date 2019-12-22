@@ -1,0 +1,62 @@
+// et on masque le input
+.input-file {
+	display: none;
+}
+
+// Définition des tables d'affichage des palanquées
+
+.zimg {
+	width: 100px;
+	height: auto;
+	margin: 0 auto;
+}
+
+.center {
+	margin: 0 auto;
+	width: 100%;
+}
+
+.clr {
+	float: left;
+}
+.imgline {
+	width: 40px;
+	height: auto;
+}
+.plondate {
+	display: table;
+	width: 100%;
+}
+
+.ploncell {
+	display: table-cell;
+	border: 1px solid grey;
+	width: 33.3%;
+	padding: 2px;
+	h3,h4 {
+		text-align: center;
+		border: 1px solid grey;
+		border-radius: 4px;
+		margin-top: 2px
+	}
+}
+.label-file {
+	display: block;
+	height: 2em;
+	line-height: 2em;
+	//margin-top: 15px;
+	text-align: center;
+	cursor: pointer;
+	color: #394c87;
+	font-weight: bold;
+	border: 1px solid grey;
+	border-radius: 4px;
+	&:hover {
+		color: #25a5c4;
+	}
+}
+
+// et on masque le input
+.input-file {
+	display: none!important;
+}

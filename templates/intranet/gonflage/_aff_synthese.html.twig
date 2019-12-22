@@ -1,0 +1,41 @@
+
+{% if seancesValidees < conf('nb_sess_req') and
+    ACTIVITE == 'Prépa N2' or ACTIVITE == 'Prépa N3' or ACTIVITE == 'Prépa N4' %}
+
+    <p>Sur cette page, vous pouvez choisir les créneaux ou vous souhaitez participer. N'oubliez pas que
+        vous devez participer à {{ conf(nb_sess_req) }} séances pour valider votre niveau. Les
+        séances sont validées si vous êtes présents. En cas d'impossibilité de venir, il vous incombera
+        de trouver un remplaçant; en effet, sans aide suffisante, le gonflage et la désinfection ne peuvent être réalisés
+        dans de bonnes conditions, et la séance piscine devra donc se faire sans bloc ni détendeur.
+        A cet instant votre participation est la suivante:</p>
+    <ul>
+        <li>Vous vous êtes inscrit à {{ nbSeances }} séance{% if nbSeances > 1 %}s{% endif %}</li>
+        <li>
+            {% if nbValidees == 0 %}
+                Aucune séance validée
+            {% else %}
+                {% if nbValidees > 1 %}
+                    {{ nbValidees }} séances ont été validées
+                {% else %}
+                    1 séance a été validée
+                {% endif %}
+            {% endif %}
+        </li>
+
+        {% if nbNonvalidees > 1 %}
+            <li class="red">Vous avez manqué {{ nbNonvalidees }} séances</li>
+        {% else %}
+            {% if nbNonvalidees == 1 %}
+                <li class="red">Vous avez manqué 1 séance</li>
+            {% else %}
+                <li>Vous n'avez manqué aucune séance</li>
+            {% endif %}
+        {% endif %}
+    </ul>
+{% else %}
+    <p>Sur cette page, vous pouvez choisir les créneaux ou vous souhaitez participer.</p>
+    <p>Vous avez atteint le nombre de participations requis pour valider votre niveau, ou l'activité que vous
+        avez choisi cette année ne vous demande pas la participation à ces séances. Vous pouvez tout de même
+        vous inscrire afin de participer à la vie du club</p>
+
+{% endif %}

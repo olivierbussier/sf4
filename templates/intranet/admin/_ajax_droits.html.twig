@@ -1,0 +1,9 @@
+<td class="tbcolor align-middle{% if checked %} table-success{% endif %}">
+    <div class="form-check text-center">
+        <input class="form-check-input ajax-select position-static"
+               type="checkbox"
+               value="true"
+               id="ck-{{ user.id}}-{{ role }}"{% if checked %} checked{% endif %} />
+        <!--<label class="form-check-label" for="ck-{{ user.id}}-{{ role }}"></label>-->
+    </div>
+</td>

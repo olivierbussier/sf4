@@ -257,6 +257,7 @@ class FormConst {
     ];
 
     public const LISTE_ROLES_ENC = [
+        'Encadrant'            => 'ROLE_ENC',
         'Encadrant N1'         => 'ROLE_PN1',
         'Encadrant N2'         => 'ROLE_PN2',
         'Encadrant N3'         => 'ROLE_PN3',
@@ -274,8 +275,33 @@ class FormConst {
         'Administrateur'       => 'ROLE_ADMIN',
         'Gonflage'             => 'ROLE_GON',
         'Matériel'             => 'ROLE_MAT',
+        'Aide Matériel'        => 'ROLE_AMAT',
         'Publication'          => 'ROLE_PUB',
+        'Inscriptions'         => 'ROLE_INSC',
         'Bureau'               => 'ROLE_BUREAU'
+    ];
+
+    public const ABBREV_ROLES = [
+        'Encadrant'            => 'ENC',
+        'Encadrant N1'         => 'PN1',
+        'Encadrant N2'         => 'PN2',
+        'Encadrant N3'         => 'PN3',
+        'Encadrant N4'         => 'PN4',
+        'Encadrant MF1'        => 'PMF1',
+        'Encadrant Initiateur' => 'PINI',
+        'Encadrant Enfant'     => 'ENF',
+        'Encadrant Ado'        => 'ADO',
+        'Encadrant PMT'        => 'PMT',
+        'Encadrant Apnée'      => 'APN',
+        'Encadrant Baptême'    => 'BAP',
+        'Alerte Certif'        => 'CRT',
+        'Administrateur'       => 'ADMIN',
+        'Gonflage'             => 'GON',
+        'Matériel'             => 'MAT',
+        'Aide Matériel'        => 'AMAT',
+        'Publication'          => 'PUB',
+        'Inscriptions'         => 'INSC',
+        'Bureau'               => 'BUR'
     ];
 
     public const LISTE_ROLES = self::LISTE_ROLES_ENC + self::LISTE_ROLES_ADM;

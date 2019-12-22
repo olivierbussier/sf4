@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trombinoscope{% endblock %}
+
+{% block main_page %}
+
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-sm-9">
+            {{ form_row(form.search) }}
+        </div>
+        <div class="col-sm-3">
+            <button class="btn btn-block btn-primary">Rechercher</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="pagination">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm" style="font-size: 0.75em">
+                    <tr><th>{{ knp_pagination_sortable(pagination, 'Nom', 'a.Nom') }}</th>
+                        <th>Scaph<br />Apnée</th>
+                        {% for key,role in roles %}
+                            <th>{{ abbr_roles[key] }}</th> {#<br />{{ role }}</th>#}
+                        {% endfor %}
+                    </tr>
+
+                    {% for user in pagination %}
+                        <tr>
+                            <td>{{ user.Nom ~ ' ' ~ user.Prenom }}</td>
+                            <td>{{ user.NiveauSca }}<br />{{ user.NiveauApn }}</td>
+                            <form method="post" action="{{ url('ajax_droits') }}">
+                                {% for role in roles %}
+                                    {% if role in user.roles %}
+                                        {% include 'intranet/admin/_ajax_droits.html.twig' with {checked: true} %}
+                                    {% else %}
+                                        {% include 'intranet/admin/_ajax_droits.html.twig' with {checked: false} %}
+                                    {% endif %}
+                                {% endfor %}
+                            </form>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts_end %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('droits') }}
+{% endblock %}

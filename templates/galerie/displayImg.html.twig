@@ -59,18 +59,18 @@
                             '',
                             url('display_img') ~ '/' ~ repertoire ~ '/' ~ prevFile,
                             '',
-                            'btn-default',
+                            'btn-light btn-outline-guc',
                             'arrow-left') }}
                     {% else %}
                         {{ control.bouton(
                             '',
                             '',
                             '',
-                            'btn-default disabled',
+                            'btn-light btn-outline-guc disabled',
                             'arrow-left') }}
                     {% endif %}
 
-                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-home"></span></button>
+                    <button class="btn btn-light btn-outline-guc" type="submit"><span class="glyphicon glyphicon-home"></span></button>
 
                     {#{{ control.bouton('', 'Submit', 'Envoyer', 'default', 'glyph:home') }}#}
 
@@ -79,14 +79,14 @@
                             '',
                             url('display_img') ~ '/' ~ repertoire ~ '/' ~ nextFile,
                             '',
-                            'btn-default',
+                            'btn-light btn-outline-guc',
                             'arrow-right') }}
                     {% else %}
                         {{ control.bouton(
                             '',
                             '',
                             '',
-                            'btn-default disabled',
+                            'btn-light btn-outline-guc disabled',
                             'arrow-right') }}
                     {% endif %}
                 </div>

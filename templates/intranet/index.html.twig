@@ -6,24 +6,23 @@
 
     {% import 'macros/bouton.html.twig' as control %}
 
-    <div class="container">
-
-        <div class="col-xs-12">
+    <div class="row">
+        <div class="col-12">
             <h3>{{ app.user.Prenom ~ ' ' ~ app.user.nom ~ ' (' ~ (app.user.username) ~ ')' }} , Bienvenue sur l'Intranet Plongeur</h3>
         </div>
 
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>Informations personelles</h3>
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             <h4>Base de données</h4>
             {{ control.bouton(
                 ' Mes informations personnelles',
                 url('index_admin_affiche_perso'),
                 '',
-                'btn-block btn-default',
+                'btn-block btn-light btn-outline-guc',
                 'folder-open'
             ) }}
 
@@ -37,7 +36,7 @@
 #}
         {% if is_granted('ROLE_USER') %}
 
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-12 col-sm-6">
 
                 <h4>Trombinoscope</h4>
 
@@ -45,7 +44,7 @@
                     ' Trombinoscope du club',
                     url('index_trombi'),
                     '',
-                    'btn-block btn-default',
+                    'btn-block btn-light btn-outline-guc',
                     'camera'
                 ) }}
 
@@ -53,7 +52,7 @@
             </div>
 
         {% endif %}
-
+    </div>
 {#
 // ***********************************************************************************
 // Accès au planning de gonflage et aux rubriques formation uniquement possible
@@ -74,34 +73,35 @@
         //    est encore en possession du club
         // ***********************************************************************************
 #}
+    <div class="row">
         {% if (is_granted('ROLE_ADMIN')) or
               (adh.PretMateriel and ('INSCRIT' in adh.AdminOK)) or
                adh.PretMaterielOld or
                'MATERIEL' in adh.adminOK %}
 {#      if (Session::isMgr() || Session::materielOk()) {#}
 
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h3>Emprunt matériel</h3>
             </div>
 
-            <div class="col-xs-12">
+            <div class="col-12">
 
                 {{ control.bouton(
                     ' Faire une demande d\'emprunt',
                     url('index_demande_emprunt'),
                     '',
-                    'btn-block btn-default',
+                    'btn-block btn-light btn-outline-guc',
                     'shopping-cart'
                 ) }}
 
             </div>
         {% else %}
 
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h3>Emprunt matériel</h3>
             </div>
 
-            <div class="col-xs-12">
+            <div class="col-12">
                 <p>Si, dans votre dossier d'inscription, vous avez spécifié vouloir emprunter du matériel ,
                     vous pourrez emprunter du matériel lorque votre chèque de caution sera enregistré par le
                     secrétariat du club</p>
@@ -109,7 +109,9 @@
             </div>
 
         {% endif %}
+    </div>
 
+    <div class="row">
         {% if (not is_granted('ROLE_ADMIN')) and
               ('PREINSCR' not in adh.AdminOK) %}
 
@@ -117,12 +119,12 @@
 
             {# Si l'adhérent n'a pas initialisé sa pré-inscription, alors message d'avertissement #}
 
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h3>Pas de pré-inscription enregistrée
                     pour l'année {{ conf('p_annee') }}-{{ conf('p_annee') + 1 }}</h3>
             </div>
 
-            <div class="col-xs-12">
+            <div class="col-12">
                 <p>Vous ne vous êtes pas encore inscrit pour <?= Config::p_annee."-".(Config::p_annee+1); ?>.
                     Les autres rubriques de l'intranet seront disponibles en totalité lorsque cette étape sera
                     terminée.</p>
@@ -136,11 +138,11 @@
             {# if (!Session::isMgr() && (Session::userValid() != Session::VALIDATED)) { #}
             {# Si l'adhérent n'a pas initialisé sa pré-inscription, alors message d'avertissement #}
 
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h3>Dossier d'inscription non validé</h3>
             </div>
 
-            <div class="col-xs-12">
+            <div class="col-12">
                 <p>Votre inscription <?= Config::p_annee."-".(Config::p_annee+1); ?>
                     n'a pas encore été validée par le secrétariat.</p>
                 <p>Les autres rubriques de l'intranet seront disponibles en totalité lorsque
@@ -152,97 +154,97 @@
 
             {# if (Session::isMgr() || Session::userValid() != Session::NOTSTARTED) {#}
 
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h3>Documents partagés</h3>
             </div>
 
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h4>Supports présentés aux assemblée Générales</h4>
             </div>
 
-            <div class="col-xs-6 col-sm-2">
-                {{ control.bouton(' 2013', asset('/docs/AG_20131021.pdf'), 'AG', 'btn-block btn-default','stats') }}
+            <div class="col-6 col-md-2">
+                {{ control.bouton(' 2013', asset('/docs/AG_20131021.pdf'), 'AG', 'btn-block btn-light btn-outline-guc','stats') }}
             </div>
 
-            <div class="col-xs-6 col-sm-2">
-                {{ control.bouton(' 2014', asset('/docs/AG_20141026.pdf'), 'AG', 'btn-block btn-default','stats') }}
+            <div class="col-6 col-md-2">
+                {{ control.bouton(' 2014', asset('/docs/AG_20141026.pdf'), 'AG', 'btn-block btn-light btn-outline-guc','stats') }}
             </div>
 
-            <div class="col-xs-6 col-sm-2">
-                {{ control.bouton(' 2015', asset('/docs/AG_20151013.pdf'), 'AG', 'btn-block btn-default','stats') }}
+            <div class="col-6 col-md-2">
+                {{ control.bouton(' 2015', asset('/docs/AG_20151013.pdf'), 'AG', 'btn-block btn-light btn-outline-guc','stats') }}
             </div>
 
-            <div class="col-xs-6 col-sm-2">
-                {{ control.bouton(' 2016', asset('/docs/AG_20161105.pdf'), 'AG', 'btn-block btn-default','stats') }}
+            <div class="col-6 col-md-2">
+                {{ control.bouton(' 2016', asset('/docs/AG_20161109.pdf'), 'AG', 'btn-block btn-light btn-outline-guc','stats') }}
             </div>
 
-            <div class="col-xs-6 col-sm-2">
-                {{ control.bouton(' 2017', asset('/docs/AG_20171017.pdf'), 'AG', 'btn-block btn-default','stats') }}
+            <div class="col-6 col-md-2">
+                {{ control.bouton(' 2017', asset('/docs/AG_20171017.pdf'), 'AG', 'btn-block btn-light btn-outline-guc','stats') }}
             </div>
         {% endif %}
+    </div>
 {#
 // ***********************************************************************************
 // Rubriques d'admin communes aux encadrants, gonfleurs, matériel et autres
 // ***********************************************************************************
 #}
 
+    <div class="row">
         {% if is_granted('ROLE_ADMIN') or
               is_granted('ROLE_ENC') or
               is_granted('ROLE_MAT') or
               is_granted('ROLE_PUB') or
               is_granted('ROLE_GON') %}
 
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h3>Administration des activités</h3>
             </div>
 
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-md-6">
                 {{  control.bouton(
                     ' Calendrier des activités bassin, matériel et gonflage',
                     url('index_admin_calendrier'),
                     '_blank',
-                    'btn-block btn-default',
+                    'btn-block btn-light btn-outline-guc',
                     'calendar')
                 }}
             </div>
 
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-md-6">
                 {{  control.bouton(
                     ' Lien vers la google sheet du planning de formation global',
                     'https://docs.google.com/spreadsheets/d/1NzMaUvZJjVeT2kKiLO0yViGxruBQ8IGaBQ9IdLQrtvE/edit#gid=0',
                     '_blank',
-                    'btn-block btn-default',
+                    'btn-block btn-light btn-outline-guc',
                     'calendar'
                 ) }}
             </div>
 
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-md-6">
                 {{  control.bouton(
                     ' Excel de la liste des emprunts',
                     url('index_admin_genmat'),
                     '_blank',
-                    'btn-block btn-default',
+                    'btn-block btn-light btn-outline-guc',
                     'list-alt'
                 ) }}
             </div>
-
         {% endif %}
 {#
 // ***********************************************************************************
 // Rubriques d'admin encadrants et gonfleurs
 // ***********************************************************************************
 #}
-
         {% if is_granted('ROLE_ADMIN') or
               is_granted('ROLE_ENC') or
               is_granted('ROLE_GON') %}
 
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-md-6">
                 {{  control.bouton(
                     ' Participation aux séances de gonflage',
                     url('index_status_gonflage_eleves'),
                     '',
-                    'btn-block btn-default',
+                    'btn-block btn-light btn-outline-guc',
                     'play')
                 }}
             </div>
@@ -257,17 +259,18 @@
               is_granted('ROLE_ENC') or
               is_granted('ROLE_MAT') %}
 
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-md-6">
                 {{  control.bouton(
                     ' Voir l\'état des inscriptions',
                     url('index_admin_status_inscriptions'),
                     '',
-                    'btn-block btn-default',
+                    'btn-block btn-light btn-outline-guc',
                     'play')
                 }}
             </div>
 
         {% endif %}
+    </div>
 {#
 // ***********************************************************************************
 // Fin de rubriques d'admin encadrants, matériel et gonfleurs
@@ -285,43 +288,48 @@
 // ***********************************************************************************
 #}
 
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PUB') %}
-                {% include 'intranet/menu/inc_admin_publication.html.twig' %}
-            {% endif %}
-
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ENC') %}
-                {% include 'intranet/menu/inc_admin_encadrants.html.twig' %}
-            {% endif %}
-
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MAT') %}
-                {% include 'intranet/menu/inc_admin_materiel.html.twig' %}
-            {% endif %}
-
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN') %}
-                {% include 'intranet/menu/inc_administration.html.twig' %}
-            {% endif %}
-
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_GON') %}
-                {% include 'intranet/menu/inc_admin_gonflage.html.twig' %}
-            {% endif %}
+            <div class="row">
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PUB') %}
+                    {% include 'intranet/menu/inc_admin_publication.html.twig' %}
+                {% endif %}
+            </div>
+            <div class="row">
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ENC') %}
+                    {% include 'intranet/menu/inc_admin_encadrants.html.twig' %}
+                {% endif %}
+            </div>
+            <div class="row">
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MAT') %}
+                    {% include 'intranet/menu/inc_admin_materiel.html.twig' %}
+                {% endif %}
+            </div>
+            <div class="row">
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN') %}
+                    {% include 'intranet/menu/inc_administration.html.twig' %}
+                {% endif %}
+            </div>
+            <div class="row">
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_GON') %}
+                    {% include 'intranet/menu/inc_admin_gonflage.html.twig' %}
+                {% endif %}
+            </div>
 
         {% endif %}
 
-        <div class="container">
-            <div class="col-xs-12">
-                <h3>Pour vous déconnecter :</h3>
-            </div>
-            <div class="col-xs-12">
-                {{  control.bouton(
-                    ' Déconnexion',
-                    url('deconnexion'),
-                    '',
-                    'btn-block btn-default',
-                    'quit')
-                }}
-            </div>
-        </div>
 
+    <div class="row">
+        <div class="col-12">
+            <h3>Pour vous déconnecter :</h3>
+        </div>
+        <div class="col-12">
+            {{  control.bouton(
+                ' Déconnexion',
+                url('deconnexion'),
+                '',
+                'btn-block btn-light btn-outline-guc',
+                'quit')
+            }}
+        </div>
     </div>
 
 {% endblock %}

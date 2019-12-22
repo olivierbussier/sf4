@@ -45,6 +45,7 @@ security:
         - { path: ^/intranet/gonflage,    roles: ROLE_GON }
         - { path: ^/intranet/publication, roles: ROLE_PUB }
         - { path: ^/intranet/encadrement, roles: ROLE_ENC }
+        - { path: ^/intranet/admin,       roles: ROLE_ADMIN }
         - { path: ^/intranet,    roles: ROLE_USER }
         - { path: ^/inscription, roles: ROLE_USER }
         # - { path: ^/admin, roles: ROLE_ADMIN }

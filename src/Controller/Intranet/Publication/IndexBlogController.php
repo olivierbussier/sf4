@@ -8,6 +8,7 @@ use App\Entity\Blog;
 use App\Form\BlogEditType;
 use App\Repository\BlogRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -21,18 +22,16 @@ class IndexBlogController extends AbstractController
 {
     /**
      * @Route("/intranet/publication", name="blog_admin_index")
-     * @param RegistryInterface $doctrine
+     * @param EntityManagerInterface $em
      * @param Request $request
      * @return Response
      */
-    public function index(RegistryInterface $doctrine, Request $request): Response
+    public function index(EntityManagerInterface $em, Request $request): Response
     {
         /**
          * @var $blogsRepo BlogRepository
          */
-        $blogsRepo = $doctrine->getRepository(Blog::class);
-
-        $em = $this->getDoctrine()->getManager();
+        $blogsRepo = $em->getRepository(Blog::class);
 
         // Afficher les blogs
 
@@ -45,19 +44,17 @@ class IndexBlogController extends AbstractController
 
     /**
      * @Route("/intranet/publication/admin_blog/delete/{blogId}", name="blog_admin_delete")
-     * @param RegistryInterface $doctrine
+     * @param EntityManagerInterface $em
      * @param Request $request
      * @param string $blogId
      * @return Response
      */
-    public function delete(RegistryInterface $doctrine, Request $request, $blogId = ''):Response
+    public function delete(EntityManagerInterface $em, Request $request, $blogId = ''):Response
     {
         /**
          * @var $blogsRepo BlogRepository
          */
-        $blogsRepo = $doctrine->getRepository(Blog::class);
-
-        $em = $this->getDoctrine()->getManager();
+        $blogsRepo = $em->getRepository(Blog::class);
 
         if (!$blogsRepo->deleteById($blogId)) {
             throw $this->createNotFoundException(
@@ -76,21 +73,19 @@ class IndexBlogController extends AbstractController
 
     /**
      * @Route("/intranet/publication/admin_blog/up/{blogId}", name="blog_admin_up")
-     * @param RegistryInterface $doctrine
+     * @param EntityManagerInterface $em
      * @param Request $request
      * @param string $blogId
      * @return Response
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function up(RegistryInterface $doctrine, Request $request, $blogId = '')
+    public function up(EntityManagerInterface $em, Request $request, $blogId = '')
     {
         /**
          * @var $blogsRepo BlogRepository
          */
-        $blogsRepo = $doctrine->getRepository(Blog::class);
-
-        $em = $this->getDoctrine()->getManager();
+        $blogsRepo = $em->getRepository(Blog::class);
 
         $blogSrc = $blogsRepo->find($blogId);
         $positionSrc = $blogSrc->getPosition();
@@ -116,21 +111,19 @@ class IndexBlogController extends AbstractController
 
     /**
      * @Route("/intranet/publication/admin_blog/down/{blogId}", name="blog_admin_down")
-     * @param RegistryInterface $doctrine
+     * @param EntityManagerInterface $em
      * @param Request $request
      * @param string $blogId
      * @return Response
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function down(RegistryInterface $doctrine, Request $request, $blogId = '')
+    public function down(EntityManagerInterface $em, Request $request, $blogId = '')
     {
         /**
          * @var $blogsRepo BlogRepository
          */
-        $blogsRepo = $doctrine->getRepository(Blog::class);
-
-        $em = $this->getDoctrine()->getManager();
+        $blogsRepo = $em->getRepository(Blog::class);
 
         $blogSrc = $blogsRepo->find($blogId);
         $positionSrc = $blogSrc->getPosition();
@@ -157,19 +150,19 @@ class IndexBlogController extends AbstractController
     /**
      * @Route("/intranet/publication/admin_blog/new", name="blog_admin_create")
      * @Route("/intranet/publication/admin_blog/edit/{blogId}", name="blog_admin_edit")
-     * @param RegistryInterface $doctrine
+     * @param EntityManagerInterface $em
      * @param Request $request
+     * @param int $blogId
      * @return Response
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function create(RegistryInterface $doctrine, Request $request, $blogId=0)
+    public function create(EntityManagerInterface $em, Request $request, $blogId=0)
     {
         /**
          * @var $blogsRepo BlogRepository
          */
-        $blogsRepo = $doctrine->getRepository(Blog::class);
-        $em = $this->getDoctrine()->getManager();
+        $blogsRepo = $em->getRepository(Blog::class);
 
         $dirImages = Config::blogImages;;
 
@@ -267,11 +260,11 @@ class IndexBlogController extends AbstractController
 
     /**
      * @Route("intranet/publication/admin_blog/delete_image/{blogId}", name="blog_admin_delete_image")
-     * @param RegistryInterface $doctrine
+     * @param EntityManagerInterface $em
      * @param int $blogId
      * @return RedirectResponse
      */
-    public function deleteImage(RegistryInterface $doctrine, $blogId = 0)
+    public function deleteImage(EntityManagerInterface $em, $blogId = 0)
     {
         if ($blogId == 0) {
             $this->redirectToRoute('root');
@@ -282,7 +275,7 @@ class IndexBlogController extends AbstractController
          * @var $blogsRepo BlogRepository
          */
         $em = $this->getDoctrine()->getManager();
-        $blogsRepo = $doctrine->getRepository(Blog::class);
+        $blogsRepo = $em->getRepository(Blog::class);
         $blog = $blogsRepo->find($blogId);
 
         $image = $blog->getImage();

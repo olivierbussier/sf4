@@ -1,7 +1,7 @@
 {% macro bouton(titre, url, window_target , class_sup, glyph) %}
 
     {% if class_sup == '' %}
-        {% set class_list = "btn-default" %}
+        {% set class_list = "btn btn-light btn-outline-guc" %}
     {% else %}
         {% set class_list = class_sup %}
     {% endif %}
@@ -21,7 +21,7 @@
     <a class="btn {{ class_list|raw }}" role="button" {{ rt|raw }}{{ target|raw }}>
 
     {% if glyph != '' %}
-        <span class="glyphicon glyphicon-{{ glyph }}"></span>"
+        <i class="fas {{ glyph }}"></i>
     {% endif %}
     {{ titre|raw }}</a>
 

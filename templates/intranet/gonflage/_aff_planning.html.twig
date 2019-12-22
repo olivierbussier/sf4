@@ -1,0 +1,81 @@
+{% if seancesUser | length > 0 %}
+    <div class="col-xs-12">
+        <h3>Planning d'aide au gonflage</h3>
+        <p>Récapitulatif des séances vous concernant :</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+
+        {% for seanceUser in seancesUser %}
+            {% set date = seanceUser.date | date('d/m/Y') %}
+            {% if seanceUser.aideGonf1 == user %}
+                {% set v = seanceUser.Aide1Validee %}
+            {% elseif seanceUser.aideGonf2 == user %}
+                {% set v = seanceUser.Aide2Validee %}
+            {% elseif seanceUser.aideGonf3 == user %}
+                {% set v = seanceUser.Aide3Validee %}
+            {% else %}
+                {% set v = 'X' %}
+            {% endif %}
+
+            {% set st = '' %}
+
+            {% if v == '' or v == 'NA' %}
+                {% set st = 'Inscrit' %}
+                {% set col = 'badge-primary' %}
+            {% elseif v == 'O' %}
+                {% set st = 'Validée' %}
+                {% set col = 'badge-success' %}
+            {% elseif v == 'N' %}
+                {% set st = 'Absent' %}
+                {% set col = 'badge-danger' %}
+            {% endif %}
+            <div class="col mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <strong class="mr-auto">{{ date }} </strong><div class="badge {{ col }}">{{ st }}</div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{#
+         <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+
+                {% for seanceUser in seancesUser %}
+
+                    {% set date = seanceUser.date | date('d/m/Y') %}
+
+                    {% if seanceUser.aideGonf1 == user %}
+                        {% set v = seanceUser.Aide1Validee %}
+                    {% elseif seanceUser.aideGonf2 == user %}
+                        {% set v = seanceUser.Aide2Validee %}
+                    {% elseif seanceUser.aideGonf3 == user %}
+                        {% set v = seanceUser.Aide3Validee %}
+                    {% else %}
+                        {% set v = 'X' %}
+                    {% endif %}
+
+                    {% set st = '' %}
+
+                    {% if v == '' or v == 'NA' %}
+                        {% set st = 'Inscrit' %}
+                    {% elseif v == 'O' %}
+                        {% set st = 'Validée' %}
+                    {% elseif v == 'N' %}
+                        {% set st = 'Absent' %}
+                    {% endif %}
+
+                    <tr><td>{{ date }}</td><td>{{ st }}</td></tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    </div>
+    #}
+{% endif %}

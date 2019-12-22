@@ -1,17 +1,17 @@
 {% import 'macros/bouton.html.twig' as control %}
 
-    <div class="col-xs-12">
+    <div class="col-12">
         <h3>Intranet matériel</h3>
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-md-4">
         <h4>Emprunt</h4>
 
         {{  control.bouton(
             ' Gestion des emprunts',
             url('admin_demandes'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'shopping-cart')
         }}
 
@@ -19,20 +19,20 @@
             ' Excel de la liste des emprunts',
             url('admin_demandes_excel'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'list-alt')
         }}
 
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-md-4">
         <h4>Test New Emprunt</h4>
 
         {{  control.bouton(
             ' Calendrier de réservation matériel',
             url('admin_calendrier_materiel'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'calendar')
         }}
 
@@ -40,7 +40,7 @@
             ' Calendrier de réservation adhérent',
             url('admin_calendrier_adherent'),
             '',
-            'btn-block btn-default',
+            'btn-block btn-light btn-outline-guc',
             'user')
         }}
 

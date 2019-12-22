@@ -1,0 +1,67 @@
+<div class="col-xs-12">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover calendrier_eleves">
+            <tr>
+                <th>Date</th>
+                <th>Aide 1</th>
+                <th>Aide 2</th>
+                <th>Aide 3</th>
+                <th>Responsable séance</th>
+            </tr>
+
+            {% if msgErreur != '' %}
+                <tr><td colspan='5'><h2 class="red">{{ msgErreur }}</h2></td></tr>
+            {% endif %}
+
+            {% for cal in calendrier %}
+                <tr>
+                    {% if cal.seanceGonflage == 'O' %}
+                        <td>{{ cal.date | date('d/m/Y') }}</td>
+                        <form method="post" action="{{ url('ajax_calendrier') }}">
+
+                            {# Cas a gérer :
+                             1 - aide == '' et qqsoit aidevalide   -> le créneau est vide, on affiche une checkbox
+                             pour pouvoir prendre le créneau
+                             2 - aide != '' et aide != currentuser -> le créneau est pris
+                             3 - aide != '' et aide == currentuser -> le créneau est pris par l'utilisateur, mais on
+                             affiche la checkbox.
+                             ----------------------------------------------------------------------------------------
+                             #}
+                            {% set nomComplet = app.user.nom ~ ' ' ~ app.user.prenom %}
+
+                            {% include 'intranet/gonflage/_case.html.twig' with {
+                                id: cal.id,
+                                aideGonf: cal.aideGonf1 ,
+                                aideValidee: cal.aide1Validee,
+                                aideNumber: 'aide1',
+                                nomComplet: nomComplet
+                            }%}
+
+                            {% include 'intranet/gonflage/_case.html.twig' with {
+                                id: cal.id,
+                                aideGonf: cal.aideGonf2 ,
+                                aideValidee: cal.aide2Validee,
+                                aideNumber: 'aide2',
+                                nomComplet: nomComplet
+                            }%}
+
+                            {% include 'intranet/gonflage/_case.html.twig' with {
+                                id: cal.id,
+                                aideGonf: cal.aideGonf3 ,
+                                aideValidee: cal.aide3Validee,
+                                aideNumber: 'aide3',
+                                nomComplet: nomComplet
+                            }%}
+
+                            <td class="center">{{ cal.respGonflage }}</td>
+                        </form>
+                    {% else %}
+                        <td>{{ cal.date | date('d/m/Y') }}</td>
+                        <td class="center grey2" colspan="4">Piscine fermée</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+</div>
