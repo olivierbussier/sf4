@@ -3,7 +3,7 @@
 namespace App\Controller\Security;
 
 use App\Classes\Form\FormConst;
-use App\Entity\Adherent;
+use App\Entity\User;
 use App\Entity\Role;
 use App\Form\RegistrationType;
 use DateTime;
@@ -28,7 +28,7 @@ class SecurityController extends AbstractController
      */
     public function Registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
-        $user = new Adherent();
+        $user = new User();
 
         $user->setInscrType(FormConst::REGISTER);
 
@@ -76,8 +76,7 @@ class SecurityController extends AbstractController
         return $this->render('intranet/login.html.twig',[
             'error'     => $error,
             'lastUser'  => $lastuser
-        ]
-);
+        ]);
     }
 
     /**

@@ -3,8 +3,7 @@
 namespace App\Classes\Materiel;
 
 use App\Classes\Config\Config;
-use App\Entity\Adherent;
-use App\Entity\LocRefs;
+use App\Entity\User;
 use App\Entity\MatCal;
 use App\Entity\MatCarac;
 use App\Repository\MatCalRepository;
@@ -17,7 +16,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Exception;
-use Monolog\Logger;
 
 /****************************************************************************************
 Procédures de réservation matériel
@@ -242,11 +240,11 @@ class Resa
         $dql = $this->em->createQueryBuilder()
             ->select(['ml', 'mc'])
             ->from(MatCal::class,'ml')
-            ->leftJoin('ml.MatCarac','mc')
+            ->leftJoin('ml.matCarac','mc')
             ->andWhere("'$today' >  ml.dateDebut")
             //->andWhere("'$today' <= ml.dateFin")
             ->andWhere("(ml.status = '" . self::RESERVE ."' or ml.status = '" . self::PRERESERVE ."' or ml.status = '" . self::ENCOURS ."')")
-            ->orderBy('mc.UsageCount, mc.AssetNum', 'ASC')
+            ->orderBy('mc.usageCount, mc.assetNum', 'ASC')
             ->getQuery();
         $sql = $dql->getSQL(); echo $sql;
         $res = $dql->execute();
@@ -305,7 +303,7 @@ class Resa
         $res = $qb
             ->select("p, c")
             ->from(MatCal::class, 'p')
-            ->leftJoin('p.MatCarac','c')
+            ->leftJoin('p.matCarac','c')
             ->where("p.status = '". self::PRERESERVE . "'")
             ->andWhere("current_timestamp() - p.createdAt > " . Config::validitePreResa)
             ->getQuery()
@@ -378,7 +376,7 @@ class Resa
         $before = $qb
             ->select("p, c")
             ->from(MatCal::class, 'p')
-            ->leftJoin('p.MatCarac','c')
+            ->leftJoin('p.matCarac','c')
             ->where("c.id = $assetref")
             ->andWhere("p.dateFin = '". $datedeb->format('Y-m-d') ."'")
             ->getQuery()
@@ -388,7 +386,7 @@ class Resa
         $after = $qb
             ->select("p, c")
             ->from(MatCal::class, 'p')
-            ->leftJoin('p.MatCarac','c')
+            ->leftJoin('p.matCarac','c')
             ->where("c.id = $assetref")
             ->andWhere("p.dateDebut = '" . $datefin->format('Y-m-d') . "'")
             ->getQuery()
@@ -464,16 +462,16 @@ class Resa
         }
 
         $qb = $this->em->createQueryBuilder()
-            ->select("c.Caracteristique")
+            ->select("c.caracteristique")
             ->from(MatCal::class, 'l')
-            ->leftJoin('l.MatCarac','c')
+            ->leftJoin('l.matCarac','c')
             ->where("l.status = '" . self::LIBRE ."'")
             ->andWhere("l.dateDebut <= '" . $datedeb . "'")
             ->andWhere("l.dateFin >= '" . $datefin . "'")
-            ->orderBy('c.AssetType, c.UsageCount', 'asc');
+            ->orderBy('c.assetType, c.usageCount', 'asc');
 
         if ($assettype != '') {
-            $qb->andWhere("c.AssetType = '$assettype'");
+            $qb->andWhere("c.assetType = '$assettype'");
         }
 
         $res = $qb->getQuery()
@@ -532,20 +530,20 @@ class Resa
         $pr = $em->createQueryBuilder()
             ->select(['ml', 'mc'])
             ->from(MatCal::class,'ml')
-            ->leftJoin('ml.MatCarac','mc')
+            ->leftJoin('ml.matCarac','mc')
             ->where("ml.status = 'libre'")
             ->andWhere("ml.dateDebut <= '$datedeb'")
             ->andWhere("ml.dateFin >= '$datefin'")
-            ->orderBy('mc.AssetType, mc.UsageCount', 'ASC');
+            ->orderBy('mc.assetType, mc.usageCount', 'ASC');
 
         if ($assettype != '') {
-            $pr->andWhere("mc.AssetType = '$assettype'");
+            $pr->andWhere("mc.assetType = '$assettype'");
         }
         if ($assetnum  != '') {
-            $pr->andWhere("mc.AssetNum  = '$assetnum'");
+            $pr->andWhere("mc.assetNum = '$assetnum'");
         }
         if ($caract    != '') {
-            $pr->andWhere("mc.Caracteristique = '$caract'");
+            $pr->andWhere("mc.caracteristique = '$caract'");
         }
         $sql = $pr->getQuery();
         $res = $sql->execute();
@@ -592,7 +590,7 @@ class Resa
         $r = $em->createQueryBuilder()
             ->select('mc')
             ->from(MatCarac::class,"mc")
-            ->where("mc.AssetType = '$assettype'")
+            ->where("mc.assetType = '$assettype'")
             ->getQuery()
             ->execute();
 
@@ -609,13 +607,13 @@ class Resa
         $pr = $em->createQueryBuilder()
             ->select(['ml', 'mc', 'adh'])
             ->from(MatCal::class,'ml')
-            ->join('ml.MatCarac','mc')
-            ->join('ml.RefUser', 'adh')
-            ->where("mc.AssetType = '$assettype'")
+            ->join('ml.matCarac','mc')
+            ->join('ml.refUser', 'adh')
+            ->where("mc.assetType = '$assettype'")
             //->andWhere("mc.AssetNum = '$assetnum'")
             ->andWhere("ml.status <> 'libre'")
             ->andWhere("((ml.dateDebut >= '$datedeb' and ml.dateDebut <= '$datefin') or (ml.dateFin >= '$datedeb' and ml.dateFin <= '$datefin'))")
-            ->orderBy('ml.dateDebut, adh.Nom', 'ASC');
+            ->orderBy('ml.dateDebut, adh.nom', 'ASC');
 
         $dql = $pr->getQuery();
         $sql = $dql->getSQL();
@@ -711,18 +709,18 @@ class Resa
         $pr = $em->createQueryBuilder()
             ->select(['ml', 'mc'])
             ->from(MatCal::class,'ml')
-            ->leftJoin('ml.MatCarac','mc')
-            ->where("mc.AssetType = '$assettype'")
+            ->leftJoin('ml.matCarac','mc')
+            ->where("mc.assetType = '$assettype'")
             ->andWhere("ml.status = 'libre'")
             ->andWhere("ml.dateDebut <= '$datedeb'")
             ->andWhere("ml.dateFin >= '$datefin'")
-            ->orderBy('mc.UsageCount, mc.AssetNum', 'ASC');
+            ->orderBy('mc.usageCount, mc.assetNum', 'ASC');
 
         if ($assetnum  != '') {
-            $pr->andWhere("mc.AssetNum  = '$assetnum'");
+            $pr->andWhere("mc.assetNum  = '$assetnum'");
         }
         if ($caract    != '') {
-            $pr->andWhere("mc.Caracteristique = '$caract'");
+            $pr->andWhere("mc.caracteristique = '$caract'");
         }
         $sql = $pr->getQuery();
         $res = $sql->execute();
@@ -763,8 +761,8 @@ class Resa
         }
         // Création de la ligne spécifique pour la résa
 
-        $adhRepo = $em->getRepository(Adherent::class);
-        /** @var Adherent $adherent */
+        $adhRepo = $em->getRepository(User::class);
+        /** @var User $adherent */
         $adherent = $adhRepo->find($refUser);
         $matcal = new MatCal();
         $matcal
@@ -920,7 +918,7 @@ class Resa
             $after = $this->em->createQueryBuilder()
                 ->select("p, c")
                 ->from(MatCal::class, 'p')
-                ->leftJoin('p.MatCarac', 'c')
+                ->leftJoin('p.matCarac', 'c')
                 ->where("c.id = $assetref")
                 ->andWhere("p.dateDebut = '" . $dfin->format('Y-m-d') . "'")
                 ->andWhere("p.status = '" . self::LIBRE . "'")

@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Classes\Form\FormConst;
-use App\Entity\Adherent;
+use App\Entity\User;
 use App\Entity\Diplome;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

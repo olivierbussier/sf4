@@ -115,10 +115,10 @@
                             <label>
                                 <select name="newChoix" class="larg form-control">
 
-                                    {#<option selected class="boldoption">{{ curItem.AssetType }} {{ curItem.AssetNum }} ({{ curItem.AssetCarac }})</option>#}
+                                    {#<option selected class="boldoption">{{ curItem.assetType }} {{ curItem.AssetNum }} ({{ curItem.AssetCarac }})</option>#}
                                     {% for libres in curItem.libres %}
-                                        <option{% if libres.MatCarac.assetNum == curItem.AssetNum %}  selected class="boldoption"{% elseif libres.status != 'libre' %} class="disoption" disabled{% endif %}>
-                                            {{ libres.MatCarac.AssetType }} {{ libres.MatCarac.AssetNum }} ({{ libres.MatCarac.Caracteristique }})
+                                        <option{% if libres.matCarac.assetNum == curItem.AssetNum %}  selected class="boldoption"{% elseif libres.status != 'libre' %} class="disoption" disabled{% endif %}>
+                                            {{ libres.matCarac.assetType }} {{ libres.matCarac.assetNum }} ({{ libres.matCarac.Caracteristique }})
                                         </option>
                                     {% endfor %}
                                 </select>

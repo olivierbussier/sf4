@@ -16,28 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BaseController extends AbstractController
 {
-    /**
-     * @Route("/", name="root")
-     * @param EntityManagerInterface $em
-     * @return Response
-     */
-    public function index(EntityManagerInterface $em)
-    {
-        $posts = $em->getRepository(Blog::class)->getAllPosts();
-
-
-        $dirImages = Config::blogImages;
-
-        // affichage de toutes les images du rep pub
-
-        $pubs = glob('public/imp/*.*');
-
-        return $this->render(
-            'pages/index.html.twig', [
-                'imblog' => $dirImages,
-                'posts' => $posts
-        ]);
-    }
 
     /**
      * @Route("/preview/{blogId}", name="root_preview")

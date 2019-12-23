@@ -53,8 +53,8 @@ class MatCalRepository extends ServiceEntityRepository
 
         $qb = $this->createQueryBuilder('ml')
             ->select('ml, mc, adh')
-            ->join('ml.MatCarac', 'mc')
-            ->join('ml.RefUser', 'adh')
+            ->join('ml.matCarac', 'mc')
+            ->join('ml.refUser', 'adh')
             ->where("ml.status != 'libre' and ml.status != 'restitue'")
             ->orderBy('ml.dateDebut', 'asc');
 

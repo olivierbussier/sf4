@@ -5,7 +5,7 @@ namespace App\Classes\Inscription;
 use App\Classes\Config\Config;
 use App\Classes\Helpers\DateHelper;
 use App\Classes\PDF\GucPDF;
-use App\Entity\Adherent;
+use App\Entity\User;
 use App\Entity\Diplome;
 use DateTime;
 
@@ -30,7 +30,7 @@ class CreatePDF
      * @return bool
      */
     public function createPDF(
-        Adherent $user,
+        User $user,
         string $FileNamePDF,
         string $FileNameJPG,
         float $TotalGUC,
@@ -51,7 +51,7 @@ class CreatePDF
 
         $liste_diplomes = '';
 
-        /** @var Adherent $user */
+        /** @var User $user */
         /** @var Diplome $diplome */
 
         foreach ($user->getDiplomes() as $diplome) {

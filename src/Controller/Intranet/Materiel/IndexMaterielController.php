@@ -6,7 +6,7 @@ use App\Classes\Materiel\ListeMateriel;
 use App\Classes\Materiel\Resa;
 use App\Classes\Resa\Element;
 use App\Classes\Resa\Reservation;
-use App\Entity\Adherent;
+use App\Entity\User;
 use App\Entity\Calendrier;
 use App\Entity\LocRefs;
 use App\Entity\MatCal;
@@ -80,17 +80,17 @@ class IndexMaterielController extends AbstractController
 
 // Construction de la liste des réservations en cours pour l'utilisateur (ayant le status reserve ou encours)
 
-        /** @var Adherent $User */
+        /** @var User $User */
         $User = $this->getUser()->getId();
         /** @var MatCal[] $encours */
         $encours = $em->createQueryBuilder()
             ->select(['m','mc'])
             ->from(MatCal::class, 'm')
-            ->leftJoin('m.MatCarac','mc')
-            ->where("m.RefUser = $User")
+            ->leftJoin('m.matCarac','mc')
+            ->where("m.refUser = $User")
             ->andWhere("m.status = 'reserve'")
             ->orWhere("m.status = 'encours'")
-            ->orderBy("m.RefResa", "ASC")
+            ->orderBy("m.refResa", "ASC")
             ->getQuery()
             ->getResult();
 
@@ -144,8 +144,11 @@ class IndexMaterielController extends AbstractController
     /**
      * @Route("/intranet/materiel/ajax/prereservation", name="ajax_pre_reservation")
      * @param EntityManagerInterface $em
+     * @param SessionInterface $session
      * @return Response
-     * @throws Exception
+     * @throws \Doctrine\DBAL\ConnectionException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function ajaxDemandeMat(EntityManagerInterface $em, SessionInterface $session)
     {
@@ -189,7 +192,7 @@ class IndexMaterielController extends AbstractController
         }
 
         $user = $this->getUser();
-        /** @var Adherent $user */
+        /** @var User $user */
         $userId = $user->getId();
         switch ($commande) {
             case 'addMat':

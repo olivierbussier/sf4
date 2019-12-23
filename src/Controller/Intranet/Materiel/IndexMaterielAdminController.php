@@ -3,11 +3,9 @@
 namespace App\Controller\Intranet\Materiel;
 
 use App\Classes\Helpers\DateHelper;use App\Classes\Materiel\Resa;
-use App\Entity\Adherent;use App\Entity\MatCal;
+use App\Entity\MatCal;
 use App\Entity\MatCarac;
 use DateInterval;
-use DateTime;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -438,13 +436,13 @@ class IndexMaterielAdminController extends AbstractController
         $mat = $em->createQueryBuilder()
             ->select('ml, ad')
             ->from (MatCal::class,'ml')
-            ->join('ml.MatCarac', 'mc')
-            ->join('ml.RefUser', 'ad')
+            ->join('ml.matCarac', 'mc')
+            ->join('ml.refUser', 'ad')
             ->where("ml.status <> 'libre'")
             ->andWhere("(((ml.dateDebut >= '$startd') and (ml.dateDebut < '$endd')) or ".
                         "((ml.dateFin >= '$startd') and (ml.dateFin < '$endd'))) or " .
                         "((ml.dateDebut <= '$startd') and (ml.dateFin >= '$endd'))")
-            ->orderBy('ml.RefResa, mc.AssetType', 'asc')
+            ->orderBy('ml.refResa, mc.assetType', 'asc')
             ->getQuery()
             ->execute();
 
@@ -516,11 +514,11 @@ class IndexMaterielAdminController extends AbstractController
             $others = $em->createQueryBuilder()
                 ->select('ml, mc')
                 ->from (MatCal::class,'ml')
-                ->join('ml.MatCarac', 'mc')
+                ->join('ml.matCarac', 'mc')
                 ->where("(ml.status = 'libre' or ml.status = 'reserve' or ml.status = 'preReserve' or ml.status = 'encours')")
-                ->andWhere("mc.AssetType = '$type'")
+                ->andWhere("mc.assetType = '$type'")
                 ->andWhere("((ml.dateDebut <= '$debutResa') and (ml.dateFin >= '$finResa'))")
-                ->orderBy('mc.Caracteristique, mc.AssetNum', 'asc')
+                ->orderBy('mc.caracteristique, mc.assetNum', 'asc')
                 ->getQuery()
                 ->execute();
 

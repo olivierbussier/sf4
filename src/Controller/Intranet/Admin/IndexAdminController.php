@@ -3,16 +3,14 @@
 namespace App\Controller\Intranet\Admin;
 
 use App\Classes\Form\FormConst;
-use App\Entity\Adherent;
+use App\Entity\User;
 use App\Entity\FilterDroits;
 use App\Entity\Role;
 use App\Form\FilterDroitsType;
-use App\Repository\AdherentRepository;
-use App\Repository\RoleRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,8 +55,8 @@ class IndexAdminController extends AbstractController
         }
         // Recherche du droit concerné dans la base
 
-        /** @var AdherentRepository $adh */
-        $adh = $em->getRepository(Adherent::class);
+        /** @var UserRepository $adh */
+        $adh = $em->getRepository(User::class);
         $user = $adh->find($userId);
 
 
@@ -105,9 +103,9 @@ class IndexAdminController extends AbstractController
         $form = $this->createForm(FilterDroitsType::class, $search);
         $form->handleRequest($request);
 
-        /** @var AdherentRepository $ar */
-        $ar = $em->getRepository(Adherent::class);
-        $query = $ar->getAdherentsRights($search);
+        /** @var UserRepository $ar */
+        $ar = $em->getRepository(User::class);
+        $query = $ar->getUserssRights($search);
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */

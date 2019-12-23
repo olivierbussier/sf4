@@ -1,13 +1,13 @@
 {% import 'macros/ajax.html.twig' as ajax %}
 
-<div class="col-xs-12">
+<div class="col-12">
     <h4>Votre demande</h4>
 
     {#  dump(resa) }}
     {{  dump(post) #}
 </div>
 
-<div class="col-xs-12">
+<div class="col-12">
 
 </div>
 
@@ -16,7 +16,7 @@
 #}
 <form method="post" action="">
 
-    <div class="col-xs-12 col-sm-6">
+    <div class="col-12 col-sm-6">
         <div class="form-group">
             <label for="dateSortie">Date de sortie du matériel</label>
             <input class="form-control" id="dateSortie"
@@ -40,7 +40,7 @@
         </script>
     </div>
 
-    <div class="col-xs-12 col-sm-6">
+    <div class="col-12 col-sm-6">
         <div class="form-group">
             <label for="dateRetour">Date de restitution du matériel</label>
             <input type="date" class="form-control" id="dateRetour"
@@ -64,7 +64,7 @@
         </script>
     </div>
 
-    <div class="form-group col-xs-12">
+    <div class="form-group col-12">
         <label for="typeSortie">type de sortie</label>
         <select id="typeSortie" class="form-control"
                 onchange="{{ ajax.action('init',['typeMat', 'typeSortie']) }}">
@@ -79,38 +79,41 @@
         </select>
     </div>
 
-    <div class="form-inline col-xs-12">
-
+    <div class="col-12">
         <h4>Matériels souhaités</h4>
+    </div>
 
-        <div class="form-group">
-            <label class="sr-only" for="typeMat">type</label>
-            <select class="form-control" id="typeMat" onchange="{{ ajax.action('init',['typeMat']) }}">
-                {% for type in tabRes %}
-                    {% if type.AssetType == typeMat %}
-                        {% set selected = ' selected' %}
-                    {% else %}
-                        {% set selected = '' %}
+    <div class="col-12">
+        <div class="form-inline">
+            <div class="form-group">
+                <label class="sr-only" for="typeMat">type</label>
+                <select class="form-control" id="typeMat" onchange="{{ ajax.action('init',['typeMat']) }}">
+                    {% for type in tabRes %}
+                        {% if type.assetType == typeMat %}
+                            {% set selected = ' selected' %}
+                        {% else %}
+                            {% set selected = '' %}
+                        {% endif %}
+                        <option{{ selected }}>{{ type.assetType }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="sr-only" for="caracMat">type</label>
+                <select class="form-control" id="caracMat" onchange="{{ ajax.action('init',['typeMat', 'caracMat']) }}">
+                    {% for car,cnt in tabCaract %}
+                        <option value="{{ car }}"{% if post.caracMat is defined and car == post.caracMat %} selected {% endif %}>{{ car }} ({{ cnt }} disponibles)</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-primary"
+                    {% if resa.typeSortie is null or resa.dateSortie is null or resa.dateRetour is null %}
+                        disabled
                     {% endif %}
-                    <option{{ selected }}>{{ type.AssetType }}</option>
-                {% endfor %}
-            </select>
+                    onclick="{{ ajax.action('addMat', ['typeMat', 'caracMat']) }}">Ajouter</button>
         </div>
-
-        <div class="form-group">
-            <label class="sr-only" for="caracMat">type</label>
-            <select class="form-control" id="caracMat" onchange="{{ ajax.action('init',['typeMat', 'caracMat']) }}">
-                {% for car,cnt in tabCaract %}
-                    <option value="{{ car }}"{% if post.caracMat is defined and car == post.caracMat %} selected {% endif %}>{{ car }} ({{ cnt }} disponibles)</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <button type="button" class="btn btn-primary"
-                {% if resa.typeSortie is null or resa.dateSortie is null or resa.dateRetour is null %}
-                    disabled
-                {% endif %}
-                onclick="{{ ajax.action('addMat', ['typeMat', 'caracMat']) }}">Ajouter</button>
     </div>
 
     <style>
@@ -131,7 +134,8 @@
             padding-right: 0.5em;
         }
     </style>
-    <div class="col-xs-12 group-asset"><span class="titlegrp">Liste des matériels à réservér</span>
+
+    <div class="col-12 group-asset"><span class="titlegrp">Liste des matériels à réservér</span>
     {% for object in resa.items %}
         <div class="form-inline">
             <button type="button" class="btn btn-light btn-outline-guc"

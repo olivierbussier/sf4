@@ -26,7 +26,7 @@ class MatCaracRepository extends ServiceEntityRepository
     public function getDistinctTypes()
     {
         return $this->createQueryBuilder('types')
-            ->select("types.AssetType")
+            ->select("types.assetType")
             ->distinct()
             ->getQuery()
             ->execute();

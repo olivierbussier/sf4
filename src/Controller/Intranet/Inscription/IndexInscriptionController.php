@@ -9,7 +9,7 @@ use App\Classes\Helpers\FileHelper;
 use App\Classes\Inscription\AdhCoding;
 use App\Classes\Inscription\Calculate;
 use App\Classes\Inscription\CreatePDF;
-use App\Entity\Adherent;
+use App\Entity\User;
 use App\Form\InscriptionType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,8 +28,8 @@ class IndexInscriptionController extends AbstractController
      */
     public function index(Request $request, ObjectManager $manager, string $slug = 'Normal')
     {
-        /** @var Adherent $user */
-        $user2 = $manager->getRepository('App\\Entity\\Adherent')->find(410);
+        /** @var User $user */
+        $user2 = $manager->getRepository('App\\Entity\\User')->find(410);
         $user = $this->getUser();
 
         if ($slug == 'normal') {
@@ -93,7 +93,7 @@ class IndexInscriptionController extends AbstractController
      */
     public function recapInscription()
     {
-        /** @var Adherent $user */
+        /** @var User $user */
         $user = $this->getUser();
 
         $l = new Calculate();

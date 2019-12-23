@@ -6,6 +6,7 @@ use App\Classes\Config\Config;
 use App\Entity\Blog;
 use App\Form\ContactType;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,12 +16,12 @@ class RootController extends AbstractController
 {
     /**
      * @Route("/", name="root")
-     * @param ManagerRegistry $doctrine
+     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function index(ManagerRegistry $doctrine)
+    public function index(EntityManagerInterface $em)
     {
-        $posts = $doctrine->getRepository(Blog::class)->getallPosts();
+        $posts = $em->getRepository(Blog::class)->getallPosts();
 
         $dirImages = Config::blogImages;;
 

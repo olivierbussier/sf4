@@ -4,7 +4,7 @@ namespace App\Controller\Intranet\Inscription;
 
 use App\Classes\Form\FormConst;
 use App\Classes\Inscription\Calculate;
-use App\Entity\Adherent;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -63,7 +63,7 @@ class AjaxController extends AbstractController
         // Avant de calculer la cotisation, on regarde si il y a a traiter une réduction famille
         // Réduction famille
 
-        /** @var Adherent $user */
+        /** @var User $user */
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
 

@@ -9,18 +9,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use App\Bundles\Validator\AdherentConstraint;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\AdherentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(
  *     fields = {"Username"},
  *     message = "Le nom d'adhérent est déjà utilisé"
  * )
  * @AdherentConstraint()
  */
-class Adherent implements UserInterface
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -43,19 +42,19 @@ class Adherent implements UserInterface
      *     maxMessage="Votre identifiant doit comporter au plus 20 caractères"
      * )
      */
-    private $Username;
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      */
-    private $Nom;
+    private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      */
-    private $Prenom;
+    private $prenom;
 
     /**
     /**
@@ -66,12 +65,12 @@ class Adherent implements UserInterface
      *     checkMX = true
      * )
      */
-    private $Mail;
+    private $mail;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $CodeSecret;
+    private $codeSecret;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -81,13 +80,13 @@ class Adherent implements UserInterface
      *     minMessage="Votre mot de passe doit comporter au minimum 8 caractères"
      * )
      */
-    private $Password;
+    private $password;
 
     /**
      * @Assert\NotBlank()
      * @Assert\EqualTo(propertyPath="Password", message="Password et confirm_password sont différents")
      */
-    public $confirm_Password;
+    public $confirmPassword;
 
     /**
      * @Assert\NotBlank()
@@ -337,7 +336,7 @@ class Adherent implements UserInterface
     private $ReducFam;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Role", mappedBy="adherent", cascade="persist")
+     * @ORM\OneToMany(targetEntity="App\Entity\Role", mappedBy="user", cascade="persist")
      */
     private $roles;
 
@@ -345,7 +344,7 @@ class Adherent implements UserInterface
     private $mineurSign;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MatCal", mappedBy="RefUser")
+     * @ORM\OneToMany(targetEntity="App\Entity\MatCal", mappedBy="refUser")
      */
     private $matCals;
 
@@ -363,48 +362,48 @@ class Adherent implements UserInterface
 
     public function getNom(): ?string
     {
-        return $this->Nom;
+        return $this->nom;
     }
 
-    public function setNom(string $Nom): self
+    public function setNom(string $nom): self
     {
-        $this->Nom = $Nom;
+        $this->nom = $nom;
 
         return $this;
     }
 
     public function getPrenom(): ?string
     {
-        return $this->Prenom;
+        return $this->prenom;
     }
 
-    public function setPrenom(string $Prenom): self
+    public function setPrenom(string $prenom): self
     {
-        $this->Prenom = $Prenom;
+        $this->prenom = $prenom;
 
         return $this;
     }
 
     public function getMail(): ?string
     {
-        return $this->Mail;
+        return $this->mail;
     }
 
-    public function setMail(string $Mail): self
+    public function setMail(string $mail): self
     {
-        $this->Mail = $Mail;
+        $this->mail = $mail;
 
         return $this;
     }
 
     public function getPassword(): ?string
     {
-        return $this->Password;
+        return $this->password;
     }
 
-    public function setPassword(string $Password): self
+    public function setPassword(string $password): self
     {
-        $this->Password = $Password;
+        $this->password = $password;
 
         return $this;
     }
@@ -420,16 +419,16 @@ class Adherent implements UserInterface
     }
 
     /**
-     * @param mixed $Username
+     * @param mixed $username
      */
-    public function setUsername($Username): void
+    public function setUsername($username): void
     {
-        $this->Username = $Username;
+        $this->username = $username;
     }
 
     public function getUsername()
     {
-        return $this->Username;
+        return $this->username;
     }
 
     public function getGenre(): ?string
@@ -1001,15 +1000,15 @@ class Adherent implements UserInterface
      */
     public function getCodeSecret()
     {
-        return $this->CodeSecret;
+        return $this->codeSecret;
     }
 
     /**
-     * @param mixed $CodeSecret
+     * @param mixed $codeSecret
      */
-    public function setCodeSecret($CodeSecret): void
+    public function setCodeSecret($codeSecret): void
     {
-        $this->CodeSecret = $CodeSecret;
+        $this->codeSecret = $codeSecret;
     }
 
     /**
@@ -1073,7 +1072,7 @@ class Adherent implements UserInterface
     {
         if (!$this->roles->contains($role)) {
             $this->roles[] = $role;
-            $role->setAdherent($this);
+            $role->setUser($this);
         }
 
         return $this;
@@ -1084,8 +1083,8 @@ class Adherent implements UserInterface
         if ($this->roles->contains($role)) {
             $this->roles->removeElement($role);
             // set the owning side to null (unless already changed)
-            if ($role->getAdherent() === $this) {
-                $role->setAdherent(null);
+            if ($role->getUser() === $this) {
+                $role->setUser(null);
             }
         }
 
@@ -1145,15 +1144,15 @@ class Adherent implements UserInterface
      */
     public function getConfirmPassword()
     {
-        return $this->confirm_Password;
+        return $this->confirmPassword;
     }
 
     /**
-     * @param mixed $confirm_Password
+     * @param mixed $confirmPassword
      */
-    public function setConfirmPassword($confirm_Password): void
+    public function setConfirmPassword($confirmPassword): void
     {
-        $this->confirm_Password = $confirm_Password;
+        $this->confirmPassword = $confirmPassword;
     }
 
     /**

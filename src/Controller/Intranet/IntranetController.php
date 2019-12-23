@@ -3,9 +3,9 @@
 namespace App\Controller\Intranet;
 
 use App\Classes\Sheets\Sheets;
-use App\Entity\Adherent;
+use App\Entity\User;
 use App\Form\InfoPersoType;
-use App\Repository\AdherentRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -25,7 +25,7 @@ class IntranetController extends AbstractController
         $sheet = Sheets::getSheetURL();
 
         $user = $this->getUser();
-        $adh = $em->getRepository(Adherent::class)->find($user->getId());
+        $adh = $em->getRepository(User::class)->find($user->getId());
 
         return $this->render('intranet/index.html.twig', [
             'adh' => $adh,
@@ -40,8 +40,8 @@ class IntranetController extends AbstractController
      */
     public function trombi(EntityManagerInterface $em)
     {
-        $adhRepo = $em->getRepository(Adherent::class);
-        /** @var $adhRepo AdherentRepository */
+        $adhRepo = $em->getRepository(User::class);
+        /** @var $adhRepo UserRepository */
         $photos = $adhRepo->getAllPhotos();
 
         return $this->render('intranet/index_trombi.html.twig',[

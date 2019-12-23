@@ -22,9 +22,9 @@ class Role
     private $role;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Adherent", inversedBy="roles")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="roles")
      */
-    private $adherent;
+    private $user;
 
     public function getId()
     {
@@ -43,14 +43,14 @@ class Role
         return $this;
     }
 
-    public function getAdherent(): ?Adherent
+    public function getUser(): ?User
     {
-        return $this->adherent;
+        return $this->user;
     }
 
-    public function setAdherent(?Adherent $adherent): self
+    public function setUser(?User $user): self
     {
-        $this->adherent = $adherent;
+        $this->user = $user;
 
         return $this;
     }

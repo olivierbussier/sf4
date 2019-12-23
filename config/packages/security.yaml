@@ -1,14 +1,14 @@
 security:
     encoders:
-        App\Entity\Adherent: 'auto'
+        App\Entity\User: 'auto'
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: ~ }
         in_database:
             entity:
-                class: App\Entity\Adherent
-                property: Username
+                class: App\Entity\User
+                property: username
 
     firewalls:
         dev:

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Intranet;
 
-use App\Entity\Adherent;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +17,7 @@ class IndexBaptemeController extends AbstractController
     public function index(RegistryInterface $doctrine)
     {
         $user = $this->getUser();
-        $adh = $doctrine->getRepository(Adherent::class)->find($user->getId());
+        $adh = $doctrine->getRepository(User::class)->find($user->getId());
         return $this->render('intranet/index.html.twig', [
             'adh' => $adh
         ]);

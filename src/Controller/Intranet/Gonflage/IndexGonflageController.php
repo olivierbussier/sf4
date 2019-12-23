@@ -2,7 +2,7 @@
 
 namespace App\Controller\Intranet\Gonflage;
 
-use App\Entity\Adherent;
+use App\Entity\User;
 use App\Entity\Calendrier;
 use App\Repository\CalendrierRepository;
 use DateTime;
@@ -58,7 +58,7 @@ class IndexGonflageController extends AbstractController
         /** @var Calendrier $dateCal */
         $dateCal = $cal->find($ref);
 
-        /** @var Adherent $usr */
+        /** @var User $usr */
         $usr = $this->getUser();
         $user = $usr->getNom() . ' ' . $usr->getPrenom();
 
@@ -135,7 +135,7 @@ class IndexGonflageController extends AbstractController
     {
         $cal = $em->getRepository(Calendrier::class);
 
-        /** @var Adherent $usr */
+        /** @var User $usr */
         $usr = $this->getUser();
 
         $user = $usr->getNom() . ' ' . $usr->getPrenom();
@@ -164,7 +164,7 @@ class IndexGonflageController extends AbstractController
             'calendrier' => $cals,
             'seancesUser' => $seances,
             'seancesValidees' => 1,
-            /** @var Adherent */
+            /** @var User */
             'ACTIVITE' => $usr->getActivite(),
             'msgErreur' => ''
         ]);

@@ -26,7 +26,7 @@ Encore
     .addEntry('app'     , './assets/js/app.js')         // Ajax global
     .addEntry('gonflage', './assets/js/gonflage.js')    // Gestion du calendrier de gonflage utilisateur
     .addEntry('droits'  , './assets/js/droits.js')      // Gestion Ajax des droits/roles utilisateur
-    //.addEntry('page2', './assets/js/page2.js')
+    .addEntry('materiel', './assets/js/materiel.js')    // Gestion des demandes de réservation
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

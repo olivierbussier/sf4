@@ -4,7 +4,7 @@ namespace App\Classes\Inscription;
 
 use App\Classes\Config\Config;
 use App\Classes\Form\FormConst;
-use App\Entity\Adherent;
+use App\Entity\User;
 use DateTime;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -60,8 +60,8 @@ class Calculate
                     // Valide, Vérification que ce numéro n'est pas déja utilisé pour
                     // valider d'autres réductions famille
 
-                    $adhRepo = $em->getRepository(Adherent::class);
-                    /** @var Adherent $user */
+                    $adhRepo = $em->getRepository(User::class);
+                    /** @var User $user */
                     $users = $adhRepo->findBy(['ReducFamilleID' => $val]);
 
                     if ($users && count($users) == 1) {
@@ -127,7 +127,7 @@ class Calculate
      */
     public function calcCotis($post): array
     {
-        if ($post instanceof Adherent) {
+        if ($post instanceof User) {
             $benevole =  $post->getFBenevole();
             $familleID=  $post->getReducFamilleID();
             $famille  =  $post->getReducFam();

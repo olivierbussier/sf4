@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Classes\Form\FormConst;
-use App\Entity\Adherent;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -21,14 +21,14 @@ class RegistrationType extends AbstractType
             ->add('Nom')
             ->add('Prenom')
             ->add('Password', PasswordType::class)
-            ->add('confirm_Password', PasswordType::class)
+            ->add('confirmPassword', PasswordType::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Adherent::class,
+            'data_class' => User::class,
         ]);
     }
 }

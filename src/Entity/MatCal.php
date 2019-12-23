@@ -49,24 +49,24 @@ class MatCal
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $Commentaire;
+    private $commentaire;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\MatCarac", inversedBy="MatCals")
+     * @ORM\ManyToOne(targetEntity="App\Entity\MatCarac", inversedBy="matCals")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $MatCarac;
+    private $matCarac;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Adherent", inversedBy="matCals")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="matCals")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $RefUser;
+    private $refUser;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $RefResa;
+    private $refResa;
 
     public function getId(): ?int
     {
@@ -147,48 +147,48 @@ class MatCal
 
     public function getCommentaire(): ?string
     {
-        return $this->Commentaire;
+        return $this->commentaire;
     }
 
-    public function setCommentaire(?string $Commentaire): self
+    public function setCommentaire(?string $commentaire): self
     {
-        $this->Commentaire = $Commentaire;
+        $this->commentaire = $commentaire;
 
         return $this;
     }
 
     public function getMatCarac(): ?MatCarac
     {
-        return $this->MatCarac;
+        return $this->matCarac;
     }
 
     public function setMatCarac(?MatCarac $matCarac): self
     {
-        $this->MatCarac = $matCarac;
+        $this->matCarac = $matCarac;
 
         return $this;
     }
 
-    public function getRefUser(): ?Adherent
+    public function getRefUser(): ?User
     {
-        return $this->RefUser;
+        return $this->refUser;
     }
 
-    public function setRefUser(?Adherent $RefUser): self
+    public function setRefUser(?User $refUser): self
     {
-        $this->RefUser = $RefUser;
+        $this->refUser = $refUser;
 
         return $this;
     }
 
     public function getRefResa(): ?int
     {
-        return $this->RefResa;
+        return $this->refResa;
     }
 
-    public function setRefResa(int $RefResa): self
+    public function setRefResa(int $refResa): self
     {
-        $this->RefResa = $RefResa;
+        $this->refResa = $refResa;
 
         return $this;
     }

@@ -7,7 +7,7 @@ use App\Classes\Helpers\DateHelper;
 use App\Classes\Form\FormConst;
 use App\Classes\Helpers\FileHelper;
 use App\Classes\Inscription\Calculate;
-use App\Entity\Adherent;
+use App\Entity\User;
 use App\Entity\Diplome;
 use DateInterval;
 use DateTime;
@@ -74,9 +74,9 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification des champs d'adresse
-     * @param Adherent $user
+     * @param User $user
      */
-    private function checkAddress(Adherent $user)
+    private function checkAddress(User $user)
     {
         // *********************************************************************
         // verifier addresse != 0
@@ -103,9 +103,9 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification de la saisie du champ profession
-     * @param Adherent $user
+     * @param User $user
      */
-    private function checkProf(Adherent $user)
+    private function checkProf(User $user)
     {
         if ($user->getProfession() == "") {
             $this->e("Vous n'avez pas mis votre profession.", 'Profession');
@@ -114,10 +114,10 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Fonction de check de la date de naissance
-     * @param Adherent $user
+     * @param User $user
      * @throws \Exception
      */
-    private function checkDnaiss(Adherent $user)
+    private function checkDnaiss(User $user)
     {
         // *********************************************************************
         // calcul de l'âge
@@ -195,9 +195,9 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification des numéros de téléphone
-     * @param Adherent $user
+     * @param User $user
      */
-    private function checkTel(Adherent $user)
+    private function checkTel(User $user)
     {
         $tel = $user->getTelFix();
 
@@ -225,9 +225,9 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification photo
-     * @param Adherent $user
+     * @param User $user
      */
-    private function checkPhoto(Adherent $user)
+    private function checkPhoto(User $user)
     {
         $NOM    = $user->getNom();
         $PRENOM = $user->getPrenom();
@@ -244,10 +244,10 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification de la saisie des niveaux
-     * @param Adherent $user
+     * @param User $user
      * @throws \Exception
      */
-    private function checkNiv(Adherent $user)
+    private function checkNiv(User $user)
     {
         $Niveau = $user->getNiveauSca();
         $Apnee = $user->getNiveauApn();
@@ -276,10 +276,10 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification des champs de saisie des diplômes
-     * @param Adherent $user
+     * @param User $user
      * @throws \Exception
      */
-    private function checkDipl(Adherent $user)
+    private function checkDipl(User $user)
     {
         $dnaiss = $user->getDateNaissance()->format('d/m/Y');
         $age_today = DateHelper::age($dnaiss);
@@ -306,10 +306,10 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification des champs de saisie d'activité
-     * @param Adherent $user
+     * @param User $user
      * @throws \Exception
      */
-    private function checkActi(Adherent $user)
+    private function checkActi(User $user)
     {
         $Niveau   = $user->getNiveauSca();
         $Apnee    = $user->getNiveauApn();
@@ -420,9 +420,9 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification des champs de saisie de la personne à prevenir en cas d'accident
-     * @param Adherent $user
+     * @param User $user
      */
-    private function checkAcci(Adherent $user)
+    private function checkAcci(User $user)
     {
         if ($user->getAccidentNom() == "") {
             $this->e("Vous n'avez pas renseigné le nom de la personne à prévenir en cas d'accident.", 'AccidentNom');
@@ -457,10 +457,10 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification des champs de saisie du certificat médical
-     * @param Adherent $user
+     * @param User $user
      * @throws \Exception
      */
-    private function checkDcertif(Adherent $user)
+    private function checkDcertif(User $user)
     {
         $dcert = $user->getDateCertif();
 
@@ -497,9 +497,9 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification du champ de saisie de l'allergie à l'aspirine
-     * @param Adherent $user
+     * @param User $user
      */
-    private function checkAspi(Adherent $user)
+    private function checkAspi(User $user)
     {
         if ($user->getFAllergAspirine() == "") {
             $this->e("Vous n'avez pas précisé votre intolérance à l'aspirine.",'fAllergAspirine');
@@ -508,9 +508,9 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification du champ de saisie licence FFESSM
-     * @param Adherent $user
+     * @param User $user
      */
-    private function checkLic(Adherent $user)
+    private function checkLic(User $user)
     {
         // Calcul Licence
 
@@ -546,9 +546,9 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification des champs de saisie AXA
-     * @param Adherent $user
+     * @param User $user
      */
-    private function checkAss(Adherent $user)
+    private function checkAss(User $user)
     {
         $assurance = $user->getAssurance();
 
@@ -569,9 +569,9 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification du champ "réduction famille"
-     * @param Adherent $user
+     * @param User $user
      */
-    private function checkReducfam(Adherent $user)
+    private function checkReducfam(User $user)
     {
         $reducFam = $user->getReducFam();
 
@@ -594,9 +594,9 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification du champ "prêt de matériel"
-     * @param Adherent $user
+     * @param User $user
      */
-    private function checkPret(Adherent $user)
+    private function checkPret(User $user)
     {
         if ($user->getPretMateriel() == "") {
             $this->e("Vous n'avez pas précisé si vous voulez emprunter du matériel.", 'PretMateriel');
@@ -612,9 +612,9 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification du champ de saisie d'autorisation d'utilisation de l'adresse mail
-     * @param Adherent $user
+     * @param User $user
      */
-    private function checkMailliste(Adherent $user)
+    private function checkMailliste(User $user)
     {
         if ($user->getFMailGUC() == "") {
             $this->e("Vous n'avez pas précisé si vous voulez communiquer votre email au GUC Central.", 'fMailGUC');
@@ -623,9 +623,9 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification du champ de saisie règlement accepté
-     * @param Adherent $user
+     * @param User $user
      */
-    private function checkReglement(Adherent $user)
+    private function checkReglement(User $user)
     {
         if (!$user->getReglementRGPD() && !Session::isInscriptionModeToOther()) {
             $this->e(
@@ -639,10 +639,10 @@ class AdherentClassValidator extends ConstraintValidator
 
     /**
      * Vérification du champ de saisie autorisation parentale
-     * @param Adherent $user
+     * @param User $user
      * @throws \Exception
      */
-    private function checkMineur(Adherent $user)
+    private function checkMineur(User $user)
     {
         $age_today = DateHelper::age($user->getDateNaissance());
 

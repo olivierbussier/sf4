@@ -18,7 +18,7 @@ class Diplome
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Adherent", inversedBy="diplomes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="diplomes")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
@@ -53,12 +53,12 @@ class Diplome
         return $this->id;
     }
 
-    public function getUser(): ?Adherent
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?Adherent $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 

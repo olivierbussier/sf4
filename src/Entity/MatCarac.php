@@ -21,37 +21,37 @@ class MatCarac
     /**
      * @ORM\Column(type="integer")
      */
-    private $UsageCount;
+    private $usageCount;
 
     /**
      * @ORM\Column(type="string", length=64)
      */
-    private $AssetNum;
+    private $assetNum;
 
     /**
      * @ORM\Column(type="string", length=32)
      */
-    private $AssetType;
+    private $assetType;
 
     /**
      * @ORM\Column(type="string", length=32)
      */
-    private $Caracteristique;
+    private $caracteristique;
 
     /**
      * @ORM\Column(type="string", length=128)
      */
-    private $Status;
+    private $status;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $Commentaire;
+    private $commentaire;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MatCal", mappedBy="MatCarac")
+     * @ORM\OneToMany(targetEntity="App\Entity\MatCal", mappedBy="matCarac")
      */
-    private $MatCals;
+    private $matCals;
 
     public function __construct()
     {
@@ -65,72 +65,72 @@ class MatCarac
 
     public function getUsageCount(): ?int
     {
-        return $this->UsageCount;
+        return $this->usageCount;
     }
 
-    public function setUsageCount(int $UsageCount): self
+    public function setUsageCount(int $usageCount): self
     {
-        $this->UsageCount = $UsageCount;
+        $this->usageCount = $usageCount;
 
         return $this;
     }
 
     public function getAssetNum(): ?string
     {
-        return $this->AssetNum;
+        return $this->assetNum;
     }
 
-    public function setAssetNum(string $AssetNum): self
+    public function setAssetNum(string $assetNum): self
     {
-        $this->AssetNum = $AssetNum;
+        $this->assetNum = $assetNum;
 
         return $this;
     }
 
     public function getAssetType(): ?string
     {
-        return $this->AssetType;
+        return $this->assetType;
     }
 
-    public function setAssetType(string $AssetType): self
+    public function setAssetType(string $assetType): self
     {
-        $this->AssetType = $AssetType;
+        $this->assetType = $assetType;
 
         return $this;
     }
 
     public function getCaracteristique(): ?string
     {
-        return $this->Caracteristique;
+        return $this->caracteristique;
     }
 
-    public function setCaracteristique(string $Caracteristique): self
+    public function setCaracteristique(string $caracteristique): self
     {
-        $this->Caracteristique = $Caracteristique;
+        $this->caracteristique = $caracteristique;
 
         return $this;
     }
 
     public function getStatus(): ?string
     {
-        return $this->Status;
+        return $this->status;
     }
 
-    public function setStatus(string $Status): self
+    public function setStatus(string $status): self
     {
-        $this->Status = $Status;
+        $this->status = $status;
 
         return $this;
     }
 
     public function getCommentaire(): ?string
     {
-        return $this->Commentaire;
+        return $this->commentaire;
     }
 
-    public function setCommentaire(?string $Commentaire): self
+    public function setCommentaire(?string $commentaire): self
     {
-        $this->Commentaire = $Commentaire;
+        $this->commentaire = $commentaire;
 
         return $this;
     }
@@ -140,13 +140,13 @@ class MatCarac
      */
     public function getMatCals(): Collection
     {
-        return $this->MatCals;
+        return $this->matCals;
     }
 
     public function addMatCal(MatCal $matCal): self
     {
-        if (!$this->MatCals->contains($matCal)) {
-            $this->MatCals[] = $matCal;
+        if (!$this->matCals->contains($matCal)) {
+            $this->matCals[] = $matCal;
             $matCal->setAssetRef($this);
         }
 
