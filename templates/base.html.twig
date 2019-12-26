@@ -171,20 +171,19 @@
 
             {% block main_page %}{% endblock %}
 
-            <div style="clear: both"></div>
-
             <div class="row">
-                <div class="col-12 footer">
-                    {% set tag = readfile(asset('.revision')) %}
-                    <p>Copyright &copy; 2007-2017 GUC Plongée - {{ tag }}</p>
+                <div class="col-12">
+                    <div class="footer">
+                        {% set tag = readfile(asset('.revision')) %}
+                        <p>Copyright &copy; 2007-2017 GUC Plongée - {{ tag }}</p>
+                    </div>
                 </div>
             </div>
+
         </div>
 
-        <div class="site-cache" id="site-cache"></div>
-
-
         {% endblock %}
+
         {% block body_end %}{% endblock %}
 
     </body>

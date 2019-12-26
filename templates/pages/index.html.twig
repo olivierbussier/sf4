@@ -14,42 +14,41 @@
 
     <div class="row row-cols-1 row-cols-md-2">
 
-    {% for post in posts %}
-        {% set tabdate = post.postedAt|date('d-m-Y') | split('-') %}
-        {% set htmltext = post.content  %}
-        {% set posimg = post.PositionImage %}
-        {% set img = '<img src="' ~ asset(imblog ~ "/" ~ post.image) ~ '" class="card-img-top">' %}
+        {% for post in posts %}
+            {% set tabdate = post.postedAt|date('d-m-Y') | split('-') %}
+            {% set htmltext = post.content  %}
+            {% set posimg = post.PositionImage %}
+            {% set img = '<img src="' ~ asset(imblog ~ "/" ~ post.image) ~ '" class="card-img-top">' %}
 
-        {% if not post.image %}
-            {%  set img='' %}
-        {% endif %}
+            {% if not post.image %}
+                {%  set img='' %}
+            {% endif %}
 
-        {% if post.Link != "" %}
-            {% set htmlimg = '<a href="' ~ post.link ~ '">' ~ img ~ '</a>' %}
-        {% else %}
-            {% set htmlimg = img %}
-        {% endif %}
+            {% if post.Link != "" %}
+                {% set htmlimg = '<a href="' ~ post.link ~ '">' ~ img ~ '</a>' %}
+            {% else %}
+                {% set htmlimg = img %}
+            {% endif %}
 
-        <div class="col mb-1">
-            <div class="card h-100">
-                <div class="card-header">
-                    {% if testDroit(app,'ROLE_PUB') %}
-                        <a class="btn btn-light btn-xs" role="button" href="{{ url('blog_admin_edit',{blogId: post.id}) }}">
-                            <i class="fas fa-edit" aria-hidden="true"></i>
-                        </a>
-                    {% endif %}
-                    {{ tabdate[0] }} {{ mois[tabdate[1]] }} {{ tabdate[2] }}
-                </div>
-                {{ htmlimg | raw }}
-                <div class="card-body">
-                    <h5 class="card-title">{{ post.title }}</h5>
-                    <div class="card-text">{{ htmltext | raw }}</div>
+            <div class="col mb-1">
+                <div class="card h-100">
+                    <div class="card-header">
+                        {% if testDroit(app,'ROLE_PUB') %}
+                            <a class="btn btn-light btn-xs" role="button" href="{{ url('blog_admin_edit',{blogId: post.id}) }}">
+                                <i class="fas fa-edit" aria-hidden="true"></i>
+                            </a>
+                        {% endif %}
+                        {{ tabdate[0] }} {{ mois[tabdate[1]] }} {{ tabdate[2] }}
+                    </div>
+                    {{ htmlimg | raw }}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <div class="card-text">{{ htmltext | raw }}</div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    {% endfor %}
-    <!--</div>-->
+        {% endfor %}
+    </div>
 
-    <div class="newsindex"></div>
 {% endblock %}
