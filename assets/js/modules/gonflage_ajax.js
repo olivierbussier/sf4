@@ -1,7 +1,7 @@
 /**
 
  */
-export default class Calendrier {
+export default class CalendrierGonflage {
 
     constructor() {
         this.bindEvents();

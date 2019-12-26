@@ -1,5 +1,5 @@
 
 
-import CalendrierEleve from './modules/calendrier_ajax';
+import CalendrierGonflage from './modules/gonflage_ajax';
 
-new CalendrierEleve();
+new CalendrierGonflage();
