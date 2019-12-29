@@ -94,34 +94,33 @@
 
     {% import "macros/aff_member.html.twig" as affi %}
 
-    <div class="container">
-        <div class="col-xs-12">
-            <h3>Le who's who du GUC plongée</h3>
-            <a href="{{ asset('im/organigramme.gif') }}" target=_blank>
-                <img src="{{ asset('im/organigramme.gif') }}"  class="w100">
-            </a>
-        </div>
-
-        <div class="col-xs-12">
-            <h3>Composition du bureau (cliquez sur les noms pour voir les photos)</h3>
-            {{ affi.aff_members(bureau) }}
-        </div>
-
-        <div class="col-xs-12">
-            <h3>Responsables des sections et activités</h3>
-            {{ affi.aff_members(activites) }}
-        </div>
-
-        <div class="col-xs-12">
-            <h3>Les encadrants "scaphandre"</h3>
-            {{ affi.aff_members(encadrants) }}
-        </div>
-
-        <div class="col-xs-12">
-            <h3>Les encadrants "apnée"</h3>
-            {{ affi.aff_members(apnee) }}
-        </div>
+    <div class="col-12">
+        <h3>Le who's who du GUC plongée</h3>
+        <a href="{{ asset('im/organigramme.gif') }}" target=_blank>
+            <img src="{{ asset('im/organigramme.gif') }}"  class="w100">
+        </a>
     </div>
+
+    <div class="col-12">
+        <h3>Composition du bureau (cliquez sur les noms pour voir les photos)</h3>
+        {{ affi.aff_members(bureau) }}
+    </div>
+
+    <div class="col-12">
+        <h3>Responsables des sections et activités</h3>
+        {{ affi.aff_members(activites) }}
+    </div>
+
+    <div class="col-12">
+        <h3>Les encadrants "scaphandre"</h3>
+        {{ affi.aff_members(encadrants) }}
+    </div>
+
+    <div class="col-12">
+        <h3>Les encadrants "apnée"</h3>
+        {{ affi.aff_members(apnee) }}
+    </div>
+
 {% endblock %}
 
 {#
@@ -150,7 +149,7 @@
                 <div class="modal-body">
                     <div class="container">
                         <div class="row">
-                            <div class="col-xs-12">
+                            <div class="col-12">
                                 <div id="img_g">
                                 </div>
                             </div>

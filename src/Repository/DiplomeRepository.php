@@ -53,7 +53,7 @@ class DiplomeRepository extends ServiceEntityRepository
             ->leftJoin('d.user','a')
             ->addSelect('a')
             ->where("d.type = '".self::DIP_MF."' or d.type = '".self::DIP_MA."' or d.type = '".self::DIP_PA."'")
-            ->orderBy('a.Nom', 'desc')
+            ->orderBy('a.nom', 'desc')
             //->setMaxResults(10)
             ->getQuery()
             ->getResult()

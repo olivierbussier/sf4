@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Diplome;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,12 +53,14 @@ class IndexSectionsController extends AbstractController
 
     /**
      * @Route("/index_formation_secourisme", name="index_formation_secourisme")
+     * @param EntityManagerInterface $em
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function Secourisme(RegistryInterface $doctrine)
+    public function Secourisme(EntityManagerInterface $em)
     {
         // Recherche des diplomes
 
-        $rpDipl = $doctrine->getRepository(Diplome::class);
+        $rpDipl = $em->getRepository(Diplome::class);
         $Diplomes = $rpDipl->getDiplomesSecourisme();
 
         return $this->render(

@@ -4,15 +4,15 @@
 
 {% block main_page %}
 
-    <div class="container">
-        <div class="col-xs-12">
+    <div class="row">
+        <div class="col-12">
             <h3>LE MATERIEL DU GUC PLONGEE</h3>
         </div>
-        <div class="col-xs-12 col-sm-6">
-            <img src="{{ asset('team/COLOMBET-Philippe.jpg') }}" class="img-ident w100">
+        <div class="col-12 col-sm-6">
+            <img src="{{ asset( conf('path_team') ~ 'COLOMBET-Philippe.jpg') }}" class="img-ident w100">
             <div class="nomblu">COLOMBET Philippe<br>(Responsable Matériels)</div>
         </div>
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             <p>Le matériel est une composante importante dans un club de plongée.</p>
             <p>Il y a 2 grandes catégories de matériels:</p>
             <ul>
@@ -21,7 +21,7 @@
                 <li><Strong>les matériels collectifs</Strong> comme le compresseur et les outils pédagogiques.</li>
             </ul>
         </div>
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>Les matériels individuels</h3>
             <p>Grace à une bonne gestion et un entretien régulier de ses matériels, le GUC Plongée dispose aujourd'hui un
                 large éventail d'équipements :</p>
@@ -35,7 +35,7 @@
                 <li>2 timers, 3 boussoles et 5 lampes à LED</li>
             </ul>
         </div>
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>Emprunt des matériels individuels</h3>
             <p>Les membres du club (cotisation plongée) ayant déposé un chèque de caution matériel lors de l'inscription
                 peuvent emprunter un équipement
@@ -57,13 +57,13 @@
             <p>Ils doivent être rendu le mardi suivant la sortie entre 19h30 et 20h00.</p>
             <p>Pour toute demande spécifique, contacter le responsable du matériel, <Strong>Philippe Colombet</Strong> par mail via la liste materiel@...</p>
         </div>
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>Les matériels collectifs</h3>
         </div>
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             <p><img src="{{ asset('im/sac_oxygene.jpg') }}" width=200></p>
         </div>
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             <p>
             <ul>
                 <li>1 compresseur (voir rubrique <a href="{{ url('index_gonflage') }}">Gonflage</a>)</li>

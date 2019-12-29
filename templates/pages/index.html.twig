@@ -18,7 +18,7 @@
             {% set tabdate = post.postedAt|date('d-m-Y') | split('-') %}
             {% set htmltext = post.content  %}
             {% set posimg = post.PositionImage %}
-            {% set img = '<img src="' ~ asset(imblog ~ "/" ~ post.image) ~ '" class="card-img-top">' %}
+            {% set img = '<img src="' ~ asset(imblog ~ post.image) ~ '" class="card-img-top">' %}
 
             {% if not post.image %}
                 {%  set img='' %}

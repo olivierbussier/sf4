@@ -24,8 +24,8 @@
                     {% set nom    = rationalizeFilename(photo.nom) %}
                     {% set prenom = rationalizeFilename(photo.prenom) %}
 
-                    {% set fname = "identites/" ~ nom ~ '-' ~ prenom ~ '-' ~ photo.id ~ "-th.jpg" %}
-                    {% if not fileExists('../public/' ~ fname) %}
+                    {% set fname = conf('path_photo') ~ nom ~ '-' ~ prenom ~ '-' ~ photo.id ~ "-th.jpg" %}
+                    {% if not fileExists(fname) %}
                         {% set fname = '/im/photo-blank.jpg' %}
                     {% endif %}
                 {% endif %}

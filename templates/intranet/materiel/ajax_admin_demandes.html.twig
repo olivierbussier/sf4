@@ -3,7 +3,7 @@
 {% import "macros/pagination.html.twig" as pages %}
 
 
-<div class="container">
+<div class="row">
     {% if nbPages > 1 %}
         <nav aria-label="NavClients">
             {{ pages.pages(nbPages, startPage, search) }}

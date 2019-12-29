@@ -3,13 +3,16 @@
 {% block title %}Tarifs{% endblock %}
 
 {% block main_page %}
-    <div class="container">
+    
+    <div class="row">
         <form>
-            <button type="button" onClick="window.print()" class="btn btn-light btn-outline-guc" name="Print" value="Imprimer">
-                <span class="glyphicon glyphicon-ok"></span> Imprimer</button>
+            <div class="col-12">
+                <button type="button" onClick="window.print()" class="btn btn-light btn-block btn-outline-guc" name="Print" value="Imprimer">
+                    <span class="glyphicon glyphicon-ok"></span> Imprimer</button>
+            </div>
         </form>
 
-        <div class="col-xs-12">
+        <div class="col-12">
 
             <h3>Tarifs GUC-PLONGEE SAISON {{ conf('p_annee') }}-{{ conf('p_annee')+1 }}</h3>
 
@@ -19,81 +22,71 @@
                 <li>Une réduction est appliquée pour les plongeurs débutants, les bénévoles et encadrants</li>
             </ul></p>
         </div>
-        <div class="col-xs-2 col-sm-1">
+
+        <div class="col-2 col-sm-1">
             <img class="tarif" src="{{ asset("im/ffessm.jpg") }}">
         </div>
-        <div class="col-xs-10 col-sm-11">
+        <div class="col-10 col-sm-11">
             <h4>Licence FFESSM</h4>
         </div>
-        <div class="col-xs-12">
+
+        <div class="col-12">
             <table class="table table-striped tarif">
                 <tr><td>Adulte / + de 16 ans</td><td>{{ conf('LICENCE_ADUL') }}€</td></tr>
                 <tr><td>Entre 12 et 16 ans</td><td>{{ conf('LICENCE12_16') }}€</td></tr>
                 <tr><td>Moins de 12 ans</td><td>{{ conf('LICENCE_12') }}€</td></tr>
             </table>
         </div>
-
-        {% set suppl = conf('CARTE_GUC') + conf('SIUAPS') %}
-
-        <div class="col-xs-12 col-sm-6">
-            <div class="row">
-                <div class="col-xs-2 col-sm-2 col-md-2"><img class="tarif" src="{{ asset("im/LogoGUC_300.gif") }}"></div>
-                <div class="col-xs-10 col-sm-10 col-md-10"><h4>Cotisation plongeur</h4></div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <table class="table table-striped tarif">
-                        <tr><td>Adulte débutant préparant le N1</td>
-                            <td>{{ conf('CLUB_DEBU') + suppl }}€</td></tr>
-                        <tr><td>Adulte progression préparant le N2, N3 ou N4<br> initiateur ou maintien N1</td>
-                            <td>{{ conf('CLUB_AUTR') + suppl }}€</td></tr>
-                        <tr><td>Adulte maintien N2 et plus (Pas de préparation de niveau)</td>
-                            <td>{{ conf('CLUB_MAIN') + suppl }}€</td></tr>
-                        <tr><td>Jeune -18 ans ou Etudiant moins de 25 ans</td>
-                            <td>{{ conf('CLUB_JEUN') + suppl }}€</td></tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xs-12 col-sm-6">
-            <div class="row">
-                <div class="col-xs-2 col-sm-2 col-md-2"><img class="tarif" src="{{ asset("im/LogoGUC_300.gif") }}"></div>
-                <div class="col-xs-10 col-sm-10 col-md-10"><h4>Cotisation apnée</h4></div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    <table class="table table-striped tarif">
-                        <tr><td>Apnée ou Nage avec palmes et plongeur GUC</td>
-                            <td>{{ conf('CLUB_APN1') + suppl }}€</td></tr>
-                        <tr><td>Apnée ou Nage avec palmes et non plongeur GUC</td>
-                            <td>{{ conf('CLUB_APN2') + suppl }}€</td></tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xs-12 col-sm-6">
-            <div class="row">
-                <div class="col-xs-2 col-sm-2 col-md-2"><img class="tarif" src="{{ asset("im/LogoGUC_300.gif") }}"></div>
-                <div class="col-xs-10 col-sm-10 col-md-10"><h4>Tarifs spéciaux</h4></div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    <table class="table table-striped tarif">
-                        <tr><td>Réduction famille à partir du second inscrit</td>
-                            <td>{{ conf('REDUC_FAMILLE') }}€</td></tr>
-                        <tr><td>Bénévoles et encadrants</td>
-                            <td>{{ conf('CLUB_BENE') + suppl }}€</td></tr>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
 
+    <div class="row">
+        {% set suppl = conf('CARTE_GUC') + conf('SIUAPS') %}
 
+        <div class="col-12 col-sm-6">
+
+                <div class="col-1"><img class="tarif" src="{{ asset("im/LogoGUC_300.gif") }}"></div>
+                <div class="col-11"><h4>Cotisation plongeur</h4></div>
+
+                <table class="table table-striped tarif">
+                    <tr><td>Adulte débutant préparant le N1</td>
+                        <td>{{ conf('CLUB_DEBU') + suppl }}€</td></tr>
+                    <tr><td>Adulte progression préparant le N2, N3 ou N4<br> initiateur ou maintien N1</td>
+                        <td>{{ conf('CLUB_AUTR') + suppl }}€</td></tr>
+                    <tr><td>Adulte maintien N2 et plus (Pas de préparation de niveau)</td>
+                        <td>{{ conf('CLUB_MAIN') + suppl }}€</td></tr>
+                    <tr><td>Jeune -18 ans ou Etudiant moins de 25 ans</td>
+                        <td>{{ conf('CLUB_JEUN') + suppl }}€</td></tr>
+                </table>
+
+        </div>
+
+        <div class="col-12 col-sm-6">
+
+                <div class="col-1"><img class="tarif" src="{{ asset("im/LogoGUC_300.gif") }}"></div>
+                <div class="col-11"><h4>Cotisation apnée</h4></div>
+
+                <table class="table table-striped tarif">
+                    <tr><td>Apnée ou Nage avec palmes et plongeur GUC</td>
+                        <td>{{ conf('CLUB_APN1') + suppl }}€</td></tr>
+                    <tr><td>Apnée ou Nage avec palmes et non plongeur GUC</td>
+                        <td>{{ conf('CLUB_APN2') + suppl }}€</td></tr>
+                </table>
+        </div>
+
+        <div class="col-12">
+
+            <div class="col-2 col-sm-2 col-md-2"><img class="tarif" src="{{ asset("im/LogoGUC_300.gif") }}"></div>
+            <div class="col-10 col-sm-10 col-md-10"><h4>Tarifs spéciaux</h4></div>
+
+            <table class="table table-striped tarif">
+                <tr><td>Réduction famille à partir du second inscrit</td>
+                    <td>{{ conf('REDUC_FAMILLE') }}€</td></tr>
+                <tr><td>Bénévoles et encadrants</td>
+                    <td>{{ conf('CLUB_BENE') + suppl }}€</td></tr>
+            </table>
+        </div>
+
+    </div>
 
 {% set ad_deb_maintien = conf('LICENCE_ADUL') + conf('CLUB_DEBU') + conf('CARTE_GUC') + conf('SIUAPS') %}
 
@@ -110,9 +103,13 @@
 {% set ad_apn1      =  conf('LICENCE_ADUL') + conf('CLUB_APN2') + conf('CARTE_GUC') + conf('SIUAPS') %}
 {% set ad_apn2      =  conf('LICENCE12_16') + conf('CLUB_APN2') + conf('CARTE_GUC') + conf('SIUAPS') %}
 
-    <div class="container">
-        <h3>Exemples de tarifs</h3>
-        <div class="col-xs-12">
+    <div class="row">
+
+        <div class="col-12">
+            <h3>Exemples de tarifs</h3>
+        </div>
+
+        <div class="col-12 col-sm-6">
             <h4>Plongée</h4>
             <table class="table table-striped tarif">
                 <tr><td>Adulte débutant et maintien</td><td>{{ ad_deb_maintien }}€</td></tr>
@@ -124,6 +121,9 @@
                 <tr><td>2 Adultes débutants</td><td>{{ ad_deb_fam }}€</td></tr>
                 <tr><td>1 Adultes débutant + 1 enfant -12 ans</td><td>{{ ad_deb_fam2 }}€</td></tr>
             </table>
+        </div>
+
+        <div class="col-12 col-sm-6">
             <h4>Apnée et Nage avec Palmes</h4>
             <table class="table table-striped tarif">
                 <tr><td>Adulte, Jeune + 16 ans et Bénévole</td><td>{{ ad_apn1 }}€</td></tr>

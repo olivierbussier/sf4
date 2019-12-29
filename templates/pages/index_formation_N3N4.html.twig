@@ -4,19 +4,19 @@
 
 {% block main_page %}
 
-    <div class="container">
-        <div class="col-xs-12">
+    <div class="row">
+        <div class="col-12">
             <h3>LES FORMATIONS NIVEAUX 3 ET 4</h3>
         </div>
-        <div class="col-xs-6 col-sm-3">
-            <img src="{{ asset('team/OLLES-JeanMarc.jpg') }}" class="img-ident w100">
+        <div class="col-6 col-sm-3">
+            <img src="{{ asset( conf('path_team') ~ 'OLLES-JeanMarc.jpg') }}" class="img-ident w100">
             <div class="nomblu">Jean-Marc OLLES<br>(MF1 - Responsable N3)</div>
         </div>
-        <div class="col-xs-6 col-sm-3">
-            <img src="{{ asset('team/DEPAOLI-Serge.jpg') }}" class="img-ident w100">
+        <div class="col-6 col-sm-3">
+            <img src="{{ asset( conf('path_team') ~ 'DEPAOLI-Serge.jpg') }}" class="img-ident w100">
             <div class="nomblu">Serge De Paoli<br>(MF1 - Responsable N4)</div>
         </div>
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             <h4>L'intéret de passer un niveau 3 ou un niveau 4 ?</h4>
             <p>Les plongeurs préparant les niveaux 3 et 4 sont, par définition, déjà partiellement autonomes
                 puisque niveau 2 ou niveau 3. Cela ne signifie pas que le GUC plongée ne va pas les aider,
@@ -25,7 +25,7 @@
             <p>Le niveau 4 est un niveau d'encadrement. Il permet d'encadrer des plongeurs niveaux 1 et 2
                 lors de leurs plongées.</p>
         </div>
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>Entraînement en piscine</h3>
             <p>Des groupes d'entraînement sont proposés à la piscine, sous la responsabilité d'un encadrant. </p>
             <p>Ce travail comprend principalement le perfectionnement de la forme physique, qui est un élément
@@ -35,7 +35,7 @@
             <p>L'entraînement est généralement à la carte. Prenez en main votre formation avec l'encadrant chargé
                 de vous aider, sollicitez les moniteurs, bref, agissez...</p>
         </div>
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>Sorties Techniques Niveau 3 et Niveau 4</h3>
             <p>La formation pour les N3 et N4 se fait également et surtout en mer. Les dates des sorties
                 techniques à Niolon sous disponibles à la rubrique
@@ -52,10 +52,10 @@
             <p>Sachez que les encadrants connaissent bien les différentes formules, qu'ils participent
                 à certaines sorties ou ont suivi des stages lors de leur propre formation. Venez en parler !</p>
         </div>
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>Détails pratiques pour les sorties techniques</h3>
         </div>
-        <div class="col-xs-12 col-sm-8 col-md-9">
+        <div class="col-12 col-sm-8 col-md-9">
             <p>Les dates des sorties techniques du Guc Plongée et de la CTD Isère sont disponibles sous la
                 rubrique <a href="{{ url('index_calendrier') }}">Calendrier</a> du site web du club.</p>
             <p>La réservation aux sorties techniques du Guc Plongée se fait à l'aide d'un chèque du montant
@@ -68,16 +68,16 @@
                 de séance, mais il faut les réserver avant dans la rubrique <Strong>Emprunt matériel</Strong>
                 de l'<a href="{{ url('index_intranet') }}">Intranet</a>.</p>
         </div>
-        <div class="col-xs-12 col-sm-4 col-md-3">
+        <div class="col-12 col-sm-4 col-md-3">
             <img src="{{ asset('team/JOMAIN-Sigolene.jpg') }}" class="img-ident w100">
             <div class="nomblu">Sigolène Jomain<br>Responsable sorties techniques</div>
         </div>
-        <div class="col-xs-12">
+        <div class="col-12">
             <p><u><Strong>A emmener obligatoirement : votre certificat médical et votre licence</Strong></u>.</p>
             <p>En cas d'oubli, vous ne pourriez pas plonger. Les centres de plongées respectent en effet
                 rigoureusement la réglementation en vigueur, et c'est bien normal.</p>
         </div>
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>Niveau 3 : un diplôme club</h3>
             <p>Grace à la présence de nombreux moniteurs fédéraux, le club peut assurer :</p>
             <ul>
@@ -99,7 +99,7 @@
             <p><u>Bon à savoir :</u> 12 plongées techniques, dont 8 dans l'espace lointain, sont souvent
                 un minimum pour acquérir la technique nécessaire à l'obtention du niveau 3.</p>
         </div>
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>Niveau 4 : un diplôme fédéral</h3>
             <p>Pour le niveau 4, une <u>formation théorique</u> est dispensée par le
                 <Strong>Comité Technique Départemental</Strong>. Les cours ont lieu de novembre à

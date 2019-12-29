@@ -10,6 +10,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RootController extends AbstractController
@@ -50,15 +54,28 @@ class RootController extends AbstractController
     /**
      * @Route("contact", name="index_contact")
      * @param Request $request
+     * @param \Swift_Mailer $mailer
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
-    public function contact(Request $request)
+    public function contact(Request $request, \Swift_Mailer $mailer)
     {
         $form = $this->createForm(ContactType::class);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $task = $form->getData();
+
+            $message = (new \Swift_Message('Hello'))
+                ->setFrom("contact@guc-plongee.net")
+                ->SetTo("contact@guc-plongee.net")
+                ->addTo("{$task['Email']}")
+                ->setReplyTo($task['Email'])
+                ->setSubject("Contact GUC - Message de {$task['Email']}")
+                ->setBody($task['Message']);
+            $mailer->send($message);
             return $this->redirectToRoute('index_contact_success',['toto' => 1]);
         }
 

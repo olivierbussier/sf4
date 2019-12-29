@@ -3,13 +3,22 @@
 namespace App\Twig;
 
 use App\Classes\Config\Config;
+use App\Classes\Helpers\FileHelper;
 use App\Entity\User;
 use Symfony\Bridge\Twig\AppVariable;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class CustomExtensions extends AbstractExtension
 {
+    private $pd;
+
+    public function __construct(KernelInterface $ki)
+    {
+        $this->pd = $ki->getProjectDir() . '/public';
+    }
+
     public function getFunctions()
     {
         return [
@@ -40,7 +49,7 @@ class CustomExtensions extends AbstractExtension
 
     public function fileExists(string $filename)
     {
-        return file_exists($filename);
+        return file_exists($filename) || file_exists($this->pd . $filename);
     }
 
     public function rationalizeFilename($file)
