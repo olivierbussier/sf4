@@ -96,7 +96,7 @@ class Resa
         $res = $this->matCarac->getDistinctTypes();
 
         foreach ($res as $type) {
-            if ($assettype == $type['AssetType'])
+            if ($assettype == $type['assetType'])
                 return true;
         }
         return false;
@@ -341,6 +341,9 @@ class Resa
             $expr = $rp->find($expr);
         }
 
+        if ($expr == null) {
+            return false;
+        }
         $assetref = $expr->getMatCarac()->getId();
         $datedeb  = $expr->getDateDebut();
         $datefin  = $expr->getDateFin();
@@ -483,7 +486,7 @@ class Resa
 
         $ret = [];
         foreach ($res as $r) {
-            $caract = $r['Caracteristique'];
+            $caract = $r['caracteristique'];
             if (!isset($ret[$caract])) {
                 $ret[$caract] = 1;
             } else {
