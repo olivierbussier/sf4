@@ -19,8 +19,7 @@
 
 \.idea/
 
-public/imblog/
-public/identites/
+public/uploads/
 
 public/galerie/ffmpeg*
 public/galerie/img

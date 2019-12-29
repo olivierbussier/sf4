@@ -14,17 +14,20 @@ require('../css/guc_frame.scss');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 
-const $ = require('jquery');
-require('bootstrap');
-require('util');
-
 // create global $ and jQuery variables
+const $ = require('jquery');
 global.$ = global.jQuery = $;
 
-require('./cookiebanner.min.js');
+require('bootstrap');
+require('util');
+require('piexifjs');
+require('bootstrap-fileinput');
+
 $(document).ready(function() {
     pb = require('./previewbox.js');
 });
+
+require('./cookiebanner.min.js');
 
 var options = {
     'position':     "top",

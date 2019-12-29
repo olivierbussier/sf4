@@ -1,0 +1,10 @@
+// assets/css/global.scss
+
+// customize some Bootstrap variables
+// $primary: darken(#428bca, 20%);
+
+// the ~ allows you to reference things in node_modules
+
+// vendor.scss
+$bootstrap-fileinput-img-path: '~bootstrap-fileinput/img';
+@import '~bootstrap-fileinput/scss/fileinput';

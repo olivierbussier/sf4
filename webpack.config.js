@@ -27,6 +27,7 @@ Encore
     .addEntry('gonflage', './assets/js/gonflage.js')    // Gestion du calendrier de gonflage utilisateur
     .addEntry('droits'  , './assets/js/droits.js')      // Gestion Ajax des droits/roles utilisateur
     .addEntry('materiel', './assets/js/materiel.js')    // Gestion des demandes de réservation
+    .addEntry('bfi'     , './assets/js/bfi.js')         // Gestion des input file avec preview
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
