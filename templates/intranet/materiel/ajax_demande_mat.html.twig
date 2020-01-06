@@ -1,20 +1,18 @@
 {% import 'macros/ajax.html.twig' as ajax %}
 
-<div class="col-12">
-    <h4>Votre demande</h4>
+<div class="row">
+    <div class="col-12">
+        <h4>Votre demande</h4>
 
-    {#  dump(resa) }}
-    {{  dump(post) #}
-</div>
+        {#  dump(resa) }}
+        {{  dump(post) #}
+    </div>
 
-<div class="col-12">
+    <div class="col-12">
 
-</div>
+    </div>
 
-{#
-{{ ajax.action('init',['row','typeMat', 'caracMat', 'dateSortie', 'dateRetour']) }}
-#}
-<form method="post" action="">
+    <!--<form method="post" action="">-->
 
     <div class="col-12 col-sm-6">
         <div class="form-group">
@@ -24,18 +22,20 @@
                    onchange="{{ ajax.action('dateChange',['typeMat', 'dateSortie']) }}">
         </div>
         <script>
-            $('#dateSortie').pickadate({
-                disable: [
-                    true,
-                    {% set virg = '' %}
-                    {% for calendrier in datesSortie %}
-                    {% set Y = calendrier.date | date('Y') %}
-                    {% set M = calendrier.date | date('m') - 1 %}
-                    {% set D = calendrier.date | date('d') %}
-                        {{ virg }}[{{ Y }},{{ M }},{{ D }}]
-                        {% set virg = ',' %}
-                    {% endfor %}
-                ]
+            $(document).ready(function() {
+                $('#dateSortie').pickadate({
+                    disable: [
+                        true,
+                        {% set virg = '' %}
+                        {% for calendrier in datesSortie %}
+                            {% set Y = calendrier.date | date('Y') %}
+                            {% set M = calendrier.date | date('m') - 1 %}
+                            {% set D = calendrier.date | date('d') %}
+                                {{ virg }}[{{ Y }},{{ M }},{{ D }}]
+                            {% set virg = ',' %}
+                        {% endfor %}
+                    ]
+                })
             })
         </script>
     </div>
@@ -48,18 +48,20 @@
                    onchange="{{ ajax.action('dateChange',['typeMat', 'dateRetour']) }}">
         </div>
         <script>
-            $('#dateRetour').pickadate({
-                disable: [
-                    true,
-                    {% set virg = '' %}
-                    {% for calendrier in datesRetour %}
+            $(document).ready(function() {
+                $('#dateRetour').pickadate({
+                    disable: [
+                        true,
+                        {% set virg = '' %}
+                        {% for calendrier in datesRetour %}
                         {% set Y = calendrier.date | date('Y') %}
                         {% set M = calendrier.date | date('m') - 1 %}
                         {% set D = calendrier.date | date('d') %}
-                        {{ virg }}[{{ Y }},{{ M }},{{ D }}]
+                            {{ virg }}[{{ Y }},{{ M }},{{ D }}]
                         {% set virg = ',' %}
-                    {% endfor %}
-                ]
+                        {% endfor %}
+                    ]
+                })
             })
         </script>
     </div>
@@ -135,16 +137,17 @@
         }
     </style>
 
-    <div class="col-12 group-asset"><span class="titlegrp">Liste des matériels à réservér</span>
-    {% for object in resa.items %}
-        <div class="form-inline">
-            <button type="button" class="btn btn-light btn-outline-guc"
-                    onclick="{{ ajax.action('supMat', ['typeMat', 'caracMat' ], {'row': loop.index0}) }}">X</button>
-            <input class="form-control" type="text" placeholder="{{ object.type }}" readonly>
-            <input class="form-control" type="text" placeholder="{{ object.caract }}" readonly>
-            <input class="form-control" type="text" placeholder="{{ object.itemText }}" readonly>
-        </div>
-    {% endfor %}
+    <div class="col-12 group-asset">
+        <span class="titlegrp">Liste des matériels à réservér</span>
+        {% for object in resa.items %}
+            <div class="form-inline">
+                <button type="button" class="btn btn-light btn-outline-guc"
+                        onclick="{{ ajax.action('supMat', ['typeMat', 'caracMat' ], {'row': loop.index0}) }}">X</button>
+                <input class="form-control" type="text" placeholder="{{ object.type }}" readonly>
+                <input class="form-control" type="text" placeholder="{{ object.caract }}" readonly>
+                <input class="form-control" type="text" placeholder="{{ object.itemText }}" readonly>
+            </div>
+        {% endfor %}
     </div>
-</form>
-
+    <!--</form>-->
+</div>

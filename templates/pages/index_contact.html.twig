@@ -1,141 +1,109 @@
-{% form_theme formContact 'bootstrap_3_layout.html.twig' %}
+{% form_theme formContact 'bootstrap_4_layout.html.twig' %}
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact{% endblock %}
+{% block title %}Bapteme{% endblock %}
 
 {% block main_page %}
 
-    <div class="row">
+<div class="row">
+
+    <div class="col-12">
+        <h3>Le Baptême :</h3>
+    </div>
+
+    <div class="col-12 col-sm-3">
+        <img src="<?= $html->getPathRoot(Config::$path_team) . "/DEQUIER-Jerome.jpg"?>" class="img-ident w100">
+        <div class="nomblu">Jérôme DEQUIER <br>(MF1 - Responsable des baptêmes)</div>
+    </div>
+
+    <div class="col-12 col-sm-9">
+        <p>Toute l'année, nous accueillons les personnes agées de 8 ans ou plus et désireuses de
+            faire un baptême de plongée en piscine. Il dure entre 15 et 20 minutes, il est totalement
+            gratuit et sans engagement. Pourquoi s'en priver ?</p>
+        <p>Si vous avez un/des ami(s), parent(s), collègue(s) désireux de faire ses premières bulles
+            en toute sécurité, n'hésitez pas. Un moniteur sera là pour lui faire découvrir les sensations
+            de la plongée sous-marine</p>
+        <p>Tout le matériel est fourni par le club, il suffit de venir avec son maillot de bain, un
+            bonnet de bain (mais nous pouvons en trouver), son gel douche et une serviette.</p>
+        <p>Pourquoi faire un baptême ?</p>
+        <ul>
+            <li>Pour sentir son corps différemment et découvrir une sensation nouvelle</li>
+            <li>Pour découvrir la plongée</li>
+            <li>Pour essayer avant de s'inscrire à la formation niveau 1</li>
+        </ul>
+        <p>Cela vous tente ? alors faites-en la demande en utilisant ce formulaire ci-dessous :</p>
+    </div>
+
+    <div class="col-12">
+        <h3>Inscription pour un baptême</h3>
+    </div>
+
+    <form method="post" action="#">
+        <div class="col-12 col-sm-4">
+            <h4>Email de contact</h4>
+            {# mail#}
+        </div>
+
+        <div class="col-12 col-sm-8">
+            <h4>Date souhaitée</h4>
+            {#<?php $e->afficheErrors(1, 2);
+            $db = $sheet->construireTableDates();
+            $now = new DateTime();
+            $now->setTime(0, 0, 0);
+            foreach ($db as $a => $b) {
+            $d = new DateTime(FormHelper::dgm($a));
+            if ($d >= $now) {
+            $dispo = $b['dispo']-$b['pris'];
+            if ($dispo > 0) {
+            $value = "Le $a, Rendez-vous à ".$b['lieu']." (".$dispo." places disponibles)";
+            $dats[$value] = $a;
+            }
+            }
+            }
+            Controls::inoption('date', $dats, @$_POST['date']);
+            ?>#}
+        </div>
+
         <div class="col-12">
-            <h1>Insciption</h1>
-
-            {{ form_start(formContact) }}
-            {{ form_widget(formContact) }}
-            <button type="submit" class="btn btn-block btn-success">Go!</button>
-            {{ form_end(formContact) }}
-        </div>
-    </div>
-
-{% endblock %}
-{#
-$email = "";
-$nom = "";
-$message = "";
-
-$e = new Error();
-
-if (isset($_POST) && isset($_POST['nom']) && isset($_POST['email']) && isset($_POST['message'])) {
-    // Validation formulaire
-
-    $nom = $_POST['nom'];
-    $email = $_POST['email'];
-    $message = $_POST['message'];
-
-    // Quelques tests
-
-    if ($email == "" || filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
-        $e->error(1, 1, "Votre adresse mail semble incorrecte");
-}
-
-if ($nom == "") {
-$e->error(1, 1, "Veuillez saisir votre nom");
-}
-
-if ($message == "") {
-$e->error(1, 1, "Votre message est vide");
-}
-
-if ($e->getNbErrors() == 0) {
-$sujet = "Formulaire de contact GUC Plongée émis par $nom <$email>";
-
-$body_text = "************************************\n";
-$body_text .= "Nom de l'emetteur  : $nom\n";
-$body_text .= "Mail de l'emetteur : $email\n";
-$body_text .= "************************************\n";
-$body_text .= "Message:\n";
-$body_text .= "************************************\n";
-$body_text .= $message . "\n";
-$body_text .= "************************************\n";
-
-$body_html = "<html><head></head><body>\n";
-$body_html = "<table width=\"400\" border=1 style=\"border-collapse:collapse;\">\n";
-    $body_html .= "<tr><th>Nom de l'emetteur</th><th>Mail de l'emetteur</th></tr>\n";
-    $body_html .= "<tr><td><center>" . $nom . "</center></td><td><center><a href=\"mailto:$email\">" .
-                    $email . "</a></center></td></tr>\n";
-    $body_html .= "<tr><td colspan=\"2\"><pre>" . htmlentities(
-            $message,
-            ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,
-            "UTF-8"
-        ) . "</pre></td></tr>\n";
-    $body_html .= "</table>\n";
-$body_html .= "</body></html>";
-
-$from = "GUC Contact Web <" . $email . ">";
-$ret = (new MailMime())->mimeMail(
-$from,
-MailUsers::$webmaster . "," . MailUsers::$guc_contact,
-$sujet,
-$body_text,
-$body_html
-);
-
-if ($ret == false) {
-$e->error(1, 1, "Erreur système : Votre message n'a pas pu être envoyé");
-}
-}
-} else {
-$nom = '';
-$email = '';
-$message = '';
-}
-
-$html = new Header();
-$html->start("Email de contact");
-
-// Afficher erreurs éventuelles
-if ($e->getNbErrors() != 0) {
-$e->goAffErreurs(); ?>
-<div class="container">
-    <h3>L'envoi de votre message n'a pas abouti</h3>
-    <p>Corrigez les erreurs indiquées <span class="red">en rouge</span> ci-dessous.</p>
-</div>
-<?php
-} else {
-    if (isset($ret) && $ret != false) { // Mail envoyé avec succès ?>
-<div class="container">
-    <h3>Message envoyé</h3>
-    <p>Votre message a été envoyé.</p>
-    <p>Une réponse vous sera faite rapidement</p>
-    <p>Merci</p>
-</div>
-</body>
-</html>
-<?php
-        exit;
-    }
-}
-?>
-<div class="container">
-    <div class="col-xs-12">
-        <h3>Une suggestion?</h3>
-        <?php $e->afficheErrors(1, 1); ?>
-        <p>Vos commentaires, suggestions et questions sont les bienvenues. Prenez un moment pour nous écrire.</p>
-    </div>
-    <form method="post" action="index_contact.php">
-        <div class="col-xs-12 col-sm-6">
-            <?php Controls::intext('Nom :', 'nom', $nom, 'Entrez votre nom dans ce champ'); ?>
-        </div>
-        <div class="col-xs-12 col-sm-6">
-            <?php Controls::intext('Email :', 'email', $email, 'Entrez votre adresse mail'); ?>
-        </div>
-        <div class="col-xs-12">
-            <?php Controls::intextarea('Message :', 'message', 30, $message, 'Entrez votre message'); ?>
-        </div>
-        <div class="col-xs-12">
-            <?php Controls::inbutton('Envoyer', 'Submit', 'Envoyer', 'default', ''); ?>
+            <h3>Personnes à baptiser</h3>
+            <p>Laissez les lignes inutiles vides</p>
+            {#<?php $e->afficheErrors(1, 3);
+            affbloc(1, $e);
+            affbloc(2, $e);
+            affbloc(3, $e);
+            affbloc(4, $e);
+            affbloc(5, $e);
+            ?>
+            <?php rowb();
+                colb(12, 12, 12, 12);?>#}
+            <h3>Précisions éventuelles</h3>
+            {#
+            <?php
+                    if (isset($_POST['comment']) && $_POST['comment'] != "") {
+                        $dv = $_POST['comment'];
+                    } else {
+                        $dv = '';
+                    }
+                    Controls::intextarea('', 'comment', 5, $dv, 'Précisions'); ?>
+            <?php cole();
+                rowe(); ?>
+            <?php
+                rowb();
+                    colb(12, 12, 12, 12);
+                        Controls::inbutton(
+                            'Envoyer',
+                            'Submit',
+                            'Envoyer',
+                            'block',
+                            'class:btn-primary,glyph:envelope'
+                        );
+                    cole();
+                rowe();
+                ?>
+            <p>&nbsp;</p>#}
         </div>
     </form>
 </div>
-<?php $html->end(); ?>
-#}
+
+{% endblock %}

@@ -16,12 +16,21 @@ class Config
     /******************************************************************/
     // Répertoire utilisés
     /******************************************************************/
-    public const path_photo  = "../identites/";  // Photos d'identité
-    public const path_certif = "../certif/";
-    public const path_diplome= "../diplomes/";
+    public const path_photo  = "/uploads/identites/";  // Photos d'identité
+    public const path_certif = "/uploads/certif/";
+    public const path_diplome= "/upload/diplomes/";
     public const path_fiches = "../insc/";       // Fiches d'inscription PDF
-    public const path_fact   = "../factures/";   // Factures
-    public const path_team   = "images/team/";
+    public const path_fact   = "/uploads/factures/";   // Factures
+    public const path_team   = "/im/team/";
+    public const blogImages = '/uploads/imblog/';
+
+    /******************************************************************/
+    /* Suffixes des fichiers                                          */
+    /******************************************************************/
+    public static $suffix_certif  = "certifs";
+    public static $suffix_ncertif = "ncertifs";
+    public static $suffix_diplome = "diplomes";
+
     /******************************************************************/
     // Fichiers de Log
     /******************************************************************/
@@ -107,10 +116,6 @@ class Config
     // Payment
     //******************************************************************/
     public const payment_paypal = false;
-
-    // Blog
-
-    public const blogImages = 'imblog';
 
     // Galerie
     public const path_images  = 'galerie';

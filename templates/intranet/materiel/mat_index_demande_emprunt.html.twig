@@ -4,6 +4,11 @@
 
 {% block title %}Bienvenue sur l'Intranetdu GUC{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('materiel') }}
+{% endblock %}
+
 {% block main_page %}
 
     {% set statusTypes = {
@@ -87,13 +92,12 @@
 
     <form method="post" action="{{ url('index_demande_emprunt') }}">
 
+        <div id="ajax_retour">
+        </div>
+
+        <input type="hidden" name="checkdata">
+
         <div class="row">
-            <div id="ajax_retour">
-            </div>
-
-            <input type="hidden" name="checkdata">
-
-
             <div class="col-12 col-sm-6">
                 <button type="submit" class="btn btn-block btn-primary">
                     <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Réserver</button>

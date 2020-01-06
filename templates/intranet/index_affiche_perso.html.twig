@@ -10,7 +10,7 @@
 
     <div class="col-12">
         <h3>Informations personelles</h3>
-        {{ dump (formInfoPerso) }}
+        {% dump(app.user) %}
     </div>
 
     <div class="col-12">
@@ -20,166 +20,250 @@
     </div>
 </div>
 
-    {{ form_start(formInfoPerso) }}
+{{ form_start(formInfoPerso) }}
 
-    <div class="row">
-        <div class="col-12 col-sm-6">
-            {{ form_row(formInfoPerso.Username, {label: 'Nom utilisateur'}) }}
-        </div>
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <input type="file" id="file_info_perso">
+    </div>
+</div>
 
-        <div class="col-12 col-sm-6">
-            {{ form_row(formInfoPerso.Mail, {label: 'Adresse mail'}) }}
-        </div>
+<div class="row">
+    <div class="col-12 col-sm-6">
+        {{ form_row(formInfoPerso.Username, {label: 'Nom utilisateur'}) }}
     </div>
 
-    <div class="row">
-        <div class="col-12 col-sm-2">
-            {{ form_row(formInfoPerso.Genre, {label: 'Genre'}) }}
-        </div>
+    <div class="col-12 col-sm-6">
+        {{ form_row(formInfoPerso.Mail, {label: 'Adresse mail'}) }}
+    </div>
+</div>
 
-        <div class="col-12 col-sm-5">
-            {{ form_row(formInfoPerso.Nom, {label: 'Nom'}) }}
-        </div>
-
-        <div class="col-12 col-sm-5">
-            {{ form_row(formInfoPerso.Prenom, {label: 'Prénom'}) }}
-        </div>
+<div class="row">
+    <div class="col-12 col-sm-2">
+        {{ form_row(formInfoPerso.Genre, {label: 'Genre'}) }}
     </div>
 
-    <div class="row">
-        <div class="col-12 col-sm-6">
-            {{ form_row(formInfoPerso.Adresse1, {label: 'Adresse'}) }}
-        </div>
-
-        <div class="col-12 col-sm-6">
-            {{ form_row(formInfoPerso.Adresse2, {label: 'Suite adresse'}) }}
-        </div>
+    <div class="col-12 col-sm-5">
+        {{ form_row(formInfoPerso.Nom, {label: 'Nom'}) }}
     </div>
 
-    <div class="row">
-        <div class="col-12 col-sm-6">
-            {{ form_row(formInfoPerso.CodePostal, {label: 'Code postal'}) }}
-        </div>
+    <div class="col-12 col-sm-5">
+        {{ form_row(formInfoPerso.Prenom, {label: 'Prénom'}) }}
+    </div>
+</div>
 
-        <div class="col-12 col-sm-6">
-            {{ form_row(formInfoPerso.Ville, {label: 'Ville'}) }}
-        </div>
-
-        <div class="col-12 col-sm-6">
-            {{ form_row(formInfoPerso.Profession, {label: 'Profession'}) }}
-        </div>
-
-        <div class="col-12 col-sm-6">
-            {{ form_row(formInfoPerso.fEtudiant, {label: 'Etudiant'}) }}
-        </div>
+<div class="row">
+    <div class="col-12 col-sm-6">
+        {{ form_row(formInfoPerso.Adresse1, {label: 'Adresse'}) }}
     </div>
 
-    <div class="row">
-        <div class="col-12 col-sm-3">
-            {{ form_row(formInfoPerso.DateNaissance, {label: 'Date de naissance'}) }}
-        </div>
+    <div class="col-12 col-sm-6">
+        {{ form_row(formInfoPerso.Adresse2, {label: 'Suite adresse'}) }}
+    </div>
+</div>
 
-        <div class="col-12 col-sm-6">
-            {{ form_row(formInfoPerso.LieuNaissance, {label: 'Lieu de naissance'}) }}
-        </div>
-
-        <div class="col-12 col-sm-3">
-            {{ form_row(formInfoPerso.DepartementNaissance, {label: 'Département de naissance'}) }}
-        </div>
+<div class="row">
+    <div class="col-12 col-sm-6">
+        {{ form_row(formInfoPerso.CodePostal, {label: 'Code postal'}) }}
     </div>
 
-    <div class="row">
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.TelFix, {label: 'Téléphone fixe'}) }}
-        </div>
-
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.TelPort, {label: 'Téléphone Portable'}) }}
-        </div>
+    <div class="col-12 col-sm-6">
+        {{ form_row(formInfoPerso.Ville, {label: 'Ville'}) }}
     </div>
 
-    <div class="row">
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.NiveauSca, {label: 'Niveau Scaphandre'}) }}
-        </div>
-
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.NiveauApn, {label: 'Niveau Apnée'}) }}
-        </div>
-
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.Activite, {label: 'Activité pour l\'année'}) }}
-        </div>
-
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.fApneeSca, {label: 'Apnéiste ou maintien Plongeur'}) }}
-        </div>
+    <div class="col-12 col-sm-6">
+        {{ form_row(formInfoPerso.Profession, {label: 'Profession'}) }}
     </div>
 
-    <div class="row">
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.AccidentNom,{ label: 'Nom du contact en cas d\'accident'}) }}
-        </div>
+    <div class="col-12 col-sm-6">
+        {{ form_row(formInfoPerso.fEtudiant, {label: 'Etudiant'}) }}
+    </div>
+</div>
 
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.AccidentPrenom,{ label: 'Prénom du contact en cas d\'accident'}) }}
-        </div>
-
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.AccidentTelFix,{ label: 'Téléphone fixe du contact'}) }}
-        </div>
-
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.AccidentTelPort,{ label: 'Téléphone portable du contact'}) }}
-        </div>
+<div class="row">
+    <div class="col-12 col-sm-3">
+        {{ form_row(formInfoPerso.DateNaissance, {label: 'Date de naissance'}) }}
     </div>
 
-    <div class="row">
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.MineurNom, {label: 'Nom du représentant légal'}) }}
-        </div>
-
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.MineurPrenom, {label: 'Prénom du représentant légal'}) }}
-        </div>
-
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.MineurQualite, {label: 'Qualité du représentant légal'}) }}
-        </div>
+    <div class="col-12 col-sm-6">
+        {{ form_row(formInfoPerso.LieuNaissance, {label: 'Lieu de naissance'}) }}
     </div>
 
-    <div class="row">
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.DateCertif, { label: 'Date du certificat médical'}) }}
-        </div>
+    <div class="col-12 col-sm-3">
+        {{ form_row(formInfoPerso.DepartementNaissance, {label: 'Département de naissance'}) }}
+    </div>
+</div>
 
-        <div class="col-6 col-sm-3">
-            {{ form_row(formInfoPerso.fAllergAspirine, {label: 'Allergie à l\'aspirine'}) }}
-        </div>
+<div class="row">
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.TelFix, {label: 'Téléphone fixe'}) }}
     </div>
 
-    <div class="row">
-        <div class="col-12 col-sm-6">
-            {{ form_row(formInfoPerso.Diplomes, {label: 'Diplômes & certifications'}) }}
-        </div>
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.TelPort, {label: 'Téléphone Portable'}) }}
+    </div>
+</div>
 
-        <div class="col-12 col-sm-6">
-            {{ form_row(formInfoPerso.Roles, {label: 'Rôles affectés'}) }}
-        </div>
+<div class="row">
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.NiveauSca, {label: 'Niveau Scaphandre'}) }}
     </div>
 
-    <div class="row">
-        <div class="col-12">
-            <button type="submit" class="form-control btn btn-success btn-block">Go!</button>
-        </div>
-
-        <div class="col-12">
-            <a  class="btn btn-light btn-outline-guc btn-block" href="{{ url('root') }}">
-                <span class="glyphicon glyphicon-chevron-left"></span> Revenir à l'accueil de l'intranet.
-            </a>
-        </div>
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.NiveauApn, {label: 'Niveau Apnée'}) }}
     </div>
 
-    {{ form_end(formInfoPerso, {'render_rest': false}) }}
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.Activite, {label: 'Activité pour l\'année'}) }}
+    </div>
 
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.fApneeSca, {label: 'Apnéiste ou maintien Plongeur'}) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.AccidentNom,{ label: 'Nom du contact en cas d\'accident'}) }}
+    </div>
+
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.AccidentPrenom,{ label: 'Prénom du contact en cas d\'accident'}) }}
+    </div>
+
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.AccidentTelFix,{ label: 'Téléphone fixe du contact'}) }}
+    </div>
+
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.AccidentTelPort,{ label: 'Téléphone portable du contact'}) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.MineurNom, {label: 'Nom du représentant légal'}) }}
+    </div>
+
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.MineurPrenom, {label: 'Prénom du représentant légal'}) }}
+    </div>
+
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.MineurQualite, {label: 'Qualité du représentant légal'}) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.DateCertif, { label: 'Date du certificat médical'}) }}
+    </div>
+
+    <div class="col-6 col-sm-3">
+        {{ form_row(formInfoPerso.fAllergAspirine, {label: 'Allergie à l\'aspirine'}) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-sm-6">
+        {{ form_row(formInfoPerso.Diplomes, {label: 'Diplômes & certifications'}) }}
+    </div>
+
+    <div class="col-12 col-sm-6">
+        {{ form_row(formInfoPerso.Roles, {label: 'Rôles affectés'}) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <button type="submit" class="form-control btn btn-success btn-block">Go!</button>
+    </div>
+
+    <div class="col-12">
+        <a  class="btn btn-light btn-outline-guc btn-block" href="{{ url('root') }}">
+            <span class="glyphicon glyphicon-chevron-left"></span> Revenir à l'accueil de l'intranet.
+        </a>
+    </div>
+</div>
+
+{{ form_end(formInfoPerso, {'render_rest': false}) }}
+
+{% endblock %}
+
+{% block javascripts_end %}
+    {{ encore_entry_link_tags('bfi') }}
+
+    <script>
+        //initialPreviewShowDelete: true,
+        $(document).ready(function () {
+            $("#input-b1").fileinput({
+                language: 'fr',
+                uploadUrl: "{{ url('certif_ajax_upload') }}",
+                deleteUrl: "{{ url('certif_ajax_delete') }}",
+                dropZoneTitle: 'Glissez et déposez ici votre certificat médical',
+                maxFileSize: 9000,
+                overwriteInitial: false,
+                showUploadedThumbs: false,
+                uploadExtraData: {
+                    id: {{ app.user.id }},
+                    nom: '{{ app.user.Nom }}',
+                    prenom: '{{ app.user.Prenom }}',
+                    nbFiles: 1,
+                    Type: '{{ conf('suffix_ncertif') }}',
+                    compUrl: '../'
+                },
+                deleteExtraData: {
+                    id: '{{ app.user.id }}',
+                    nom: '{{ app.user.Nom }}',
+                    prenom: '{{ app.user.Prenom }}',
+                    nbFiles: 1,
+                    Type: '{{ conf('suffix_ncertif') }}',
+                    compUrl: '../'
+                },
+                maxImageWidth: 1100,
+                maxImageHeight: 2000,
+                resizePreference: 'height',
+                resizeImage: true,
+                resizeIfSizeMoreThan: 1000,
+                maxFileCount: 2,
+                //autoReplace: true,
+                fileActionSettings: {
+                    showUpload: true,
+                    showDownload: false,
+                    showRemove: false
+                },
+                showUpload: true,
+                elPreviewStatus: '#mybar',
+                allowedFileExtensions: ['jpg','jpeg','png','gif','pdf'],{% if file | length > 0 %}
+                initialPreview: [
+                {% set virg = '' %}
+                {% for file in files %}
+                    {{ virg }} '/{{ file.name }}
+                    {% set virg = ',' %}
+                {% endfor %}
+                ],{% endif %}
+                append: true,
+                validateInitialCount: true,
+                initialPreviewAsData: true{% if file | length > 0 %},
+                initialPreviewConfig: [
+                    {% set virg = '' %}
+                    {% for file in files %}
+                        {{ virg }}{
+                            type: '{{ file.type }}',
+                            width: '120px',
+                            key: '{{ filr.name }}',
+                            {% if file.fRemove == true %}
+                                {% set msg = "Nouveau certificat" %}
+                            {% else %}
+                                {% set msg = "Certificat en cours" %}
+                            {% endif %}
+                            showRemove: {% if file.fRemove %}true{% else %}false{% endif %},
+                            caption: "<span class='yellow'>{{ msg }}</span>"
+                        }
+                        {% set virg = ',' %}
+                    {% endfor %}
+                ]{% endif %}
+            })
+        })
+    </script>
 {% endblock %}

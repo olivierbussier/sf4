@@ -9,11 +9,9 @@ class FileHelper
 {
     const ORIGINALE_PREFIX = 'or';
     const THUMBNAIL_PREFIX = 'th';
-    const DESC_OPER_PREFIX = 'do';
 
     const ORIGINAL   = 1;
     const THUMBNAIL  = 2;
-    const OPERATIONS = 3;
 
     public static function getExt($file)
     {
@@ -34,26 +32,6 @@ class FileHelper
                 break;
         }
         return $ret;
-    }
-
-    /**
-     * Teste si une des 3 images possible existe
-     * Retourne false ou le 1er fichier trouvé
-     * @param string $photo
-     * @return string|bool
-     */
-    public static function photoExist(string $photo)
-    {
-        if (file_exists($photo.".jpg")) {
-            return $photo.".jpg";
-        }
-        if (file_exists($photo.".png")) {
-            return $photo.".png";
-        }
-        if (file_exists($photo.".gif")) {
-            return $photo.".gif";
-        }
-        return false;
     }
 
     /**
@@ -83,50 +61,9 @@ class FileHelper
      */
     public static function initPathPhoto(string $NOM, string $PRENOM, string $REF, int $TYPE): string
     {
-        switch ($TYPE) {
-            case self::ORIGINAL:
-                $mod = self::ORIGINALE_PREFIX;
-                $ext = '.jpg';
-                break;
-            case self::THUMBNAIL:
-                $mod = self::THUMBNAIL_PREFIX;
-                $ext = '.jpg';
-                break;
-            case self::OPERATIONS:
-                $mod = self::DESC_OPER_PREFIX;
-                $ext = '.txt';
-                break;
-            default:
-                echo "Error : $TYPE";
-                $mod = '';
-                $ext = '';
-                break;
-        }
-        return self::corrigerPath(Config::path_photo . $NOM . "-" . $PRENOM . "-" . $REF . '-' . $mod . $ext);
-    }
-
-    /**
-     * @param string $photo
-     * @return string
-     */
-    public static function photoTest(string $photo): string
-    {
-        if ($photo != false) {
-            // Verif du format
-            $sz=getimagesize($photo);
-            if ($sz == false) {
-                $status = "MAUVAIS_FORMAT";
-            } else {
-                if ($sz[0]!=240 || $sz[1]!=310) {
-                    $status = "TAILLE_KO";
-                } else {
-                    $status = "OK";
-                }
-            }
-        } else {
-            $status = "INEXISTANTE";
-        }
-        return $status;
+        return self::corrigerPath(
+            '/' . Config::path_photo . $NOM . "-" . $PRENOM . "-" . $REF . '-th.jpg'
+        );
     }
 
     public static function delete($baseDir, $type, $nom, $prenom, $ref, $file)
@@ -154,6 +91,94 @@ class FileHelper
             if ($v != $file) {
                 unlink($v);
             }
+        }
+    }
+
+    /**
+     * @param string $type
+     * @param string $nom
+     * @param string $prenom
+     * @param int $refUser
+     * @return array|false
+     */
+    public function getFiles(string $type, string $nom, string $prenom, int $refUser)
+    {
+        $type = strtolower($type);
+        switch ($type) {
+            case 'certif':
+                $path = Config::path_certif;
+                break;
+            case 'diplomes':
+                $path = Config::path_diplome;
+                break;
+        }
+
+        $file = self::corrigerPath($nom . '.' . $prenom);
+
+        $file = "uploads/certifs/" . $file . "*";
+        $rep = getcwd();
+        $tabFiles = glob($file);
+        return $tabFiles;
+    }
+
+    /**
+     * Construire le repertoire
+     * @param $type
+     * @return string
+     */
+    public static function constructDirName($type)
+    {
+        $rep = getcwd() . '/' . $type;
+        return $rep;
+    }
+
+    /**
+     * Construire la base d'un nom de fichiers
+     * @param $nom
+     * @param $prenom
+     * @param $id
+     * @return mixed
+     */
+    public static function constructFileName($nom, $prenom, $id)
+    {
+        $new = self::corrigerPath($nom .'.'. $prenom) . '.' . $id;
+        return $new;
+    }
+
+    /**
+     * Recherche d'un nom de fichier disponible
+     * la fonction retourne false si le nombre max de fichiers est atteint
+     * ou retourne un numéro de fichier libre
+     * @param $nom
+     * @param $prenom
+     * @param $id
+     * @return string
+     */
+    public static function getAvailableName($nom, $prenom, $id, $type)
+    {
+        $rep  = self::constructDirName($type);
+        $file = self::constructFileName($nom, $prenom, $id);
+        $res = glob($rep. '/' . $file . '*');
+
+        if ($res == null) {
+            // Aucun fichier
+            return $rep . $file . '.1';
+        } else {
+            foreach ($res as $k => $v) {
+                $f = pathinfo($v, PATHINFO_FILENAME);
+                $decomp = explode('.', $f);
+                $num = intval($decomp[3]);
+                $tabFiles[$num] = $num;
+            }
+            $i=1;
+            foreach ($tabFiles as $k => $v) {
+                if ($i < $k) {
+                    break;
+                } else {
+                    $i++;
+                }
+            }
+            return $rep . $file . '.' . $i;
         }
     }
 }

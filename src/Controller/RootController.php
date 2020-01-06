@@ -3,17 +3,18 @@
 namespace App\Controller;
 
 use App\Classes\Config\Config;
+use App\Classes\Sheets\Sheets;
+use App\Entity\Bapteme;
+use App\Entity\Baptise;
 use App\Entity\Blog;
+use App\Form\BaptemeType;
 use App\Form\ContactType;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\Mailer;
-use Symfony\Component\Mailer\Transport;
-use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RootController extends AbstractController
@@ -36,11 +37,25 @@ class RootController extends AbstractController
     }
 
     /**
-     * @Route("Bapteme", name="index_bapteme")
+     * @Route("bapteme", name="index_bapteme")
      */
     public function bapteme()
     {
-        return $this->render('pages/index_bapteme.html.twig');
+
+        $sheet = new Sheets();
+
+        $userChoice = new Bapteme();
+        $form = $this->createForm(BaptemeType::class, $userChoice);
+
+        for ($i=0;$i<=4;$i++) {
+            $bap = new Baptise();
+            $f = $this->createForm(Baptise::class, $bap);
+            $userChoice->addBaptise($bap, $f);
+        }
+
+        return $this->render('pages/index_bapteme.html.twig', [
+            'forms' => $userChoice
+        ]);
     }
 
     /**
@@ -54,11 +69,10 @@ class RootController extends AbstractController
     /**
      * @Route("contact", name="index_contact")
      * @param Request $request
-     * @param \Swift_Mailer $mailer
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @param Swift_Mailer $mailer
+     * @return RedirectResponse|Response
      */
-    public function contact(Request $request, \Swift_Mailer $mailer)
+    public function contact(Request $request, Swift_Mailer $mailer)
     {
         $form = $this->createForm(ContactType::class);
 

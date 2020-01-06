@@ -2,6 +2,7 @@
 
 namespace App\Controller\Intranet;
 
+use App\Classes\Helpers\FileHelper;
 use App\Classes\Sheets\Sheets;
 use App\Entity\User;
 use App\Form\InfoPersoType;
@@ -57,6 +58,7 @@ class IntranetController extends AbstractController
      */
     public function affiche_info_perso(Request $request)
     {
+        /** @var User $user */
         $user = $this->getUser();
         $form = $this->createForm(InfoPersoType::class, $user);
 
@@ -69,8 +71,11 @@ class IntranetController extends AbstractController
             return $this->redirectToRoute('');
         }
 
+        $tabFiles = FileHelper::getFiles('CERTIF', $user->getNom(), $user->getPrenom(), $user->getId());
+
         return $this->render('intranet/index_affiche_perso.html.twig', [
             'formInfoPerso' => $form->createView(),
+            'files' => $tabFiles,
             'adh' => $user
         ]);
     }
