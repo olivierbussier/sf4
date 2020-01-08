@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 
 class Bapteme
 {
@@ -14,8 +16,12 @@ class Bapteme
     /** @var string $date */
     private $date;
 
-    /** @var Baptise[] $baptise  */
-    private $baptise = [];
+    private $baptise;
+
+    public function __construct()
+    {
+        $this->baptise = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -49,23 +55,8 @@ class Bapteme
         $this->date = $date;
     }
 
-    /**
-     * @return Baptise[]
-     */
-    public function getBaptise(): array
+    public function getBaptise()
     {
         return $this->baptise;
-    }
-
-    /**
-     * @param Baptise[] $baptise
-     * @param Form $f
-     */
-    public function addBaptise(array $baptise, FormInterface $f): void
-    {
-        $this->baptise[] = [
-            'entity' => $baptise,
-            'form'   => $f
-        ];
     }
 }

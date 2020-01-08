@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Classes\Blog\BlogHelpers;
 use App\Entity\Blog;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;

@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class IndexBaptemeController extends AbstractController
 {
     /**
-     * @Route("/intranet/bapteme", name="index_bapteme")
+     * @Route("/intranet/bapteme", name="xx_index_bapteme")
      * @param RegistryInterface $doctrine
      * @return \Symfony\Component\HttpFoundation\Response
      */

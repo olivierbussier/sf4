@@ -1,5 +1,3 @@
-{% form_theme forms 'bootstrap_4_layout.html.twig' %}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Inscription pour un baptême de plongée{% endblock %}
@@ -7,17 +5,90 @@
 {% block main_page %}
 
     <div class="row">
-        {{ dump(forms) }}
-        <div class="col-12">
-            <h1>Insciption</h1>
 
-            {{ form_start(formContact) }}
-            {{ form_widget(formContact) }}
-            <button type="submit" class="btn btn-block btn-success">Go!</button>
-            {{ form_end(formContact) }}
+        <div class="col-12">
+            <h3>Le Baptême :</h3>
+        </div>
+
+        <div class="col-12 col-sm-3">
+            <img src="{{ asset('im/team/COLOMBET-Philippe.jpg') }}"
+            class="img-ident w100">
+            <div class="nomblu">Jérôme DEQUIER <br>(MF1 - Responsable des baptêmes)</div>
+        </div>
+
+        <div class="col-12 col-sm-9">
+            <p>Toute l'année, nous accueillons les personnes agées de 8 ans ou plus et désireuses de
+                faire un baptême de plongée en piscine. Il dure entre 15 et 20 minutes, il est totalement
+                gratuit et sans engagement. Pourquoi s'en priver ?</p>
+            <p>Si vous avez un/des ami(s), parent(s), collègue(s) désireux de faire ses premières bulles
+                en toute sécurité, n'hésitez pas. Un moniteur sera là pour lui faire découvrir les sensations
+                de la plongée sous-marine</p>
+            <p>Tout le matériel est fourni par le club, il suffit de venir avec son maillot de bain, un
+                bonnet de bain (mais nous pouvons en trouver), son gel douche et une serviette.</p>
+            <p>Pourquoi faire un baptême ?</p>
+            <ul>
+                <li>Pour sentir son corps différemment et découvrir une sensation nouvelle</li>
+                <li>Pour découvrir la plongée</li>
+                <li>Pour essayer avant de s'inscrire à la formation niveau 1</li>
+            </ul>
+            <p>Cela vous tente ? alors faites-en la demande en utilisant ce formulaire ci-dessous :</p>
         </div>
     </div>
 
+    {{ form_start(form) }}
+
+    <div class="row">
+        <div class="col-12">
+            <h1>Insciption</h1>
+            {{ form_row(form.date) }}
+            {{ form_row(form.email) }}
+            {#<button type="submit" class="btn btn-block btn-success">Go!</button>#}
+
+        </div>
+    </div>
+
+    <div class="row">
+        {% set index = 1 %}
+        {% for f in form.Baptise %}
+            <div class="col-12 col-sm-6">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Baptisé numéro {{ index }}</h5>
+                        {% set index = index + 1 %}
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                {{ form_row(f.Prenom) }}
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                {{ form_row(f.Nom) }}
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                {{ form_row(f.Sexe) }}
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                {{ form_row(f.Age) }}
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                {{ form_row(f.Taille) }}
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                {{ form_row(f.Pointure) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12">
+            {{ form_row(form.Envoyer) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+    <div class="mb-3"></div>
 {% endblock %}
 {#
 $email = "";

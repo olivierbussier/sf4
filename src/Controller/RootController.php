@@ -39,22 +39,29 @@ class RootController extends AbstractController
     /**
      * @Route("bapteme", name="index_bapteme")
      */
-    public function bapteme()
+    public function bapteme(Request $request)
     {
 
         $sheet = new Sheets();
 
         $userChoice = new Bapteme();
+
+        for ($i=0;$i<4;$i++) {
+            $bap = new Baptise();
+            $bap->setIdent("Baptise_$i");
+            $userChoice->getBaptise()->add($bap);
+        }
+
         $form = $this->createForm(BaptemeType::class, $userChoice);
 
-        for ($i=0;$i<=4;$i++) {
-            $bap = new Baptise();
-            $f = $this->createForm(Baptise::class, $bap);
-            $userChoice->addBaptise($bap, $f);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            dump($form->getData());
         }
 
         return $this->render('pages/index_bapteme.html.twig', [
-            'forms' => $userChoice
+            'form' => $form->createView()
         ]);
     }
 

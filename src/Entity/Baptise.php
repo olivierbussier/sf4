@@ -4,10 +4,29 @@ namespace App\Entity;
 
 class Baptise
 {
+    private $ident;
     private $nom;
     private $prenom;
     private $sexe;
     private $age;
+    private $pointure;
+    private $taille;
+
+    /**
+     * @return mixed
+     */
+    public function getIdent()
+    {
+        return $this->ident;
+    }
+
+    /**
+     * @param mixed $ident
+     */
+    public function setIdent($ident): void
+    {
+        $this->ident = $ident;
+    }
 
     /**
      * @return mixed
@@ -104,6 +123,4 @@ class Baptise
     {
         $this->taille = $taille;
     }
-    private $pointure;
-    private $taille;
 }
