@@ -2,11 +2,11 @@
 
 {% import 'macros/bouton.html.twig' as ctrl %}
 
-{% block title %}Bienvenue sur l'Intranetdu GUC{% endblock %}
+{% block title %}Demande matériel{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('materiel') }}
+    {{ encore_entry_link_tags('date') }}
 {% endblock %}
 
 {% block main_page %}
@@ -22,9 +22,6 @@
             <h4>Vos demandes d'emprunt en cours</h4>
         </div>
     </div>
-
-        {#{ dump(listeMateriel) }}#}
-
 
     <div class="table-responsive">
         <table class="table table-striped">
@@ -63,7 +60,6 @@
 
         </table>
     </div>
-
 
     <div class="row">
         <div class="col-12">
@@ -116,7 +112,8 @@
 
 {% block javascripts_end %}
 
-    {{ parent() }}
+{{ parent() }}
     {{ encore_entry_script_tags('materiel') }}
+    {{ encore_entry_script_tags('date') }}
 
 {% endblock %}

@@ -23,14 +23,16 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app'     , './assets/js/app.js')         // Ajax global
-    .addEntry('gonflage', './assets/js/gonflage.js')    // Gestion du calendrier de gonflage utilisateur
-    .addEntry('droits'  , './assets/js/droits.js')      // Gestion Ajax des droits/roles utilisateur
-    .addEntry('materiel', './assets/js/materiel.js')    // Gestion des demandes de réservation
-    .addEntry('bfi'     , './assets/js/bfi.js')         // Gestion des input file avec preview
+    .addEntry('app'     , './assets/js/app.js')                     // Ajax global
+    .addEntry('gonflage', './assets/js/gonflage.js')                // Gestion du calendrier de gonflage utilisateur
+    .addEntry('droits'  , './assets/js/droits.js')                  // Gestion Ajax des droits/roles utilisateur
+    .addEntry('materiel', './assets/js/materiel.js')                // Gestion des demandes de réservation
+    .addEntry('bfi'     , './assets/js/components/bfi.js')          // Gestion des input file avec preview
+    .addEntry('date'    , './assets/js/components/date_picker.js')  // Saisie des dates avec amsul/datepicker
+    .addEntry('cropper' , './assets/js/components/cropper.js')       // Gestion photo identité (file cropper)
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
-    .splitEntryChunks()
+    //.splitEntryChunks()
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app

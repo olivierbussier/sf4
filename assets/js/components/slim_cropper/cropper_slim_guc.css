@@ -1,0 +1,40 @@
+.slim-popover {
+	background-color: #fdfdfd;
+}
+
+.slim-editor-btn,
+.slim-editor-utils-btn {
+	background-color: #234567!important;
+	color:white;
+}
+
+.slim-image-editor-btn:focus,
+.slim-image-editor-btn:hover {
+	color:#345678;
+}
+
+
+.slim {
+	border-radius: 4px;
+}
+
+.slim-btn {
+	background-color: #234567;
+	border-radius:4px;
+}
+.slim-btn-remove {
+	display: none;
+}
+
+.s,.n,.w,.e,.sw,.ne,.se,.nw {
+	background-color: #234567!important;
+}
+
+.slim .slim-btn-group {
+    opacity:0.5;
+    transition:.25s opacity;
+}
+
+.slim:hover .slim-btn-group {
+    opacity:1;
+}

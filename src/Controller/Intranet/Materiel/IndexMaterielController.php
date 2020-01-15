@@ -298,14 +298,14 @@ class IndexMaterielController extends AbstractController
         // Recherche des dates valides
 
         $crep = $em->getRepository(Calendrier::class);
-        $datesSortie = $crep->findDatesAfter(new DateTime('now', new DateTimeZone('Europe/Paris')),['seanceBassin' => 'O']);
-        $datesRetour = $crep->findDatesAfter(new DateTime($reservation->dateSortie, new DateTimeZone('Europe/Paris')),['seanceBassin' => 'O']);
+        $datesSortie = $crep->findDatesAfter(new DateTime('now', new DateTimeZone('Europe/Paris')),['seanceMateriel' => 'O']);
+        $datesRetour = $crep->findDatesAfter(new DateTime($reservation->dateSortie, new DateTimeZone('Europe/Paris')),['seanceMateriel' => 'O']);
 
         // Formulaire mini
 
         $session->set('reservation', $reservation);
 
-        return $this->render('intranet/materiel/ajax_demande_mat.html.twig', [
+        return $this->render('intranet/materiel/mat_index_demande_emprunt_ajax.html.twig', [
             'post' => $_POST,
             'typeMat' => $typeMat,
             'typSortie' => ListeMateriel::SELSORTIES,

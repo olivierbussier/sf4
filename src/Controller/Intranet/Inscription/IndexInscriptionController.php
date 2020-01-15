@@ -12,6 +12,7 @@ use App\Classes\Inscription\CreatePDF;
 use App\Entity\User;
 use App\Form\InscriptionType;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,14 +23,14 @@ class IndexInscriptionController extends AbstractController
     /**
      * @Route("/inscription/form/{slug}", name="inscription")
      * @param Request $request
-     * @param ObjectManager $manager
+     * @param EntityManagerInterface $em
      * @param string $slug
      * @return Response
      */
-    public function index(Request $request, ObjectManager $manager, string $slug = 'Normal')
+    public function index(Request $request, EntityManagerInterface $em, string $slug = 'Normal')
     {
         /** @var User $user */
-        $user2 = $manager->getRepository('App\\Entity\\User')->find(410);
+        $user2 = $em->getRepository('App\\Entity\\User')->find(410);
         $user = $this->getUser();
 
         if ($slug == 'normal') {
@@ -61,8 +62,8 @@ class IndexInscriptionController extends AbstractController
 
             // On enregister quoi qu'il en soit les saisies de l'adhérent
 
-            $manager->persist($user);
-            $manager->flush();
+            $em->persist($user);
+            $em->flush();
 
             if ($fValid) {
                 return $this->redirectToRoute('recap_inscription');
@@ -136,7 +137,6 @@ class IndexInscriptionController extends AbstractController
             $mytotalass
         );
 
-
         return $this->render('inscription/index_inscription_fin.html.twig', [
             'Activite' => $user->getActivite(),
             'refPP'    => 0,
@@ -145,6 +145,14 @@ class IndexInscriptionController extends AbstractController
             'total'    => $mytotal,
             'totalass' => $mytotalass
         ]);
+    }
+
+    /**
+     * @Route("/inscription/ajax_file_upload", name="ajax_file_upload")
+     */
+    public function ajaxFileUpload()
+    {
+
     }
 
     /**

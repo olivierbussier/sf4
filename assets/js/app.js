@@ -1,33 +1,34 @@
 /*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
+ * Fichier de dépendances Javascript et CSS utilisé par webpack encore
+ * Ce fichier contient l'ensemble des dépendances nécessaires au chargement de toutes les pages
+ * (inclus dans base.html.twig)
  */
 
-// any CSS you require will output into a single css file (app.css in this case)
+// Fichiers CSS
 
 require('../css/bootstrap.scss');
 require('../css/global.scss');
 require('../css/guc.scss');
 require('../css/guc_frame.scss');
 
-// Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
+// jQuery
 
-// create global $ and jQuery variables
 const $ = require('jquery');
 global.$ = global.jQuery = $;
 
+// Bootstrap
+
 require('bootstrap');
-require('util');
-require('piexifjs');
-require('bootstrap-fileinput');
+
+// Preview (TODO : n'est utilisé que par l'édition de la page d'accueil, a déplacer)
 
 $(document).ready(function() {
-    pb = require('./previewbox.js');
+    pb = require('./components/previewbox.js');
 });
 
-require('./cookiebanner.min.js');
+// Affichare du message d'avertissement cookie RGPD
+
+require('./components/cookiebanner.min.js');
 
 var options = {
     'position':     "top",

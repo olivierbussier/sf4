@@ -46,7 +46,12 @@ class RootController extends AbstractController
 
         $userChoice = new Bapteme();
 
-        for ($i=0;$i<4;$i++) {
+        $nbBaptises = $request->get('nbBaptises');
+        if ($nbBaptises == null) {
+            $nbBaptises = 1;
+        }
+
+        for ($i=0;$i<$nbBaptises;$i++) {
             $bap = new Baptise();
             $bap->setIdent("Baptise_$i");
             $userChoice->getBaptise()->add($bap);

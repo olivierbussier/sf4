@@ -21,6 +21,7 @@
     "dependencies": {
         "bootstrap-fileinput": "^5.0.8",
         "ckeditor": "^4.12.1",
+        "flatpickr": "^4.6.3",
         "jquery": "^3.4.1",
         "piexifjs": "^1.0.4",
         "popper.js": "^1.16.0",

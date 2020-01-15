@@ -31,7 +31,7 @@ class InscriptionType extends AbstractType
                 'widget' => 'single_text',
                 'html5'  => false,
                 'attr'   => [
-                    'class' => 'js-datepicker',
+                    'class' => 'js-datepicker-dnaiss',
                     'onchange' => 'adaptprix()'
                 ]
             ])
@@ -80,7 +80,7 @@ class InscriptionType extends AbstractType
             ->add('DateCertif', DateType::class, [
                 'widget' => 'single_text',
                 'html5'  => false,
-                'attr'   => [ 'class' => 'js-datepicker']
+                'attr'   => [ 'class' => 'js-datepicker-dcertif']
             ])
             ->add('fAllergAspirine', ChoiceType::class, [
                 'choices' => FormConst::OUINON

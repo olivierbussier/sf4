@@ -8,15 +8,14 @@
 
     {{ parent() }}
 
-    {# Pour le cropper #}
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/cropper_slim.css") }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/cropper_slim_guc.css") }}">
+    {# Pour le cropper, date picker et file input#}
+    {{ encore_entry_link_tags('bfi') }}
+    {{ encore_entry_link_tags('cropper') }}
+    {{ encore_entry_link_tags('date') }}
 
-    {# Styles pour le date picker #}
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/bootstrap-datepicker3.css") }}">
 
-    {# Pour FileInput #}
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/fileinput.css") }}">
+    {# Pour FileInput }
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/fileinput.css") }}"> #}
 
 {% endblock %}
 
@@ -24,18 +23,23 @@
 
     {{ parent() }}
 
-    {# Cropper #}
-    <script type="text/javascript" src="{{ asset("js/slim.kickstart.js") }}"></script>
+    {# Cropper, date picker #}
 
-    {# Datepicker using jquery #}
-    <script type="text/javascript" src="{{ asset("js/bootstrap-datepicker.js") }}"></script>
-    <script type="text/javascript" src="{{ asset("js/bootstrap-datepicker.fr.min.js") }}"></script>
+    {{ encore_entry_script_tags('date') }}
+    {{ encore_entry_script_tags('cropper') }}
+    {{ encore_entry_script_tags('bfi') }}
 
-    // Pour FileInput
-    <script type="text/javascript" src="{{ asset("js/piexif.js") }}"></script>
-    <script type="text/javascript" src="{{ asset("js/fileinput.js") }}"></script>
-    <script type="text/javascript" src="{{ asset("js/fr.js") }}"></script>
 
+    {#
+        {# Datepicker using jquery }
+        <script type="text/javascript" src="{{ asset("js/bootstrap-datepicker.js") }}"></script>
+        <script type="text/javascript" src="{{ asset("js/bootstrap-datepicker.fr.min.js") }}"></script>
+
+        // Pour FileInput
+        <script type="text/javascript" src="{{ asset("js/piexif.js") }}"></script>
+        <script type="text/javascript" src="{{ asset("js/fileinput.js") }}"></script>
+        <script type="text/javascript" src="{{ asset("js/fr.js") }}"></script>
+    #}
     <script>
         function affError(section, sousSection) {
             var id = '#c_' + section + '_' + sousSection;
@@ -70,9 +74,9 @@
 
     {% set fPassager   = (inscrType == constant('App\\Classes\\Form\\FormConst::INSCR_PASSAGER')) %}
 
-    <div class="container">
+    <div class="row">
 
-        <div class="col-xs-12">
+        <div class="col-12">
             {% if not formInscr.vars.valid %}
             <ul>
                 {# Loop through every form item #}
@@ -85,6 +89,7 @@
             </ul>
             {% endif %}
         </div>
+    </div>
 
     {% import 'macros/bouton.html.twig' as control %}
 
@@ -117,17 +122,18 @@
 #}
     {{ form_start(formInscr, {'attr': {'id': 'inscript'}}) }}
 
+    <div class="row">
     {% if not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>Inscription GUC Plongée - Saison {{ conf('p_annee') }} - {{ conf('p_annee') + 1 }}.</h3>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Instructions</h4>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <p>Avec ce formulaire, vous allez effectuer votre pré-inscription. A l'issue, vous recevrez un mail
                 confirmant sa prise en compte, avec en attachement votre fiche d'inscription PDF préremplie que vous
                 n'aurez plus qu'à imprimer et signer.</p>
@@ -160,16 +166,16 @@
 
         {# mode == PASSAGER #}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>Inscription GUC Plongée (Licence Passager) -
                 Saison {{ conf('p_annee') }} - {{ conf('p_annee') + 1 }}.</h3>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Instructions</h4>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <p>Avec ce formulaire, vous allez effectuer votre demande de licence passager. A l'issue,
                 vous recevrez un mail confirmant sa prise en compte.</p>
             <p>Si vous rencontrez des difficultés, n'hésitez pas à nous les remonter au moyen de la rubrique
@@ -181,17 +187,17 @@
 
     {% if fPassager or not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>1 - Informations personnelles de {{ app.user.nom }} {{ app.user.prenom }}</h3>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Genre</h4>
         </div>
 
         {{ control.error(1,1) }}
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ form_row(formInscr.Genre) }}
         </div>
 
@@ -199,25 +205,25 @@
 
     {% if fPassager or not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Coordonnées</h4>
         </div>
 
         {{ control.error(1,2) }}
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ form_row(formInscr.Adresse1,{'label': 'Adresse'}) }}
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ form_row(formInscr.Adresse2,{'label': 'Suite Adresse'}) }}
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ form_row(formInscr.CodePostal, {'label': 'Code Postal : '}) }}
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ form_row(formInscr.Ville,{'label': 'Ville'}) }}
         </div>
 
@@ -225,7 +231,7 @@
 
     {% if not fPassager %}
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ control.error(1, 3) }}
             {{ form_row(formInscr.Profession, { 'label': 'Profession : '} ) }}
         </div>
@@ -234,7 +240,7 @@
 
     {% if not fPassager %}
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ form_row(formInscr.fEtudiant, { 'label': 'Cochez cette case si vous êtes étudiant : '}) }}
         </div>
         <div class="clearfix"></div>
@@ -242,28 +248,29 @@
 
     {% if fPassager or not fPassager %}
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ control.error(1,4) }}
             {{ form_row(formInscr.DateNaissance, {'label': 'Date de naissance : '} ) }}
         </div>
         <script>
             $(document).ready(function() {
                 // you may need to change this code if you are not using Bootstrap Datepicker
-                $('.js-datepicker').datepicker({
+                /*$('.js-datepicker-dnaiss').pickadate({
                     format: 'yyyy-mm-dd'
-                });
+                });*/
+                $('.js-datepicker-dnaiss').flatpickr()
             });
         </script>
     {% endif %}
 
     {% if fPassager or not fPassager %}
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ control.error(1, 5) }}
             {{ form_row(formInscr.TelFix, {'label': 'Téléphone fixe'} ) }}
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ control.error(1, 6) }}
             {{ form_row(formInscr.TelPort, {'label': 'Téléphone portable : '} ) }}
         </div>
@@ -272,7 +279,7 @@
 
     {% if fPassager or not fPassager %}
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ control.error(1, 7) }}
             {{ form_row(formInscr.Mail, { 'label': 'Adresse mail : '} ) }}
         </div>
@@ -281,12 +288,12 @@
 
     {% if not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>2 - Photo d'identité.</h3>
             {{ control.error(2, 1) }}
         </div>
 
-        <div class="col-xs-12 col-sm-8">
+        <div class="col-12 col-sm-8">
             <div id="textimg">
                 {% if fGood == 'toutok' %}
 
@@ -316,7 +323,7 @@
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-4">
+        <div class="col-12 col-sm-4">
             <div class="slim"
                  data-post="output"
                  data-service="ajax_slim_async.php"
@@ -369,19 +376,19 @@
 
     {% if fPassager or not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>3 - Niveaux de plongée</h3>
             <p>Renseignez vos niveaux de scaphandre et d'apnée. Indiquez "Débutant" si vous n'avez jamais pratiqué.
                 Une copie du ou des diplômes est exigée en début d’année pour les nouveaux adhérents.</p>
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             <h4>Plongée scaphandre</h4>
             {{ control.error(3, 1) }}
             {{ form_row(formInscr.NiveauSca, {'label': 'Niveau scaphandre : ' }) }}
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             <h4>Apnée</h4>
             {{ control.error(3, 2) }}
             {{ form_row(formInscr.NiveauApn, {'label': 'Niveau apnée : ' }) }}
@@ -391,16 +398,16 @@
 
     {% if not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>4 - Autres diplômes</h3>
             <p>Renseignez ici vos dipômes et qualifications, pensez à amener une photocopie le jour de l'inscription</p>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Secourisme/Médecins</h4>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-ml-4">
+        <div class="col-12 col-sm-6 col-ml-4">
 
             {{ control.error(4, 1) }}
             {{ form_label(formInscr.Diplomes, 'TIV') }}
@@ -410,11 +417,11 @@
 
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Chargement de la copie de vos diplomes</h4>
             <p>Utilisez le bouton ci-dessous pour charger une copie de vos diplomes.
                 Depuis votre téléphone, vous pourrez en prendre directement une photo</p>
-            <input id="input-b0" name="input-b0[]" type="file" multiple>
+            <input id="input-b0" name="input-b0[]" type="file" class="file" multiple>
         </div>
 
         <script>
@@ -422,7 +429,7 @@
             $(document).ready(function () {
                 $("#input-b0").fileinput({
                     language: 'fr',
-                    uploadUrl: "ajax_upload.php",
+                    uploadUrl: "{{ url('ajax_file_upload') }}",
                     maxFileSize: 9000,
                     overwriteInitial: false,
                     uploadExtraData: {nbFiles: 4, Type: 'diplomes'},
@@ -445,7 +452,7 @@
                         initialPreview: [
                             {% set virg = '' %}
                             {% for file in fileDiplomes %}
-                                {{ virg }}'{{ asset('xx/' ~ file.name) }}'
+                                {{ virg }}'{{ asset('uploads/diplomes/' ~ file.name) }}'
                                 {% set virg = ',' %}
                             {% endfor %}
                         ],
@@ -462,7 +469,7 @@
                                 type: '{{ file.type }}',
                                 caption: '{{ file.name }}',
                                 width: '120px',
-                                downloadUrl: '{{ asset('xx/' ~ file.name) }}',
+                                downloadUrl: '{{ asset('uploads/diplomes/' ~ file.name) }}',
                                 key: '{{ file.name }}'
                             }
                                 {% set virg = ',' %}
@@ -477,17 +484,17 @@
 
     {% if not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>5 - Activité prévue cette année</h3>
             <p></p>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             {{ control.error(5, 1) }}
             {{ form_row(formInscr.Activite,{'label': 'Renseignez ici l\'activité que vous souhaitez pour cette année'}) }}
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             {{ control.error(5, 2) }}
             {{ form_row(formInscr.fApneeSca, {
                 'label': 'Pour les activités nage et apnée, si vous souhaitez participer aux sorties plongée '  ~
@@ -500,7 +507,7 @@
 
     {% if not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Je participe à la vie du club</h4>
             <p>Le club n'existe que parce que quelques-uns de ses adhérents s'impliquent pour organiser l'activité :</p>
             <ul>
@@ -527,30 +534,30 @@
 
     {% if not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>6 - Informations médicales</h3>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Personne à prévenir en cas d'accident</h4>
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ control.error(6,1) }}
             {{ form_row(formInscr.AccidentNom, {'label': 'Nom de la personne à prévenir'} ) }}
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ control.error(6,2) }}
             {{ form_row(formInscr.AccidentPrenom, {'label': 'Prénom de la personne à prévenir'} ) }}
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ control.error(6,3) }}
             {{ form_row(formInscr.AccidentTelFix,  { 'label': 'Téléphone fixe de la personne à prévenir' }) }}
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ control.error(6,1) }}
             {{ form_row(formInscr.AccidentTelPort,  { 'label': 'Téléphone mobile de la personne à prévenir' }) }}
         </div>
@@ -559,11 +566,11 @@
 
     {% if fPassager or not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Certificat médical.</h4>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             {{ control.error(6, 2) }}
 
             <p>Une copie du certificat médical est exigée pour tout adhérent du GUC. Ce certificat de non-contre
@@ -584,7 +591,7 @@
 
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Chargement de la copie de votre certificat médical</h4>
             <p>Utilisez le bouton ci-dessous pour charger une copie. Depuis votre téléphone, vous pourrez
                 en prendre directement une photo</p>
@@ -646,7 +653,7 @@
                 })
         </script>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Intolérence à l'aspirine.</h4>
 
             {{ control.error(6, 3) }}
@@ -660,7 +667,7 @@
 
     {% if not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>7 - Licence FFESSM</h3>
             <h4>Licence</h4>
             {{ control.error(7, 1) }}
@@ -678,7 +685,7 @@
 
     {% if fPassager or not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>8 - Assurance personelle complémentaire facultative</h3>
             <p>La FFESSM a négocie avec le groupe AXA une assurance complémentaire. Voir les tableaux d'affichage.
                 Cette assurance est facultative pour la plongée mais nécessaire pour la compétition de nage avec palmes.
@@ -693,11 +700,11 @@
 
     {% if not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>9 -Réductions</h3>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Réduction famille</h4>
             <p>A partir du deuxième inscrit d'une famille, il est possible d'avoir une réduction. Cette réduction
                 n'est pas cumulable avec les cotisations bénévoles, encadrants ou apnéistes non-plongeurs.</p>
@@ -709,7 +716,7 @@
             }
         </style>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             <p>Si vous payez plein tarif, vous pouvez utiliser l'identifiant ci-dessous pour obtenir une réduction
                 famille lors de l'inscription d'autres membres de votre famille</p>
             <p>Cet identifiant est également indiqué sur la fiche PDF délivrée a la fin de la preinscription
@@ -717,16 +724,16 @@
             <p>Identifiant réduction famille <span class="label label-primary big">{{ ReducFamId }}</span></p>
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
 
             <p>Vous pouvez également renseigner dans le champ ci-dessous un indentifiant réduction famille
                 d'un membre de la famille ayant réalisé une inscription plein tarif.</p>
-            <div class="col-xs-8">
+            <div class="col-8">
                 {{ control.error(9, 1) }}
                 {{ form_row(formInscr.ReducFam, {'label': 'Indiquez l\'identifiant de l\'adhérent plein tarif'} ) }}
             </div>
 
-            <div class="col-xs-4">
+            <div class="col-4">
                 <button id="id_btn_reducfam" class="btn btn-primary" >Valider cet ID</button>
             </div>
 
@@ -737,7 +744,7 @@
                 })
             </script>
 
-            <div class="col-xs-12">
+            <div class="col-12">
                 <span id="pmain_rfam" ></span>
             </div>
 
@@ -747,11 +754,11 @@
 
     {% if not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>10 - Chèques de caution, prise en charge CAESUG et facture</h3>
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             <h4>Facture et prise en charge CAESUG</h4>
             {{ control.error(10, 1) }}
             {{ form_row(formInscr.Facture, {'label': 'Indiquez ci-dessous votre choix'}) }}
@@ -761,7 +768,7 @@
 
     {% if not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Prêt de matériel</h4>
 
             <p>Si vous désirez emprunter du matériel au club (détendeur, gilet, bouteille, …), un chèque de caution
@@ -783,7 +790,7 @@
 
     {% if not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Badge magnétique pour l'accès à la piscine</h4>
             <p>Afin de pouvoir accéder à la piscine du campus, un badge magnétique vous est prêté pour toute l’année.
                 En échange, un chèque de caution de {{ conf('BADGE_PISCINE') }}€ établi à l'ordre du GUC Plongée
@@ -796,7 +803,7 @@
 
     {% if fPassager or not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>11 - Informations administratives</h3>
             <h4>Informations légales.</h4>
             <p>Les informations recueillies sont nécessaires pour votre adhésion. Elles font l’objet d’un traitement
@@ -807,7 +814,7 @@
                 veuillez vous adresser au secrétariat de l’association.</p>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Utilisation de votre mail</h4>
 
             {{ control.error(11, 1) }}
@@ -819,7 +826,7 @@
 
     {% if fPassager or not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h4>Réglement intérieur et politique de protection des données personelles.</h4>
             {{ control.error(11, 2) }}
             <p>Je reconnais avoir pris connaissance
@@ -835,22 +842,22 @@
 
     {% if not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>12 - Mineurs</h3>
             <h4>Autorisation parentale pour les mineurs uniquement</h4>
             {{ control.error(12,1) }}
             <p>Je soussigné(e)</p>
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ form_row(formInscr.MineurNom, {'label': 'Le nom de la personne responsable'} ) }}
         </div>
 
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
             {{ form_row(formInscr.MineurPrenom, {'label': 'Le Prénom de la personne responsable'} ) }}
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-12">
             {{ form_row(formInscr.MineurQualite, {'label': 'Agissant en qualité de'} ) }}
 
             <p>autorise le mineur sus-nommé à pratiquer la plongée sous-marine dans le cadre des activités
@@ -864,7 +871,7 @@
 
     {% if fPassager or not fPassager %}
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <h3>13 - Cotisations</h3>
             <p>La cotisation club vous permet l'accès aux activités organisées par le club : piscine, brevets,
                 sorties, nage, prêts (selon les conditions définies dans le Règlement Intérieur).
@@ -872,12 +879,12 @@
                 (et à toutes les installations du SIUAPS).</p>
         </div>
 
-        <div class="col-xs-12 col-sm-7">
+        <div class="col-12 col-sm-7">
             <span id="pmain_detail" ></span>
             {{ control.error(13, 1) }}
         </div>
 
-        <div class="col-xs-12 col-sm-5">
+        <div class="col-12 col-sm-5">
             <span id="pmain_total" ></span>
         </div>
 
@@ -885,7 +892,7 @@
 
     {% endif %}
 
-    <div class="col-xs-12">
+    <div class="col-12">
         <h3>14 - Validation et envoi de la pré-inscription</h3>
         <p>Avant d'appuyer sur le bouton "Valider" ci-dessous, prenez le temps de bien vérifier bien que toutes
             les données saisies dans le formulaire sont exactes.</p>
@@ -896,17 +903,7 @@
     </div>
 
     {{ form_end(formInscr) }}
-        <script>
-            $(document).ready(function() {
-                // you may need to change this code if you are not using Bootstrap Datepicker
-                $('.js-datepicker').datepicker({
-                    todayBtn: "linked",
-                    language: "fr",
-                    autoclose: true,
-                    format: 'dd/mm/yyyy'
-                });
-            });
-        </script>
+
     <script>
         var valide0 = false;
         var valide1 = false;
@@ -932,5 +929,11 @@
     </script>
 
 </div>
+
+{% endblock %}
+
+{% block javascripts_end %}
+
+    {{ parent() }}
 
 {% endblock %}

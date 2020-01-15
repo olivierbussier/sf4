@@ -3,17 +3,17 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Form\Form;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Bapteme
 {
 
-    /** @var string $email */
+    /**
+     * @Assert\Email
+     * @var string $email */
     private $email;
 
-    /** @var string $date */
+    /** @var \DateTime $date */
     private $date;
 
     private $baptise;
