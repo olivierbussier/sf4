@@ -30,29 +30,15 @@ class InscriptionType extends AbstractType
             ->add('DateNaissance', DateType::class, [
                 'widget' => 'single_text',
                 'html5'  => false,
-                'attr'   => [
-                    'class' => 'js-datepicker-dnaiss',
-                    'onchange' => 'adaptprix()'
-                ]
             ])
             ->add('TelFix')
             ->add('TelPort')
-            ->add('fEtudiant',CheckboxType::class, [
-                'attr'   => [
-                    'onchange' => 'adaptprix()'
-                ]
-            ])
+            ->add('fEtudiant',CheckboxType::class)
             ->add('NiveauSca', ChoiceType::class, [
-                'choices' => FormConst::NIVEAUXSCA,
-                'attr'   => [
-                    'onchange' => 'adaptprix()'
-                ]
+                'choices' => FormConst::NIVEAUXSCA
             ])
             ->add('NiveauApn', ChoiceType::class, [
-                'choices' => FormConst::NIVEAUXAPN,
-                'attr'   => [
-                    'onchange' => 'adaptprix()'
-                ]
+                'choices' => FormConst::NIVEAUXAPN
             ])
             ->add('Diplomes',DiplomesType::class)
             ->add('Activite', ChoiceType::class, [
@@ -62,16 +48,9 @@ class InscriptionType extends AbstractType
                     'Activités Nage'       => FormConst::ACTIVITESDIV,
                     'Activités Apnée'      => FormConst::ACTIVITESAPN,
                     'Activités Encadrement'=> FormConst::ACTIVITESENC,
-                ],
-                'attr'   => [
-                    'onchange' => 'adaptprix()'
                 ]
             ])
-            ->add('fApneeSca',CheckboxType::class,[
-                'attr'   => [
-                    'onchange' => 'adaptprix()'
-                ]
-            ])
+            ->add('fApneeSca',CheckboxType::class)
             ->add('fBenevole', CheckboxType::class)
             ->add('AccidentNom')
             ->add('AccidentPrenom')
@@ -79,26 +58,18 @@ class InscriptionType extends AbstractType
             ->add('AccidentTelPort')
             ->add('DateCertif', DateType::class, [
                 'widget' => 'single_text',
-                'html5'  => false,
-                'attr'   => [ 'class' => 'js-datepicker-dcertif']
+                'html5'  => false
             ])
             ->add('fAllergAspirine', ChoiceType::class, [
                 'choices' => FormConst::OUINON
             ])
-            ->add('fLicence', CheckboxType::class, [
-                'attr'   => [
-                    'onchange' => 'adaptprix()'
-                ]
-            ])
+            ->add('fLicence', CheckboxType::class)
             ->add('Assurance', ChoiceType::class, [
                 'choices' => [
                     '--'          => '',
                     'Loisir Base' => FormConst::AXABASE,
                     'Loisir Top'  => FormConst::AXATOP,
                     'Autres'     => FormConst::AXAPISC
-                ],
-                'attr'   => [
-                    'onchange' => 'adaptprix()'
                 ]
             ])
             ->add('ReducFam')
@@ -106,16 +77,10 @@ class InscriptionType extends AbstractType
                 'choices' => FormConst::OUINON
             ])
             ->add('Facture', ChoiceType::class, [
-                'choices' => FormConst::FACTURE,
-                'attr'   => [
-                    'onchange' => 'adaptprix()'
-                ]
+                'choices' => FormConst::FACTURE
             ])
             ->add('PretMateriel', ChoiceType::class, [
-                'choices' => FormConst::OUINON,
-                'attr'   => [
-                    'onchange' => 'adaptprix()'
-                ]
+                'choices' => FormConst::OUINON
             ])
             ->add('MineurNom')
             ->add('MineurPrenom')

@@ -35,6 +35,26 @@ class FileHelper
     }
 
     /**
+     * @param string[] $files
+     * @return array|null
+     */
+    public static function getFilesTypes($files): ?array
+    {
+        $returnTab = [];
+
+        foreach ($files as $v) {
+            $ext = self::getExt($v);
+            if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'bmp' || $ext == 'png') {
+                $returnTab[] = [
+                    'name' => pathinfo($v, PATHINFO_BASENAME),
+                    'type' => 'image'
+                ];
+            }
+        }
+        return $returnTab;
+    }
+
+    /**
      * @param string $path
      * @return string
      */
@@ -101,7 +121,7 @@ class FileHelper
      * @param int $refUser
      * @return array|false
      */
-    public function getFiles(string $type, string $nom, string $prenom, int $refUser)
+    public static function getFiles(string $type, string $nom, string $prenom, int $refUser)
     {
         $type = strtolower($type);
         switch ($type) {
@@ -115,9 +135,10 @@ class FileHelper
 
         $file = self::corrigerPath($nom . '.' . $prenom);
 
-        $file = "uploads/certifs/" . $file . "*";
+        $file = $path . $file . "*";
         $rep = getcwd();
-        $tabFiles = glob($file);
+        $fname = $rep . $file;
+        $tabFiles = glob($fname);
         return $tabFiles;
     }
 

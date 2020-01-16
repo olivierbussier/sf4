@@ -11,6 +11,15 @@
             "./config/packages/fos_ckeditor.yaml"
         ]
     },
+    "friendsofsymfony/jsrouting-bundle": {
+        "version": "2.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.3",
+            "ref": "a9f2e49180f75cdc71ae279a929c4b2e0638de84"
+        }
+    },
     "knplabs/knp-components": {
         "version": "v2.3.0"
     },
@@ -138,5 +147,8 @@
     },
     "twig/extra-bundle": {
         "version": "v3.0.0"
+    },
+    "willdurand/jsonp-callback-validator": {
+        "version": "v1.1.0"
     }
 }

@@ -14,6 +14,7 @@ use App\Form\InscriptionType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -51,6 +52,16 @@ class IndexInscriptionController extends AbstractController
             $user->setReducFamilleID($valReducFam);
         }
 
+        // Liste des fichiers de diplomes
+        $diplomes = FileHelper::getFilesTypes(
+            FileHelper::getFiles('diplomes', $user->getNom(), $user->getPrenom(), $user->getId())
+        );
+
+        // Liste des fichiers de certif
+        $certif = FileHelper::getFilesTypes(
+            FileHelper::getFiles('certif', $user->getNom(), $user->getPrenom(), $user->getId())
+        );
+
         $user->setConfirmPassword($user->getPassword());
 
         $form = $this->createForm(InscriptionType::class, $user);
@@ -76,15 +87,8 @@ class IndexInscriptionController extends AbstractController
             'fGood'     => true,
             'fileName'  => 'xx/a.jpg',
             'refPhoto'  => 411,
-            'fileDiplomes' => [
-                ['name' => 'a.jpg', 'type' => 'image'],
-                ['name' => 'b.jpg', 'type' => 'image'],
-                ['name' => 'c.jpg', 'type' => 'image'],
-                ['name' => 'd.jpg', 'type' => 'image']
-            ],
-            'fileCertif' => [
-                ['name' => 'c.jpg', 'type' => 'image']
-            ],
+            'fileDiplomes' => $diplomes,
+            'fileCertif'   => $certif,
             'ReducFamId' => $valReducFam
         ]);
     }
@@ -149,10 +153,144 @@ class IndexInscriptionController extends AbstractController
 
     /**
      * @Route("/inscription/ajax_file_upload", name="ajax_file_upload")
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function ajaxFileUpload()
+    public function ajaxFileUpload(Request $request): JsonResponse
     {
+        $type    = $_POST['Type'];
+        $nom     = $_POST['nom'];
+        $prenom  = $_POST['prenom'];
+        $id      = $_POST['id'];
 
+        $baseDir = getcwd();
+        $host = $request->getHttpHost();
+        /*
+         * Gestion du certificat
+         * - Les documents chargés par l'utilisateur (soit a l'inscription, soit dans l'espace perso) ont pour
+         *   nom de fichier est <nom>-<prenom>-<id>-new.ext
+         * - Ce document est validé par l'administrateur,
+         *   le nom devient alors <nom>-<prenom>-<id>-valide.ext
+         *
+         * Gestion des diplomes
+         * - 4 documents peuvent être chargés par l'utilisateur
+         * - Le nom de ces documents est <nom>-<prenom>-<id>-{1/2/3/4}.ext
+         *
+         */
+        switch ($type) {
+            case Config::$suffix_ncertif:
+            case Config::$suffix_certif:
+                $path = Config::path_certif;
+                $fn = $baseDir . '/' . $path . FileHelper::corrigerPath($nom . '.' . $prenom) . '.' . $id . '.new';
+                break;
+            case Config::$suffix_diplome:
+                $path = Config::path_diplome;
+                $fn = FileHelper::getAvailableName($nom, $prenom, $id, Config::path_diplome);
+                break;
+            default:
+                exit;
+        }
+
+        foreach ($_FILES as $file) {
+            $ext = FileHelper::getExt($file['tmp_name'][0]);
+            $sFileTemp = $file['tmp_name'][0];
+
+            $newFile = $fn . '.' . $ext;
+
+            move_uploaded_file($sFileTemp, $newFile);
+
+            if ($type == Config::$suffix_ncertif) {
+                // Envoi du mail vers la liste 'certif' pour signaler un changement de certificat
+                // ------------------------------------------------------------------------------
+
+                $sujet = $_SESSION['NOM'] . ' ' . $_SESSION['PRENOM'] . ' - changement de certificat médical';
+
+                $body = "<html><head></head><body><p>" . $_POST['nom'] . ' ' .
+                    $_POST['prenom'] . "a chargé un nouveau fichier de certificat médical</p></body></html>";
+/*
+                $ml = new MailMime();
+
+                $ml->init(
+                    MailUsers::$from_certif,
+                    MailUsers::$dest_certif,
+                    $sujet
+                );
+                $ml->setDkimSign(true);
+                $text = (new HtmlToTxt)->html2txt($body);
+                $ml->addAlternative($text, $body);
+                $ml->addFile(
+                    Globals::getBaseDir() . '/' . Config::$path_certif,
+                    pathinfo($newFile, PATHINFO_BASENAME)
+                );
+                $ml->send();
+*/
+            }
+
+            $fxn = pathinfo($fn . '.' . $ext, PATHINFO_BASENAME);
+
+            $typFile = FileHelper::getExt($baseDir . '/' . $path . $fxn);
+
+            $json = [];
+            //$json['error'] = '';
+
+            $ip = "$host$path$fxn?r=" . rand(1, 9999999);
+
+            $json['initialPreview'][] = $ip;
+
+            $ipc = [];
+            $ipc['type'] = $typFile;
+            //$ipc['initialPreviewAsData'] = true;
+            if ($type == Config::$suffix_ncertif && strstr($fxn, '.new')) {
+                $ipc['showRemove'] = true;
+                $ipc['caption'] = "<span class='yellow'>Nouveau certificat</span>";
+            } else {
+                $ipc['caption'] = $fxn;
+            }
+            $ipc['width'] = '120px';
+
+            $ipc['key'] = "$path$fxn";
+
+            $json['initialPreviewConfig'][] = $ipc;
+
+            $res = json_encode($json, JSON_UNESCAPED_SLASHES);
+            return new JsonResponse($res);
+        }
+        if (count($_FILES) == 0) {
+            return new JsonResponse('{}');
+        }
+    }
+
+    /**
+     * @Route("/inscription/ajax_file_delete", name="ajax_file_delete")
+     */
+    public function ajaxFileDelete()
+    {
+        $type    = $_POST['Type'];
+        $nom     = $_POST['nom'];
+        $prenom  = $_POST['prenom'];
+        $id      = $_POST['id'];
+
+        $base = getcwd();
+
+        switch ($type) {
+            case Config::$suffix_ncertif:
+            case Config::$suffix_certif:
+                $path = Config::path_certif;
+                break;
+            case Config::$suffix_diplome:
+                $path = Config::path_diplome;
+                break;
+            default:
+                exit;
+        }
+
+        if (isset($_POST['key']) && file_exists($base . $path . $_POST['key'])) {
+            $key = $_POST['key'];
+            unlink($base . $path . $key);
+            return new JsonResponse('{}');
+        } else {
+            return new JsonResponse('{err}');
+        }
     }
 
     /**

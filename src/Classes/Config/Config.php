@@ -17,8 +17,8 @@ class Config
     // Répertoire utilisés
     /******************************************************************/
     public const path_photo  = "/uploads/identites/";  // Photos d'identité
-    public const path_certif = "/uploads/certif/";
-    public const path_diplome= "/upload/diplomes/";
+    public const path_certif = "/uploads/certifs/";
+    public const path_diplome= "/uploads/diplomes/";
     public const path_fiches = "../insc/";       // Fiches d'inscription PDF
     public const path_fact   = "/uploads/factures/";   // Factures
     public const path_team   = "/im/team/";

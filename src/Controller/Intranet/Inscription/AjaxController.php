@@ -5,7 +5,9 @@ namespace App\Controller\Intranet\Inscription;
 use App\Classes\Form\FormConst;
 use App\Classes\Inscription\Calculate;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -55,24 +57,26 @@ class AjaxController extends AbstractController
     }
 
     /**
-     * @Route("/ajax/calculate/{licMode}", name="ajax_calculate")
+     * @Route("/ajax/calculate/{licMode}", options={"expose"=true}, name="ajax_calculate")
+     * @param EntityManagerInterface $em
+     * @param Request $request
      * @return Response
      */
-    public function indexAjaxCalculate()
+    public function indexAjaxCalculate(EntityManagerInterface $em, Request $request)
     {
         // Avant de calculer la cotisation, on regarde si il y a a traiter une réduction famille
         // Réduction famille
 
         /** @var User $user */
-        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
 
-        $form = $_POST['inscription'];
+        $form = $request->get('inscription');
+        // $form = $_POST['inscription'];
         $inscrType = $form['InscrType'];
+        $reducFam  = $form['ReducFam'];
 
         $calc = new Calculate();
 
-        $reducFam   = $form['ReducFam'];
         $reducFamId = $user->getReducFamilleID();
 
         if ($reducFam != '') {
@@ -152,39 +156,12 @@ class AjaxController extends AbstractController
         }
 
         ob_start(); ?>
-        <style>
-            .texteasync {
-                font-size: medium;
-                padding-left: 5px;
-            }
-
-            .ligneasync {
-                display: block;
-            }
-
-            .widFix {
-                display: inline-block;
-                width: 4em;
-            }
-
-            .titreasync {
-                display: block;
-                font-size: large;
-                font-style: italic;
-                color: #234567;
-                margin-top: 10px;
-            }
-
-            .itemasync {
-                font-size: medium;
-                padding-left: 20px;
-            }
-        </style>
         <?php
 
         $return_val['css'] = ob_get_clean();
 
-        $tt = json_decode(json_encode($calc->calcCotis($form)), true);
+        $tt = $calc->calcCotis($form);
+        //$tt = json_decode(json_encode($calc->calcCotis($form)), true);
 
         if (!$tt['fErr']) {
             ob_start();

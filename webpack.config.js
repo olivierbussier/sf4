@@ -29,7 +29,8 @@ Encore
     .addEntry('materiel', './assets/js/materiel.js')                // Gestion des demandes de réservation
     .addEntry('bfi'     , './assets/js/components/bfi.js')          // Gestion des input file avec preview
     .addEntry('date'    , './assets/js/components/date_picker.js')  // Saisie des dates avec amsul/datepicker
-    .addEntry('cropper' , './assets/js/components/cropper.js')       // Gestion photo identité (file cropper)
+    .addEntry('cropper' , './assets/js/components/cropper.js')      // Gestion photo identité (file cropper)
+    .addEntry('inscription' , './assets/js/inscription.js')         // Gestion ajax des inscriotions
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     //.splitEntryChunks()
