@@ -1,0 +1,93 @@
+{% if cotis.fErr == false %}
+
+    {% if inscrType == conf('INSCR_NORMAL', 'form') %}
+
+        {% set total =  cotis.prixCotis +
+                        cotis.prixLicence -
+                        cotis.prixRemb -
+                        cotis.prixReduc %}
+
+        <span class="ligneasync">
+            <span class="titreasync">Montant calculé de votre cotisation selon les informations fournies :</span>
+        </span>
+
+        <span class="ligneasync">
+            <span class="itemasync"></span>
+            <span class="widFix badge badge-primary">{{ cotis.prixCotis }} €</span>
+            <span class="texteasync">pour la cotisation club : ({{ cotis.typeCotis }})</span>
+        </span>
+
+        <span class="ligneasync">
+            <span class="itemasync"></span>
+            <span class="widFix badge badge-primary">{{ cotis.prixLicence }} €</span>
+            <span class="texteasync">pour la licence : ({{ cotis.typeLicence }})</span>
+        </span>
+
+        {% if cotis.typeReduc != 'Aucune' or cotis.typeRemb != 'Aucun' %}
+
+            <span class="ligneasync">
+                <span class="titreasync">Auxquelles s'appliquent la/les réduction(s) suivante(s) : </span>
+
+                {% if cotis.typeReduc != 'Aucune' %}
+
+                    <span class="ligneasync">
+                        <span class="itemasync"></span>
+                        <span class="widFix badge badge-primary">{{ cotis.prixReduc }} €</span>
+                        <span class="texteasync">de {{ cotis.typeReduc }}</span>
+                    </span>
+
+                {% endif %}
+
+                {% if cotis.typeRemb != 'Aucun' %}
+
+                    <span class="ligneasync">
+                        <span class="itemasync"></span>
+                        <span class="widFix badge badge-primary">-{{ cotis.prixRemb }} €</span>
+                        <span class="texteasync">de {{ cotis.typeRemb }}</span>
+                    </span>
+
+                {% endif %}
+            </span>
+
+        {% endif %}
+
+    {% else %}
+
+        {% set total = cotis.prixLicence %}
+
+        <span class="ligneasync">
+            <span class="titreasync">Montant calculé de votre licence Passager selon les informations fournies :</span>
+        </span>
+
+        <span class="ligneasync">
+            <span class="itemasync"></span>
+            <span class="widFix badge badge-primary">{{ cotis.prixLicence }} €</span>
+            <span class="texteasync">licence FFESSM : ({{ cotis.typeLicence }})</span>
+        </span>
+
+    {% endif %}
+
+{% else %}
+
+    <span class="titreasync">Calcul de la cotisation et de la licence impossible, Vérifiez votre saisie</span>
+
+{% endif %}
+
+{% if assur.fErr == false %}
+
+    {% if assur.typeAxa != conf('A_NONE', 'form') %}
+
+        <span class="ligneasync">
+            <span class="titreasync">Assurance personnelle (Axa) : </span>
+            <span class="ligneasync">
+                <span class="itemasync"></span>
+                <span class="widFix badge badge-primary">{{ assur.prixAxa }} €</span>
+                <span class="texteasync">pour le niveau de garanties choisies : ({{ assur.typeAxa }})</span>
+            </span>
+        </span>
+
+    {% endif %}
+
+{% else %}
+    <span class="titreasync">Calcul de l'assurance impossible, Vérifiez votre saisie</span>
+{% endif %}

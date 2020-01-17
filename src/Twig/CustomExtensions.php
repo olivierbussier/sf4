@@ -32,12 +32,16 @@ class CustomExtensions extends AbstractExtension
 
     public function getConf($conf,$class = "App\\Classes\\Config\\Config")
     {
-        $cdef = defined("$class::$conf");
-
-        if ($cdef) {
-            $res = constant("App\\Classes\\Config\\Config::$conf");
+        if ($class == 'form') {
+            $res = constant("App\\Classes\\Form\\FormConst::$conf");
         } else {
-            $res = Config::$$conf;
+            $cdef = defined("$class::$conf");
+
+            if ($cdef) {
+                $res = constant("App\\Classes\\Config\\Config::$conf");
+            } else {
+                $res = Config::$$conf;
+            }
         }
         return $res;
     }

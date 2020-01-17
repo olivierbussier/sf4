@@ -7,6 +7,7 @@ use App\Classes\Inscription\Calculate;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -71,7 +72,7 @@ class AjaxController extends AbstractController
         $user = $this->getUser();
 
         $form = $request->get('inscription');
-        // $form = $_POST['inscription'];
+
         $inscrType = $form['InscrType'];
         $reducFam  = $form['ReducFam'];
 
@@ -79,199 +80,57 @@ class AjaxController extends AbstractController
 
         $reducFamId = $user->getReducFamilleID();
 
+        $rf['famille'] = $reducFam;
+
         if ($reducFam != '') {
 
             $res = $calc->calcReducFam($reducFam, $reducFamId, $em);
 
-            $return_val['code'] = $res['fErr'];
+            $rf['code']    = $res['fErr'];
 
             switch ($res['fErr']) {
-
-                case Calculate::ID_VIDE:
-                    $return_val['famille'] = '';
-                    $return_val['msgFamille'] = '';
-                    break;
-
-                case Calculate::OK:
-                    ob_start();
-                    $this->ligne($this->aff(self::TITR, 'Réduction famille'));
-                    $this->ligne(
-                        $this->aff(self::BADGV, $res['msg'], 'success') .
-                        $this->aff(self::TEXT, "est identifié comme premier membre de la famille pour la réduction famille")
-                    );
-                    $return_val['famille'] = $reducFam;
-                    $return_val['msgFamille'] = ob_get_clean();
-                    break;
-
-                case Calculate::DEJA_UTILISE:
-                    ob_start();
-                    $this->ligne($this->aff(self::TITR, 'Réduction famille'));
-                    $this->ligne(
-                        $this->aff(self::TEXT, "Désolé mais l'adhérent associé à cet identifiant bénéficie " .
-                            "déjà d'une réduction famille et ne peut de ce fait être utilisé")
-                    );
-                    $return_val['famille'] = '';
-                    $return_val['msgFamille'] = ob_get_clean();
-                    break;
-
-                case Calculate::ADH_INCONNU:
-                    ob_start();
-                    $this->ligne($this->aff(self::TITR, 'Réduction famille'));
-                    $this->ligne(
-                        $this->aff(self::TEXT, "Désolé mais ") .
-                        $this->aff(self::BADGV, "$reducFam", 'danger') .
-                        $this->aff(self::TEXT, "n'est pas associé à un adhérent inscrit ou en cours d'inscription")
-                    );
-                    $return_val['famille'] = '';
-                    $return_val['msgFamille'] = ob_get_clean();
-                    break;
-
-                case Calculate::ID_ERROR:
-                    ob_start();
-                    $this->ligne($this->aff(self::TITR, 'Réduction famille'));
-                    $this->ligne(
-                        $this->aff(self::TEXT, "Désolé mais ") .
-                        $this->aff(self::BADGV, "$reducFam", 'danger') .
-                        $this->aff(self::TEXT, "n'est pas un identifiant de réduction famille valide")
-                    );
-                    $return_val['famille'] = '';
-                    $return_val['msgFamille'] = ob_get_clean();
-                    break;
-
-                case Calculate::ID_PERSONEL:
-                    ob_start();
-                    $this->ligne($this->aff(self::TITR, 'Réduction famille'));
-                    $this->ligne(
-                        $this->aff(self::TEXT, "Désolé mais") .
-                        $this->aff(self::BADGV, "$reducFam", 'danger') .
-                        $this->aff(self::TEXT, "est votre identifiant personnel et ne peut être utilisé pour votre inscription")
-                    );
-                    $return_val['famille'] = '';
-                    $return_val['msgFamille'] = ob_get_clean();
-                    break;
+                case Calculate::ID_VIDE:      $rf['type'] = 'vide';         break;
+                case Calculate::OK:           $rf['type'] = 'ok';           break;
+                case Calculate::DEJA_UTILISE: $rf['type'] = 'deja_utilise'; break;
+                case Calculate::ADH_INCONNU:  $rf['type'] = 'inconnu';      break;
+                case Calculate::ID_ERROR:     $rf['type'] = 'error';        break;
+                case Calculate::ID_PERSONEL:  $rf['type'] = 'perso';        break;
             }
-        } else {
-            $return_val['code'] = Calculate::ID_VIDE;
-            $return_val['msgFamille'] = '';
         }
 
-        ob_start(); ?>
-        <?php
+        $res = $this->renderView('inscription/calculate_reducfam.html.twig', [
+            'reducFam' => $rf
+        ]);
 
-        $return_val['css'] = ob_get_clean();
+        $tab['msgFamille'] = $res;
 
         $tt = $calc->calcCotis($form);
-        //$tt = json_decode(json_encode($calc->calcCotis($form)), true);
-
-        if (!$tt['fErr']) {
-            ob_start();
-
-            if ($inscrType == FormConst::INSCR_NORMAL) {
-                $this->ligne(
-                    $this->aff(self::TITR, "Montant calculé de votre cotisation selon les informations fournies :")
-                );
-
-                $total = $tt['prixCotis'] + $tt['prixLicence'] - $tt['prixRemb'] - $tt['prixReduc'];
-
-                $this->ligne(
-                    $this->aff(self::ITEM, '') .
-                    $this->aff(self::BADG, $tt['prixCotis'] . "€") .
-                    $this->aff(self::TEXT, "pour la cotisation club : (" . $tt['typeCotis'] . ")")
-                );
-                $this->ligne(
-                    $this->aff(self::ITEM, '') .
-                    $this->aff(self::BADG, $tt['prixLicence'] . "€") .
-                    $this->aff(self::TEXT, "pour la licence : (" . $tt['typeLicence'] . ")")
-                );
-                if ($tt['typeReduc'] != 'Aucune' || $tt['typeRemb'] != 'Aucun') {
-                    $this->ligne($this->aff(self::TITR, "Auxquelles s'appliquent la/les réduction(s) suivante(s) : "));
-                    if ($tt['typeReduc'] != 'Aucune') {
-                        $this->ligne(
-                            $this->aff(self::ITEM, '') .
-                            $this->aff(self::BADG, '-' . $tt['prixReduc'] . "€") .
-                            $this->aff(self::TEXT, "de " . $tt['typeReduc'])
-                        );
-                    }
-                    if ($tt['typeRemb'] != 'Aucun') {
-                        $this->ligne(
-                            $this->aff(self::ITEM, '') .
-                            $this->aff(self::BADG, '-' . $tt['prixRemb'] . "€") .
-                            $this->aff(self::TEXT, "de " . $tt['typeRemb'])
-                        );
-                    }
-                }
-            } else {
-                $total = $tt['prixLicence'];
-
-                $this->ligne(
-                    $this->aff(self::TITR, "Montant calculé de votre licence Passager selon les informations fournies :")
-                );
-                $this->ligne(
-                    $this->aff(self::ITEM, '') .
-                    $this->aff(self::BADG, $tt['prixLicence'] . "€") .
-                    $this->aff(self::TEXT, "licence FFESSM : (" . $tt['typeLicence'] . ")")
-                );
-            }
-        } else {
-            echo $this->aff(self::TITR, "Calcul de la cotisation et de la licence impossible, Vérifiez votre saisie");
-        }
 
         if (isset($form['Assurance'])) {
-            $assurance = $form{'Assurance'};
+            $assurance = $form['Assurance'];
         } else {
             $assurance = '';
         }
-        $axa = json_decode(json_encode($calc->calcAxa($assurance)), true);
+        $axa = $calc->calcAxa($assurance);
 
-        if (!$axa['fErr']) {
-            if ($axa['typeAxa'] != FormConst::A_NONE) {
-                $this->ligne($this->aff(self::TITR, "Assurance personnelle (Axa) : "));
-                $this->ligne(
-                    $this->aff(self::ITEM, '') .
-                    $this->aff(self::BADG, $axa['prixAxa'] . "€") .
-                    $this->aff(self::TEXT, "pour le niveau de garanties choisies : (" . $axa['typeAxa'] . ")")
-                );
-            }
-        } else {
-            echo $this->aff(self::TITR, "Calcul de l'assurance impossible, Vérifiez votre saisie");
-        }
+        $detail = $this->renderView('inscription/calculate_detail.html.twig', [
+            'inscrType' => $inscrType,
+            'cotis' => $tt,
+            'assur' => $axa
 
-        $return_val['detail'] = ob_get_clean();
+        ]);
 
-        ob_start();
+        $tab['detail'] = $detail;
 
-        if (!$tt['fErr']) {
-            $this->ligne($this->aff(self::TITR, "Sommes à régler : "));
-            if ($inscrType == FormConst::INSCR_NORMAL) {
-                $this->ligne(
-                    $this->aff(self::ITEM, "Un cheque de ") .
-                    $this->aff(self::BADG, $total . "€", 'success') .
-                    $this->aff(self::TEXT, "à l'ordre du GUC Plongée : ")
-                );
-            } else {
-                $this->ligne(
-                    $this->aff(self::ITEM, "Un cheque de ") .
-                    $this->aff(self::BADG, $total . "€", 'success') .
-                    $this->aff(self::TEXT, "à l'ordre du GUC Plongée : ")
-                );
+        $total = $this->renderView('inscription/calculate_total.html.twig', [
+            'inscrType' => $inscrType,
+            'cotis' => $tt,
+            'assur' => $axa
 
-            }
-        }
-        if (!$axa['fErr']) {
-            if ($axa['typeAxa'] != FormConst::A_NONE) {
-                $this->ligne(
-                    $this->aff(self::ITEM, "Un cheque de ") .
-                    $this->aff(self::BADG, $axa['prixAxa'] . "€", 'success') .
-                    $this->aff(self::TEXT, "à l'ordre de AXA Assurances")
-                );
-            }
-        }
+        ]);
 
-        $return_val['total'] = ob_get_clean();
+        $tab['total'] = $total;
 
-        $tt = json_encode($return_val);
-        $uu = new Response($tt);
-
-        return $uu;
+        return new JsonResponse(json_encode($tab));
     }
 }

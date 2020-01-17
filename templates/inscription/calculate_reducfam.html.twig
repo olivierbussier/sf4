@@ -1,0 +1,62 @@
+{% if reducFam.famille != '' %}
+    {% if reducFam.type == 'ok' %}
+
+        <span class="ligneasync">
+            <span class="titreasync">Réduction famille</span>
+        </span>
+
+        <span class="ligneasync">
+            <span class="badge badge-success">{{ reducFam.msg }}</span>
+            <span class="texteasync">est identifié comme premier membre de la famille pour la réduction famille</span>
+        </span>
+
+    {% elseif reducFam.type == 'deja_utilise' %}
+
+        <span class="ligneasync">
+            <span class="titreasync">Réduction famille</span>
+        </span>
+
+
+            <span class="ligneasync">
+                <span class="texteasync">Désolé mais l'adhérent associé à cet identifiant bénéficie
+                                         déjà d'une réduction famille et ne peut de ce fait être utilisé</span>
+            </span>
+
+    {% elseif reducFam.type == 'inconnu' %}
+
+        <span class="ligneasync">
+            <span class="titreasync">Réduction famille</span>
+        </span>
+
+        <span class="ligneasync">
+            <span class="texteasync">Désolé mais </span>
+            <span class="badge badge-danger">{{ reducFam.famille }}</span>
+            <span class="texteasync">n'est pas associé à un adhérent inscrit ou en cours d'inscription</span>
+        </span>
+
+    {% elseif reducFam.type == 'error' %}
+
+        <span class="ligneasync">
+            <span class="titreasync">Réduction famille</span>
+        </span>
+
+        <span class="ligneasync">
+            <span class="texteasync">Désolé mais </span>
+            <span class="badge badge-danger">{{ reducFam.famille }}</span>
+            <span class="texteasync">n'est pas un identifiant de réduction famille valide</span>
+        </span>
+
+    {% elseif reducFam.type == 'perso' %}
+
+        <span class="ligneasync">
+            <span class="titreasync">Réduction famille</span>
+        </span>
+
+        <span class="ligneasync">
+            <span class="texteasync">Désolé mais </span>
+            <span class="badge badge-danger">{{ reducFam.famille }}</span>
+            <span class="texteasync">est votre identifiant personnel et ne peut être utilisé pour votre inscription</span>
+        </span>
+
+    {% endif %}
+{% endif %}

@@ -1,0 +1,42 @@
+{% if cotis.fErr == false %}
+
+    <span class="ligneasync">
+        <span class="titreasync">Sommes à régler :</span>
+    </span>
+
+    {% if inscrType == conf('INSCR_NORMAL', 'form') %}
+
+        {% set total =  cotis.prixCotis +
+            cotis.prixLicence -
+            cotis.prixRemb -
+            cotis.prixReduc %}
+
+        <span class="ligneasync">
+            <span class="itemasync">Un cheque de </span>
+            <span class="widFix badge badge-primary">{{ total }} €</span>
+            <span class="texteasync">à l'ordre du GUC Plongée :</span>
+        </span>
+
+    {% else %}
+
+        <span class="ligneasync">
+            <span class="itemasync">Un cheque de </span>
+            <span class="widFix badge badge-success">{{ total }} €</span>
+            <span class="texteasync">à l'ordre du GUC Plongée :</span>
+        </span>
+
+    {% endif %}
+
+{% endif %}
+
+{% if assur.fErr == false %}
+    {% if assur.typeAxa != conf('A_NONE', 'form') %}
+
+        <span class="ligneasync">
+            <span class="itemasync">Un cheque de </span>
+            <span class="widFix badge badge-success">{{ assur.prixAxa }} €</span>
+            <span class="texteasync">à l'ordre du GUC Plongée</span>
+        </span>
+
+    {% endif %}
+{% endif %}

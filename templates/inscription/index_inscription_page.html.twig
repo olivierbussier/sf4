@@ -898,7 +898,7 @@
         </div>
 
         <div class="col-12 col-sm-7">
-            <span id="pmain_detail" ></span>
+            <span id="pmain_detail"></span>
             {{ control.error(13, 1) }}
         </div>
 
@@ -954,4 +954,25 @@
 
     {{ parent() }}
 
+    <script>
+        adaptprix = function () {
+            var form = $('#inscript').serializeArray();
+            $.ajax({
+                method: "POST",
+                url: "{{ url("ajax_calculate", {'licMode': inscrType}) }}",
+                //url: Routing.generate('ajax_calculate',{licMode: 'normal'}),
+                data: form,
+                success: function (ret, statut) {
+                    var tab = JSON.parse(ret)
+                    document.getElementById("pmain_detail").innerHTML = tab['detail'];
+                    document.getElementById("pmain_total").innerHTML = tab['total'];
+                    document.getElementById("pmain_rfam").innerHTML = tab['msgFamille'];
+                }
+            })
+        }
+        $(document).ready(function() {
+            $(adaptprix)
+        });
+
+    </script>
 {% endblock %}
